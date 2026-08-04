@@ -4,31 +4,33 @@
   <meta charset="UTF-8">
   <title>All for Sukkur - Shopkeeper Order</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-  .container { background: white; padding: 25px; border-radius: 12px; max-width: 650px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; }
-    button { background: #25D366; color: white; border: none; font-weight: bold; cursor: pointer; }
+    body { font-family: Arial; background: #f2f2f2; padding: 15px; margin:0; }
+  .container { background: white; padding: 20px; border-radius: 12px; max-width: 700px; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; box-sizing:border-box; }
+    button { width: 100%; padding: 14px; margin: 15px 0 5px 0; border-radius: 8px; border: none; background: #25D366; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
     button:hover { background: #1ebe5b; }
-    h2 { color: #25D366; text-align: center; }
-  .company { margin: 15px 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; }
-  .company h3 { margin: 0 0 8px 0; color: #333; font-size: 16px; }
-  .products label { display: inline-block; margin: 4px 10px 4px 0; font-size: 14px; }
+    h2 { color: #25D366; text-align: center; margin:5px 0; }
+  .company { margin: 15px 0; padding: 15px; border: 2px solid #25D366; border-radius: 10px; background: #f9fff9; }
+  .company h3 { margin: 0 0 10px 0; color: #222; font-size: 17px; border-bottom:1px dashed #ccc; padding-bottom:5px; }
+  .products { display: flex; flex-wrap: wrap; }
+  .products label { width: 48%; margin: 5px 1%; cursor: pointer; font-size: 14px; }
   .note { text-align: center; font-weight: bold; color: #555; font-size: 13px; }
+  @media(max-width:600px){ .products label{ width:100%; } }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>All for Sukkur - Shopkeeper Order</h2>
-    <p style="text-align:center; font-size:13px;">For Wholesale Supply Only</p>
+    <h2>All for Sukkur - Wholesale</h2>
+    <p style="text-align:center; font-size:13px; margin-top:0;">For Shopkeepers Only | Supply All Sukkur</p>
 
-    <input type="text" id="shopName" placeholder="Dukaan ka Naam">
-    <input type="text" id="ownerName" placeholder="Owner ka Naam">
-    <input type="text" id="shopAddress" placeholder="Dukaan ka Address - Sukkur">
+    <input type="text" id="shopName" placeholder="Dukaan ka Naam *">
+    <input type="text" id="ownerName" placeholder="Owner ka Naam *">
+    <input type="text" id="shopAddress" placeholder="Dukaan ka Address - Sukkur *">
 
     <div id="catalog"></div>
 
     <button onclick="sendWhatsApp()">Send Order on WhatsApp</button>
-    <p class="note">* Supply in All Sukkur | Contact: 0305-1933595</p>
+    <p class="note">Contact: 0305-1933595</p>
   </div>
 
   <script>
@@ -43,27 +45,5 @@
       "Extra Company": ["Eno", "Calce", "Loshan Coil", "Blade", "Ispaghol", "Shampoo", "Saraf Sabun", "Mehndi", "Ghee"]
     };
 
-    const catalog = document.getElementById("catalog");
-    for (const company in data) {
-      let html = `<div class="company"><h3>${company}</h3>`;
-      data[company].forEach(product => {
-        html += `<label><input type="checkbox" name="product" value="${company} - ${product}"> ${product}</label>`;
-      });
-      html += `</div>`;
-      catalog.innerHTML += html;
-    }
-
-    function sendWhatsApp() {
-      const shop = document.getElementById("shopName").value;
-      const owner = document.getElementById("ownerName").value;
-      const address = document.getElementById("shopAddress").value;
-
-      const selectedProducts = [];
-      document.querySelectorAll('input[name="product"]:checked').forEach(cb => {
-        selectedProducts.push(cb.value);
-      });
-
-      if(!shop || !owner || !address) { alert("Pehle Dukaan ki details bharein"); return; }
-      if (selectedProducts.length === 0) { alert("Kam se kam 1 Product select karein"); return; }
-
-      const message = `*WHOLESALE ORDER - All for Sukkur*%0A%0ADukaan: ${shop}%0AOwne
+    // Page load hote hi sab show
+    const
