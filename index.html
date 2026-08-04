@@ -2,34 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>All for Sukkur - Full Catalog</title>
+  <title>All for Sukkur - Shopkeeper Order</title>
   <style>
     body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-  .container { background: white; padding: 25px; border-radius: 12px; max-width: 600px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    button { width: 100%; padding: 14px; margin: 10px 0; border-radius: 8px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; color: white; }
-  .btn-whatsapp { background: #25D366; } .btn-whatsapp:hover { background: #1ebe5b; }
-  .btn-messenger { background: #0084FF; } .btn-messenger:hover { background: #006acc; }
+  .container { background: white; padding: 25px; border-radius: 12px; max-width: 650px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; }
+    button { background: #25D366; color: white; border: none; font-weight: bold; cursor: pointer; }
+    button:hover { background: #1ebe5b; }
     h2 { color: #25D366; text-align: center; }
-  .company { margin: 20px 0; padding: 15px; border: 2px solid #25D366; border-radius: 10px; background: #f9fff9; }
-  .company h3 { margin: 0 0 10px 0; color: #333; }
-  .products label { display: block; margin: 5px 0; cursor: pointer; }
-  .note { text-align: center; font-weight: bold; color: #555; }
+  .company { margin: 15px 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; }
+  .company h3 { margin: 0 0 8px 0; color: #333; font-size: 16px; }
+  .products label { display: inline-block; margin: 4px 10px 4px 0; font-size: 14px; }
+  .note { text-align: center; font-weight: bold; color: #555; font-size: 13px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>All for Sukkur - Full Catalog</h2>
+    <h2>All for Sukkur - Shopkeeper Order</h2>
+    <p style="text-align:center; font-size:13px;">For Wholesale Supply Only</p>
+
+    <input type="text" id="shopName" placeholder="Dukaan ka Naam">
+    <input type="text" id="ownerName" placeholder="Owner ka Naam">
+    <input type="text" id="shopAddress" placeholder="Dukaan ka Address - Sukkur">
 
     <div id="catalog"></div>
 
-    <button class="btn-whatsapp" onclick="sendWhatsApp()">Send on WhatsApp</button>
-    <button class="btn-messenger" onclick="sendMessenger()">Send on Messenger</button>
-    <p class="note">* Serving All of Sukkur</p>
+    <button onclick="sendWhatsApp()">Send Order on WhatsApp</button>
+    <p class="note">* Supply in All Sukkur | Contact: 0305-1933595</p>
   </div>
 
   <script>
     const myWhatsApp = "923051933595";
-    const myMessenger = "https://m.me/peer.bakhsh";
 
     const data = {
       "Peak Frens": ["Click", "Supper", "Gluko", "Mari", "Lemon", "Pinat Plus"],
@@ -40,7 +43,6 @@
       "Extra Company": ["Eno", "Calce", "Loshan Coil", "Blade", "Ispaghol", "Shampoo", "Saraf Sabun", "Mehndi", "Ghee"]
     };
 
-    // Page load hote hi sab companies show kar do
     const catalog = document.getElementById("catalog");
     for (const company in data) {
       let html = `<div class="company"><h3>${company}</h3>`;
@@ -51,30 +53,17 @@
       catalog.innerHTML += html;
     }
 
-    function getOrderText() {
+    function sendWhatsApp() {
+      const shop = document.getElementById("shopName").value;
+      const owner = document.getElementById("ownerName").value;
+      const address = document.getElementById("shopAddress").value;
+
       const selectedProducts = [];
       document.querySelectorAll('input[name="product"]:checked').forEach(cb => {
         selectedProducts.push(cb.value);
       });
 
-      if (selectedProducts.length === 0) {
-        alert("Kam se kam 1 Product select karo");
-        return null;
-      }
-      return `*New Order - All for Sukkur*%0A%0A${selectedProducts.join("%0A")}`;
-    }
+      if(!shop || !owner || !address) { alert("Pehle Dukaan ki details bharein"); return; }
+      if (selectedProducts.length === 0) { alert("Kam se kam 1 Product select karein"); return; }
 
-    function sendWhatsApp() {
-      const message = getOrderText();
-      if(!message) return;
-      window.open(`https://wa.me/${myWhatsApp}?text=${message}`, "_blank");
-    }
-
-    function sendMessenger() {
-      const message = getOrderText();
-      if(!message) return;
-      window.open(`${myMessenger}?text=${decodeURIComponent(message).replace(/%0A/g, '\n')}`, "_blank");
-    }
-  </script>
-</body>
-</html>
+      const message = `*WHOLESALE ORDER - All for Sukkur*%0A%0ADukaan: ${shop}%0AOwne
