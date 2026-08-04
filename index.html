@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sukkur Company Products Order</title>
+  <title>All for Sukkur - Order</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -10,7 +10,7 @@
       padding: 40px;
       text-align: center;
     }
-  .container {
+ .container {
       background: white;
       padding: 30px;
       border-radius: 12px;
@@ -26,34 +26,22 @@
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 16px;
-    }
-    button {
-      background: #25D366;
-      color: white;
-      border: none;
-      cursor: pointer;
       font-weight: bold;
-    }
-    button:hover { background: #1ebe5b; }
-    h2 { color: #333; text-align: center; }
-  .note { font-size: 12px; color: red; margin-top: 10px; text-align: center; }
-  .products {
-      margin: 15px 0;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background: #fafafa;
-    }
-  .products label {
-      display: block;
-      margin: 8px 0;
       cursor: pointer;
     }
+  .btn-whatsapp { background: #25D366; color: white; border: none; }
+  .btn-whatsapp:hover { background: #1ebe5b; }
+  .btn-messenger { background: #0084FF; color: white; border: none; }
+  .btn-messenger:hover { background: #006acc; }
+    h2 { color: #25D366; text-align: center; }
+ .note { font-size: 13px; color: #555; margin-top: 10px; text-align: center; font-weight: bold; }
+ .products { margin: 15px 0; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; }
+ .products label { display: block; margin: 8px 0; cursor: pointer; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Sukkur Delivery Only</h2>
+    <h2>All for Sukkur</h2>
 
     <!-- 1. Company -->
     <label><b>Select Company:</b></label>
@@ -63,21 +51,23 @@
       <option value="cookania">Cookania</option>
     </select>
 
-    <!-- 2. Multiple Products with Checkbox -->
+    <!-- 2. Multiple Products -->
     <div id="productsBox" class="products" style="display:none;">
       <label><b>Select Products:</b></label>
       <div id="productsList"></div>
     </div>
 
-    <!-- 3. Send Button -->
-    <button onclick="sendWhatsApp()">Send Order on WhatsApp</button>
+    <!-- 3. Send Buttons -->
+    <button class="btn-whatsapp" onclick="sendWhatsApp()">Send on WhatsApp</button>
+    <button class="btn-messenger" onclick="sendMessenger()">Send on Messenger</button>
 
-    <p class="note">* Delivery only in Sukkur City</p>
+    <p class="note">* Serving All of Sukkur</p>
   </div>
 
   <script>
-    // Tumhara WhatsApp number: 03051933595 → 923051933595
-    const myWhatsApp = "923051933595";
+    // 👇 YAHAN APNE LINKS DAALO 👇
+    const myWhatsApp = "923051933595"; // Tumhara WhatsApp
+    const myMessenger = "https://m.me/peer.bakhsh"; // Tumhara Messenger link
 
     const data = {
       peak: ["Click", "Supper", "Gluko", "Mari", "Lemon", "Pinat Plus"],
@@ -105,11 +95,10 @@
       }
     }
 
-    function sendWhatsApp() {
+    function getOrderText() {
       const companySelect = document.getElementById("company");
       const company = companySelect.options[companySelect.selectedIndex].text;
 
-      // jitne checkbox tick hain sab le lo
       const selectedProducts = [];
       document.querySelectorAll('input[name="product"]:checked').forEach(cb => {
         selectedProducts.push(cb.value);
@@ -117,17 +106,26 @@
 
       if (!companySelect.value) {
         alert("Pehle Company select karo");
-        return;
+        return null;
       }
       if (selectedProducts.length === 0) {
         alert("Kam se kam 1 Product select karo");
-        return;
+        return null;
       }
 
-      const message = `*New Order - Sukkur*%0A%0ACompany: ${company}%0AProducts:%0A- ${selectedProducts.join("%0A- ")}%0A%0A*Delivery City: Sukkur*`;
+      return `*New Order - All for Sukkur*%0A%0ACompany: ${company}%0AProducts:%0A- ${selectedProducts.join("%0A- ")}`;
+    }
+
+    function sendWhatsApp() {
+      const message = getOrderText();
+      if(!message) return;
       const url = `https://wa.me/${myWhatsApp}?text=${message}`;
       window.open(url, "_blank");
     }
-  </script>
-</body>
-</html>
+
+    function sendMessenger() {
+      const message = getOrderText();
+      if(!message) return;
+      // Messenger link + prefilled text
+      const url = `${myMessenger}?text=${decodeURIComponent(message).replace(/%0A/g, '\n')}`;
+      window.open(url, "_blank
