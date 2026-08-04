@@ -2,48 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>All for Sukkur - Shopkeeper Order</title>
+  <title>All for Sukkur - Wholesale Order</title>
   <style>
     body { font-family: Arial; background: #f2f2f2; padding: 15px; margin:0; }
-  .container { background: white; padding: 20px; border-radius: 12px; max-width: 700px; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .container { background: white; padding: 20px; border-radius: 12px; max-width: 700px; margin: auto; }
     input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; box-sizing:border-box; }
     button { width: 100%; padding: 14px; margin: 15px 0 5px 0; border-radius: 8px; border: none; background: #25D366; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
     button:hover { background: #1ebe5b; }
     h2 { color: #25D366; text-align: center; margin:5px 0; }
-  .company { margin: 15px 0; padding: 15px; border: 2px solid #25D366; border-radius: 10px; background: #f9fff9; }
-  .company h3 { margin: 0 0 10px 0; color: #222; font-size: 17px; border-bottom:1px dashed #ccc; padding-bottom:5px; }
-  .products { display: flex; flex-wrap: wrap; }
-  .products label { width: 48%; margin: 5px 1%; cursor: pointer; font-size: 14px; }
-  .note { text-align: center; font-weight: bold; color: #555; font-size: 13px; }
-  @media(max-width:600px){ .products label{ width:100%; } }
+    .company { margin: 15px 0; padding: 15px; border: 2px solid #25D366; border-radius: 10px; background: #f9fff9; }
+    .company h3 { margin: 0 0 10px 0; color: #222; font-size: 17px; border-bottom:1px dashed #ccc; padding-bottom:5px; }
+    .products label { display: block; margin: 6px 0; cursor: pointer; font-size: 14px; }
+    .note { text-align: center; font-weight: bold; color: #555; font-size: 13px; }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>All for Sukkur - Wholesale</h2>
-    <p style="text-align:center; font-size:13px; margin-top:0;">For Shopkeepers Only | Supply All Sukkur</p>
+    <p style="text-align:center; font-size:13px;">For Shopkeepers Only</p>
 
     <input type="text" id="shopName" placeholder="Dukaan ka Naam *">
     <input type="text" id="ownerName" placeholder="Owner ka Naam *">
     <input type="text" id="shopAddress" placeholder="Dukaan ka Address - Sukkur *">
 
-    <div id="catalog"></div>
+    <!-- YAHAN SAB PRODUCTS DIRECT LIKHE HAIN -->
+    
+    <div class="company"><h3>📦 Peak Frens</h3>
+      <div class="products">
+        <label><input type="checkbox" name="product" value="Peak Frens - Click"> Click</label>
+        <label><input type="checkbox" name="product" value="Peak Frens - Supper"> Supper</label>
+        <label><input type="checkbox" name="product" value="Peak Frens - Gluko"> Gluko</label>
+        <label><input type="checkbox" name="product" value="Peak Frens - Mari"> Mari</label>
+        <label><input type="checkbox" name="product" value="Peak Frens - Lemon"> Lemon</label>
+        <label><input type="checkbox" name="product" value="Peak Frens - Pinat Plus"> Pinat Plus</label>
+      </div>
+    </div>
 
-    <button onclick="sendWhatsApp()">Send Order on WhatsApp</button>
-    <p class="note">Contact: 0305-1933595</p>
-  </div>
+    <div class="company"><h3>📦 Cookania</h3>
+      <div class="products">
+        <label><input type="checkbox" name="product" value="Cookania - Peakanut"> Peakanut</label>
+        <label><input type="checkbox" name="product" value="Cookania - Zeera"> Zeera</label>
+        <label><input type="checkbox" name="product" value="Cookania - Season Magic"> Season Magic</label>
+        <label><input type="checkbox" name="product" value="Cookania - Coconut"> Coconut</label>
+      </div>
+    </div>
 
-  <script>
-    const myWhatsApp = "923051933595";
-
-    const data = {
-      "Peak Frens": ["Click", "Supper", "Gluko", "Mari", "Lemon", "Pinat Plus"],
-      "Cookania": ["Peakanut", "Zeera", "Season Magic", "Coconut"],
-      "Donald": ["Chip Roll", "Swiss Roll", "Soft Cake", "Eye Pop", "Cocky Pop", "Lovely Pop", "Banti", "Milko", "Masti", "Koko", "Makhan Badam Toffee", "Dream Chocolate", "Biskela Chocolate"],
-      "Mix Mall": ["Anda Bacha Maal", "Kamal", "Cocomon Weffer", "Cheegam", "Mix Aclair Chocolate", "Achar", "Jaly", "Dipsip", "Khopra Lado"],
-      "Chatpati Cheese": ["All Types Chips", "Nimko", "Beej Masala", "Local Bakery Items"],
-      "Extra Company": ["Eno", "Calce", "Loshan Coil", "Blade", "Ispaghol", "Shampoo", "Saraf Sabun", "Mehndi", "Ghee"]
-    };
-
-    // Page load hote hi sab show
-    const
+    <div class="company"><h3>📦 Donald</h3>
+      <div class="products">
+        <label><input type="checkbox" name="product" value="Donald - Chip Roll"> Chip Roll</label>
+        <label><input type="checkbox" name="product" value="Donald - Swiss Roll"> Swiss Roll</label>
+        <label><input type="checkbox" name="product" value="Donald - Soft Cake"> Soft Cake</label>
+        <label><input type="checkbox" name="product" value="Donald - Eye Pop"> Eye Pop</label>
+        <label><input type="checkbox" name="product" value="Donald - Cocky Pop"> Cocky Pop</label>
+        <label><input type="checkbox" name="product" value="Donald - Lovely Pop"> Lovely Pop</label>
+        <label><input type="checkbox" name="product" value="Donald - Banti"> Banti</label>
+        <label><input type="checkbox" name="product" value="Donald - Milko"> Milko</label>
+        <label><input type="checkbox" name="product" value="Donald - Masti"> Masti</label>
+        <label><input type="checkbox" name="product" value="Donald - Koko"> Koko</label>
+        <label><input type="checkbox" name="product" value="Donald - Makhan Bad
