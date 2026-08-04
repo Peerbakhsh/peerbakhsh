@@ -2,79 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>All for Sukkur - Order</title>
+  <title>All for Sukkur - Full Catalog</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; text-align: center; }
-  .container { background: white; padding: 25px; border-radius: 12px; max-width: 500px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: left; }
-    select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; font-weight: bold; cursor: pointer; }
-  .btn-whatsapp { background: #25D366; color: white; border: none; }
-  .btn-whatsapp:hover { background: #1ebe5b; }
-  .btn-messenger { background: #0084FF; color: white; border: none; }
-  .btn-messenger:hover { background: #006acc; }
-    h2 { color: #25D366; text-align: center; margin-bottom: 5px; }
-  .note { font-size: 13px; color: #555; margin-top: 10px; text-align: center; font-weight: bold; }
-  .products { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; max-height: 300px; overflow-y: auto; }
-  .products label { display: block; margin: 6px 0; cursor: pointer; font-size: 14px; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+  .container { background: white; padding: 25px; border-radius: 12px; max-width: 600px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    button { width: 100%; padding: 14px; margin: 10px 0; border-radius: 8px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; color: white; }
+  .btn-whatsapp { background: #25D366; } .btn-whatsapp:hover { background: #1ebe5b; }
+  .btn-messenger { background: #0084FF; } .btn-messenger:hover { background: #006acc; }
+    h2 { color: #25D366; text-align: center; }
+  .company { margin: 20px 0; padding: 15px; border: 2px solid #25D366; border-radius: 10px; background: #f9fff9; }
+  .company h3 { margin: 0 0 10px 0; color: #333; }
+  .products label { display: block; margin: 5px 0; cursor: pointer; }
+  .note { text-align: center; font-weight: bold; color: #555; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>All for Sukkur</h2>
+    <h2>All for Sukkur - Full Catalog</h2>
 
-    <!-- 1. Company -->
-    <label><b>Select Company:</b></label>
-    <select id="company" onchange="showProducts()">
-      <option value="">-- Choose Company --</option>
-      <option value="peak">Peak Frens</option>
-      <option value="cookania">Cookania</option>
-      <option value="donald">Donald</option>
-      <option value="mixmall">Mix Mall</option>
-      <option value="chatpati">Chatpati Cheese</option>
-      <option value="extra">Extra Company</option>
-    </select>
+    <div id="catalog"></div>
 
-    <!-- 2. Multiple Products -->
-    <div id="productsBox" class="products" style="display:none;">
-      <label><b>Select Products:</b></label>
-      <div id="productsList"></div>
-    </div>
-
-    <!-- 3. Send Buttons -->
     <button class="btn-whatsapp" onclick="sendWhatsApp()">Send on WhatsApp</button>
     <button class="btn-messenger" onclick="sendMessenger()">Send on Messenger</button>
-
     <p class="note">* Serving All of Sukkur</p>
   </div>
 
   <script>
-    // 👇 APNE LINKS YAHAN DAALO 👇
-    const myWhatsApp = "923051933595"; // Tumhara WhatsApp
-    const myMessenger = "https://m.me/peer.bakhsh"; // Tumhara Messenger link
+    const myWhatsApp = "923051933595";
+    const myMessenger = "https://m.me/peer.bakhsh";
 
     const data = {
-      peak: ["Click", "Supper", "Gluko", "Mari", "Lemon", "Pinat Plus"],
-      cookania: ["Peakanut", "Zeera", "Season Magic", "Coconut"],
-      donald: ["Chip Roll", "Swiss Roll", "Soft Cake", "Eye Pop", "Cocky Pop", "Lovely Pop", "Banti", "Milko", "Masti", "Koko", "Makhan Badam Toffee", "Dream Chocolate", "Biskela Chocolate"],
-      mixmall: ["Anda Bacha Maal", "Kamal", "Cocomon Weffer", "Cheegam", "Mix Aclair Chocolate", "Achar", "Jaly", "Dipsip", "Khopra Lado"],
-      chatpati: ["All Types Chips", "Nimko", "Beej Masala", "Local Bakery Items"],
-      extra: ["Eno", "Calce", "Loshan Coil", "Blade", "Ispaghol", "Shampoo", "Saraf Sabun", "Mehndi", "Ghee"]
+      "Peak Frens": ["Click", "Supper", "Gluko", "Mari", "Lemon", "Pinat Plus"],
+      "Cookania": ["Peakanut", "Zeera", "Season Magic", "Coconut"],
+      "Donald": ["Chip Roll", "Swiss Roll", "Soft Cake", "Eye Pop", "Cocky Pop", "Lovely Pop", "Banti", "Milko", "Masti", "Koko", "Makhan Badam Toffee", "Dream Chocolate", "Biskela Chocolate"],
+      "Mix Mall": ["Anda Bacha Maal", "Kamal", "Cocomon Weffer", "Cheegam", "Mix Aclair Chocolate", "Achar", "Jaly", "Dipsip", "Khopra Lado"],
+      "Chatpati Cheese": ["All Types Chips", "Nimko", "Beej Masala", "Local Bakery Items"],
+      "Extra Company": ["Eno", "Calce", "Loshan Coil", "Blade", "Ispaghol", "Shampoo", "Saraf Sabun", "Mehndi", "Ghee"]
     };
 
-    function showProducts() {
-      const company = document.getElementById("company").value;
-      const productsBox = document.getElementById("productsBox");
-      const productsList = document.getElementById("productsList");
-      productsList.innerHTML = "";
+    // Page load hote hi sab companies show kar do
+    const catalog = document.getElementById("catalog");
+    for (const company in data) {
+      let html = `<div class="company"><h3>${company}</h3>`;
+      data[company].forEach(product => {
+        html += `<label><input type="checkbox" name="product" value="${company} - ${product}"> ${product}</label>`;
+      });
+      html += `</div>`;
+      catalog.innerHTML += html;
+    }
 
-      if (company && data[company]) {
-        productsBox.style.display = "block";
-        data[company].forEach(product => {
-          productsList.innerHTML += `
-            <label>
-              <input type="checkbox" name="product" value="${product}">
-              ${product}
-            </label>
-          `;
-        });
-      } else {
-        productsBox.style.display
+    function getOrderText() {
+      const selectedProducts = [];
+      document.querySelectorAll('input[name="product"]:checked').forEach(cb => {
+        selectedProducts.push(cb.value);
+      });
+
+      if (selectedProducts.length === 0) {
+        alert("Kam se kam 1 Product select karo");
+        return null;
+      }
+      return `*New Order - All for Sukkur*%0A%0A${selectedProducts.join("%0A")}`;
+    }
+
+    function sendWhatsApp() {
+      const message = getOrderText();
+      if(!message) return;
+      window.open(`https://wa.me/${myWhatsApp}?text=${message}`, "_blank");
+    }
+
+    function sendMessenger() {
+      const message = getOrderText();
+      if(!message) return;
+      window.open(`${myMessenger}?text=${decodeURIComponent(message).replace(/%0A/g, '\n')}`, "_blank");
+    }
+  </script>
+</body>
+</html>
