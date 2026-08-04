@@ -14,9 +14,10 @@
       background: white;
       padding: 30px;
       border-radius: 12px;
-      max-width: 400px;
+      max-width: 450px;
       margin: auto;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: left;
     }
     select, button {
       width: 100%;
@@ -34,8 +35,20 @@
       font-weight: bold;
     }
     button:hover { background: #1ebe5b; }
-    h2 { color: #333; }
-   .note { font-size: 12px; color: red; margin-top: 10px; }
+    h2 { color: #333; text-align: center; }
+  .note { font-size: 12px; color: red; margin-top: 10px; text-align: center; }
+  .products {
+      margin: 15px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+  .products label {
+      display: block;
+      margin: 8px 0;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -50,11 +63,11 @@
       <option value="cookania">Cookania</option>
     </select>
 
-    <!-- 2. Products -->
-    <label><b>Select Product:</b></label>
-    <select id="products">
-      <option value="">-- First Select Company --</option>
-    </select>
+    <!-- 2. Multiple Products with Checkbox -->
+    <div id="productsBox" class="products" style="display:none;">
+      <label><b>Select Products:</b></label>
+      <div id="productsList"></div>
+    </div>
 
     <!-- 3. Send Button -->
     <button onclick="sendWhatsApp()">Send Order on WhatsApp</button>
@@ -73,34 +86,45 @@
 
     function showProducts() {
       const company = document.getElementById("company").value;
-      const productDropdown = document.getElementById("products");
-      productDropdown.innerHTML = "";
+      const productsBox = document.getElementById("productsBox");
+      const productsList = document.getElementById("productsList");
+      productsList.innerHTML = "";
 
       if (company && data[company]) {
+        productsBox.style.display = "block";
         data[company].forEach(product => {
-          let option = document.createElement("option");
-          option.value = product;
-          option.text = product;
-          productDropdown.appendChild(option);
+          productsList.innerHTML += `
+            <label>
+              <input type="checkbox" name="product" value="${product}">
+              ${product}
+            </label>
+          `;
         });
       } else {
-        productDropdown.innerHTML = "<option>-- First Select Company --</option>";
+        productsBox.style.display = "none";
       }
     }
 
     function sendWhatsApp() {
       const companySelect = document.getElementById("company");
-      const productSelect = document.getElementById("products");
-
       const company = companySelect.options[companySelect.selectedIndex].text;
-      const product = productSelect.value;
 
-      if (!companySelect.value ||!product) {
-        alert("Pehle Company aur Product select karo");
+      // jitne checkbox tick hain sab le lo
+      const selectedProducts = [];
+      document.querySelectorAll('input[name="product"]:checked').forEach(cb => {
+        selectedProducts.push(cb.value);
+      });
+
+      if (!companySelect.value) {
+        alert("Pehle Company select karo");
+        return;
+      }
+      if (selectedProducts.length === 0) {
+        alert("Kam se kam 1 Product select karo");
         return;
       }
 
-      const message = `*New Order - Sukkur*%0A%0ACompany: ${company}%0AProduct: ${product}%0A%0A*Delivery City: Sukkur*`;
+      const message = `*New Order - Sukkur*%0A%0ACompany: ${company}%0AProducts:%0A- ${selectedProducts.join("%0A- ")}%0A%0A*Delivery City: Sukkur*`;
       const url = `https://wa.me/${myWhatsApp}?text=${message}`;
       window.open(url, "_blank");
     }
