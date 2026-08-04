@@ -1,14 +1,109 @@
 <!DOCTYPE html>
-<html lang="ur">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peerbakhsh All In One</title>
-<style>body{font-family:Arial;margin:0;background:#f5f9ff;text-align:center}header{background:#004aad;color:white;padding:20px}header h1{margin:0}.banner img{width:90%;max-width:600px;border-radius:12px;margin-top:20px}.products{background:white;padding:20px;margin:20px;border-radius:12px}.item{background:#e6f0ff;padding:10px 15px;border-radius:8px;display:inline-block;margin:5px;font-weight:bold}.contact{background:#004aad;color:white;padding:20px}.btn{background:#25D366;color:white;padding:12px 25px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block}</style>
-</head><body>
-<header><h1>Peerbakhsh All In One</h1><p>Wholesale Kiryana Confectionery - Sirf Retailers</p></header>
-<div class="banner"><img src="your-photo.jpg" alt="Peerbakhsh"></div>
-<div class="products"><h2>Humare Products</h2>
-<span class="item">Biscuit Carton</span><span class="item">Chips</span><span class="item">Nimko</span>
-<span class="item">Toffee</span><span class="item">Chocolate</span><span class="item">Chewing Gum</span>
-<span class="item">Wafer</span><span class="item">Beej</span><span class="item">Shaliya</span></div>
-<div class="contact"><h2>Order Ke Liye Rabta</h2><p>📍 Sukkur, Sindh</p><p>📞 0305-1933595</p>
-<a class="btn" href="https://wa.me/923051933595">WhatsApp Order Karein</a></div></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sukkur Company Products Order</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 40px;
+      text-align: center;
+    }
+  .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background: #25D366;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover { background: #1ebe5b; }
+    h2 { color: #333; }
+   .note { font-size: 12px; color: red; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sukkur Delivery Only</h2>
+
+    <!-- 1. Company -->
+    <label><b>Select Company:</b></label>
+    <select id="company" onchange="showProducts()">
+      <option value="">-- Choose Company --</option>
+      <option value="peak">Peak Frens</option>
+      <option value="cookania">Cookania</option>
+    </select>
+
+    <!-- 2. Products -->
+    <label><b>Select Product:</b></label>
+    <select id="products">
+      <option value="">-- First Select Company --</option>
+    </select>
+
+    <!-- 3. Send Button -->
+    <button onclick="sendWhatsApp()">Send Order on WhatsApp</button>
+
+    <p class="note">* Delivery only in Sukkur City</p>
+  </div>
+
+  <script>
+    // Tumhara WhatsApp number: 03051933595 → 923051933595
+    const myWhatsApp = "923051933595";
+
+    const data = {
+      peak: ["Click", "Supper", "Gluko", "Mari", "Lemon", "Pinat Plus"],
+      cookania: ["Peakanut", "Zeera", "Season Magic", "Coconut"]
+    };
+
+    function showProducts() {
+      const company = document.getElementById("company").value;
+      const productDropdown = document.getElementById("products");
+      productDropdown.innerHTML = "";
+
+      if (company && data[company]) {
+        data[company].forEach(product => {
+          let option = document.createElement("option");
+          option.value = product;
+          option.text = product;
+          productDropdown.appendChild(option);
+        });
+      } else {
+        productDropdown.innerHTML = "<option>-- First Select Company --</option>";
+      }
+    }
+
+    function sendWhatsApp() {
+      const companySelect = document.getElementById("company");
+      const productSelect = document.getElementById("products");
+
+      const company = companySelect.options[companySelect.selectedIndex].text;
+      const product = productSelect.value;
+
+      if (!companySelect.value ||!product) {
+        alert("Pehle Company aur Product select karo");
+        return;
+      }
+
+      const message = `*New Order - Sukkur*%0A%0ACompany: ${company}%0AProduct: ${product}%0A%0A*Delivery City: Sukkur*`;
+      const url = `https://wa.me/${myWhatsApp}?text=${message}`;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
