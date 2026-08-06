@@ -1,145 +1,143 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>All for Sukkur - Wholesale Order</title>
-  <style>
-    body { font-family: Arial; background: #f2f2f2; padding: 15px; margin:0; }
-    .container { background: white; padding: 20px; border-radius: 12px; max-width: 700px; margin: auto; }
-    input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; box-sizing:border-box; }
-    button { width: 100%; padding: 14px; margin: 15px 0 5px 0; border-radius: 8px; border: none; background: #25D366; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
-    button:hover { background: #1ebe5b; }
-    h2 { color: #25D366; text-align: center; margin:5px 0; }
-    .company { margin: 15px 0; padding: 15px; border: 2px solid #25D366; border-radius: 10px; background: #f9fff9; }
-    .company h3 { margin: 0 0 10px 0; color: #222; font-size: 17px; border-bottom:1px dashed #ccc; padding-bottom:5px; }
-    .products label { display: block; margin: 6px 0; cursor: pointer; font-size: 14px; }
-    .note { text-align: center; font-weight: bold; color: #555; font-size: 13px; }
-  </style>
+<meta charset="UTF-8">
+<title>All for Sukkur - Wholesale Order</title>
+<style>
+ body { font-family: Arial; background: #f2f2f2; padding: 15px; margin:0; }
+ .container { background: white; padding: 20px; border-radius: 12px; max-width: 700px; margin: auto; }
+ input[type="text"], input[type="number"] { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; box-sizing:border-box; }
+ button { width: 100%; padding: 14px; margin: 15px 0 5px 0; border-radius: 8px; border: none; background: #25D366; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
+ button:hover { background: #1ebe5b; }
+ h2 { color: #25D366; text-align: center; margin:5px 0; }
+ .company { margin: 15px 0; padding: 15px; border: 2px solid #25D366; border-radius: 10px; background: #f9fff9; }
+ .company h3 { margin: 0 0 10px 0; color: #222; font-size: 17px; border-bottom:1px dashed #ccc; padding-bottom:5px; }
+ .product-row { display: flex; align-items: center; margin: 8px 0; gap: 10px; }
+ .product-row label { flex: 1; font-size: 14px; cursor: pointer; }
+ .product-row input[type="number"] { width: 70px; padding: 6px; margin: 0; text-align: center; }
+ .product-row input[type="checkbox"] { transform: scale(1.2); }
+ .note { text-align: center; font-weight: bold; color: #555; font-size: 13px; }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h2>All for Sukkur - Wholesale</h2>
-    <p style="text-align:center; font-size:13px;">For Shopkeepers Only</p>
+<div class="container">
+ <h2>All for Sukkur - Wholesale</h2>
+ <p style="text-align:center; font-size:13px;">For Shopkeepers Only</p>
+ <input type="text" id="shopName" placeholder="Dukaan ka Naam *">
+ <input type="text" id="ownerName" placeholder="Owner ka Naam *">
+ <input type="text" id="shopAddress" placeholder="Dukaan ka Address - Sukkur *">
 
-    <input type="text" id="shopName" placeholder="Dukaan ka Naam *">
-    <input type="text" id="ownerName" placeholder="Owner ka Naam *">
-    <input type="text" id="shopAddress" placeholder="Dukaan ka Address - Sukkur *">
+ <!-- SAB COMPANIES -->
+ <div class="company"><h3>📦 Peak Frens</h3>
+  <div class="product-row"><input type="checkbox" data-name="Peak Frens - Click"><label>Click</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Peak Frens - Supper"><label>Supper</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Peak Frens - Gluko"><label>Gluko</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Peak Frens - Mari"><label>Mari</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Peak Frens - Lemon"><label>Lemon</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Peak Frens - Pinat Plus"><label>Pinat Plus</label><input type="number" min="1" placeholder="Qty" disabled></div>
+ </div>
 
-    <!-- SAB COMPANIES KE SAB PRODUCTS YAHAN HAIN -->
+ <div class="company"><h3>📦 Cookania</h3>
+  <div class="product-row"><input type="checkbox" data-name="Cookania - Peakanut"><label>Peakanut</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Cookania - Zeera"><label>Zeera</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Cookania - Season Magic"><label>Season Magic</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Cookania - Coconut"><label>Coconut</label><input type="number" min="1" placeholder="Qty" disabled></div>
+ </div>
 
-    <div class="company"><h3>📦 Peak Frens</h3>
-      <div class="products">
-        <label><input type="checkbox" name="product" value="Peak Frens - Click"> Click</label>
-        <label><input type="checkbox" name="product" value="Peak Frens - Supper"> Supper</label>
-        <label><input type="checkbox" name="product" value="Peak Frens - Gluko"> Gluko</label>
-        <label><input type="checkbox" name="product" value="Peak Frens - Mari"> Mari</label>
-        <label><input type="checkbox" name="product" value="Peak Frens - Lemon"> Lemon</label>
-        <label><input type="checkbox" name="product" value="Peak Frens - Pinat Plus"> Pinat Plus</label>
-      
-      </div>
-    </div>
+ <div class="company"><h3>📦 Donald</h3>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Chip Roll"><label>Chip Roll</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Swiss Roll"><label>Swiss Roll</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Soft Cake"><label>Soft Cake</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Eye Pop"><label>Eye Pop</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Cocky Pop"><label>Cocky Pop</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Lovely Pop"><label>Lovely Pop</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Banti"><label>Banti</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Milko masti"><label>Milko masti</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Koko masti"><label>Koko masti</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Makhan Badam Toffee"><label>Makhan Badam Toffee</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Dream Chocolate"><label>Dream Chocolate</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Biskela Chocolate"><label>Biskela Chocolate</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Chocobite"><label>Chocobite</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Fruity Toffee"><label>Fruity Toffee</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Donald - Wafer"><label>Wafer</label><input type="number" min="1" placeholder="Qty" disabled></div>
+ </div>
 
-    <div class="company"><h3>📦 Cookania</h3>
-      <div class="products">
-        <label><input type="checkbox" name="product" value="Cookania - Peakanut"> Peakanut</label>
-        <label><input type="checkbox" name="product" value="Cookania - Zeera"> Zeera</label>
-        <label><input type="checkbox" name="product" value="Cookania - Season Magic"> Season Magic</label>
-        <label><input type="checkbox" name="product" value="Cookania - Coconut"> Coconut</label>
-        
-      
-      </div>
-    </div>
+ <div class="company"><h3>📦 Mix Mall</h3>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Anda Bacha"><label>Anda Bacha</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall -Mall Kamal"><label>Mall Kamal</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Cocomon "><label>Cocomon </label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Cars Club Cheegam"><label>Cars Club Cheegam</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Eclairs Chocolate Rs1"><label>Eclairs ChocolateRs1</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Eclair Chocolate Rs5"><label>Eclair Chocolate Rs5</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Dakar Choran"><label>Dakar choran</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Achar"><label>Achar</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Jaly"><label>Jaly</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Dipsip"><label>Dipsip</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Mix Mall - Khopra Lado"><label>Khopra Lado</label><input type="number" min="1" placeholder="Qty" disabled></div>
+ </div>
 
-    <div class="company"><h3>📦 Donald</h3>
-      <div class="products">
-        <label><input type="checkbox" name="product" value="Donald - Chip Roll"> Chip Roll</label>
-        <label><input type="checkbox" name="product" value="Donald - Swiss Roll"> Swiss Roll</label>
-        <label><input type="checkbox" name="product" value="Donald - Soft Cake"> Soft Cake</label>
-        <label><input type="checkbox" name="product" value="Donald - Eye Pop"> Eye Pop</label>
-        <label><input type="checkbox" name="product" value="Donald - Cocky Pop"> Cocky Pop</label>
-        <label><input type="checkbox" name="product" value="Donald - Lovely Pop"> Lovely Pop</label>
-        <label><input type="checkbox" name="product" value="Donald - Banti"> Banti</label>
-        <label><input type="checkbox" name="product" value="Donald - Milko masti"> Milko masti</label>
-        <label><input type="checkbox" name="product" value="Donald - Koko masti"> Koko masti</label>
-        <label><input type="checkbox" name="product" value="Donald - Makhan Badam Toffee"> Makhan Badam Toffee</label>
-        <label><input type="checkbox" name="product" value="Donald - Dream Chocolate"> Dream Chocolate</label>
-        <label><input type="checkbox" name="product" value="Donald - Biskela Chocolate"> Biskela Chocolate</label>
-        <label><input type="checkbox" name="product" value="Donald - Chocobite"> Chocobite</label>
-        <label><input type="checkbox" name="product" value="Donald - Fruity Toffee"> Fruity Toffee</label>
-        <label><input type="checkbox" name="product" value="Donald - Wafer"> Wafer</label>
-      </div>
-    </div>
+ <div class="company"><h3>📦 Chatpati Cheese</h3>
+  <div class="product-row"><input type="checkbox" data-name="Chatpati Cheese - Mix Chips Rs10"><label>Mix Chips Rs10</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Chatpati Cheese- Mix Chips Rs20"><label>Mix Chips Rs20</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Chatpati Cheese -Mix Nimko"><label>Mix Nimko</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Chatpati Cheese - Beej "><label>Beej </label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Chatpati Cheese - Local Bakery Items"><label>Local Bakery Items</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Chatpati Cheese - Chaney"><label>Chaney</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Chatpati cheese - Mooj Mela"><label>Mooj Mela Nimko</label><input type="number" min="1" placeholder="Qty" disabled></div>
+ </div>
 
-    <div class="company"><h3>📦 Mix Mall</h3>
-      <div class="products">
-        <label><input type="checkbox" name="product" value="Mix Mall - Anda Bacha"> Anda Bacha</label>
-        <label><input type="checkbox" name="product" value="Mix Mall -Mall Kamal"> Mall Kamal</label>
-        <label><input type="checkbox" name="product" value="Mix Mall - Cocomon "> Cocomon </label>
-        <label><input type="checkbox" name="product" value="Mix Mall -  Cars Club Cheegam"> Cars Club Cheegam</label>
-        <label><input type="checkbox" name="product" value="Mix Mall - Eclairs Chocolate Rs1"> Eclairs ChocolateRs1</label>
-        <label><input type="checkbox" name="product" value="Mix Mall - Eclair Chocolate Rs5"> Eclair Chocolate Rs5</label>
-        <label><input type="checkbox" name="product" value="Mix Mall - Dakar Choran"> Dakar choran</label>
-        
-        <label><input type="checkbox" name="product" value="Mix Mall - Achar"> Achar</label>
-        <label><input type="checkbox" name="product" value="Mix Mall - Jaly"> Jaly</label>
-        <label><input type="checkbox" name="product" value="Mix Mall - Dipsip"> Dipsip</label>
-        <label><input type="checkbox" name="product" value="Mix Mall - Khopra Lado"> Khopra Lado</label>
-        
-      </div>
-    </div>
+ <div class="company"><h3>📦 Extra Company</h3>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Eno"><label>Eno</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Calcee"><label>Calcee</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Loshan Coil"><label>Loshan Coil</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Blade"><label>Blade</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Ispaghol"><label>Ispaghol</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Shampoo"><label>Shampoo</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Saraf Sabun"><label>Saraf Sabun</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Mehndi"><label>Mehndi</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Mister Super"><label>Mister Super</label><input type="number" min="1" placeholder="Qty" disabled></div>
+  <div class="product-row"><input type="checkbox" data-name="Extra Company - Panter Pop Jar"><label>Panter Pop Jar</label><input type="number" min="1" placeholder="Qty" disabled></div>
+ </div>
 
-    <div class="company"><h3>📦 Chatpati Cheese</h3>
-      <div class="products">
-        <label><input type="checkbox" name="product" value="Chatpati Cheese - Mix Chips Rs10"> Mix Chips Rs10</label>
-        <label><input type="checkbox" name="product" value="Chatpati Cheese- Mix Chips Rs20"> Mix Chips Rs20</label>
-        
-        <label><input type="checkbox" name="product" value="Chatpati Cheese -Mix Nimko"> Mix Nimko</label>
-        <label><input type="checkbox" name="product" value="Chatpati Cheese - Beej "> Beej </label>
-        <label><input type="checkbox" name="product" value="Chatpati Cheese - Local Bakery Items"> Local Bakery Items</label>
-        <label><input type="checkbox" name="product" value="Chatpati Cheese - Chaney"> Chaney</label>
-        <label><input type="checkbox" name="product" value="Chatpati cheese - Mooj Mela"> Mooj Mela Nimko</label>
-        
-      </div>
-    </div>
+ <button onclick="sendWhatsApp()">Send Order on WhatsApp</button>
+ <p class="note">Contact: 0305-1933595</p>
+</div>
 
-    <div class="company"><h3>📦 Extra Company</h3>
-      <div class="products">
-        <label><input type="checkbox" name="product" value="Extra Company - Eno"> Eno</label>
-        <label><input type="checkbox" name="product" value="Extra Company - Calcee"> Calcee</label>
-        <label><input type="checkbox" name="product" value="Extra Company - Loshan Coil"> Loshan Coil</label>
-        <label><input type="checkbox" name="product" value="Extra Company - Blade"> Blade</label>
-        <label><input type="checkbox" name="product" value="Extra Company - Ispaghol"> Ispaghol</label>
-        <label><input type="checkbox" name="product" value="Extra Company - Shampoo"> Shampoo</label>
-        <label><input type="checkbox" name="product" value="Extra Company - Saraf Sabun"> Saraf Sabun</label>
-        <label><input type="checkbox" name="product" value="Extra Company - Mehndi"> Mehndi</label>
-        <label><input type="checkbox" name="product" value="Extra Company - Mister Super"> Mister Super</label>
-        <label><input type="checkbox" name="product" value="Extra Company - Panter Pop Jar"> Panter Pop Jar</label>
-        
-      
-      </div>
-    </div>
+<script>
+const myWhatsApp = "923051933595";
 
-    <button onclick="sendWhatsApp()">Send Order on WhatsApp</button>
-    <p class="note">Contact: 0305-1933595</p>
-  </div>
+// Checkbox tick ho to qty wala box enable ho
+document.querySelectorAll('.product-row input[type="checkbox"]').forEach(cb => {
+ cb.addEventListener('change', function() {
+  const qtyInput = this.parentElement.querySelector('input[type="number"]');
+  qtyInput.disabled = !this.checked;
+  if(this.checked && !qtyInput.value) qtyInput.value = 1;
+ });
+});
 
-  <script>
-    const myWhatsApp = "923051933595";
-    function sendWhatsApp() {
-      const shop = document.getElementById("shopName").value.trim();
-      const owner = document.getElementById("ownerName").value.trim();
-      const address = document.getElementById("shopAddress").value.trim();
-      const selectedProducts = [];
-      document.querySelectorAll('input[name="product"]:checked').forEach(cb => {
-        selectedProducts.push(cb.value);
-      });
-      if(!shop || !owner || !address) { alert("Bhai pehle Dukaan ki 3 details bharein"); return; }
-      if (selectedProducts.length === 0) { alert("Kam se kam 1 Product select karein"); return; }
-      const message = `*WHOLESALE ORDER - All for Sukkur*%0A%0A*Dukaan:* ${shop}%0A*Owner:* ${owner}%0A*Address:* ${address}%0A%0A*Products:*%0A- ${selectedProducts.join("%0A- ")}`;
-      window.open(`https://wa.me/${myWhatsApp}?text=${message}`, "_blank");
-    }
-  </script>
+function sendWhatsApp() {
+ const shop = document.getElementById("shopName").value.trim();
+ const owner = document.getElementById("ownerName").value.trim();
+ const address = document.getElementById("shopAddress").value.trim();
+ 
+ const orderItems = [];
+ document.querySelectorAll('.product-row').forEach(row => {
+  const cb = row.querySelector('input[type="checkbox"]');
+  const qty = row.querySelector('input[type="number"]');
+  if(cb.checked) {
+   const name = cb.getAttribute('data-name');
+   const quantity = qty.value || 1;
+   orderItems.push(`${name} x ${quantity}`);
+  }
+ });
+
+ if(!shop || !owner || !address) { alert("Bhai pehle Dukaan ki 3 details bharein"); return; }
+ if (orderItems.length === 0) { alert("Kam se kam 1 Product select karein aur Qty likhein"); return; }
+
+ const message = `*WHOLESALE ORDER - All for Sukkur*%0A%0A*Dukaan:* ${shop}%0A*Owner:* ${owner}%0A*Address:* ${address}%0A%0A*Order Details:*%0A- ${orderItems.join("%0A- ")}`;
+ window.open(`https://wa.me/${myWhatsApp}?text=${message}`, "_blank");
+}
+</script>
 </body>
 </html>
+
