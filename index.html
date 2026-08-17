@@ -1,53 +1,5213 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<!DOCTYPE html><html lang="ur"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Peerbakhsh Wholesale</title><style> *{box-sizing:border-box} body{margin:0;font-family:'Segoe UI',Arial;background:linear-gradient(135deg,#e0f7fa 0%,#f1f8e9 100%)} header{background:linear-gradient(90deg,#075e54,#25D366);color:white;text-align:center;padding:18px;font-size:23px;font-weight:bold;position:sticky;top:0}.tabs{display:flex;background:rgba(255,255,255,.8);position:sticky;top:62px;z-index:9;margin:0 10px;border-radius:15px}.tab{flex:1;padding:14px;color:#075e54;text-align:center;cursor:pointer;font-weight:bold;border-radius:15px}.tab.active{background:linear-gradient(90deg,#25D366,#075e54);color:white}.shopinfo,.product,#cartSection,#billSection,#khataSection,#adminSection{background:rgba(255,255,255,.85);margin:15px;padding:18px;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1)}.product img{width:100%;height:160px;object-fit:cover;border-radius:15px}.select-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}.select-row input{width:24px;height:24px;accent-color:#25D366}.info-box{background:#fff8e1;border-left:5px solid #ff9800;padding:14px;border-radius:12px;margin:10px 0;display:none;white-space:pre-line;line-height:1.8}.row{display:flex;gap:6px}.row>*{flex:1}.cart-item{display:flex;justify-content:space-between;padding:10px;border-bottom:1px dashed #ddd}.khata-table{width:100%;border-collapse:collapse}.khata-table th{background:#075e54;color:white;padding:10px}.khata-table td{padding:8px;text-align:center;border-bottom:1px solid #ddd}.total{font-weight:bold;font-size:19px;text-align:center;background:#bbdefb;padding:14px;border-radius:12px} input,select{width:100%;padding:11px;margin:6px 0;border:2px solid #c8e6c9;border-radius:12px} button{padding:14px;border:none;border-radius:12px;color:white;font-weight:bold;cursor:pointer;width:100%;margin-top:8px}.btn-green{background:#25D366}.btn-red{background:#d32f2f}.btn-blue{background:#1976d2}.btn-gray{background:#555}.bill-header{text-align:center;border-bottom:3px dashed #075e54;padding-bottom:12px}.hidden{display:none} @media print{.tabs,header,button{display:none}} </style></head><body><header>🏪 Peerbakhsh Wholesale Order</header><div class="tabs"><div class="tab active" onclick="openTab('order')">🛒 Order</div><div class="tab" onclick="openTab('khata')">📒 Mera Khata</div><div class="tab" onclick="openTab('bill')">🧾 Bill</div><div class="tab admin-tab hidden" onclick="openTab('admin')">👑 Admin</div></div>
+<title>Peerbakhsh All In One Wholesale</title>
 
-<div id="order">
-<div class="shopinfo"><h3>Dukan Ki Maloomat</h3><input id="shopName" value="Peerbakhsh - Sukkur"><input id="shopAddress" placeholder="Dukan Ka Address"><input id="custName" placeholder="Aap Ka Naam" oninput="updateAll()"><p><b>Contact:</b> 0305-1933595</p></div>
-<div class="shopinfo"><input id="search" placeholder="🔍 Product Search..." oninput="loadPage()"></div>
-<div id="list"></div>
-<div id="cartSection"><h3>🛒 Cart</h3><div id="cartItems">Khali Hai</div><p class="total">Total: Rs.<span id="cartTotal">0</span></p><button class="btn-gray" onclick="clearCart()">🗑️ Cart Khali Karo</button><button class="btn-green" onclick="whatsAppOrder()">📲 WhatsApp Order Bhejo</button></div>
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f7f5;
+color:#18221d;
+padding-bottom:75px
+}
+
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+
+header{
+position:sticky;
+top:0;
+z-index:50;
+background:#fff;
+border-bottom:1px solid #ddd;
+padding:10px 3%;
+display:flex;
+align-items:center;
+gap:7px
+}
+
+.logo{
+flex:1;
+color:#087443;
+font-weight:800;
+font-size:17px
+}
+
+.logo small{
+color:#555;
+font-size:10px
+}
+
+.headBtn{
+border:0;
+background:#edf4ef;
+padding:9px 10px;
+border-radius:8px;
+font-weight:bold;
+font-size:12px
+}
+
+.topcart{
+border:0;
+background:#ffc107;
+padding:9px 11px;
+border-radius:8px;
+font-weight:bold
+}
+
+.hero{
+background:linear-gradient(120deg,#056035,#0baa61);
+color:#fff;
+text-align:center;
+padding:35px 15px
+}
+
+.hero h1{margin:0 0 8px}
+
+.wrap{
+max-width:1200px;
+margin:auto;
+padding:20px 4%
+}
+
+.search{
+width:100%;
+padding:13px;
+border:1px solid #ccd6d0;
+border-radius:8px;
+margin-bottom:15px
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:15px
+}
+
+.card,
+.adminItem,
+.chatBox{
+background:#fff;
+border:1px solid #ddd;
+border-radius:12px;
+padding:14px;
+margin-top:10px
+}
+
+.pic{
+height:160px;
+background:#edf4ef;
+border-radius:10px;
+display:grid;
+place-items:center;
+font-size:55px;
+overflow:hidden
+}
+
+.pic img{
+width:100%;
+height:100%;
+object-fit:cover
+}
+
+.muted{
+color:#68736d;
+font-size:13px
+}
+
+select,input,textarea{
+width:100%;
+padding:9px;
+border:1px solid #ccd6d0;
+border-radius:7px;
+margin-top:5px
+}
+
+button.primary{
+background:#087443;
+color:#fff;
+border:0;
+border-radius:8px;
+padding:10px 14px;
+font-weight:bold
+}
+
+button.green{
+background:#087443;
+color:#fff;
+border:0;
+padding:10px;
+border-radius:8px
+}
+
+button.red{
+background:#ffe5e5;
+color:#c62828;
+border:0;
+padding:9px;
+border-radius:7px
+}
+
+button.gray{
+background:#eee;
+border:0;
+padding:9px 12px;
+border-radius:7px
+}
+
+.row{
+display:flex;
+gap:7px;
+margin-top:10px
+}
+
+.row>*{flex:1}
+
+.qty{
+display:flex;
+align-items:center;
+gap:5px;
+margin-top:10px
+}
+
+.qty button{
+width:35px;
+height:35px;
+border:1px solid #ccc;
+background:#fff;
+border-radius:7px;
+font-size:18px
+}
+
+.qty input{
+width:60px;
+text-align:center;
+margin:0
+}
+
+.bottom{
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+height:68px;
+background:#fff;
+border-top:1px solid #ddd;
+z-index:80;
+display:flex;
+justify-content:center
+}
+
+.bottom button{
+flex:1;
+border:0;
+background:#fff;
+font-size:11px
+}
+
+.drawer{
+position:fixed;
+right:-500px;
+top:0;
+bottom:0;
+width:min(480px,96vw);
+background:#fff;
+z-index:100;
+padding:18px;
+overflow:auto;
+transition:.25s;
+box-shadow:-5px 0 20px #0003
+}
+
+.drawer.open{right:0}
+
+.shade{
+position:fixed;
+inset:0;
+background:#0007;
+z-index:90;
+display:none
+}
+
+.shade.show{display:block}
+
+.modal{
+position:fixed;
+inset:0;
+background:#0008;
+z-index:200;
+display:none;
+align-items:center;
+justify-content:center;
+padding:12px
+}
+
+.modal.show{display:flex}
+
+.box{
+background:#fff;
+width:min(950px,100%);
+max-height:94vh;
+overflow:auto;
+border-radius:13px;
+padding:18px
+}
+
+.head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px
+}
+
+.close{
+border:0;
+background:#eee;
+padding:8px 11px;
+border-radius:7px;
+font-size:18px
+}
+
+.notice{
+background:#fff8dc;
+border:1px solid #efd36e;
+padding:12px;
+border-radius:8px;
+margin:10px 0
+}
+
+.billtable{
+width:100%;
+border-collapse:collapse;
+margin-top:10px
+}
+
+.billtable th,
+.billtable td{
+padding:7px;
+border-bottom:1px solid #ddd;
+text-align:left
+}
+
+.right{text-align:right}
+
+.balance{
+color:#c0392b;
+font-weight:bold
+}
+
+.paid{
+color:#087443;
+font-weight:bold
+}
+
+.marquee{
+background:#222;
+color:#fff;
+overflow:hidden;
+white-space:nowrap;
+padding:9px 0;
+font-weight:bold
+}
+
+.marquee span{
+display:inline-block;
+padding-left:100%;
+animation:run 18s linear infinite
+}
+
+@keyframes run{
+from{transform:translateX(0)}
+to{transform:translateX(-100%)}
+}
+
+.variantBox{
+background:#f7faf8;
+padding:10px;
+border-radius:8px;
+margin-top:10px
+}
+
+.rateBox{
+background:#e9f7ef;
+color:#087443;
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+font-weight:bold;
+text-align:center
+}
+
+.infoText{
+white-space:pre-line;
+line-height:1.6
+}
+
+.on{
+color:#087443;
+font-weight:bold
+}
+
+.off{
+color:#c62828;
+font-weight:bold
+}
+
+.status{
+position:fixed;
+top:75px;
+left:50%;
+transform:translateX(-50%);
+background:#087443;
+color:#fff;
+padding:8px 14px;
+border-radius:20px;
+z-index:500;
+display:none
+}
+
+.status.show{display:block}
+
+.chatWindow{
+height:430px;
+overflow:auto;
+background:#eef2ef;
+padding:10px;
+border-radius:10px
+}
+
+.msg{
+max-width:78%;
+padding:9px;
+margin:7px 0;
+border-radius:10px;
+clear:both
+}
+
+.msg.admin{
+float:left;
+background:#fff;
+border:1px solid #ddd
+}
+
+.msg.customer{
+float:right;
+background:#087443;
+color:#fff
+}
+
+.msg img{
+max-width:190px;
+border-radius:8px;
+display:block
+}
+
+.msg audio{
+max-width:200px;
+display:block
+}
+
+.chatTools{
+display:flex;
+gap:5px;
+margin-top:8px
+}
+
+.chatTools button{
+border:0;
+padding:10px;
+border-radius:7px;
+background:#edf4ef
+}
+
+.chatFile{display:none}
+
+.storeMedia{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:15px
+}
+
+.storeMedia video{
+width:100%;
+max-height:300px;
+border-radius:10px
+}
+
+.audioStore{
+background:#fff;
+border:1px solid #ddd;
+padding:12px;
+border-radius:10px
+}
+
+.requestBox{
+background:#fff7e0;
+border:2px dashed #e0b800;
+padding:15px;
+border-radius:12px;
+margin-top:20px
+}
+
+.requestBox h3{
+margin-top:0
+}
+
+.requestPreview{
+max-width:120px;
+max-height:120px;
+border-radius:8px;
+display:none;
+margin-top:8px
+}
+
+.whatsapp{
+background:#25D366!important;
+color:#fff!important
+}
+
+@media(max-width:700px){
+
+header{
+padding:9px 2%
+}
+
+.logo{
+font-size:13px
+}
+
+.headBtn{
+font-size:10px;
+padding:8px 6px
+}
+
+.topcart{
+font-size:11px;
+padding:8px
+}
+
+.storeMedia{
+grid-template-columns:1fr
+}
+
+.row{
+flex-direction:column
+}
+
+.bottom button{
+font-size:9px
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div id="status" class="status"></div>
+
+<header>
+
+<div class="logo">
+🛒 Peerbakhsh All In One Wholesale
+<br>
+<small>Sukkur • 0305-1933595</small>
 </div>
 
-<div id="khata" class="hidden"><div id="khataSection"><h3>📒 <span id="kNameShow">-</span> Ka Khata</h3><p class="total">Baqi: Rs.<span id="kBaqi">0</span></p><table class="khata-table"><thead><tr><th>Date</th><th>Detail</th><th>Jama</th><th>Baqi</th></tr></thead><tbody id="kHistory"></tbody></table><button class="btn-blue" onclick="window.print()">🖨️ Print</button></div></div>
+<button class="headBtn" onclick="goProducts()">🔎 Search</button>
 
-<div id="bill" class="hidden"><div id="billSection"><h3>🧾 Bill Preview</h3><div id="billPrintArea"></div><button onclick="window.print()">🖨️ Print Bill</button></div></div>
+<button class="headBtn" onclick="openCustomerChat()">💬 Chat</button>
 
-<div id="admin" class="hidden"><div id="adminSection"><h3>👑 Admin Panel</h3><select id="adminCust" onchange="loadAdminKhata()"><option value="">Customer Select Karo</option></select><input id="kJama" type="number" placeholder="Jama Rqam"><button class="btn-green" onclick="addJama()">💰 Jama Add</button><hr><button class="btn-blue" onclick="saveData()">💾 Save</button><button class="btn-gray" onclick="loadData()">🔄 Reload</button><button class="btn-blue" onclick="window.print()">🖨️ Print</button><button class="btn-green" onclick="whatsAppKhata()">📲 WhatsApp Khata</button><button class="btn-red" onclick="deleteAll()">❌ Khatam</button><hr><table class="khata-table"><thead><tr><th>Date</th><th>Detail</th><th>Jama</th><th>Baqi</th></tr></thead><tbody id="adminHistory"></tbody></table><p class="total">Baqi: Rs.<span id="adminBaqi">0</span></p></div></div>
+<button class="headBtn" onclick="customerAccount()">📒 Khata</button>
 
-<script>
-let cart=[],DATA={},IS_ADMIN=false,LAST_SAVED="";
-const PRODUCTS=[{id:1,name:"Pika Nut",unit:"Paket",rate:2880,img:"https://via.placeholder.com/300x160/25D366/FFFFFF?text=Pika+Nut"},{id:2,name:"Zeera",unit:"Paket",rate:2880,img:"https://via.placeholder.com/300x160/FF9800/FFFFFF?text=Zeera"},{id:3,name:"Season",unit:"Paket",rate:2880,img:"https://via.placeholder.com/300x160/FF9800/FFFFFF?text=Season"},{id:4,name:"Magic Koko",unit:"Bundle",rate:3000,img:"https://via.placeholder.com/300x160/FF9800/FFFFFF?text=Magic+Koko"}];
-if(new URLSearchParams(window.location.search).get('admin') === '1234'){IS_ADMIN = true;document.querySelector('.admin-tab').classList.remove('hidden');}
+<button class="headBtn" onclick="adminLogin()">⚙️ Admin</button>
 
-function openTab(x){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('#order,#khata,#bill,#admin').forEach(d=>d.classList.add('hidden'));document.getElementById(x).classList.remove('hidden');event.target.classList.add('active');if(x=='khata')showKhata();if(x=='bill')makeBill();if(x=='admin')loadCustomers();}
+<button class="topcart" onclick="openCart()">
+🛒 <span id="cartCount">0</span>
+</button>
 
-function getInfo(p){let carton=18*180;let bachat=carton-p.rate;let perPacket=Math.floor(p.rate/18);return`📦 1 Carton = 18 ${p.unit}\n🧮 1 ${p.unit} = 18 Piece\n💰 1 Piece = 10 ka\n📊 1 ${p.unit} = 180 ka Maal\n🏷️ 1 Carton Me Maal = ${carton} Rs\n✅ Hamara Rate = ${p.rate} Rs\n💵 Bachat = ${bachat} Rs\n🎯 Matlab Aap Ko Mila: ${perPacket} Rs Per ${p.unit}\n🎁 Bachat: ${Math.floor(bachat/18)} Rs Per ${p.unit}`}
+</header>
 
-function loadPage(){let f=document.getElementById("search").value.toLowerCase();let html="";PRODUCTS.filter(p=>p.name.toLowerCase().includes(f)).forEach(p=>{html+=`<div class=product id=p${p.id}><div class=select-row><input type=checkbox id=check${p.id} onchange="toggle(${p.id})"><label for=check${p.id}>✅ ${p.name} Select Karo</label></div><img src="${p.img}"><h3>${p.name}</h3><div><b>Rate:</b> Rs.${p.rate} per Carton</div><div class=row><select id=name${p.id} onchange="autoAdd(${p.id})"><option>Bhindi Pulao</option><option>Rangeen Bhindi</option><option>Pathan</option></select><input id=customName${p.id} placeholder="Flavor" oninput="autoAdd(${p.id})"></div><div class=row><select id=weight${p.id} onchange="autoAdd(${p.id})"><option>5</option><option>10</option><option>20</option></select><input id=customWeight${p.id} placeholder="Weight" oninput="autoAdd(${p.id})"></div><div class=row><select id=pack${p.id} onchange="autoAdd(${p.id})"><option>Carton</option><option>${p.unit}</option></select><input id=qty${p.id} type=number value="1" oninput="autoAdd(${p.id})" placeholder="Qty"></div><div id=info${p.id} class=info-box>${getInfo(p)}</div></div>`});document.getElementById("list").innerHTML=html;}
+<div class="marquee">
+<span id="marqueeText">
+Peerbakhsh All In One Wholesale
+</span>
+</div>
 
-function toggle(id){let c=document.getElementById("check"+id).checked;document.getElementById("p"+id).style.border=c?"2px solid #25D366":"";document.getElementById("info"+id).style.display=c?"block":"none";if(c)autoAdd(id); else {cart=cart.filter(x=>x.id!=id);updateAll();}}
-function autoAdd(id){if(!document.getElementById("check"+id).checked)return;let q=parseInt(document.getElementById("qty"+id).value)||1;let n=document.getElementById("customName"+id).value||document.getElementById("name"+id).value;let w=document.getElementById("customWeight"+id).value||document.getElementById("weight"+id).value;let pk=document.getElementById("pack"+id).value;let p=PRODUCTS.find(x=>x.id==id);cart=cart.filter(x=>x.id!=id);cart.push({id:id,n:n,w:w,p:pk,q:q,rate:p.rate});updateAll();}
-function updateAll(){updateCart(); makeBill(); saveToKhata();}
-function updateCart(){let t=cart.reduce((a,b)=>a+b.rate*b.q,0);document.getElementById("cartItems").innerHTML=cart.map((x,i)=>`<div class=cart-item><span>${x.n} ${x.w} ${x.q} ${x.p}</span><span>Rs.${x.rate*x.q} <button style="width:30px" class=btn-red onclick="delItem(${i})">X</button></span></div>`).join("")||"Khali Hai";document.getElementById("cartTotal").innerText=t;}
-function delItem(i){if(confirm("Delete karein?")){cart.splice(i,1);updateAll();}}
-function clearCart(){if(confirm("Cart khali karein?")){cart=[];PRODUCTS.forEach(p=>{if(document.getElementById("check"+p.id))document.getElementById("check"+p.id).checked=false;document.getElementById("p"+p.id).style.border="";document.getElementById("info"+p.id).style.display="none";});updateAll();}}
+<section class="hero">
 
-function whatsAppOrder(){if(cart.length==0){alert("Pehle Cart me item add karo");return;} let cn=document.getElementById("custName").value; let sn=document.getElementById("shopName").value; let total=document.getElementById("cartTotal").innerText; let msg=`*ORDER - ${sn}*\nCustomer: ${cn}\nDate: ${new Date().toLocaleString()}\n\n`;cart.forEach(x=>{msg+=`• ${x.n} ${x.w} - ${x.q} ${x.p} = Rs.${x.rate*x.q}\n`;});msg+=`\n*Total: Rs.${total}*`;window.open(`https://wa.me/923051933595?text=${encodeURIComponent(msg)}`,'_blank');}
+<h1>Peerbakhsh All In One Wholesale</h1>
 
-function makeBill(){let sn=document.getElementById("shopName").value; let sa=document.getElementById("shopAddress").value; let cn=document.getElementById("custName").value; let date=new Date().toLocaleString(); let items=cart.map(x=>`<tr><td>${x.n} ${x.w}</td><td>${x.q} ${x.p}</td><td>${x.rate}</td><td>${x.rate*x.q}</td></tr>`).join(""); let total=document.getElementById("cartTotal").innerText; document.getElementById("billPrintArea").innerHTML=`<div class=bill-header><h2>${sn}</h2><p>${sa}</p><p>Customer: ${cn}</p><p>${date}</p></div><table width=100%><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Total</th></tr>${items}</table><p class=total>Total: Rs.${total}</p>`;}
+<p>Sukkur • Wholesale General Store</p>
 
-function saveToKhata(){let cn=document.getElementById("custName").value; if(!cn || cart.length==0)return; let key=cn+"_"+JSON.stringify(cart); if(key==LAST_SAVED)return; LAST_SAVED=key; let total=parseInt(document.getElementById("cartTotal").innerText); if(!DATA[cn])DATA[cn]=[]; let lastBaqi=DATA[cn].length>0?DATA[cn][DATA[cn].length-1].baqi:0; DATA[cn].push({date:new Date().toLocaleString(),detail:"Order - Rs."+total,amount:total,baqi:lastBaqi+total}); saveData();}
+<button class="primary" onclick="goProducts()">
+Shop Now
+</button>
 
-function showKhata(){let n=document.getElementById("custName").value; document.getElementById("kNameShow").innerText=n||"-"; loadKhata(n,"kHistory","kBaqi");}
-function loadAdminKhata(){let n=document.getElementById("adminCust").value; loadKhata(n,"adminHistory","adminBaqi");}
-function loadKhata(n,tb,bq){let d=DATA[n]||[]; document.getElementById(tb).innerHTML=d.map(x=>`<tr><td>${x.date}</td><td>${x.detail}</td><td>${x.amount}</td><td>${x.baqi}</td></tr>`).join(""); document.getElementById(bq).innerText=d.length>0?d[d.length-1].baqi:0;}
+</section>
 
-function loadCustomers(){document.getElementById("adminCust").innerHTML='<option value="">Customer Select Karo</option>'+Object.keys(DATA).map(k=>`<option>${k}</option>`).join("")}
-function addJama(){let n=document.getElementById("adminCust").value; let j=parseInt(document.getElementById("kJama").value); if(!n||!j)return; if(!DATA[n])DATA[n]=[]; let lb=DATA[n].length>0?DATA[n][DATA[n].length-1].baqi:0; DATA[n].push({date:new Date().toLocaleString(),detail:"Jama",amount:j,baqi:lb-j}); saveData(); loadAdminKhata();}
-function saveData(){localStorage.setItem("khataAuto",JSON.stringify(DATA));}
-function loadData(){DATA=JSON.parse(localStorage.getItem("khataAuto")||"{}");}
-function deleteAll(){if(confirm("Pakka?")&&confirm("Aakhri bar?")&&confirm("Delete?")){localStorage.removeItem("khataAuto");DATA={};loadCustomers();}}
-function whatsAppKhata(){let n=document.getElementById("adminCust").value; let b=document.getElementById("adminBaqi").innerText; window.open(`https://wa.me/?text=${encodeURIComponent(`Salam ${n}, Baqi: Rs.${b}`)}`)}
+<section class="wrap">
 
-document.addEventListener("DOMContentLoaded",()=>{loadData();loadPage();});
-</script></body></html>
+<h2>🏪 Dukaan ki Information</h2>
+
+<div id="storeMedia"></div>
+
+</section>
+
+<main class="wrap" id="products">
+
+<input
+id="search"
+class="search"
+placeholder="🔎 Search product..."
+oninput="renderProducts()">
+
+<div id="productGrid" class="grid"></div>
+
+
+<!-- PRODUCT REQUEST -->
+
+<div class="requestBox">
+
+<h3>📦 Product Nahi Mil Raha?</h3>
+
+<p class="muted">
+Agar koi product website par nahi hai to uski request bhejein.
+Name, flavor, weight, unit, quantity, picture aur comment sab bhej sakte hain.
+</p>
+
+<label>Product Name *</label>
+<input id="reqName" placeholder="Product ka naam">
+
+<label>Flavor</label>
+<input id="reqFlavor" placeholder="Jaise Normal, Chocolate">
+
+<label>Weight</label>
+<input id="reqWeight" placeholder="Jaise 100g, 500g">
+
+<label>Unit</label>
+<input id="reqUnit" placeholder="Packet, Box, Carton">
+
+<label>Quantity *</label>
+<input id="reqQty" type="number" min="1" value="1">
+
+<label>Comment</label>
+<textarea
+id="reqComment"
+rows="3"
+placeholder="Apni requirement likhein..."></textarea>
+
+<label>Product Picture</label>
+<input
+id="reqImage"
+type="file"
+accept="image/*"
+onchange="previewRequestImage()">
+
+<img id="requestPreview" class="requestPreview">
+
+<br>
+
+<button
+class="primary"
+style="width:100%;margin-top:12px"
+onclick="addRequestToCart()">
+
+➕ Request Cart Mein Add Karein
+
+</button>
+
+</div>
+
+</main>
+
+
+<!-- CART -->
+
+<div id="shade" class="shade" onclick="closeCart()"></div>
+
+<aside id="cartDrawer" class="drawer">
+
+<div class="head">
+
+<h2>🛒 Cart</h2>
+
+<button class="close" onclick="closeCart()">✕</button>
+
+</div>
+
+<div id="cartItems"></div>
+
+<h3>
+Total: Rs. <span id="cartTotal">0</span>
+</h3>
+
+<button
+class="primary"
+style="width:100%"
+onclick="checkout()">
+
+🧾 Order / WhatsApp
+
+</button>
+
+</aside>
+
+
+<!-- MODAL -->
+
+<div id="modal" class="modal">
+
+<div id="modalBox" class="box"></div>
+
+</div>
+
+
+<!-- BILL -->
+
+<div id="billModal" class="modal">
+
+<div class="box">
+
+<div id="billContent"></div>
+
+<div class="row">
+
+<button class="primary" onclick="window.print()">
+🖨 Print
+</button>
+
+<button class="gray" onclick="closeBill()">
+Close
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- BOTTOM -->
+
+<div class="bottom">
+
+<button onclick="goProducts()">
+🏠 Home
+</button>
+
+<button onclick="document.getElementById('search').focus()">
+🔎 Search
+</button>
+
+<button onclick="openCart()">
+🛒 Cart <span id="bottomCount">0</span>
+</button>
+
+<button onclick="openCustomerChat()">
+💬 Chat
+</button>
+
+<button onclick="customerAccount()">
+📒 Khata
+</button>
+
+<button onclick="adminLogin()">
+⚙️ Admin
+</button>
+
+</div>
+
+
+<script type="module">
+
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+set,
+push,
+get,
+update,
+remove
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+import {
+getStorage,
+ref as storageRef,
+uploadBytes,
+getDownloadURL
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+
+/* =========================
+ FIREBASE
+========================= */
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAHPnLoWaZgmGw2JBv0Gsb0S0X9zwAnv0A",
+
+authDomain:
+"peerbakhsh-wholesale.firebaseapp.com",
+
+databaseURL:
+"https://peerbakhsh-wholesale-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:
+"peerbakhsh-wholesale",
+
+storageBucket:
+"peerbakhsh-wholesale.firebasestorage.app",
+
+messagingSenderId:
+"38873113254",
+
+appId:
+"1:38873113254:web:913d1aaec949854be2ca67",
+
+measurementId:
+"G-5XJ3Y3D22W"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+const storage=getStorage(app);
+
+
+/* =========================
+ SETTINGS
+========================= */
+
+const ADMIN_EMAIL="peerbakhsh144@gmail.com";
+
+const WHATSAPP="923051933595";
+
+let currentUser=null;
+let currentRole="guest";
+
+let products=[];
+let cart=[];
+
+let store={
+marquee:"Peerbakhsh All In One Wholesale",
+voice:"",
+video:""
+};
+
+let currentChatCustomer=null;
+let currentChatRole="customer";
+
+let recorder=null;
+let voiceChunks=[];
+
+
+/* =========================
+ HELPERS
+========================= */
+
+function esc(s){
+
+return String(s??"")
+.replace(/[&<>"']/g,m=>({
+
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+
+}[m]));
+
+}
+
+function money(n){
+
+return Number(n||0)
+.toLocaleString("en-PK");
+
+}
+
+function showStatus(t){
+
+const x=document.getElementById("status");
+
+x.textContent=t;
+x.classList.add("show");
+
+setTimeout(()=>{
+x.classList.remove("show")
+},2500);
+
+}
+
+
+/* =========================
+ MODAL
+========================= */
+
+function openModal(html){
+
+document.getElementById("modalBox").innerHTML=html;
+
+document.getElementById("modal").classList.add("show");
+
+}
+
+function closeModal(){
+
+document.getElementById("modal").classList.remove("show");
+
+document.getElementById("modalBox").innerHTML="";
+
+}
+
+window.closeModal=closeModal;
+
+
+function closeCart(){
+
+document.getElementById("shade").classList.remove("show");
+
+document.getElementById("cartDrawer").classList.remove("open");
+
+}
+
+window.closeCart=closeCart;
+
+
+function closeBill(){
+
+document.getElementById("billModal").classList.remove("show");
+
+}
+
+window.closeBill=closeBill;
+
+
+function closeAll(){
+
+closeModal();
+closeCart();
+closeBill();
+
+}
+
+window.closeAll=closeAll;
+
+
+/* =========================
+ DATABASE
+========================= */
+
+async function dbGet(path){
+
+const snap=await get(ref(db,path));
+
+return snap.exists()?snap.val():null;
+
+}
+
+async function dbSet(path,data){
+
+await set(ref(db,path),data);
+
+}
+
+async function dbUpdate(path,data){
+
+await update(ref(db,path),data);
+
+}
+
+async function dbRemove(path){
+
+await remove(ref(db,path));
+
+}
+
+
+/* =========================
+ AUTH STATE
+========================= */
+
+onAuthStateChanged(auth,user=>{
+
+currentUser=user;
+
+if(!user){
+
+currentRole="guest";
+return;
+
+}
+
+if(
+user.email &&
+user.email.toLowerCase()===
+ADMIN_EMAIL.toLowerCase()
+){
+
+currentRole="admin";
+
+showStatus("✅ Admin Login");
+
+}else{
+
+currentRole="customer";
+
+showStatus("✅ Dukandar Login");
+
+}
+
+});
+
+
+/* =========================
+ ADMIN LOGIN
+========================= */
+
+function adminLogin(){
+
+if(
+currentUser &&
+currentUser.email &&
+currentUser.email.toLowerCase()===
+ADMIN_EMAIL.toLowerCase()
+){
+
+adminPanel();
+return;
+
+}
+
+openModal(`
+
+<div class="head">
+
+<h2>🔐 Admin Login</h2>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<p class="muted">
+Admin email already set hai.
+Sirf password enter karein.
+</p>
+
+<label>Admin Email</label>
+
+<input
+id="loginEmail"
+type="email"
+value="${ADMIN_EMAIL}">
+
+<label>Password</label>
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Admin Password">
+
+<br><br>
+
+<button
+class="primary"
+onclick="doLogin()">
+
+🔐 Login
+
+</button>
+
+`);
+
+}
+
+window.adminLogin=adminLogin;
+
+
+async function doLogin(){
+
+const email=
+document.getElementById("loginEmail")
+.value.trim();
+
+const password=
+document.getElementById("loginPassword")
+.value;
+
+if(!email||!password){
+
+alert("Email aur Password required hai.");
+
+return;
+
+}
+
+try{
+
+const result=
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+if(
+result.user.email.toLowerCase()===
+ADMIN_EMAIL.toLowerCase()
+){
+
+currentUser=result.user;
+currentRole="admin";
+
+closeModal();
+
+showStatus("✅ Admin Login Successful");
+
+setTimeout(()=>{
+adminPanel();
+},300);
+
+}else{
+
+await signOut(auth);
+
+alert("Ye Admin Email nahi hai.");
+
+}
+
+}catch(e){
+
+console.error(e);
+
+alert(
+"Admin Login Failed:\n\n"+
+e.message
+);
+
+}
+
+}
+
+window.doLogin=doLogin;
+
+
+/* =========================
+ CUSTOMER LOGIN
+========================= */
+
+function customerLogin(){
+
+openModal(`
+
+<div class="head">
+
+<h2>🏪 Dukandar Login</h2>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<input
+id="customerEmail"
+type="email"
+placeholder="Dukandar Email">
+
+<input
+id="customerPassword"
+type="password"
+placeholder="Password">
+
+<br><br>
+
+<button
+class="primary"
+onclick="customerDoLogin()">
+
+Login
+
+</button>
+
+`);
+
+}
+
+window.customerLogin=customerLogin;
+
+
+async function customerDoLogin(){
+
+const email=
+document.getElementById("customerEmail")
+.value.trim();
+
+const password=
+document.getElementById("customerPassword")
+.value;
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+closeModal();
+
+}catch(e){
+
+alert(
+"Login failed:\n"+
+e.message
+);
+
+}
+
+}
+
+window.customerDoLogin=customerDoLogin;
+
+
+/* =========================
+ LOGOUT
+========================= */
+
+async function logout(){
+
+await signOut(auth);
+
+currentUser=null;
+currentRole="guest";
+
+closeAll();
+
+showStatus("Logout ho gaya");
+
+}
+
+window.logout=logout;
+
+
+/* =========================
+ PRODUCTS
+========================= */
+
+async function loadProducts(){
+
+try{
+
+const data=await dbGet("products");
+
+if(data){
+
+products=
+Object.entries(data).map(
+([id,p])=>({
+id,
+...p
+})
+);
+
+}else{
+
+const r=push(ref(db,"products"));
+
+const first={
+
+name:"Pika Nut",
+icon:"🥜",
+image:"",
+info:
+"Pika Nut wholesale product.\nQuality product.",
+shortInfo:"Wholesale Pika Nut",
+price:120,
+active:true,
+
+flavors:[
+{name:"Normal",price:120},
+{name:"Chocolate",price:130},
+{name:"Vanilla",price:135}
+],
+
+weights:[
+{name:"100g",price:120},
+{name:"250g",price:280},
+{name:"500g",price:520}
+],
+
+units:[
+{name:"Packet",price:120},
+{name:"Box",price:1200},
+{name:"Carton",price:2400}
+]
+
+};
+
+await set(r,first);
+
+first.id=r.key;
+
+products=[first];
+
+}
+
+renderProducts();
+
+}catch(e){
+
+console.error(e);
+
+showStatus("⚠️ Products load nahi hue");
+
+}
+
+}
+
+
+/* =========================
+ VARIANT RATE
+========================= */
+
+function getSelectedVariant(id){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return null;
+
+const flavor=
+document.getElementById("flavor_"+id)?.value||"";
+
+const weight=
+document.getElementById("weight_"+id)?.value||"";
+
+const unit=
+document.getElementById("unit_"+id)?.value||"";
+
+const f=
+(p.flavors||[])
+.find(x=>x.name===flavor);
+
+const w=
+(p.weights||[])
+.find(x=>x.name===weight);
+
+const u=
+(p.units||[])
+.find(x=>x.name===unit);
+
+let price=Number(p.price||0);
+
+if(f&&f.price!==undefined)
+price=Number(f.price);
+
+if(w&&w.price!==undefined)
+price=Number(w.price);
+
+if(u&&u.price!==undefined)
+price=Number(u.price);
+
+return{
+flavor,
+weight,
+unit,
+price
+};
+
+}
+
+window.getSelectedVariant=getSelectedVariant;
+
+
+function updateProductRate(id){
+
+const v=getSelectedVariant(id);
+
+const el=
+document.getElementById("rate_"+id);
+
+if(el&&v){
+
+el.textContent=
+"Rs. "+money(v.price);
+
+}
+
+}
+
+window.updateProductRate=updateProductRate;
+
+
+/* =========================
+ RENDER PRODUCTS
+========================= */
+
+function renderProducts(){
+
+const grid=
+document.getElementById("productGrid");
+
+if(!grid)return;
+
+const q=
+(document.getElementById("search")?.value||"")
+.toLowerCase();
+
+const list=
+products.filter(p=>
+
+p.active!==false &&
+
+String(p.name||"")
+.toLowerCase()
+.includes(q)
+
+);
+
+if(!list.length){
+
+grid.innerHTML=`
+
+<div class="card">
+
+<h3>📦 Product nahi mila</h3>
+
+<p>
+Neeche <b>Product Request</b> box se
+request bhej dein.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+grid.innerHTML=
+list.map(p=>{
+
+const flavors=p.flavors||[];
+const weights=p.weights||[];
+const units=p.units||[];
+
+let flavorHTML="";
+
+if(flavors.length){
+
+flavorHTML=`
+
+<label>Flavor</label>
+
+<select
+id="flavor_${p.id}"
+onchange="updateProductRate('${p.id}')">
+
+${flavors.map(x=>`
+
+<option value="${esc(x.name)}">
+
+${esc(x.name)}
+-
+Rs. ${money(x.price)}
+
+</option>
+
+`).join("")}
+
+</select>
+
+`;
+
+}
+
+let weightHTML="";
+
+if(weights.length){
+
+weightHTML=`
+
+<label>Weight</label>
+
+<select
+id="weight_${p.id}"
+onchange="updateProductRate('${p.id}')">
+
+${weights.map(x=>`
+
+<option value="${esc(x.name)}">
+
+${esc(x.name)}
+-
+Rs. ${money(x.price)}
+
+</option>
+
+`).join("")}
+
+</select>
+
+`;
+
+}
+
+let unitHTML="";
+
+if(units.length){
+
+unitHTML=`
+
+<label>Unit</label>
+
+<select
+id="unit_${p.id}"
+onchange="updateProductRate('${p.id}')">
+
+${units.map(x=>`
+
+<option value="${esc(x.name)}">
+
+${esc(x.name)}
+-
+Rs. ${money(x.price)}
+
+</option>
+
+`).join("")}
+
+</select>
+
+`;
+
+}
+
+return`
+
+<div class="card">
+
+<div class="pic">
+
+${
+p.image
+?
+`<img src="${esc(p.image)}">`
+:
+esc(p.icon||"📦")
+}
+
+</div>
+
+<h3>${esc(p.name)}</h3>
+
+<p class="muted">
+${esc(p.shortInfo||"")}
+</p>
+
+<div class="variantBox">
+
+${flavorHTML}
+${weightHTML}
+${unitHTML}
+
+<div class="rateBox">
+
+Rate:
+<span id="rate_${p.id}">
+Rs. ${money(p.price)}
+</span>
+
+</div>
+
+</div>
+
+<div class="qty">
+
+<button
+onclick="changeQty('${p.id}',-1)">
+−
+</button>
+
+<input
+id="qty${p.id}"
+type="number"
+min="1"
+value="1">
+
+<button
+onclick="changeQty('${p.id}',1)">
++
+</button>
+
+</div>
+
+<div class="row">
+
+<button
+class="green"
+onclick="showProductInfo('${p.id}')">
+
+ℹ Info
+
+</button>
+
+<button
+class="green"
+onclick="addCart('${p.id}')">
+
+🛒 Add
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+list.forEach(p=>{
+setTimeout(()=>{
+updateProductRate(p.id);
+},0);
+});
+
+}
+
+window.renderProducts=renderProducts;
+
+
+/* =========================
+ QUANTITY
+========================= */
+
+function changeQty(id,n){
+
+const el=
+document.getElementById("qty"+id);
+
+if(!el)return;
+
+let q=Number(el.value)||1;
+
+q+=n;
+
+if(q<1)q=1;
+
+el.value=q;
+
+}
+
+window.changeQty=changeQty;
+
+
+/* =========================
+ PRODUCT INFO
+========================= */
+
+function showProductInfo(id){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return;
+
+openModal(`
+
+<div class="head">
+
+<h2>
+${esc(p.icon||"📦")}
+${esc(p.name)}
+</h2>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<hr>
+
+<div class="infoText">
+
+${esc(
+p.info||
+"Product information available nahi hai."
+)}
+
+</div>
+
+<hr>
+
+<h3>💰 Base Rate</h3>
+
+<p>Rs. ${money(p.price)}</p>
+
+${
+(p.flavors||[]).length
+?
+`
+<hr>
+<h3>🌈 Flavors</h3>
+<p>
+${p.flavors.map(x=>
+`${esc(x.name)}:
+Rs. ${money(x.price)}`
+).join("<br>")}
+</p>
+`
+:""
+}
+
+${
+(p.weights||[]).length
+?
+`
+<hr>
+<h3>⚖️ Weights</h3>
+<p>
+${p.weights.map(x=>
+`${esc(x.name)}:
+Rs. ${money(x.price)}`
+).join("<br>")}
+</p>
+`
+:""
+}
+
+${
+(p.units||[]).length
+?
+`
+<hr>
+<h3>📦 Units</h3>
+<p>
+${p.units.map(x=>
+`${esc(x.name)}:
+Rs. ${money(x.price)}`
+).join("<br>")}
+</p>
+`
+:""
+}
+
+<br>
+
+<button
+class="primary"
+onclick="closeModal()">
+
+Close
+
+</button>
+
+`);
+
+}
+
+window.showProductInfo=showProductInfo;
+
+
+/* =========================
+ CART NORMAL PRODUCT
+========================= */
+
+function addCart(id){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return;
+
+const qty=
+Number(
+document.getElementById("qty"+id)?.value
+)||1;
+
+const v=
+getSelectedVariant(id)||{
+flavor:"",
+weight:"",
+unit:"",
+price:Number(p.price||0)
+};
+
+const old=
+cart.find(x=>
+
+x.id===id &&
+x.request!==true &&
+x.flavor===v.flavor &&
+x.weight===v.weight &&
+x.unit===v.unit
+
+);
+
+if(old){
+
+old.qty+=qty;
+
+}else{
+
+cart.push({
+
+id:p.id,
+name:p.name,
+icon:p.icon,
+flavor:v.flavor,
+weight:v.weight,
+unit:v.unit,
+price:v.price,
+qty,
+request:false
+
+});
+
+}
+
+updateCart();
+openCart();
+
+showStatus("🛒 Cart mein add ho gaya");
+
+}
+
+window.addCart=addCart;
+
+
+/* =========================
+ REQUEST IMAGE PREVIEW
+========================= */
+
+function previewRequestImage(){
+
+const file=
+document.getElementById("reqImage")
+.files[0];
+
+const img=
+document.getElementById("requestPreview");
+
+if(!file){
+
+img.style.display="none";
+return;
+
+}
+
+img.src=
+URL.createObjectURL(file);
+
+img.style.display="block";
+
+}
+
+window.previewRequestImage=
+previewRequestImage;
+
+
+/* =========================
+ PRODUCT REQUEST TO CART
+========================= */
+
+async function addRequestToCart(){
+
+const name=
+document.getElementById("reqName")
+.value.trim();
+
+const flavor=
+document.getElementById("reqFlavor")
+.value.trim();
+
+const weight=
+document.getElementById("reqWeight")
+.value.trim();
+
+const unit=
+document.getElementById("reqUnit")
+.value.trim();
+
+const qty=
+Number(
+document.getElementById("reqQty")
+.value
+)||1;
+
+const comment=
+document.getElementById("reqComment")
+.value.trim();
+
+const file=
+document.getElementById("reqImage")
+.files[0];
+
+if(!name){
+
+alert("Product Name zaroor likhein.");
+
+return;
+
+}
+
+let image="";
+
+if(file){
+
+if(file.size>8*1024*1024){
+
+alert("Picture 8MB se choti honi chahiye.");
+
+return;
+
+}
+
+try{
+
+const r=storageRef(
+storage,
+"requests/"+Date.now()+"_"+file.name
+);
+
+await uploadBytes(r,file);
+
+image=
+await getDownloadURL(r);
+
+}catch(e){
+
+alert(
+"Picture upload error:\n"+
+e.message
+);
+
+return;
+
+}
+
+}
+
+cart.push({
+
+id:"request_"+Date.now(),
+
+name,
+
+icon:"📦",
+
+flavor,
+
+weight,
+
+unit,
+
+price:0,
+
+qty,
+
+comment,
+
+image,
+
+request:true
+
+});
+
+updateCart();
+
+showStatus(
+"📦 Product Request Cart mein add ho gayi"
+);
+
+document.getElementById("reqName").value="";
+document.getElementById("reqFlavor").value="";
+document.getElementById("reqWeight").value="";
+document.getElementById("reqUnit").value="";
+document.getElementById("reqQty").value="1";
+document.getElementById("reqComment").value="";
+document.getElementById("reqImage").value="";
+
+document.getElementById("requestPreview")
+.style.display="none";
+
+openCart();
+
+}
+
+window.addRequestToCart=
+addRequestToCart;
+
+
+/* =========================
+ CART
+========================= */
+
+function updateCart(){
+
+const count=
+cart.reduce(
+(a,x)=>a+Number(x.qty||0),
+0
+);
+
+const total=
+cart.reduce(
+(a,x)=>
+a+
+Number(x.qty||0)*
+Number(x.price||0),
+0
+);
+
+document.getElementById("cartCount")
+.textContent=count;
+
+document.getElementById("bottomCount")
+.textContent=count;
+
+document.getElementById("cartTotal")
+.textContent=money(total);
+
+document.getElementById("cartItems")
+.innerHTML=
+
+cart.length
+
+?
+
+cart.map((x,i)=>`
+
+<div class="adminItem">
+
+<h3>
+${esc(x.icon||"📦")}
+${esc(x.name)}
+</h3>
+
+${
+x.request
+?
+`
+<div class="notice">
+
+<b>📦 Product Request</b>
+
+<br>
+
+Price admin confirm karega.
+
+</div>
+`
+:""
+}
+
+${x.flavor?
+`Flavor: <b>${esc(x.flavor)}</b><br>`:""}
+
+${x.weight?
+`Weight: <b>${esc(x.weight)}</b><br>`:""}
+
+${x.unit?
+`Unit: <b>${esc(x.unit)}</b><br>`:""}
+
+${
+x.comment
+?
+`Comment:
+<b>${esc(x.comment)}</b><br>`
+:""
+}
+
+${
+x.image
+?
+`<img
+src="${esc(x.image)}"
+style="max-width:100px;border-radius:8px;margin-top:8px">`
+:""
+}
+
+<br>
+
+Qty:
+<b>${x.qty}</b>
+
+<br>
+
+${
+x.request
+?
+`Rate: <b>Admin Confirm</b>`
+:
+`Rate: Rs. ${money(x.price)}`
+}
+
+<br>
+
+${
+x.request
+?
+``
+:
+`Amount:
+<b>Rs. ${money(x.price*x.qty)}</b>`
+}
+
+<br><br>
+
+<button
+class="red"
+onclick="deleteCart(${i})">
+
+🗑 Delete
+
+</button>
+
+</div>
+
+`).join("")
+
+:
+
+"<p>Cart empty hai.</p>";
+
+}
+
+window.updateCart=updateCart;
+
+
+function deleteCart(i){
+
+cart.splice(i,1);
+
+updateCart();
+
+}
+
+window.deleteCart=deleteCart;
+
+
+function openCart(){
+
+document.getElementById("shade")
+.classList.add("show");
+
+document.getElementById("cartDrawer")
+.classList.add("open");
+
+}
+
+window.openCart=openCart;
+
+
+/* =========================
+ CHECKOUT
+========================= */
+
+function checkout(){
+
+if(!cart.length){
+
+alert("Cart empty hai.");
+
+return;
+
+}
+
+if(!currentUser){
+
+openModal(`
+
+<div class="head">
+
+<h2>🏪 Pehle Login Karein</h2>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<p>
+Order ke liye pehle dukandar login karein.
+</p>
+
+<button
+class="primary"
+onclick="customerLogin()">
+
+Dukandar Login
+
+</button>
+
+`);
+
+return;
+
+}
+
+openModal(`
+
+<div class="head">
+
+<h2>🧾 Order Confirm</h2>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<input
+id="customerName"
+placeholder="Dukaan ka naam">
+
+<input
+id="customerPhone"
+placeholder="Phone">
+
+<input
+id="customerAddress"
+placeholder="Address">
+
+<br><br>
+
+<div class="notice">
+
+📲 Order save hone ke baad
+WhatsApp par bhi bhejne ka option milega.
+
+</div>
+
+<button
+class="primary"
+onclick="createOrder()">
+
+Confirm Order
+
+</button>
+
+`);
+
+}
+
+window.checkout=checkout;
+
+
+/* =========================
+ CREATE ORDER
+========================= */
+
+async function createOrder(){
+
+const name=
+document.getElementById("customerName")
+.value.trim();
+
+const phone=
+document.getElementById("customerPhone")
+.value.trim();
+
+const address=
+document.getElementById("customerAddress")
+.value.trim();
+
+if(!name||!phone){
+
+alert(
+"Dukaan ka naam aur phone required hai."
+);
+
+return;
+
+}
+
+const total=
+cart.reduce(
+(a,x)=>
+a+
+Number(x.qty)*Number(x.price),
+0
+);
+
+const billRef=
+push(ref(db,"bills"));
+
+const billId=billRef.key;
+
+const now=
+new Date().toLocaleString("en-PK");
+
+const bill={
+
+id:billId,
+
+uid:currentUser.uid,
+
+date:now,
+
+customer:{
+name,
+phone,
+address
+},
+
+items:
+JSON.parse(JSON.stringify(cart)),
+
+total,
+
+paid:0,
+
+balance:total,
+
+history:[{
+
+date:now,
+
+type:"Order",
+
+jama:0,
+
+balance:total
+
+}]
+
+};
+
+try{
+
+await set(billRef,bill);
+
+const whatsappText=
+makeWhatsAppText(
+bill,
+false
+);
+
+cart=[];
+
+updateCart();
+
+closeAll();
+
+renderBill(bill);
+
+document.getElementById("billModal")
+.classList.add("show");
+
+showStatus("✅ Order Confirm ho gaya");
+
+}catch(e){
+
+alert(
+"Order save nahi hua:\n"+
+e.message
+);
+
+}
+
+}
+
+window.createOrder=createOrder;
+
+
+/* =========================
+ WHATSAPP TEXT
+========================= */
+
+function makeWhatsAppText(b,requestOnly=false){
+
+let text=
+"🛒 Peerbakhsh All In One Wholesale\n\n";
+
+text+=
+"🏪 Dukaan: "+
+(b.customer?.name||"")+
+"\n";
+
+text+=
+"📞 Phone: "+
+(b.customer?.phone||"")+
+"\n";
+
+text+=
+"📍 Address: "+
+(b.customer?.address||"")+
+"\n\n";
+
+text+="🧾 Order\n";
+
+text+="--------------------\n";
+
+(b.items||[]).forEach((x,i)=>{
+
+text+=
+`${i+1}. ${x.name}\n`;
+
+if(x.flavor)
+text+=`Flavor: ${x.flavor}\n`;
+
+if(x.weight)
+text+=`Weight: ${x.weight}\n`;
+
+if(x.unit)
+text+=`Unit: ${x.unit}\n`;
+
+text+=`Qty: ${x.qty}\n`;
+
+if(x.request){
+
+text+="💰 Rate: Admin Confirm\n";
+
+}else{
+
+text+=`Rate: Rs. ${x.price}\n`;
+
+text+=
+`Amount: Rs. ${x.price*x.qty}\n`;
+
+}
+
+if(x.comment)
+text+=`💬 Comment: ${x.comment}\n`;
+
+if(x.image)
+text+=`🖼️ Picture: ${x.image}\n`;
+
+text+="\n";
+
+});
+
+text+="--------------------\n";
+
+text+=
+"Total: Rs. "+
+money(b.total)+
+"\n";
+
+text+="Bill: "+b.id;
+
+return text;
+
+}
+
+
+/* =========================
+ WHATSAPP CURRENT CART
+========================= */
+
+function whatsappCart(){
+
+if(!cart.length){
+
+alert("Cart empty hai.");
+
+return;
+
+}
+
+let text=
+"🛒 Peerbakhsh All In One Wholesale\n\n";
+
+text+="📦 Cart Order\n";
+text+="--------------------\n";
+
+cart.forEach((x,i)=>{
+
+text+=
+`${i+1}. ${x.name}\n`;
+
+if(x.flavor)
+text+=`Flavor: ${x.flavor}\n`;
+
+if(x.weight)
+text+=`Weight: ${x.weight}\n`;
+
+if(x.unit)
+text+=`Unit: ${x.unit}\n`;
+
+text+=`Qty: ${x.qty}\n`;
+
+if(x.request){
+
+text+="Rate: Admin Confirm\n";
+
+}else{
+
+text+=
+`Rate: Rs. ${x.price}\n`;
+
+}
+
+if(x.comment)
+text+=
+`Comment: ${x.comment}\n`;
+
+if(x.image)
+text+=
+`Picture: ${x.image}\n`;
+
+text+="\n";
+
+});
+
+text+="--------------------\n";
+
+text+="Please confirm availability/rate.";
+
+window.open(
+"https://wa.me/"+
+WHATSAPP+
+"?text="+
+encodeURIComponent(text),
+"_blank"
+);
+
+}
+
+window.whatsappCart=whatsappCart;
+
+
+/* =========================
+ RENDER BILL
+========================= */
+
+function renderBill(b){
+
+document.getElementById("billContent")
+.innerHTML=`
+
+<h2 style="text-align:center">
+Peerbakhsh All In One Wholesale
+</h2>
+
+<p style="text-align:center">
+Sukkur • 0305-1933595
+</p>
+
+<hr>
+
+<b>Bill:</b> ${esc(b.id)}
+
+<br>
+
+<b>Date:</b> ${esc(b.date)}
+
+<br>
+
+<b>Dukaan:</b>
+${esc(b.customer?.name||"")}
+
+<br>
+
+<b>Phone:</b>
+${esc(b.customer?.phone||"")}
+
+<hr>
+
+<table class="billtable">
+
+<tr>
+<th>Product</th>
+<th>Details</th>
+<th>Qty</th>
+<th>Rate</th>
+<th>Amount</th>
+</tr>
+
+${(b.items||[]).map(x=>`
+
+<tr>
+
+<td>${esc(x.name)}</td>
+
+<td>
+
+${x.flavor?
+"Flavor: "+esc(x.flavor)+"<br>":""}
+
+${x.weight?
+"Weight: "+esc(x.weight)+"<br>":""}
+
+${x.unit?
+"Unit: "+esc(x.unit)+"<br>":""}
+
+${x.request?
+"<b>Request</b>":""}
+
+</td>
+
+<td>${x.qty}</td>
+
+<td>
+${
+x.request
+?
+"Admin Confirm"
+:
+"Rs. "+money(x.price)
+}
+</td>
+
+<td>
+${
+x.request
+?
+"-"
+:
+"Rs. "+money(x.qty*x.price)
+}
+</td>
+
+</tr>
+
+`).join("")}
+
+</table>
+
+<h3 class="right">
+Total:
+Rs. ${money(b.total)}
+</h3>
+
+<h3 class="right paid">
+Jama:
+Rs. ${money(b.paid)}
+</h3>
+
+<h3 class="right balance">
+Bakaya:
+Rs. ${money(b.balance)}
+</h3>
+
+<hr>
+
+<button
+class="whatsapp"
+style="border:0;padding:11px;border-radius:8px;width:100%;font-weight:bold"
+onclick='openBillWhatsApp(${JSON.stringify(b).replace(/'/g,"&#39;")})'>
+
+📲 WhatsApp Order
+
+</button>
+
+<h3>📒 Khata History</h3>
+
+${(b.history||[]).map(h=>`
+
+<div class="adminItem">
+
+<b>${esc(h.date)}</b>
+
+<br>
+
+${esc(h.type||"Jama")}
+
+<br>
+
+Jama:
+Rs. ${money(h.jama||0)}
+
+<br>
+
+Bakaya:
+Rs. ${money(h.balance)}
+
+</div>
+
+`).join("")}
+
+`;
+
+}
+
+window.renderBill=renderBill;
+
+
+/* =========================
+ BILL WHATSAPP
+========================= */
+
+function openBillWhatsApp(b){
+
+const text=makeWhatsAppText(b);
+
+window.open(
+"https://wa.me/"+
+WHATSAPP+
+"?text="+
+encodeURIComponent(text),
+"_blank"
+);
+
+}
+
+window.openBillWhatsApp=
+openBillWhatsApp;
+
+
+/* =========================
+ CUSTOMER KHATA
+========================= */
+
+async function customerAccount(){
+
+if(!currentUser){
+
+customerLogin();
+return;
+
+}
+
+const data=await dbGet("bills");
+
+let my=[];
+
+if(data){
+
+Object.entries(data).forEach(
+([id,b])=>{
+
+if(b.uid===currentUser.uid){
+
+my.push({
+id,
+...b
+});
+
+}
+
+});
+
+}
+
+if(!my.length){
+
+openModal(`
+
+<div class="head">
+
+<h2>📒 Mera Khata</h2>
+
+<button class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<p>Abhi koi Bill nahi hai.</p>
+
+`);
+
+return;
+
+}
+
+const total=
+my.reduce(
+(a,b)=>a+Number(b.total||0),0
+);
+
+const paid=
+my.reduce(
+(a,b)=>a+Number(b.paid||0),0
+);
+
+const balance=
+my.reduce(
+(a,b)=>a+Number(b.balance||0),0
+);
+
+openModal(`
+
+<div class="head">
+
+<h2>📒 Mera Khata</h2>
+
+<button class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<div class="notice">
+
+Total:
+<b>Rs. ${money(total)}</b>
+
+<br>
+
+Jama:
+<b class="paid">
+Rs. ${money(paid)}
+</b>
+
+<br>
+
+Bakaya:
+<b class="balance">
+Rs. ${money(balance)}
+</b>
+
+</div>
+
+${my.slice().reverse().map(b=>`
+
+<div class="adminItem">
+
+<b>Bill: ${esc(b.id)}</b>
+
+<br>
+
+Date:
+${esc(b.date)}
+
+<br>
+
+Total:
+Rs. ${money(b.total)}
+
+<br>
+
+Jama:
+Rs. ${money(b.paid)}
+
+<br>
+
+Bakaya:
+Rs. ${money(b.balance)}
+
+<br><br>
+
+<button
+class="primary"
+onclick="customerViewBill('${b.id}')">
+
+🧾 View Bill
+
+</button>
+
+</div>
+
+`).join("")}
+
+`);
+
+}
+
+window.customerAccount=customerAccount;
+
+
+async function customerViewBill(id){
+
+const b=await dbGet("bills/"+id);
+
+if(!b)return;
+
+if(!currentUser||b.uid!==currentUser.uid){
+
+alert("Access denied.");
+return;
+
+}
+
+renderBill(b);
+
+document.getElementById("billModal")
+.classList.add("show");
+
+}
+
+window.customerViewBill=
+customerViewBill;
+
+
+/* ==================================================
+ ADMIN PANEL
+================================================== */
+
+function adminPanel(){
+
+if(
+!currentUser ||
+currentUser.email?.toLowerCase()!==
+ADMIN_EMAIL.toLowerCase()
+){
+
+alert("Admin only.");
+
+return;
+
+}
+
+openModal(`
+
+<div class="head">
+
+<h2>⚙️ Admin Panel</h2>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<div class="row">
+
+<button
+class="primary"
+onclick="adminProducts()">
+📦 Products
+</button>
+
+<button
+class="primary"
+onclick="adminDukandar()">
+🏪 Dukandar
+</button>
+
+</div>
+
+<div class="row">
+
+<button
+class="primary"
+onclick="adminBills()">
+🧾 Bills
+</button>
+
+<button
+class="primary"
+onclick="adminKhata()">
+📒 Khata
+</button>
+
+</div>
+
+<div class="row">
+
+<button
+class="primary"
+onclick="adminStore()">
+🏪 Store
+</button>
+
+<button
+class="primary"
+onclick="adminChatList()">
+💬 Chat
+</button>
+
+</div>
+
+<div class="row">
+
+<button
+class="gray"
+onclick="logout()">
+🚪 Logout
+</button>
+
+</div>
+
+<div id="adminArea"></div>
+
+`);
+
+adminProducts();
+
+}
+
+window.adminPanel=adminPanel;
+
+
+/* =========================
+ ADMIN PRODUCTS
+========================= */
+
+async function adminProducts(){
+
+const data=await dbGet("products");
+
+products=[];
+
+if(data){
+
+products=
+Object.entries(data).map(
+([id,p])=>({
+id,
+...p
+})
+);
+
+}
+
+let h=`
+
+<h3>📦 Products Management</h3>
+
+`;
+
+products.forEach(p=>{
+
+h+=`
+
+<div class="adminItem">
+
+<h3>
+${esc(p.icon||"📦")}
+${esc(p.name)}
+</h3>
+
+<p>
+
+Status:
+
+${
+p.active!==false
+?
+`<span class="on">🟢 ON</span>`
+:
+`<span class="off">🔴 OFF</span>`
+}
+
+</p>
+
+<p>
+Base Rate:
+Rs. ${money(p.price)}
+</p>
+
+<p>
+Flavor: ${(p.flavors||[]).length}
+</p>
+
+<p>
+Weight: ${(p.weights||[]).length}
+</p>
+
+<p>
+Unit: ${(p.units||[]).length}
+</p>
+
+<div class="row">
+
+<button
+class="primary"
+onclick="editProduct('${p.id}')">
+
+✏️ Edit
+
+</button>
+
+<button
+class="red"
+onclick="deleteProduct('${p.id}')">
+
+🗑 Delete
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+h+=`
+
+<br>
+
+<button
+class="primary"
+onclick="newProduct()">
+
+➕ New Product
+
+</button>
+
+`;
+
+document.getElementById("adminArea")
+.innerHTML=h;
+
+}
+
+window.adminProducts=adminProducts;
+
+
+/* =========================
+ NEW PRODUCT
+========================= */
+
+async function newProduct(){
+
+const r=push(ref(db,"products"));
+
+await set(r,{
+
+name:"New Product",
+icon:"📦",
+image:"",
+info:"Product information",
+shortInfo:"",
+price:0,
+active:true,
+
+flavors:[
+{name:"Normal",price:0}
+],
+
+weights:[
+{name:"Default",price:0}
+],
+
+units:[
+{name:"Piece",price:0}
+]
+
+});
+
+await adminProducts();
+await loadProducts();
+
+showStatus("✅ New Product add ho gaya");
+
+}
+
+window.newProduct=newProduct;
+
+
+/* =========================
+ EDIT PRODUCT
+========================= */
+
+function editProduct(id){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return;
+
+let flavorRows=
+(p.flavors||[]).map(x=>`
+
+<div class="adminItem">
+
+<div class="row">
+
+<input
+value="${esc(x.name)}"
+placeholder="Flavor">
+
+<input
+type="number"
+value="${Number(x.price||0)}"
+placeholder="Rate">
+
+<button
+class="red"
+onclick="removeVariantRow(this)">
+✕
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+let weightRows=
+(p.weights||[]).map(x=>`
+
+<div class="adminItem">
+
+<div class="row">
+
+<input
+value="${esc(x.name)}"
+placeholder="Weight">
+
+<input
+type="number"
+value="${Number(x.price||0)}"
+placeholder="Rate">
+
+<button
+class="red"
+onclick="removeVariantRow(this)">
+✕
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+let unitRows=
+(p.units||[]).map(x=>`
+
+<div class="adminItem">
+
+<div class="row">
+
+<input
+value="${esc(x.name)}"
+placeholder="Unit">
+
+<input
+type="number"
+value="${Number(x.price||0)}"
+placeholder="Rate">
+
+<button
+class="red"
+onclick="removeVariantRow(this)">
+✕
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+document.getElementById("adminArea")
+.innerHTML=`
+
+<div class="head">
+
+<h2>✏️ Edit Product</h2>
+
+<button
+class="gray"
+onclick="adminProducts()">
+← Back
+</button>
+
+</div>
+
+<label>Product Name</label>
+
+<input
+id="epName"
+value="${esc(p.name)}">
+
+<label>Icon</label>
+
+<input
+id="epIcon"
+value="${esc(p.icon||"📦")}">
+
+<label>Base Rate</label>
+
+<input
+id="epPrice"
+type="number"
+value="${Number(p.price||0)}">
+
+<label>Short Information</label>
+
+<input
+id="epShort"
+value="${esc(p.shortInfo||"")}">
+
+<label>Product Information</label>
+
+<textarea
+id="epInfo"
+rows="5">${esc(p.info||"")}</textarea>
+
+<br>
+
+<label>
+
+<input
+id="epActive"
+type="checkbox"
+${p.active!==false?"checked":""}>
+
+Product ON
+
+</label>
+
+<hr>
+
+<h3>🌈 Flavors & Rates</h3>
+
+<div id="flavorList">
+
+${flavorRows}
+
+</div>
+
+<button
+class="gray"
+onclick="addFlavorRow()">
+➕ Add Flavor
+</button>
+
+<hr>
+
+<h3>⚖️ Weights & Rates</h3>
+
+<div id="weightList">
+
+${weightRows}
+
+</div>
+
+<button
+class="gray"
+onclick="addWeightRow()">
+➕ Add Weight
+</button>
+
+<hr>
+
+<h3>📦 Units & Rates</h3>
+
+<div id="unitList">
+
+${unitRows}
+
+</div>
+
+<button
+class="gray"
+onclick="addUnitRow()">
+➕ Add Unit
+</button>
+
+<hr>
+
+<h3>🖼️ Product Picture</h3>
+
+<input
+id="epImage"
+type="file"
+accept="image/*">
+
+<br><br>
+
+<button
+class="primary"
+onclick="saveProduct('${id}')">
+
+💾 Save Product
+
+</button>
+
+`;
+
+}
+
+window.editProduct=editProduct;
+
+
+function removeVariantRow(btn){
+
+btn.closest(".adminItem")?.remove();
+
+}
+
+window.removeVariantRow=
+removeVariantRow;
+
+
+function addFlavorRow(){
+
+document.getElementById("flavorList")
+.insertAdjacentHTML(
+"beforeend",
+
+`
+
+<div class="adminItem">
+
+<div class="row">
+
+<input placeholder="Flavor">
+
+<input type="number" placeholder="Rate">
+
+<button
+class="red"
+onclick="removeVariantRow(this)">
+✕
+</button>
+
+</div>
+
+</div>
+
+`);
+
+}
+
+window.addFlavorRow=addFlavorRow;
+
+
+function addWeightRow(){
+
+document.getElementById("weightList")
+.insertAdjacentHTML(
+"beforeend",
+
+`
+
+<div class="adminItem">
+
+<div class="row">
+
+<input placeholder="Weight">
+
+<input type="number" placeholder="Rate">
+
+<button
+class="red"
+onclick="removeVariantRow(this)">
+✕
+</button>
+
+</div>
+
+</div>
+
+`);
+
+}
+
+window.addWeightRow=addWeightRow;
+
+
+function addUnitRow(){
+
+document.getElementById("unitList")
+.insertAdjacentHTML(
+"beforeend",
+
+`
+
+<div class="adminItem">
+
+<div class="row">
+
+<input placeholder="Unit">
+
+<input type="number" placeholder="Rate">
+
+<button
+class="red"
+onclick="removeVariantRow(this)">
+✕
+</button>
+
+</div>
+
+</div>
+
+`);
+
+}
+
+window.addUnitRow=addUnitRow;
+
+
+/* =========================
+ COLLECT VARIANTS
+========================= */
+
+function collectVariantRows(listId){
+
+const list=
+document.getElementById(listId);
+
+const result=[];
+
+if(!list)return result;
+
+list.querySelectorAll(".adminItem")
+.forEach(row=>{
+
+const inputs=
+row.querySelectorAll("input");
+
+if(inputs.length<2)return;
+
+const name=
+inputs[0].value.trim();
+
+const price=
+Number(inputs[1].value)||0;
+
+if(name){
+
+result.push({
+name,
+price
+});
+
+}
+
+});
+
+return result;
+
+}
+
+
+/* =========================
+ SAVE PRODUCT
+========================= */
+
+async function saveProduct(id){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return;
+
+const data={
+
+name:
+document.getElementById("epName")
+.value.trim(),
+
+icon:
+document.getElementById("epIcon")
+.value.trim()||"📦",
+
+price:
+Number(
+document.getElementById("epPrice").value
+)||0,
+
+shortInfo:
+document.getElementById("epShort")
+.value.trim(),
+
+info:
+document.getElementById("epInfo")
+.value.trim(),
+
+active:
+document.getElementById("epActive")
+.checked,
+
+flavors:
+collectVariantRows("flavorList"),
+
+weights:
+collectVariantRows("weightList"),
+
+units:
+collectVariantRows("unitList")
+
+};
+
+const file=
+document.getElementById("epImage")
+.files[0];
+
+try{
+
+if(file){
+
+if(file.size>8*1024*1024){
+
+alert("Image 8MB se choti honi chahiye.");
+
+return;
+
+}
+
+const r=storageRef(
+storage,
+"products/"+id+"_"+Date.now()
+);
+
+await uploadBytes(r,file);
+
+data.image=
+await getDownloadURL(r);
+
+}else{
+
+data.image=p.image||"";
+
+}
+
+await dbUpdate(
+"products/"+id,
+data
+);
+
+await loadProducts();
+
+await adminProducts();
+
+showStatus("✅ Product save ho gaya");
+
+}catch(e){
+
+alert(
+"Product save error:\n"+
+e.message
+);
+
+}
+
+}
+
+window.saveProduct=saveProduct;
+
+
+/* =========================
+ DELETE PRODUCT
+========================= */
+
+async function deleteProduct(id){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return;
+
+if(!confirm(
+"Delete "+p.name+"?"
+))return;
+
+await dbRemove("products/"+id);
+
+await loadProducts();
+
+await adminProducts();
+
+showStatus("🗑 Product delete ho gaya");
+
+}
+
+window.deleteProduct=
+deleteProduct;
+
+
+/* =========================
+ BILLS
+========================= */
+
+async function getAllBills(){
+
+const data=await dbGet("bills");
+
+if(!data)return[];
+
+return Object.entries(data)
+.map(([id,b])=>({
+id,
+...b
+}));
+
+}
+
+
+async function adminBills(){
+
+const all=await getAllBills();
+
+let h="<h3>🧾 All Bills</h3>";
+
+if(!all.length){
+
+h+="<p>Abhi koi bill nahi hai.</p>";
+
+}
+
+all.slice().reverse()
+.forEach(b=>{
+
+h+=`
+
+<div class="adminItem">
+
+<b>
+🏪 ${esc(b.customer?.name||"")}
+</b>
+
+<br>
+
+Bill:
+${esc(b.id)}
+
+<br>
+
+Date:
+${esc(b.date)}
+
+<br>
+
+Total:
+Rs. ${money(b.total)}
+
+<br>
+
+Jama:
+Rs. ${money(b.paid)}
+
+<br>
+
+<span class="balance">
+Bakaya:
+Rs. ${money(b.balance)}
+</span>
+
+<br><br>
+
+<button
+class="primary"
+onclick="adminViewBill('${b.id}')">
+🧾 View
+</button>
+
+<button
+class="primary"
+onclick="adminEditBill('${b.id}')">
+✏️ Edit
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("adminArea")
+.innerHTML=h;
+
+}
+
+window.adminBills=adminBills;
+
+
+async function adminViewBill(id){
+
+const b=await dbGet("bills/"+id);
+
+if(!b)return;
+
+renderBill(b);
+
+document.getElementById("billModal")
+.classList.add("show");
+
+}
+
+window.adminViewBill=
+adminViewBill;
+
+
+/* =========================
+ DUKANDAR
+========================= */
+
+async function adminDukandar(){
+
+const all=await getAllBills();
+
+const map={};
+
+all.forEach(b=>{
+
+const uid=b.uid;
+
+if(!map[uid]){
+
+map[uid]={
+
+uid,
+
+name:b.customer?.name||"",
+
+phone:b.customer?.phone||"",
+
+address:b.customer?.address||""
+
+};
+
+}
+
+});
+
+const users=Object.values(map);
+
+let h="<h3>🏪 Dukandar List</h3>";
+
+if(!users.length){
+
+h+="<p>Abhi koi dukandar order nahi mila.</p>";
+
+}
+
+users.forEach(u=>{
+
+h+=`
+
+<div class="adminItem">
+
+<h3>
+🏪 ${esc(u.name)}
+</h3>
+
+Phone:
+${esc(u.phone)}
+
+<br>
+
+Address:
+${esc(u.address||"-")}
+
+<br><br>
+
+<button
+class="primary"
+onclick="openDukandar('${u.uid}')">
+
+Open Dukandar
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("adminArea")
+.innerHTML=h;
+
+}
+
+window.adminDukandar=
+adminDukandar;
+
+
+/* =========================
+ OPEN DUKANDAR
+========================= */
+
+async function openDukandar(uid){
+
+const all=await getAllBills();
+
+const userBills=
+all.filter(b=>b.uid===uid);
+
+if(!userBills.length){
+
+alert("No bills.");
+
+return;
+
+}
+
+const u=userBills[0].customer;
+
+const total=
+userBills.reduce(
+(a,b)=>a+Number(b.total||0),0
+);
+
+const paid=
+userBills.reduce(
+(a,b)=>a+Number(b.paid||0),0
+);
+
+const balance=
+userBills.reduce(
+(a,b)=>a+Number(b.balance||0),0
+);
+
+document.getElementById("adminArea")
+.innerHTML=`
+
+<div class="head">
+
+<h2>
+🏪 ${esc(u.name)}
+</h2>
+
+<button
+class="gray"
+onclick="adminDukandar()">
+← Back
+</button>
+
+</div>
+
+<div class="notice">
+
+Total:
+<b>Rs. ${money(total)}</b>
+
+<br>
+
+Jama:
+<b class="paid">
+Rs. ${money(paid)}
+</b>
+
+<br>
+
+Bakaya:
+<b class="balance">
+Rs. ${money(balance)}
+</b>
+
+</div>
+
+<h3>🧾 Bills</h3>
+
+${userBills.slice().reverse().map(b=>`
+
+<div class="adminItem">
+
+<b>${esc(b.id)}</b>
+
+<br>
+
+Date:
+${esc(b.date)}
+
+<br>
+
+Total:
+Rs. ${money(b.total)}
+
+<br>
+
+Jama:
+Rs. ${money(b.paid)}
+
+<br>
+
+Bakaya:
+Rs. ${money(b.balance)}
+
+<div class="row">
+
+<button
+class="primary"
+onclick="adminEditBill('${b.id}')">
+✏️ Edit / Jama
+</button>
+
+<button
+class="primary"
+onclick="adminViewBill('${b.id}')">
+🧾 Bill
+</button>
+
+</div>
+
+</div>
+
+`).join("")}
+
+<hr>
+
+<h3>💬 Chat</h3>
+
+<button
+class="primary"
+onclick="adminCustomerChat('${uid}')">
+Open Chat
+</button>
+
+<br><br>
+
+<button
+class="red"
+onclick="deleteCustomerEverything('${uid}')">
+
+🗑 Delete Bill + Khata + Chat
+
+</button>
+
+`;
+
+}
+
+window.openDukandar=
+openDukandar;
+
+
+/* =========================
+ EDIT BILL
+========================= */
+
+async function adminEditBill(id){
+
+const b=await dbGet("bills/"+id);
+
+if(!b)return;
+
+let html=`
+
+<div class="head">
+
+<h2>✏️ Bill Edit</h2>
+
+<button
+class="gray"
+onclick="adminBills()">
+← Back
+</button>
+
+</div>
+
+<h3>
+${esc(b.customer?.name||"")}
+</h3>
+
+`;
+
+(b.items||[]).forEach((x,i)=>{
+
+html+=`
+
+<div class="adminItem">
+
+<b>${esc(x.name)}</b>
+
+<br>
+
+${x.request
+?
+"<b>📦 Product Request</b>"
+:""
+}
+
+<br>
+
+${x.flavor?
+"Flavor: "+esc(x.flavor)+"<br>":""}
+
+${x.weight?
+"Weight: "+esc(x.weight)+"<br>":""}
+
+${x.unit?
+"Unit: "+esc(x.unit)+"<br>":""}
+
+${x.comment?
+"Comment: "+esc(x.comment)+"<br>":""}
+
+<label>Quantity</label>
+
+<input
+id="billQty${i}"
+type="number"
+value="${x.qty}">
+
+<label>Rate</label>
+
+<input
+id="billRate${i}"
+type="number"
+value="${Number(x.price||0)}">
+
+</div>
+
+`;
+
+});
+
+html+=`
+
+<div class="notice">
+
+Current Total:
+Rs. ${money(b.total)}
+
+<br>
+
+Jama:
+Rs. ${money(b.paid)}
+
+<br>
+
+Bakaya:
+Rs. ${money(b.balance)}
+
+</div>
+
+<label>Jama Amount</label>
+
+<input
+id="paymentAmount"
+type="number"
+value="0">
+
+<label>Jama Note</label>
+
+<input
+id="paymentNote"
+value="Jama">
+
+<br><br>
+
+<button
+class="primary"
+onclick="saveBillEdit('${id}')">
+
+💾 Save / Update
+
+</button>
+
+`;
+
+document.getElementById("adminArea")
+.innerHTML=html;
+
+}
+
+window.adminEditBill=
+adminEditBill;
+
+
+/* =========================
+ SAVE BILL
+========================= */
+
+async function saveBillEdit(id){
+
+const b=await dbGet("bills/"+id);
+
+if(!b)return;
+
+(b.items||[]).forEach((x,i)=>{
+
+const q=
+document.getElementById("billQty"+i);
+
+const r=
+document.getElementById("billRate"+i);
+
+if(q)
+x.qty=Number(q.value)||1;
+
+if(r)
+x.price=Number(r.value)||0;
+
+});
+
+b.total=
+(b.items||[]).reduce(
+(a,x)=>
+a+
+Number(x.qty)*
+Number(x.price),
+0
+);
+
+const payment=
+Number(
+document.getElementById("paymentAmount")
+.value
+)||0;
+
+const note=
+document.getElementById("paymentNote")
+.value.trim()||"Jama";
+
+if(payment>0){
+
+b.paid=
+Number(b.paid||0)+payment;
+
+if(!b.history)
+b.history=[];
+
+b.history.push({
+
+date:
+new Date().toLocaleString("en-PK"),
+
+type:note,
+
+jama:payment,
+
+balance:
+Math.max(0,b.total-b.paid)
+
+});
+
+}
+
+b.balance=
+Math.max(
+0,
+b.total-b.paid
+);
+
+await dbSet("bills/"+id,b);
+
+alert(
+"✅ Bill update ho gaya.\n"+
+"✅ Rate save ho gaya.\n"+
+"✅ Khata update ho gaya."
+);
+
+openDukandar(b.uid);
+
+}
+
+window.saveBillEdit=
+saveBillEdit;
+
+
+/* =========================
+ KHATA ADMIN
+========================= */
+
+async function adminKhata(){
+
+const all=await getAllBills();
+
+const map={};
+
+all.forEach(b=>{
+
+if(!map[b.uid])
+map[b.uid]=[];
+
+map[b.uid].push(b);
+
+});
+
+let h="<h3>📒 Khata</h3>";
+
+Object.entries(map).forEach(
+([uid,list])=>{
+
+const total=
+list.reduce(
+(a,b)=>a+Number(b.total||0),0
+);
+
+const paid=
+list.reduce(
+(a,b)=>a+Number(b.paid||0),0
+);
+
+const balance=
+list.reduce(
+(a,b)=>a+Number(b.balance||0),0
+);
+
+const name=
+list[0].customer?.name||"";
+
+h+=`
+
+<div class="adminItem">
+
+<h3>🏪 ${esc(name)}</h3>
+
+Total:
+Rs. ${money(total)}
+
+<br>
+
+Jama:
+Rs. ${money(paid)}
+
+<br>
+
+<span class="balance">
+Bakaya:
+Rs. ${money(balance)}
+</span>
+
+<br><br>
+
+<button
+class="primary"
+onclick="openDukandar('${uid}')">
+
+Open Khata
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("adminArea")
+.innerHTML=h;
+
+}
+
+window.adminKhata=
+adminKhata;
+
+
+/* =========================
+ DELETE CUSTOMER
+========================= */
+
+async function deleteCustomerEverything(uid){
+
+if(!confirm(
+"Is dukandar ka Bill + Khata + Chat sab delete karna hai?"
+))return;
+
+const all=await getAllBills();
+
+const jobs=[];
+
+all.forEach(b=>{
+
+if(b.uid===uid){
+
+jobs.push(
+dbRemove("bills/"+b.id)
+);
+
+}
+
+});
+
+jobs.push(
+dbRemove("chats/"+uid)
+);
+
+await Promise.all(jobs);
+
+alert(
+"✅ Bill + Khata + Chat delete ho gaya."
+);
+
+adminDukandar();
+
+}
+
+window.deleteCustomerEverything=
+deleteCustomerEverything;
+
+
+/* ==================================================
+ STORE
+================================================== */
+
+function adminStore(){
+
+document.getElementById("adminArea")
+.innerHTML=`
+
+<h3>🏪 Store Information</h3>
+
+<label>Marquee</label>
+
+<input
+id="storeMarquee"
+value="${esc(store.marquee||"")}">
+
+<br><br>
+
+<h3>🎙️ Voice</h3>
+
+<input
+type="file"
+id="storeVoiceFile"
+accept="audio/*">
+
+<br>
+
+<button
+class="primary"
+onclick="uploadStoreVoice()">
+Save Voice
+</button>
+
+<hr>
+
+<h3>🎥 Video</h3>
+
+<input
+type="file"
+id="storeVideoFile"
+accept="video/*">
+
+<br>
+
+<button
+class="primary"
+onclick="uploadStoreVideo()">
+Save Video
+</button>
+
+<br><br>
+
+<button
+class="primary"
+onclick="saveMarquee()">
+Save Marquee
+</button>
+
+<br><br>
+
+<button
+class="red"
+onclick="deleteStore()">
+🗑 Delete Store Media
+</button>
+
+`;
+
+}
+
+window.adminStore=
+adminStore;
+
+
+async function saveMarquee(){
+
+const text=
+document.getElementById("storeMarquee")
+.value.trim();
+
+await dbSet(
+"store/marquee",
+text
+);
+
+store.marquee=text;
+
+renderStore();
+
+showStatus("✅ Marquee save ho gaya");
+
+}
+
+window.saveMarquee=
+saveMarquee;
+
+
+async function uploadStoreVoice(){
+
+const file=
+document.getElementById("storeVoiceFile")
+.files[0];
+
+if(!file){
+
+alert("Voice select karein.");
+return;
+
+}
+
+try{
+
+const r=storageRef(
+storage,
+"store/voice_"+Date.now()
+);
+
+await uploadBytes(r,file);
+
+const url=
+await getDownloadURL(r);
+
+await dbSet(
+"store/voice",
+url
+);
+
+store.voice=url;
+
+renderStore();
+
+alert("✅ Voice uploaded.");
+
+}catch(e){
+
+alert(
+"Voice upload error:\n"+
+e.message
+);
+
+}
+
+}
+
+window.uploadStoreVoice=
+uploadStoreVoice;
+
+
+async function uploadStoreVideo(){
+
+const file=
+document.getElementById("storeVideoFile")
+.files[0];
+
+if(!file){
+
+alert("Video select karein.");
+return;
+
+}
+
+try{
+
+const r=storageRef(
+storage,
+"store/video_"+Date.now()
+);
+
+await uploadBytes(r,file);
+
+const url=
+await getDownloadURL(r);
+
+await dbSet(
+"store/video",
+url
+);
+
+store.video=url;
+
+renderStore();
+
+alert("✅ Video uploaded.");
+
+}catch(e){
+
+alert(
+"Video upload error:\n"+
+e.message
+);
+
+}
+
+}
+
+window.uploadStoreVideo=
+uploadStoreVideo;
+
+
+async function deleteStore(){
+
+await dbRemove("store");
+
+store={
+marquee:"Peerbakhsh All In One Wholesale",
+voice:"",
+video:""
+};
+
+renderStore();
+
+showStatus("Store information delete ho gayi");
+
+}
+
+window.deleteStore=
+deleteStore;
+
+
+function renderStore(){
+
+document.getElementById("marqueeText")
+.textContent=
+store.marquee||
+"Peerbakhsh All In One Wholesale";
+
+let h="";
+
+if(store.voice){
+
+h+=`
+
+<div class="audioStore">
+
+<b>🎙️ Dukaan ki Voice</b>
+
+<br><br>
+
+<audio
+controls
+style="width:100%"
+src="${esc(store.voice)}">
+</audio>
+
+</div>
+
+`;
+
+}
+
+if(store.video){
+
+h+=`
+
+<div class="audioStore">
+
+<b>🎥 Dukaan ki Video</b>
+
+<br><br>
+
+<video
+controls
+src="${esc(store.video)}">
+</video>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("storeMedia")
+.innerHTML=h;
+
+}
+
+
+async function loadStore(){
+
+const s=await dbGet("store");
+
+if(s)
+store=s;
+
+renderStore();
+
+}
+
+
+/* ==================================================
+ CHAT
+================================================== */
+
+function openCustomerChat(){
+
+if(!currentUser){
+
+openModal(`
+
+<div class="head">
+
+<h2>💬 Dukandar Login</h2>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<p>
+Chat ke liye pehle login karein.
+</p>
+
+<button
+class="primary"
+onclick="customerLogin()">
+Login
+</button>
+
+`);
+
+return;
+
+}
+
+currentChatCustomer=
+currentUser.uid;
+
+currentChatRole="customer";
+
+openChat(
+currentUser.uid,
+"Admin",
+"customer"
+);
+
+}
+
+window.openCustomerChat=
+openCustomerChat;
+
+
+async function adminChatList(){
+
+const all=await getAllBills();
+
+const users={};
+
+all.forEach(b=>{
+
+if(!users[b.uid]){
+
+users[b.uid]=
+b.customer?.name||
+"Dukandar";
+
+}
+
+});
+
+let h="<h3>💬 Chat List</h3>";
+
+Object.entries(users).forEach(
+([uid,name])=>{
+
+h+=`
+
+<div class="adminItem">
+
+<b>🏪 ${esc(name)}</b>
+
+<br><br>
+
+<button
+class="primary"
+onclick="adminCustomerChat('${uid}')">
+
+Open Chat
+
+</button>
+
+</div>
+
+`;
+
+});
+
+if(!Object.keys(users).length){
+
+h+="<p>Abhi koi customer nahi hai.</p>";
+
+}
+
+document.getElementById("adminArea")
+.innerHTML=h;
+
+}
+
+window.adminChatList=
+adminChatList;
+
+
+async function adminCustomerChat(uid){
+
+if(currentRole!=="admin")
+return;
+
+currentChatCustomer=uid;
+currentChatRole="admin";
+
+const all=await getAllBills();
+
+const b=
+all.find(x=>x.uid===uid);
+
+openChat(
+uid,
+b?.customer?.name||"Dukandar",
+"admin"
+);
+
+}
+
+window.adminCustomerChat=
+adminCustomerChat;
+
+
+async function openChat(uid,name,role){
+
+const data=
+await dbGet("chats/"+uid);
+
+let messages=[];
+
+if(data){
+
+messages=
+Object.entries(data)
+.map(([id,m])=>({
+id,
+...m
+}));
+
+messages.sort(
+(a,b)=>
+Number(a.time||0)-
+Number(b.time||0)
+);
+
+}
+
+let html=`
+
+<div class="head">
+
+<h2>💬 ${esc(name)}</h2>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
+</div>
+
+<div
+id="chatWindow"
+class="chatWindow">
+
+`;
+
+messages.forEach(m=>{
+
+html+=`
+
+<div class="msg ${m.from}">
+
+${m.type==="text"
+?esc(m.text)
+:""}
+
+${m.type==="image"
+?`<img src="${esc(m.data)}">`
+:""}
+
+${m.type==="voice"
+?`<audio controls src="${esc(m.data)}"></audio>`
+:""}
+
+<br>
+
+<small>
+${esc(m.date||"")}
+</small>
+
+</div>
+
+`;
+
+});
+
+html+=`
+
+</div>
+
+<div class="chatTools">
+
+<input
+id="chatText"
+placeholder="Message...">
+
+<button
+onclick="sendTextChat()">
+➤
+</button>
+
+<button
+onclick="startVoice()">
+🎤
+</button>
+
+<label style="padding:10px">
+
+🖼️
+
+<input
+class="chatFile"
+id="chatImage"
+type="file"
+accept="image/*"
+onchange="sendChatImage()">
+
+</label>
+
+</div>
+
+`;
+
+openModal(html);
+
+setTimeout(()=>{
+
+const w=
+document.getElementById("chatWindow");
+
+if(w)
+w.scrollTop=w.scrollHeight;
+
+},100);
+
+}
+
+window.openChat=openChat;
+
+
+/* =========================
+ SEND CHAT TEXT
+========================= */
+
+async function sendTextChat(){
+
+const input=
+document.getElementById("chatText");
+
+if(!input)return;
+
+const text=input.value.trim();
+
+if(!text)return;
+
+const r=
+push(
+ref(
+db,
+"chats/"+currentChatCustomer
+)
+);
+
+await set(r,{
+
+from:currentChatRole,
+type:"text",
+text,
+
+date:
+new Date().toLocaleString("en-PK"),
+
+time:Date.now(),
+read:false
+
+});
+
+openChat(
+currentChatCustomer,
+
+currentChatRole==="admin"
+?
+"Dukandar"
+:
+"Admin",
+
+currentChatRole
+
+);
+
+}
+
+window.sendTextChat=
+sendTextChat;
+
+
+/* =========================
+ CHAT IMAGE
+========================= */
+
+async function sendChatImage(){
+
+const file=
+document.getElementById("chatImage")
+.files[0];
+
+if(!file)return;
+
+if(file.size>8*1024*1024){
+
+alert(
+"Image 8MB se choti honi chahiye."
+);
+
+return;
+
+}
+
+try{
+
+const r=storageRef(
+storage,
+"chat/"+
+currentChatCustomer+
+"/img_"+Date.now()
+);
+
+await uploadBytes(r,file);
+
+const url=
+await getDownloadURL(r);
+
+const msg=
+push(
+ref(
+db,
+"chats/"+currentChatCustomer
+)
+);
+
+await set(msg,{
+
+from:currentChatRole,
+type:"image",
+data:url,
+
+date:
+new Date().toLocaleString("en-PK"),
+
+time:Date.now(),
+read:false
+
+});
+
+openChat(
+currentChatCustomer,
+
+currentChatRole==="admin"
+?
+"Dukandar"
+:
+"Admin",
+
+currentChatRole
+
+);
+
+}catch(e){
+
+alert(
+"Image upload error:\n"+
+e.message
+);
+
+}
+
+}
+
+window.sendChatImage=
+sendChatImage;
+
+
+/* =========================
+ VOICE CHAT
+========================= */
+
+async function startVoice(){
+
+if(
+recorder &&
+recorder.state==="recording"
+){
+
+recorder.stop();
+
+return;
+
+}
+
+try{
+
+const stream=
+await navigator.mediaDevices
+.getUserMedia({
+audio:true
+});
+
+voiceChunks=[];
+
+recorder=
+new MediaRecorder(stream);
+
+recorder.ondataavailable=e=>{
+
+if(e.data.size)
+voiceChunks.push(e.data);
+
+};
+
+recorder.onstop=async()=>{
+
+const blob=
+new Blob(
+voiceChunks,
+{
+type:"audio/webm"
+}
+);
+
+try{
+
+const r=storageRef(
+storage,
+"chat/"+
+currentChatCustomer+
+"/voice_"+
+Date.now()+
+".webm"
+);
+
+await uploadBytes(r,blob);
+
+const url=
+await getDownloadURL(r);
+
+const msg=
+push(
+ref(
+db,
+"chats/"+currentChatCustomer
+)
+);
+
+await set(msg,{
+
+from:currentChatRole,
+type:"voice",
+data:url,
+
+date:
+new Date().toLocaleString("en-PK"),
+
+time:Date.now(),
+read:false
+
+});
+
+openChat(
+currentChatCustomer,
+
+currentChatRole==="admin"
+?
+"Dukandar"
+:
+"Admin",
+
+currentChatRole
+
+);
+
+}catch(e){
+
+alert(
+"Voice upload error:\n"+
+e.message
+);
+
+}
+
+stream
+.getTracks()
+.forEach(x=>x.stop());
+
+};
+
+recorder.start();
+
+showStatus(
+"🎤 Recording start — dobara button dabayein stop ke liye"
+);
+
+}catch(e){
+
+alert(
+"Microphone permission allow karein.\n\n"+
+e.message
+);
+
+}
+
+}
+
+window.startVoice=startVoice;
+
+
+/* =========================
+ GO PRODUCTS
+========================= */
+
+function goProducts(){
+
+document.getElementById("products")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+window.goProducts=goProducts;
+
+
+/* =========================
+ START
+========================= */
+
+try{
+
+await loadProducts();
+
+await loadStore();
+
+renderProducts();
+
+updateCart();
+
+}catch(e){
+
+console.error(
+"START ERROR:",
+e
+);
+
+alert(
+"Website Firebase se connect nahi ho rahi:\n\n"+
+e.message
+);
+
+}
+
+</script>
+
+</body>
+</html>
