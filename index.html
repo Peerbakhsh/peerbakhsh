@@ -3,214 +3,508 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>Peerbakhsh All In One Wholesale</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f4f7f5;
- color:#18221d;
- padding-bottom:75px
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f7f5;
+color:#18221d;
+padding-bottom:75px
 }
+
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
+
 header{
- position:sticky;
- top:0;
- z-index:50;
- background:#fff;
- border-bottom:1px solid #ddd;
- padding:12px 4%;
- display:flex;
- align-items:center;
- gap:10px
+position:sticky;
+top:0;
+z-index:50;
+background:#fff;
+border-bottom:1px solid #ddd;
+padding:10px 3%;
+display:flex;
+align-items:center;
+gap:7px
 }
-.logo{flex:1;color:#087443;font-weight:800;font-size:18px}
-.logo small{color:#555;font-size:11px}
+
+.logo{
+flex:1;
+color:#087443;
+font-weight:800;
+font-size:17px
+}
+
+.logo small{
+color:#555;
+font-size:10px
+}
+
+.headBtn{
+border:0;
+background:#edf4ef;
+padding:9px 10px;
+border-radius:8px;
+font-weight:bold;
+font-size:12px
+}
+
 .topcart{
- border:0;background:#ffc107;padding:10px 13px;
- border-radius:8px;font-weight:bold
+border:0;
+background:#ffc107;
+padding:9px 11px;
+border-radius:8px;
+font-weight:bold
 }
+
 .hero{
- background:linear-gradient(120deg,#056035,#0baa61);
- color:#fff;text-align:center;padding:35px 15px
+background:linear-gradient(120deg,#056035,#0baa61);
+color:#fff;
+text-align:center;
+padding:35px 15px
 }
+
 .hero h1{margin:0 0 8px}
-.wrap{max-width:1200px;margin:auto;padding:22px 4%}
+
+.wrap{
+max-width:1200px;
+margin:auto;
+padding:20px 4%
+}
+
 .search{
- width:100%;padding:13px;border:1px solid #ccd6d0;
- border-radius:8px;margin-bottom:15px
+width:100%;
+padding:13px;
+border:1px solid #ccd6d0;
+border-radius:8px;
+margin-bottom:15px
 }
+
 .grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
- gap:15px
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:15px
 }
-.card,.adminItem,.chatBox{
- background:#fff;border:1px solid #ddd;
- border-radius:12px;padding:14px;margin-top:10px
+
+.card,
+.adminItem,
+.chatBox{
+background:#fff;
+border:1px solid #ddd;
+border-radius:12px;
+padding:14px;
+margin-top:10px
 }
+
 .pic{
- height:160px;background:#edf4ef;border-radius:10px;
- display:grid;place-items:center;font-size:55px;overflow:hidden
+height:160px;
+background:#edf4ef;
+border-radius:10px;
+display:grid;
+place-items:center;
+font-size:55px;
+overflow:hidden
 }
-.pic img{width:100%;height:100%;object-fit:cover}
-.muted{color:#68736d;font-size:13px}
+
+.pic img{
+width:100%;
+height:100%;
+object-fit:cover
+}
+
+.muted{
+color:#68736d;
+font-size:13px
+}
+
 select,input,textarea{
- width:100%;padding:9px;border:1px solid #ccd6d0;
- border-radius:7px;margin-top:5px
+width:100%;
+padding:9px;
+border:1px solid #ccd6d0;
+border-radius:7px;
+margin-top:5px
 }
+
 button.primary{
- background:#087443;color:#fff;border:0;
- border-radius:8px;padding:10px 14px;font-weight:bold
+background:#087443;
+color:#fff;
+border:0;
+border-radius:8px;
+padding:10px 14px;
+font-weight:bold
 }
+
 button.green{
- background:#087443;color:#fff;border:0;
- padding:10px;border-radius:8px
+background:#087443;
+color:#fff;
+border:0;
+padding:10px;
+border-radius:8px
 }
+
 button.red{
- background:#ffe5e5;color:#c62828;
- border:0;padding:9px;border-radius:7px
+background:#ffe5e5;
+color:#c62828;
+border:0;
+padding:9px;
+border-radius:7px
 }
+
 button.gray{
- background:#eee;border:0;padding:9px 12px;border-radius:7px
+background:#eee;
+border:0;
+padding:9px 12px;
+border-radius:7px
 }
-button.blue{
- background:#1565c0;color:white;border:0;
- padding:10px;border-radius:8px
+
+.row{
+display:flex;
+gap:7px;
+margin-top:10px
 }
-.row{display:flex;gap:7px;margin-top:10px}
+
 .row>*{flex:1}
-.qty{display:flex;align-items:center;gap:5px;margin-top:10px}
+
+.qty{
+display:flex;
+align-items:center;
+gap:5px;
+margin-top:10px
+}
+
 .qty button{
- width:35px;height:35px;border:1px solid #ccc;
- background:#fff;border-radius:7px;font-size:18px
+width:35px;
+height:35px;
+border:1px solid #ccc;
+background:#fff;
+border-radius:7px;
+font-size:18px
 }
-.qty input{width:60px;text-align:center;margin:0}
+
+.qty input{
+width:60px;
+text-align:center;
+margin:0
+}
+
 .bottom{
- position:fixed;left:0;right:0;bottom:0;height:68px;
- background:#fff;border-top:1px solid #ddd;z-index:80;
- display:flex;justify-content:center
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+height:68px;
+background:#fff;
+border-top:1px solid #ddd;
+z-index:80;
+display:flex;
+justify-content:center
 }
+
 .bottom button{
- flex:1;border:0;background:#fff;font-size:11px
+flex:1;
+border:0;
+background:#fff;
+font-size:11px
 }
+
 .drawer{
- position:fixed;right:-500px;top:0;bottom:0;
- width:min(480px,96vw);background:#fff;z-index:100;
- padding:18px;overflow:auto;transition:.25s;
- box-shadow:-5px 0 20px #0003
+position:fixed;
+right:-500px;
+top:0;
+bottom:0;
+width:min(480px,96vw);
+background:#fff;
+z-index:100;
+padding:18px;
+overflow:auto;
+transition:.25s;
+box-shadow:-5px 0 20px #0003
 }
+
 .drawer.open{right:0}
+
 .shade{
- position:fixed;inset:0;background:#0007;
- z-index:90;display:none
+position:fixed;
+inset:0;
+background:#0007;
+z-index:90;
+display:none
 }
+
 .shade.show{display:block}
+
 .modal{
- position:fixed;inset:0;background:#0008;z-index:200;
- display:none;align-items:center;justify-content:center;padding:12px
+position:fixed;
+inset:0;
+background:#0008;
+z-index:200;
+display:none;
+align-items:center;
+justify-content:center;
+padding:12px
 }
+
 .modal.show{display:flex}
+
 .box{
- background:#fff;width:min(950px,100%);max-height:94vh;
- overflow:auto;border-radius:13px;padding:18px
+background:#fff;
+width:min(950px,100%);
+max-height:94vh;
+overflow:auto;
+border-radius:13px;
+padding:18px
 }
+
 .head{
- display:flex;justify-content:space-between;
- align-items:center;gap:10px
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px
 }
+
 .close{
- border:0;background:#eee;padding:8px 11px;
- border-radius:7px;font-size:18px
+border:0;
+background:#eee;
+padding:8px 11px;
+border-radius:7px;
+font-size:18px
 }
+
 .notice{
- background:#fff8dc;border:1px solid #efd36e;
- padding:12px;border-radius:8px;margin:10px 0
+background:#fff8dc;
+border:1px solid #efd36e;
+padding:12px;
+border-radius:8px;
+margin:10px 0
 }
+
 .billtable{
- width:100%;border-collapse:collapse;margin-top:10px
+width:100%;
+border-collapse:collapse;
+margin-top:10px
 }
-.billtable th,.billtable td{
- padding:7px;border-bottom:1px solid #ddd;text-align:left
+
+.billtable th,
+.billtable td{
+padding:7px;
+border-bottom:1px solid #ddd;
+text-align:left
 }
+
 .right{text-align:right}
-.balance{color:#c0392b;font-weight:bold}
-.paid{color:#087443;font-weight:bold}
+
+.balance{
+color:#c0392b;
+font-weight:bold
+}
+
+.paid{
+color:#087443;
+font-weight:bold
+}
+
 .marquee{
- background:#222;color:#fff;overflow:hidden;
- white-space:nowrap;padding:9px 0;font-weight:bold
+background:#222;
+color:#fff;
+overflow:hidden;
+white-space:nowrap;
+padding:9px 0;
+font-weight:bold
 }
+
 .marquee span{
- display:inline-block;padding-left:100%;
- animation:run 18s linear infinite
+display:inline-block;
+padding-left:100%;
+animation:run 18s linear infinite
 }
+
 @keyframes run{
- from{transform:translateX(0)}
- to{transform:translateX(-100%)}
+from{transform:translateX(0)}
+to{transform:translateX(-100%)}
 }
+
 .variantBox{
- background:#f7faf8;padding:10px;border-radius:8px;margin-top:10px
+background:#f7faf8;
+padding:10px;
+border-radius:8px;
+margin-top:10px
 }
+
 .rateBox{
- background:#e9f7ef;color:#087443;padding:10px;
- border-radius:8px;margin-top:10px;font-weight:bold;text-align:center
+background:#e9f7ef;
+color:#087443;
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+font-weight:bold;
+text-align:center
 }
-.infoText{white-space:pre-line;line-height:1.6}
-.on{color:#087443;font-weight:bold}
-.off{color:#c62828;font-weight:bold}
+
+.infoText{
+white-space:pre-line;
+line-height:1.6
+}
+
+.on{
+color:#087443;
+font-weight:bold
+}
+
+.off{
+color:#c62828;
+font-weight:bold
+}
+
 .status{
- position:fixed;top:75px;left:50%;
- transform:translateX(-50%);background:#087443;color:#fff;
- padding:8px 14px;border-radius:20px;z-index:500;display:none
+position:fixed;
+top:75px;
+left:50%;
+transform:translateX(-50%);
+background:#087443;
+color:#fff;
+padding:8px 14px;
+border-radius:20px;
+z-index:500;
+display:none
 }
+
 .status.show{display:block}
+
 .chatWindow{
- height:430px;overflow:auto;background:#eef2ef;
- padding:10px;border-radius:10px
+height:430px;
+overflow:auto;
+background:#eef2ef;
+padding:10px;
+border-radius:10px
 }
+
 .msg{
- max-width:78%;padding:9px;margin:7px 0;
- border-radius:10px;clear:both
+max-width:78%;
+padding:9px;
+margin:7px 0;
+border-radius:10px;
+clear:both
 }
+
 .msg.admin{
- float:left;background:#fff;border:1px solid #ddd
+float:left;
+background:#fff;
+border:1px solid #ddd
 }
+
 .msg.customer{
- float:right;background:#087443;color:#fff
+float:right;
+background:#087443;
+color:#fff
 }
-.msg img{max-width:190px;border-radius:8px;display:block}
-.msg audio{max-width:200px;display:block}
-.chatTools{display:flex;gap:5px;margin-top:8px}
-.chatTools button{border:0;padding:10px;border-radius:7px;background:#edf4ef}
+
+.msg img{
+max-width:190px;
+border-radius:8px;
+display:block
+}
+
+.msg audio{
+max-width:200px;
+display:block
+}
+
+.chatTools{
+display:flex;
+gap:5px;
+margin-top:8px
+}
+
+.chatTools button{
+border:0;
+padding:10px;
+border-radius:7px;
+background:#edf4ef
+}
+
 .chatFile{display:none}
-.mediaBox{
- background:#fff;border:1px solid #ddd;
- border-radius:12px;padding:14px;margin-top:10px
+
+.storeMedia{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:15px
 }
-.mediaButtons{
- display:flex;gap:10px;justify-content:center;
- flex-wrap:wrap;margin-top:10px
+
+.storeMedia video{
+width:100%;
+max-height:300px;
+border-radius:10px
 }
-.mediaButtons button{min-width:140px}
-.mediaBox video{
- width:100%;max-height:350px;border-radius:10px;margin-top:10px
+
+.audioStore{
+background:#fff;
+border:1px solid #ddd;
+padding:12px;
+border-radius:10px
 }
-.mediaBox audio{width:100%;margin-top:10px}
-.requestCard{
- background:#fff;border:1px solid #ddd;
- padding:14px;border-radius:12px;margin-top:10px
+
+.requestBox{
+background:#fff7e0;
+border:2px dashed #e0b800;
+padding:15px;
+border-radius:12px;
+margin-top:20px
 }
-.badge{
- display:inline-block;background:#e9f7ef;
- color:#087443;padding:4px 8px;border-radius:20px;
- font-size:12px;font-weight:bold
+
+.requestBox h3{
+margin-top:0
 }
-@media(max-width:650px){
- .row{flex-direction:column}
- .bottom button{font-size:10px}
+
+.requestPreview{
+max-width:120px;
+max-height:120px;
+border-radius:8px;
+display:none;
+margin-top:8px
+}
+
+.whatsapp{
+background:#25D366!important;
+color:#fff!important
+}
+
+@media(max-width:700px){
+
+header{
+padding:9px 2%
+}
+
+.logo{
+font-size:13px
+}
+
+.headBtn{
+font-size:10px;
+padding:8px 6px
+}
+
+.topcart{
+font-size:11px;
+padding:8px
+}
+
+.storeMedia{
+grid-template-columns:1fr
+}
+
+.row{
+flex-direction:column
+}
+
+.bottom button{
+font-size:9px
+}
+
 }
 </style>
 </head>
@@ -220,45 +514,48 @@ button.blue{
 <div id="status" class="status"></div>
 
 <header>
+
 <div class="logo">
 🛒 Peerbakhsh All In One Wholesale
 <br>
 <small>Sukkur • 0305-1933595</small>
 </div>
 
+<button class="headBtn" onclick="goProducts()">🔎 Search</button>
+
+<button class="headBtn" onclick="openCustomerChat()">💬 Chat</button>
+
+<button class="headBtn" onclick="customerAccount()">📒 Khata</button>
+
+<button class="headBtn" onclick="adminLogin()">⚙️ Admin</button>
+
 <button class="topcart" onclick="openCart()">
-🛒 Cart <span id="cartCount">0</span>
+🛒 <span id="cartCount">0</span>
 </button>
+
 </header>
 
 <div class="marquee">
-<span id="marqueeText">Peerbakhsh All In One Wholesale</span>
+<span id="marqueeText">
+Peerbakhsh All In One Wholesale
+</span>
 </div>
 
 <section class="hero">
+
 <h1>Peerbakhsh All In One Wholesale</h1>
+
 <p>Sukkur • Wholesale General Store</p>
 
 <button class="primary" onclick="goProducts()">
 Shop Now
 </button>
+
 </section>
 
 <section class="wrap">
 
 <h2>🏪 Dukaan ki Information</h2>
-
-<div class="mediaButtons">
-
-<button class="blue" onclick="playStoreVoice()">
-🎙️ Dukaan Voice
-</button>
-
-<button class="primary" onclick="playStoreVideo()">
-🎥 Dukaan Video / Ad
-</button>
-
-</div>
 
 <div id="storeMedia"></div>
 
@@ -274,31 +571,56 @@ oninput="renderProducts()">
 
 <div id="productGrid" class="grid"></div>
 
-<hr>
 
-<div class="requestCard">
+<!-- PRODUCT REQUEST -->
 
-<h2>📩 Product Request</h2>
+<div class="requestBox">
+
+<h3>📦 Product Nahi Mil Raha?</h3>
 
 <p class="muted">
-Jo product aapko chahiye aur list mein nahi hai,
-uski request Admin ko bhejein.
+Agar koi product website par nahi hai to uski request bhejein.
+Name, flavor, weight, unit, quantity, picture aur comment sab bhej sakte hain.
 </p>
 
-<input id="requestProduct"
-placeholder="Product ka naam">
+<label>Product Name *</label>
+<input id="reqName" placeholder="Product ka naam">
 
+<label>Flavor</label>
+<input id="reqFlavor" placeholder="Jaise Normal, Chocolate">
+
+<label>Weight</label>
+<input id="reqWeight" placeholder="Jaise 100g, 500g">
+
+<label>Unit</label>
+<input id="reqUnit" placeholder="Packet, Box, Carton">
+
+<label>Quantity *</label>
+<input id="reqQty" type="number" min="1" value="1">
+
+<label>Comment</label>
 <textarea
-id="requestNote"
+id="reqComment"
 rows="3"
-placeholder="Koi extra information..."></textarea>
+placeholder="Apni requirement likhein..."></textarea>
+
+<label>Product Picture</label>
+<input
+id="reqImage"
+type="file"
+accept="image/*"
+onchange="previewRequestImage()">
+
+<img id="requestPreview" class="requestPreview">
+
+<br>
 
 <button
 class="primary"
-style="margin-top:8px;width:100%"
-onclick="sendProductRequest()">
+style="width:100%;margin-top:12px"
+onclick="addRequestToCart()">
 
-📩 Request Admin Ko Bhejein
+➕ Request Cart Mein Add Karein
 
 </button>
 
@@ -306,32 +628,19 @@ onclick="sendProductRequest()">
 
 </main>
 
-<div class="bottom">
 
-<button onclick="goProducts()">🏠 Home</button>
-
-<button onclick="document.getElementById('search').focus()">🔎 Search</button>
-
-<button onclick="openCart()">
-🛒 Cart <span id="bottomCount">0</span>
-</button>
-
-<button onclick="openCustomerChat()">💬 Chat</button>
-
-<button onclick="customerAccount()">📒 Khata</button>
-
-<!-- ADMIN BUTTON DYNAMICALLY SIRF ADMIN KE LIYE -->
-<span id="adminNav"></span>
-
-</div>
+<!-- CART -->
 
 <div id="shade" class="shade" onclick="closeCart()"></div>
 
 <aside id="cartDrawer" class="drawer">
 
 <div class="head">
+
 <h2>🛒 Cart</h2>
+
 <button class="close" onclick="closeCart()">✕</button>
+
 </div>
 
 <div id="cartItems"></div>
@@ -340,30 +649,90 @@ onclick="sendProductRequest()">
 Total: Rs. <span id="cartTotal">0</span>
 </h3>
 
-<button class="primary" style="width:100%" onclick="checkout()">
-🧾 Order
+<button
+class="primary"
+style="width:100%"
+onclick="checkout()">
+
+🧾 Order / WhatsApp
+
 </button>
 
 </aside>
 
+
+<!-- MODAL -->
+
 <div id="modal" class="modal">
+
 <div id="modalBox" class="box"></div>
+
 </div>
 
+
+<!-- BILL -->
+
 <div id="billModal" class="modal">
+
 <div class="box">
+
 <div id="billContent"></div>
+
 <div class="row">
-<button class="primary" onclick="window.print()">🖨 Print</button>
-<button class="gray" onclick="closeBill()">Close</button>
+
+<button class="primary" onclick="window.print()">
+🖨 Print
+</button>
+
+<button class="gray" onclick="closeBill()">
+Close
+</button>
+
 </div>
+
 </div>
+
 </div>
+
+
+<!-- BOTTOM -->
+
+<div class="bottom">
+
+<button onclick="goProducts()">
+🏠 Home
+</button>
+
+<button onclick="document.getElementById('search').focus()">
+🔎 Search
+</button>
+
+<button onclick="openCart()">
+🛒 Cart <span id="bottomCount">0</span>
+</button>
+
+<button onclick="openCustomerChat()">
+💬 Chat
+</button>
+
+<button onclick="customerAccount()">
+📒 Khata
+</button>
+
+<button onclick="adminLogin()">
+⚙️ Admin
+</button>
+
+</div>
+
 
 <script type="module">
 
-import {initializeApp}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 getAuth,
@@ -371,7 +740,8 @@ signInWithEmailAndPassword,
 onAuthStateChanged,
 signOut
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
 getDatabase,
@@ -382,7 +752,8 @@ get,
 update,
 remove
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 import {
 getStorage,
@@ -390,12 +761,13 @@ ref as storageRef,
 uploadBytes,
 getDownloadURL
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 
-/* =========================================================
+/* =========================
  FIREBASE
-========================================================= */
+========================= */
 
 const firebaseConfig={
 
@@ -421,19 +793,26 @@ appId:
 
 measurementId:
 "G-5XJ3Y3D22W"
+
 };
 
+
 const app=initializeApp(firebaseConfig);
+
 const auth=getAuth(app);
+
 const db=getDatabase(app);
+
 const storage=getStorage(app);
 
 
-/* =========================================================
- ADMIN
-========================================================= */
+/* =========================
+ SETTINGS
+========================= */
 
 const ADMIN_EMAIL="peerbakhsh144@gmail.com";
+
+const WHATSAPP="923051933595";
 
 let currentUser=null;
 let currentRole="guest";
@@ -442,9 +821,9 @@ let products=[];
 let cart=[];
 
 let store={
- marquee:"Peerbakhsh All In One Wholesale",
- voice:"",
- video:""
+marquee:"Peerbakhsh All In One Wholesale",
+voice:"",
+video:""
 };
 
 let currentChatCustomer=null;
@@ -454,103 +833,134 @@ let recorder=null;
 let voiceChunks=[];
 
 
-/* =========================================================
+/* =========================
  HELPERS
-========================================================= */
+========================= */
 
 function esc(s){
+
 return String(s??"")
 .replace(/[&<>"']/g,m=>({
+
 "&":"&amp;",
 "<":"&lt;",
 ">":"&gt;",
 '"':"&quot;",
 "'":"&#39;"
+
 }[m]));
+
 }
 
 function money(n){
-return Number(n||0).toLocaleString("en-PK");
+
+return Number(n||0)
+.toLocaleString("en-PK");
+
 }
 
 function showStatus(t){
-let x=document.getElementById("status");
+
+const x=document.getElementById("status");
+
 x.textContent=t;
 x.classList.add("show");
+
 setTimeout(()=>{
-x.classList.remove("show");
+x.classList.remove("show")
 },2500);
+
 }
 
 
-/* =========================================================
- MODALS
-========================================================= */
+/* =========================
+ MODAL
+========================= */
 
 function openModal(html){
+
 document.getElementById("modalBox").innerHTML=html;
+
 document.getElementById("modal").classList.add("show");
+
 }
 
 function closeModal(){
+
 document.getElementById("modal").classList.remove("show");
+
 document.getElementById("modalBox").innerHTML="";
+
 }
+
 window.closeModal=closeModal;
 
+
 function closeCart(){
+
 document.getElementById("shade").classList.remove("show");
+
 document.getElementById("cartDrawer").classList.remove("open");
+
 }
+
 window.closeCart=closeCart;
 
+
 function closeBill(){
+
 document.getElementById("billModal").classList.remove("show");
+
 }
+
 window.closeBill=closeBill;
 
+
 function closeAll(){
+
 closeModal();
 closeCart();
 closeBill();
+
 }
+
 window.closeAll=closeAll;
 
 
-/* =========================================================
- ADMIN NAVIGATION
- IMPORTANT:
- CUSTOMER KO ADMIN BUTTON NAHI MILEGA
-========================================================= */
+/* =========================
+ DATABASE
+========================= */
 
-function renderAdminNav(){
+async function dbGet(path){
 
-let box=document.getElementById("adminNav");
+const snap=await get(ref(db,path));
 
-if(!box)return;
-
-if(currentRole==="admin" &&
-   currentUser &&
-   currentUser.email===ADMIN_EMAIL){
-
-box.innerHTML=`
-<button onclick="adminPanel()">
-⚙️ Admin
-</button>
-`;
-
-}else{
-
-box.innerHTML="";
+return snap.exists()?snap.val():null;
 
 }
 
+async function dbSet(path,data){
+
+await set(ref(db,path),data);
+
+}
+
+async function dbUpdate(path,data){
+
+await update(ref(db,path),data);
+
+}
+
+async function dbRemove(path){
+
+await remove(ref(db,path));
+
 }
 
 
-/* =========================================================
- AUTH
-========================================================= */
+/* =========================
+ AUTH STATE
+========================= */
 
 onAuthStateChanged(auth,user=>{
 
@@ -559,50 +969,74 @@ currentUser=user;
 if(!user){
 
 currentRole="guest";
+return;
 
-}else if(
+}
+
+if(
 user.email &&
-user.email.toLowerCase()===ADMIN_EMAIL.toLowerCase()
+user.email.toLowerCase()===
+ADMIN_EMAIL.toLowerCase()
 ){
 
 currentRole="admin";
+
+showStatus("✅ Admin Login");
 
 }else{
 
 currentRole="customer";
 
-}
-
-renderAdminNav();
-renderProducts();
-
-if(currentRole==="admin"){
-showStatus("✅ Admin Login");
-}else if(currentRole==="customer"){
 showStatus("✅ Dukandar Login");
+
 }
 
 });
 
 
-/* =========================================================
+/* =========================
  ADMIN LOGIN
-========================================================= */
+========================= */
 
 function adminLogin(){
+
+if(
+currentUser &&
+currentUser.email &&
+currentUser.email.toLowerCase()===
+ADMIN_EMAIL.toLowerCase()
+){
+
+adminPanel();
+return;
+
+}
 
 openModal(`
 
 <div class="head">
+
 <h2>🔐 Admin Login</h2>
-<button class="close" onclick="closeModal()">✕</button>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
 </div>
+
+<p class="muted">
+Admin email already set hai.
+Sirf password enter karein.
+</p>
+
+<label>Admin Email</label>
 
 <input
 id="loginEmail"
 type="email"
-value="${ADMIN_EMAIL}"
-placeholder="Admin Email">
+value="${ADMIN_EMAIL}">
+
+<label>Password</label>
 
 <input
 id="loginPassword"
@@ -611,63 +1045,104 @@ placeholder="Admin Password">
 
 <br><br>
 
-<button class="primary" onclick="doLogin()">
-Login
+<button
+class="primary"
+onclick="doLogin()">
+
+🔐 Login
+
 </button>
 
 `);
 
 }
+
 window.adminLogin=adminLogin;
 
 
 async function doLogin(){
 
-let email=document.getElementById("loginEmail").value.trim();
-let password=document.getElementById("loginPassword").value;
+const email=
+document.getElementById("loginEmail")
+.value.trim();
+
+const password=
+document.getElementById("loginPassword")
+.value;
 
 if(!email||!password){
-alert("Email aur Password required hai.");
-return;
-}
 
-if(email.toLowerCase()!==ADMIN_EMAIL.toLowerCase()){
-alert("❌ Ye Admin email nahi hai.");
+alert("Email aur Password required hai.");
+
 return;
+
 }
 
 try{
 
+const result=
 await signInWithEmailAndPassword(
-auth,email,password
+auth,
+email,
+password
 );
+
+if(
+result.user.email.toLowerCase()===
+ADMIN_EMAIL.toLowerCase()
+){
+
+currentUser=result.user;
+currentRole="admin";
 
 closeModal();
 
+showStatus("✅ Admin Login Successful");
+
 setTimeout(()=>{
 adminPanel();
-},500);
+},300);
+
+}else{
+
+await signOut(auth);
+
+alert("Ye Admin Email nahi hai.");
+
+}
 
 }catch(e){
 
-alert("Admin Login Failed:\n"+e.message);
+console.error(e);
+
+alert(
+"Admin Login Failed:\n\n"+
+e.message
+);
 
 }
 
 }
 
+window.doLogin=doLogin;
 
-/* =========================================================
+
+/* =========================
  CUSTOMER LOGIN
-========================================================= */
+========================= */
 
 function customerLogin(){
 
 openModal(`
 
 <div class="head">
+
 <h2>🏪 Dukandar Login</h2>
-<button class="close" onclick="closeModal()">✕</button>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
 </div>
 
 <input
@@ -682,46 +1157,58 @@ placeholder="Password">
 
 <br><br>
 
-<button class="primary" onclick="customerDoLogin()">
+<button
+class="primary"
+onclick="customerDoLogin()">
+
 Login
+
 </button>
 
 `);
 
 }
+
 window.customerLogin=customerLogin;
 
 
 async function customerDoLogin(){
 
-let email=document.getElementById("customerEmail").value.trim();
-let password=document.getElementById("customerPassword").value;
+const email=
+document.getElementById("customerEmail")
+.value.trim();
 
-if(!email||!password){
-alert("Email aur Password required hai.");
-return;
-}
+const password=
+document.getElementById("customerPassword")
+.value;
 
 try{
 
 await signInWithEmailAndPassword(
-auth,email,password
+auth,
+email,
+password
 );
 
 closeModal();
 
 }catch(e){
 
-alert("Login failed:\n"+e.message);
+alert(
+"Login failed:\n"+
+e.message
+);
 
 }
 
 }
 
+window.customerDoLogin=customerDoLogin;
 
-/* =========================================================
+
+/* =========================
  LOGOUT
-========================================================= */
+========================= */
 
 async function logout(){
 
@@ -730,192 +1217,77 @@ await signOut(auth);
 currentUser=null;
 currentRole="guest";
 
-renderAdminNav();
-
 closeAll();
 
 showStatus("Logout ho gaya");
 
 }
+
 window.logout=logout;
 
 
-/* =========================================================
- DATABASE
-========================================================= */
-
-async function dbGet(path){
-let snap=await get(ref(db,path));
-return snap.exists()?snap.val():null;
-}
-
-async function dbSet(path,data){
-await set(ref(db,path),data);
-}
-
-async function dbUpdate(path,data){
-await update(ref(db,path),data);
-}
-
-async function dbRemove(path){
-await remove(ref(db,path));
-}
-
-
-/* =========================================================
- 60 DEFAULT PRODUCTS
-========================================================= */
-
-function makeDefaultProducts(){
-
-const names=[
-"Pika Nut",
-"Season Chocolaty",
-"National Biscuits",
-"Sooper Biscuits",
-"Peek Freans",
-"Rio Biscuits",
-"Chocolate Wafers",
-"Vanilla Wafers",
-"Salted Biscuits",
-"Milk Biscuits",
-"Glucose Biscuits",
-"Cream Biscuits",
-"Chocolate Cake",
-"Plain Cake",
-"Fruit Cake",
-"Rusks",
-"Namkeen Mix",
-"Dal Moth",
-"Peanuts",
-"Chana",
-"Salted Peanuts",
-"Masala Peanuts",
-"Potato Chips",
-"Masala Chips",
-"Papad",
-"Spicy Papad",
-"Jelly",
-"Toffee Mix",
-"Chocolate Toffee",
-"Mint Toffee",
-"Lolipop",
-"Chewing Gum",
-"Milk Candy",
-"Chocolate Candy",
-"Tea Pack",
-"Green Tea",
-"Coffee",
-"Milk Powder",
-"Cocoa Powder",
-"Custard Powder",
-"Jelly Powder",
-"Vermicelli",
-"Macaroni",
-"Spaghetti",
-"Noodles",
-"Tomato Ketchup",
-"Chilli Sauce",
-"Soy Sauce",
-"Vinegar",
-"Mayonnaise",
-"Cooking Oil",
-"Salt",
-"Sugar",
-"Red Chilli",
-"Turmeric Powder",
-"Coriander Powder",
-"Black Pepper",
-"Mixed Spices",
-"Tea Biscuits",
-"Family Biscuits",
-"Dry Fruit Mix"
-];
-
-return names.map((name,i)=>({
-
-name:name,
-
-icon:i%5===0?"🍪":
-     i%5===1?"🍫":
-     i%5===2?"🥜":
-     i%5===3?"📦":"🛒",
-
-image:"",
-
-shortInfo:"Wholesale "+name,
-
-info:
-name+
-" wholesale product.\n"+
-"Quality product available at wholesale rate.\n"+
-"Contact Peerbakhsh All In One Wholesale for details.",
-
-price:100+(i*10),
-
-active:true,
-
-flavors:[
-{name:"Normal",price:100+(i*10)},
-{name:"Masala",price:110+(i*10)},
-{name:"Special",price:120+(i*10)}
-],
-
-weights:[
-{name:"100g",price:100+(i*10)},
-{name:"250g",price:240+(i*10)},
-{name:"500g",price:450+(i*10)}
-],
-
-units:[
-{name:"Packet",price:100+(i*10)},
-{name:"Box",price:1000+(i*100)},
-{name:"Carton",price:2200+(i*200)}
-]
-
-}));
-
-}
-
-
-/* =========================================================
- LOAD PRODUCTS
-========================================================= */
+/* =========================
+ PRODUCTS
+========================= */
 
 async function loadProducts(){
 
 try{
 
-let data=await dbGet("products");
+const data=await dbGet("products");
 
-if(!data){
+if(data){
 
-let defaults=makeDefaultProducts();
-
-let jobs=[];
-
-defaults.forEach(p=>{
-
-let r=push(ref(db,"products"));
-
-jobs.push(
-set(r,p)
-);
-
-});
-
-await Promise.all(jobs);
-
-data=await dbGet("products");
-
-}
-
-products=Object.entries(data||{}).map(
+products=
+Object.entries(data).map(
 ([id,p])=>({
 id,
 ...p
 })
 );
+
+}else{
+
+const r=push(ref(db,"products"));
+
+const first={
+
+name:"Pika Nut",
+icon:"🥜",
+image:"",
+info:
+"Pika Nut wholesale product.\nQuality product.",
+shortInfo:"Wholesale Pika Nut",
+price:120,
+active:true,
+
+flavors:[
+{name:"Normal",price:120},
+{name:"Chocolate",price:130},
+{name:"Vanilla",price:135}
+],
+
+weights:[
+{name:"100g",price:120},
+{name:"250g",price:280},
+{name:"500g",price:520}
+],
+
+units:[
+{name:"Packet",price:120},
+{name:"Box",price:1200},
+{name:"Carton",price:2400}
+]
+
+};
+
+await set(r,first);
+
+first.id=r.key;
+
+products=[first];
+
+}
 
 renderProducts();
 
@@ -923,53 +1295,54 @@ renderProducts();
 
 console.error(e);
 
-alert(
-"Products load error:\n"+
-e.message
-);
+showStatus("⚠️ Products load nahi hue");
 
 }
 
 }
 
 
-/* =========================================================
+/* =========================
  VARIANT RATE
-========================================================= */
+========================= */
 
 function getSelectedVariant(id){
 
-let p=products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return null;
 
-let flavorEl=document.getElementById("flavor_"+id);
-let weightEl=document.getElementById("weight_"+id);
-let unitEl=document.getElementById("unit_"+id);
+const flavor=
+document.getElementById("flavor_"+id)?.value||"";
 
-let flavor=flavorEl?.value||"";
-let weight=weightEl?.value||"";
-let unit=unitEl?.value||"";
+const weight=
+document.getElementById("weight_"+id)?.value||"";
 
-let flavorObj=(p.flavors||[])
+const unit=
+document.getElementById("unit_"+id)?.value||"";
+
+const f=
+(p.flavors||[])
 .find(x=>x.name===flavor);
 
-let weightObj=(p.weights||[])
+const w=
+(p.weights||[])
 .find(x=>x.name===weight);
 
-let unitObj=(p.units||[])
+const u=
+(p.units||[])
 .find(x=>x.name===unit);
 
 let price=Number(p.price||0);
 
-if(flavorObj&&flavorObj.price!==undefined)
-price=Number(flavorObj.price);
+if(f&&f.price!==undefined)
+price=Number(f.price);
 
-if(weightObj&&weightObj.price!==undefined)
-price=Number(weightObj.price);
+if(w&&w.price!==undefined)
+price=Number(w.price);
 
-if(unitObj&&unitObj.price!==undefined)
-price=Number(unitObj.price);
+if(u&&u.price!==undefined)
+price=Number(u.price);
 
 return{
 flavor,
@@ -979,46 +1352,88 @@ price
 };
 
 }
+
 window.getSelectedVariant=getSelectedVariant;
 
 
 function updateProductRate(id){
 
-let v=getSelectedVariant(id);
-let el=document.getElementById("rate_"+id);
+const v=getSelectedVariant(id);
 
-if(el&&v)
-el.textContent=money(v.price);
+const el=
+document.getElementById("rate_"+id);
+
+if(el&&v){
+
+el.textContent=
+"Rs. "+money(v.price);
 
 }
+
+}
+
 window.updateProductRate=updateProductRate;
 
 
-/* =========================================================
+/* =========================
  RENDER PRODUCTS
-========================================================= */
+========================= */
 
 function renderProducts(){
 
-let grid=document.getElementById("productGrid");
+const grid=
+document.getElementById("productGrid");
 
 if(!grid)return;
 
-let q=(document.getElementById("search")?.value||"")
+const q=
+(document.getElementById("search")?.value||"")
 .toLowerCase();
 
-let list=products.filter(p=>
+const list=
+products.filter(p=>
+
 p.active!==false &&
-String(p.name||"").toLowerCase().includes(q)
+
+String(p.name||"")
+.toLowerCase()
+.includes(q)
+
 );
 
-grid.innerHTML=list.map(p=>{
+if(!list.length){
 
-let flavors=p.flavors||[];
-let weights=p.weights||[];
-let units=p.units||[];
+grid.innerHTML=`
 
-let flavorHTML=flavors.length?`
+<div class="card">
+
+<h3>📦 Product nahi mila</h3>
+
+<p>
+Neeche <b>Product Request</b> box se
+request bhej dein.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+grid.innerHTML=
+list.map(p=>{
+
+const flavors=p.flavors||[];
+const weights=p.weights||[];
+const units=p.units||[];
+
+let flavorHTML="";
+
+if(flavors.length){
+
+flavorHTML=`
 
 <label>Flavor</label>
 
@@ -1029,16 +1444,26 @@ onchange="updateProductRate('${p.id}')">
 ${flavors.map(x=>`
 
 <option value="${esc(x.name)}">
-${esc(x.name)} -
+
+${esc(x.name)}
+-
 Rs. ${money(x.price)}
+
 </option>
 
 `).join("")}
 
 </select>
-`:"";
 
-let weightHTML=weights.length?`
+`;
+
+}
+
+let weightHTML="";
+
+if(weights.length){
+
+weightHTML=`
 
 <label>Weight</label>
 
@@ -1049,16 +1474,26 @@ onchange="updateProductRate('${p.id}')">
 ${weights.map(x=>`
 
 <option value="${esc(x.name)}">
-${esc(x.name)} -
+
+${esc(x.name)}
+-
 Rs. ${money(x.price)}
+
 </option>
 
 `).join("")}
 
 </select>
-`:"";
 
-let unitHTML=units.length?`
+`;
+
+}
+
+let unitHTML="";
+
+if(units.length){
+
+unitHTML=`
 
 <label>Unit</label>
 
@@ -1069,14 +1504,20 @@ onchange="updateProductRate('${p.id}')">
 ${units.map(x=>`
 
 <option value="${esc(x.name)}">
-${esc(x.name)} -
+
+${esc(x.name)}
+-
 Rs. ${money(x.price)}
+
 </option>
 
 `).join("")}
 
 </select>
-`:"";
+
+`;
+
+}
 
 return`
 
@@ -1107,18 +1548,22 @@ ${weightHTML}
 ${unitHTML}
 
 <div class="rateBox">
+
 Rate:
-Rs.
 <span id="rate_${p.id}">
-${money(p.price)}
+Rs. ${money(p.price)}
 </span>
+
 </div>
 
 </div>
 
 <div class="qty">
 
-<button onclick="changeQty('${p.id}',-1)">−</button>
+<button
+onclick="changeQty('${p.id}',-1)">
+−
+</button>
 
 <input
 id="qty${p.id}"
@@ -1126,7 +1571,10 @@ type="number"
 min="1"
 value="1">
 
-<button onclick="changeQty('${p.id}',1)">+</button>
+<button
+onclick="changeQty('${p.id}',1)">
++
+</button>
 
 </div>
 
@@ -1163,16 +1611,18 @@ updateProductRate(p.id);
 });
 
 }
+
 window.renderProducts=renderProducts;
 
 
-/* =========================================================
+/* =========================
  QUANTITY
-========================================================= */
+========================= */
 
 function changeQty(id,n){
 
-let el=document.getElementById("qty"+id);
+const el=
+document.getElementById("qty"+id);
 
 if(!el)return;
 
@@ -1185,30 +1635,19 @@ if(q<1)q=1;
 el.value=q;
 
 }
+
 window.changeQty=changeQty;
 
 
-/* =========================================================
+/* =========================
  PRODUCT INFO
-========================================================= */
+========================= */
 
 function showProductInfo(id){
 
-let p=products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
-
-let flavorText=(p.flavors||[])
-.map(x=>`${esc(x.name)}: Rs. ${money(x.price)}`)
-.join("<br>");
-
-let weightText=(p.weights||[])
-.map(x=>`${esc(x.name)}: Rs. ${money(x.price)}`)
-.join("<br>");
-
-let unitText=(p.units||[])
-.map(x=>`${esc(x.name)}: Rs. ${money(x.price)}`)
-.join("<br>");
 
 openModal(`
 
@@ -1219,14 +1658,21 @@ ${esc(p.icon||"📦")}
 ${esc(p.name)}
 </h2>
 
-<button class="close" onclick="closeModal()">✕</button>
+<button
+class="close"
+onclick="closeModal()">✕</button>
 
 </div>
 
 <hr>
 
 <div class="infoText">
-${esc(p.info||"Product information available nahi hai.")}
+
+${esc(
+p.info||
+"Product information available nahi hai."
+)}
+
 </div>
 
 <hr>
@@ -1235,69 +1681,113 @@ ${esc(p.info||"Product information available nahi hai.")}
 
 <p>Rs. ${money(p.price)}</p>
 
-${flavorText?`
+${
+(p.flavors||[]).length
+?
+`
 <hr>
-<h3>🌈 Flavors & Rates</h3>
-<p>${flavorText}</p>
-`:""}
+<h3>🌈 Flavors</h3>
+<p>
+${p.flavors.map(x=>
+`${esc(x.name)}:
+Rs. ${money(x.price)}`
+).join("<br>")}
+</p>
+`
+:""
+}
 
-${weightText?`
+${
+(p.weights||[]).length
+?
+`
 <hr>
-<h3>⚖️ Weights & Rates</h3>
-<p>${weightText}</p>
-`:""}
+<h3>⚖️ Weights</h3>
+<p>
+${p.weights.map(x=>
+`${esc(x.name)}:
+Rs. ${money(x.price)}`
+).join("<br>")}
+</p>
+`
+:""
+}
 
-${unitText?`
+${
+(p.units||[]).length
+?
+`
 <hr>
-<h3>📦 Units & Rates</h3>
-<p>${unitText}</p>
-`:""}
+<h3>📦 Units</h3>
+<p>
+${p.units.map(x=>
+`${esc(x.name)}:
+Rs. ${money(x.price)}`
+).join("<br>")}
+</p>
+`
+:""
+}
 
-<button class="primary" onclick="closeModal()">
+<br>
+
+<button
+class="primary"
+onclick="closeModal()">
+
 Close
+
 </button>
 
 `);
 
 }
+
 window.showProductInfo=showProductInfo;
 
 
-/* =========================================================
- CART
-========================================================= */
+/* =========================
+ CART NORMAL PRODUCT
+========================= */
 
 function addCart(id){
 
-let p=products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
 
-let qty=
-Number(document.getElementById("qty"+id)?.value)||1;
+const qty=
+Number(
+document.getElementById("qty"+id)?.value
+)||1;
 
-let v=getSelectedVariant(id);
-
-if(!v){
-v={
+const v=
+getSelectedVariant(id)||{
 flavor:"",
 weight:"",
 unit:"",
 price:Number(p.price||0)
 };
-}
 
-let old=cart.find(x=>
+const old=
+cart.find(x=>
+
 x.id===id &&
+x.request!==true &&
 x.flavor===v.flavor &&
 x.weight===v.weight &&
 x.unit===v.unit
+
 );
 
 if(old){
+
 old.qty+=qty;
+
 }else{
+
 cart.push({
+
 id:p.id,
 name:p.name,
 icon:p.icon,
@@ -1305,8 +1795,11 @@ flavor:v.flavor,
 weight:v.weight,
 unit:v.unit,
 price:v.price,
-qty:qty
+qty,
+request:false
+
 });
+
 }
 
 updateCart();
@@ -1315,49 +1808,287 @@ openCart();
 showStatus("🛒 Cart mein add ho gaya");
 
 }
+
 window.addCart=addCart;
 
 
+/* =========================
+ REQUEST IMAGE PREVIEW
+========================= */
+
+function previewRequestImage(){
+
+const file=
+document.getElementById("reqImage")
+.files[0];
+
+const img=
+document.getElementById("requestPreview");
+
+if(!file){
+
+img.style.display="none";
+return;
+
+}
+
+img.src=
+URL.createObjectURL(file);
+
+img.style.display="block";
+
+}
+
+window.previewRequestImage=
+previewRequestImage;
+
+
+/* =========================
+ PRODUCT REQUEST TO CART
+========================= */
+
+async function addRequestToCart(){
+
+const name=
+document.getElementById("reqName")
+.value.trim();
+
+const flavor=
+document.getElementById("reqFlavor")
+.value.trim();
+
+const weight=
+document.getElementById("reqWeight")
+.value.trim();
+
+const unit=
+document.getElementById("reqUnit")
+.value.trim();
+
+const qty=
+Number(
+document.getElementById("reqQty")
+.value
+)||1;
+
+const comment=
+document.getElementById("reqComment")
+.value.trim();
+
+const file=
+document.getElementById("reqImage")
+.files[0];
+
+if(!name){
+
+alert("Product Name zaroor likhein.");
+
+return;
+
+}
+
+let image="";
+
+if(file){
+
+if(file.size>8*1024*1024){
+
+alert("Picture 8MB se choti honi chahiye.");
+
+return;
+
+}
+
+try{
+
+const r=storageRef(
+storage,
+"requests/"+Date.now()+"_"+file.name
+);
+
+await uploadBytes(r,file);
+
+image=
+await getDownloadURL(r);
+
+}catch(e){
+
+alert(
+"Picture upload error:\n"+
+e.message
+);
+
+return;
+
+}
+
+}
+
+cart.push({
+
+id:"request_"+Date.now(),
+
+name,
+
+icon:"📦",
+
+flavor,
+
+weight,
+
+unit,
+
+price:0,
+
+qty,
+
+comment,
+
+image,
+
+request:true
+
+});
+
+updateCart();
+
+showStatus(
+"📦 Product Request Cart mein add ho gayi"
+);
+
+document.getElementById("reqName").value="";
+document.getElementById("reqFlavor").value="";
+document.getElementById("reqWeight").value="";
+document.getElementById("reqUnit").value="";
+document.getElementById("reqQty").value="1";
+document.getElementById("reqComment").value="";
+document.getElementById("reqImage").value="";
+
+document.getElementById("requestPreview")
+.style.display="none";
+
+openCart();
+
+}
+
+window.addRequestToCart=
+addRequestToCart;
+
+
+/* =========================
+ CART
+========================= */
+
 function updateCart(){
 
-let count=cart.reduce(
-(a,x)=>a+Number(x.qty||0),0
+const count=
+cart.reduce(
+(a,x)=>a+Number(x.qty||0),
+0
 );
 
-let total=cart.reduce(
-(a,x)=>a+
-Number(x.qty||0)*Number(x.price||0),0
+const total=
+cart.reduce(
+(a,x)=>
+a+
+Number(x.qty||0)*
+Number(x.price||0),
+0
 );
 
-document.getElementById("cartCount").textContent=count;
-document.getElementById("bottomCount").textContent=count;
-document.getElementById("cartTotal").textContent=money(total);
+document.getElementById("cartCount")
+.textContent=count;
 
-document.getElementById("cartItems").innerHTML=
-cart.length?
+document.getElementById("bottomCount")
+.textContent=count;
+
+document.getElementById("cartTotal")
+.textContent=money(total);
+
+document.getElementById("cartItems")
+.innerHTML=
+
+cart.length
+
+?
+
 cart.map((x,i)=>`
 
 <div class="adminItem">
 
 <h3>
-${esc(x.icon||"📦")} ${esc(x.name)}
+${esc(x.icon||"📦")}
+${esc(x.name)}
 </h3>
 
-${x.flavor?`Flavor: <b>${esc(x.flavor)}</b><br>`:""}
-${x.weight?`Weight: <b>${esc(x.weight)}</b><br>`:""}
-${x.unit?`Unit: <b>${esc(x.unit)}</b><br>`:""}
+${
+x.request
+?
+`
+<div class="notice">
 
-Rate:
-Rs. ${money(x.price)}
-
-<br>
-
-Qty: ${x.qty}
+<b>📦 Product Request</b>
 
 <br>
 
-Amount:
-<b>Rs. ${money(x.price*x.qty)}</b>
+Price admin confirm karega.
+
+</div>
+`
+:""
+}
+
+${x.flavor?
+`Flavor: <b>${esc(x.flavor)}</b><br>`:""}
+
+${x.weight?
+`Weight: <b>${esc(x.weight)}</b><br>`:""}
+
+${x.unit?
+`Unit: <b>${esc(x.unit)}</b><br>`:""}
+
+${
+x.comment
+?
+`Comment:
+<b>${esc(x.comment)}</b><br>`
+:""
+}
+
+${
+x.image
+?
+`<img
+src="${esc(x.image)}"
+style="max-width:100px;border-radius:8px;margin-top:8px">`
+:""
+}
+
+<br>
+
+Qty:
+<b>${x.qty}</b>
+
+<br>
+
+${
+x.request
+?
+`Rate: <b>Admin Confirm</b>`
+:
+`Rate: Rs. ${money(x.price)}`
+}
+
+<br>
+
+${
+x.request
+?
+``
+:
+`Amount:
+<b>Rs. ${money(x.price*x.qty)}</b>`
+}
 
 <br><br>
 
@@ -1372,38 +2103,52 @@ onclick="deleteCart(${i})">
 </div>
 
 `).join("")
+
 :
+
 "<p>Cart empty hai.</p>";
 
 }
+
 window.updateCart=updateCart;
 
 
 function deleteCart(i){
+
 cart.splice(i,1);
+
 updateCart();
+
 }
+
 window.deleteCart=deleteCart;
 
 
 function openCart(){
 
-document.getElementById("shade").classList.add("show");
-document.getElementById("cartDrawer").classList.add("open");
+document.getElementById("shade")
+.classList.add("show");
+
+document.getElementById("cartDrawer")
+.classList.add("open");
 
 }
+
 window.openCart=openCart;
 
 
-/* =========================================================
+/* =========================
  CHECKOUT
-========================================================= */
+========================= */
 
 function checkout(){
 
 if(!cart.length){
+
 alert("Cart empty hai.");
+
 return;
+
 }
 
 if(!currentUser){
@@ -1411,21 +2156,31 @@ if(!currentUser){
 openModal(`
 
 <div class="head">
+
 <h2>🏪 Pehle Login Karein</h2>
-<button class="close" onclick="closeModal()">✕</button>
+
+<button
+class="close"
+onclick="closeModal()">✕</button>
+
 </div>
 
 <p>
-Order karne ke liye Dukandar account se login zaroori hai.
+Order ke liye pehle dukandar login karein.
 </p>
 
-<button class="primary" onclick="customerLogin()">
+<button
+class="primary"
+onclick="customerLogin()">
+
 Dukandar Login
+
 </button>
 
 `);
 
 return;
+
 }
 
 openModal(`
@@ -1434,53 +2189,93 @@ openModal(`
 
 <h2>🧾 Order Confirm</h2>
 
-<button class="close" onclick="closeModal()">✕</button>
+<button
+class="close"
+onclick="closeModal()">✕</button>
 
 </div>
 
-<input id="customerName" placeholder="Dukaan ka naam">
+<input
+id="customerName"
+placeholder="Dukaan ka naam">
 
-<input id="customerPhone" placeholder="Phone">
+<input
+id="customerPhone"
+placeholder="Phone">
 
-<input id="customerAddress" placeholder="Address">
+<input
+id="customerAddress"
+placeholder="Address">
 
 <br><br>
 
-<button class="primary" onclick="createOrder()">
+<div class="notice">
+
+📲 Order save hone ke baad
+WhatsApp par bhi bhejne ka option milega.
+
+</div>
+
+<button
+class="primary"
+onclick="createOrder()">
+
 Confirm Order
+
 </button>
 
 `);
 
 }
+
 window.checkout=checkout;
 
 
-/* =========================================================
+/* =========================
  CREATE ORDER
-========================================================= */
+========================= */
 
 async function createOrder(){
 
-let name=document.getElementById("customerName").value.trim();
-let phone=document.getElementById("customerPhone").value.trim();
-let address=document.getElementById("customerAddress").value.trim();
+const name=
+document.getElementById("customerName")
+.value.trim();
+
+const phone=
+document.getElementById("customerPhone")
+.value.trim();
+
+const address=
+document.getElementById("customerAddress")
+.value.trim();
 
 if(!name||!phone){
-alert("Dukaan ka naam aur phone required hai.");
-return;
-}
 
-let total=cart.reduce(
-(a,x)=>a+Number(x.qty)*Number(x.price),0
+alert(
+"Dukaan ka naam aur phone required hai."
 );
 
-let billRef=push(ref(db,"bills"));
-let billId=billRef.key;
+return;
 
-let now=new Date().toLocaleString("en-PK");
+}
 
-let bill={
+const total=
+cart.reduce(
+(a,x)=>
+a+
+Number(x.qty)*Number(x.price),
+0
+);
+
+const billRef=
+push(ref(db,"bills"));
+
+const billId=billRef.key;
+
+const now=
+new Date().toLocaleString("en-PK");
+
+const bill={
 
 id:billId,
 
@@ -1494,7 +2289,8 @@ phone,
 address
 },
 
-items:JSON.parse(JSON.stringify(cart)),
+items:
+JSON.parse(JSON.stringify(cart)),
 
 total,
 
@@ -1503,10 +2299,15 @@ paid:0,
 balance:total,
 
 history:[{
+
 date:now,
+
 type:"Order",
+
 jama:0,
+
 balance:total
+
 }]
 
 };
@@ -1515,9 +2316,16 @@ try{
 
 await set(billRef,bill);
 
+const whatsappText=
+makeWhatsAppText(
+bill,
+false
+);
+
 cart=[];
 
 updateCart();
+
 closeAll();
 
 renderBill(bill);
@@ -1529,21 +2337,183 @@ showStatus("✅ Order Confirm ho gaya");
 
 }catch(e){
 
-alert("Order save nahi hua:\n"+e.message);
+alert(
+"Order save nahi hua:\n"+
+e.message
+);
 
 }
 
 }
+
 window.createOrder=createOrder;
 
 
-/* =========================================================
- BILL
-========================================================= */
+/* =========================
+ WHATSAPP TEXT
+========================= */
+
+function makeWhatsAppText(b,requestOnly=false){
+
+let text=
+"🛒 Peerbakhsh All In One Wholesale\n\n";
+
+text+=
+"🏪 Dukaan: "+
+(b.customer?.name||"")+
+"\n";
+
+text+=
+"📞 Phone: "+
+(b.customer?.phone||"")+
+"\n";
+
+text+=
+"📍 Address: "+
+(b.customer?.address||"")+
+"\n\n";
+
+text+="🧾 Order\n";
+
+text+="--------------------\n";
+
+(b.items||[]).forEach((x,i)=>{
+
+text+=
+`${i+1}. ${x.name}\n`;
+
+if(x.flavor)
+text+=`Flavor: ${x.flavor}\n`;
+
+if(x.weight)
+text+=`Weight: ${x.weight}\n`;
+
+if(x.unit)
+text+=`Unit: ${x.unit}\n`;
+
+text+=`Qty: ${x.qty}\n`;
+
+if(x.request){
+
+text+="💰 Rate: Admin Confirm\n";
+
+}else{
+
+text+=`Rate: Rs. ${x.price}\n`;
+
+text+=
+`Amount: Rs. ${x.price*x.qty}\n`;
+
+}
+
+if(x.comment)
+text+=`💬 Comment: ${x.comment}\n`;
+
+if(x.image)
+text+=`🖼️ Picture: ${x.image}\n`;
+
+text+="\n";
+
+});
+
+text+="--------------------\n";
+
+text+=
+"Total: Rs. "+
+money(b.total)+
+"\n";
+
+text+="Bill: "+b.id;
+
+return text;
+
+}
+
+
+/* =========================
+ WHATSAPP CURRENT CART
+========================= */
+
+function whatsappCart(){
+
+if(!cart.length){
+
+alert("Cart empty hai.");
+
+return;
+
+}
+
+let text=
+"🛒 Peerbakhsh All In One Wholesale\n\n";
+
+text+="📦 Cart Order\n";
+text+="--------------------\n";
+
+cart.forEach((x,i)=>{
+
+text+=
+`${i+1}. ${x.name}\n`;
+
+if(x.flavor)
+text+=`Flavor: ${x.flavor}\n`;
+
+if(x.weight)
+text+=`Weight: ${x.weight}\n`;
+
+if(x.unit)
+text+=`Unit: ${x.unit}\n`;
+
+text+=`Qty: ${x.qty}\n`;
+
+if(x.request){
+
+text+="Rate: Admin Confirm\n";
+
+}else{
+
+text+=
+`Rate: Rs. ${x.price}\n`;
+
+}
+
+if(x.comment)
+text+=
+`Comment: ${x.comment}\n`;
+
+if(x.image)
+text+=
+`Picture: ${x.image}\n`;
+
+text+="\n";
+
+});
+
+text+="--------------------\n";
+
+text+="Please confirm availability/rate.";
+
+window.open(
+"https://wa.me/"+
+WHATSAPP+
+"?text="+
+encodeURIComponent(text),
+"_blank"
+);
+
+}
+
+window.whatsappCart=whatsappCart;
+
+
+/* =========================
+ RENDER BILL
+========================= */
 
 function renderBill(b){
 
-document.getElementById("billContent").innerHTML=`
+document.getElementById("billContent")
+.innerHTML=`
 
 <h2 style="text-align:center">
 Peerbakhsh All In One Wholesale
@@ -1590,16 +2560,42 @@ ${(b.items||[]).map(x=>`
 <td>${esc(x.name)}</td>
 
 <td>
-${x.flavor?"Flavor: "+esc(x.flavor)+"<br>":""}
-${x.weight?"Weight: "+esc(x.weight)+"<br>":""}
-${x.unit?"Unit: "+esc(x.unit):""}
+
+${x.flavor?
+"Flavor: "+esc(x.flavor)+"<br>":""}
+
+${x.weight?
+"Weight: "+esc(x.weight)+"<br>":""}
+
+${x.unit?
+"Unit: "+esc(x.unit)+"<br>":""}
+
+${x.request?
+"<b>Request</b>":""}
+
 </td>
 
 <td>${x.qty}</td>
 
-<td>Rs. ${money(x.price)}</td>
+<td>
+${
+x.request
+?
+"Admin Confirm"
+:
+"Rs. "+money(x.price)
+}
+</td>
 
-<td>Rs. ${money(x.qty*x.price)}</td>
+<td>
+${
+x.request
+?
+"-"
+:
+"Rs. "+money(x.qty*x.price)
+}
+</td>
 
 </tr>
 
@@ -1608,18 +2604,30 @@ ${x.unit?"Unit: "+esc(x.unit):""}
 </table>
 
 <h3 class="right">
-Total: Rs. ${money(b.total)}
+Total:
+Rs. ${money(b.total)}
 </h3>
 
 <h3 class="right paid">
-Jama: Rs. ${money(b.paid)}
+Jama:
+Rs. ${money(b.paid)}
 </h3>
 
 <h3 class="right balance">
-Bakaya: Rs. ${money(b.balance)}
+Bakaya:
+Rs. ${money(b.balance)}
 </h3>
 
 <hr>
+
+<button
+class="whatsapp"
+style="border:0;padding:11px;border-radius:8px;width:100%;font-weight:bold"
+onclick='openBillWhatsApp(${JSON.stringify(b).replace(/'/g,"&#39;")})'>
+
+📲 WhatsApp Order
+
+</button>
 
 <h3>📒 Khata History</h3>
 
@@ -1651,27 +2659,60 @@ Rs. ${money(h.balance)}
 
 }
 
+window.renderBill=renderBill;
 
-/* =========================================================
+
+/* =========================
+ BILL WHATSAPP
+========================= */
+
+function openBillWhatsApp(b){
+
+const text=makeWhatsAppText(b);
+
+window.open(
+"https://wa.me/"+
+WHATSAPP+
+"?text="+
+encodeURIComponent(text),
+"_blank"
+);
+
+}
+
+window.openBillWhatsApp=
+openBillWhatsApp;
+
+
+/* =========================
  CUSTOMER KHATA
-========================================================= */
+========================= */
 
 async function customerAccount(){
 
 if(!currentUser){
+
 customerLogin();
 return;
+
 }
 
-let data=await dbGet("bills");
+const data=await dbGet("bills");
+
 let my=[];
 
 if(data){
 
-Object.entries(data).forEach(([id,b])=>{
+Object.entries(data).forEach(
+([id,b])=>{
 
 if(b.uid===currentUser.uid){
-my.push({id,...b});
+
+my.push({
+id,
+...b
+});
+
 }
 
 });
@@ -1683,8 +2724,12 @@ if(!my.length){
 openModal(`
 
 <div class="head">
+
 <h2>📒 Mera Khata</h2>
-<button class="close" onclick="closeModal()">✕</button>
+
+<button class="close"
+onclick="closeModal()">✕</button>
+
 </div>
 
 <p>Abhi koi Bill nahi hai.</p>
@@ -1692,17 +2737,21 @@ openModal(`
 `);
 
 return;
+
 }
 
-let total=my.reduce(
+const total=
+my.reduce(
 (a,b)=>a+Number(b.total||0),0
 );
 
-let paid=my.reduce(
+const paid=
+my.reduce(
 (a,b)=>a+Number(b.paid||0),0
 );
 
-let balance=my.reduce(
+const balance=
+my.reduce(
 (a,b)=>a+Number(b.balance||0),0
 );
 
@@ -1710,9 +2759,10 @@ openModal(`
 
 <div class="head">
 
-<h2>📒 Mera Bill / Khata</h2>
+<h2>📒 Mera Khata</h2>
 
-<button class="close" onclick="closeModal()">✕</button>
+<button class="close"
+onclick="closeModal()">✕</button>
 
 </div>
 
@@ -1724,12 +2774,16 @@ Total:
 <br>
 
 Jama:
-<b class="paid">Rs. ${money(paid)}</b>
+<b class="paid">
+Rs. ${money(paid)}
+</b>
 
 <br>
 
 Bakaya:
-<b class="balance">Rs. ${money(balance)}</b>
+<b class="balance">
+Rs. ${money(balance)}
+</b>
 
 </div>
 
@@ -1741,19 +2795,23 @@ ${my.slice().reverse().map(b=>`
 
 <br>
 
-Date: ${esc(b.date)}
+Date:
+${esc(b.date)}
 
 <br>
 
-Total: Rs. ${money(b.total)}
+Total:
+Rs. ${money(b.total)}
 
 <br>
 
-Jama: Rs. ${money(b.paid)}
+Jama:
+Rs. ${money(b.paid)}
 
 <br>
 
-Bakaya: Rs. ${money(b.balance)}
+Bakaya:
+Rs. ${money(b.balance)}
 
 <br><br>
 
@@ -1772,12 +2830,13 @@ onclick="customerViewBill('${b.id}')">
 `);
 
 }
+
 window.customerAccount=customerAccount;
 
 
 async function customerViewBill(id){
 
-let b=await dbGet("bills/"+id);
+const b=await dbGet("bills/"+id);
 
 if(!b)return;
 
@@ -1794,27 +2853,28 @@ document.getElementById("billModal")
 .classList.add("show");
 
 }
-window.customerViewBill=customerViewBill;
+
+window.customerViewBill=
+customerViewBill;
 
 
-/* =========================================================
+/* ==================================================
  ADMIN PANEL
-========================================================= */
+================================================== */
 
 function adminPanel(){
 
 if(
 !currentUser ||
-currentUser.email?.toLowerCase()!==ADMIN_EMAIL.toLowerCase()
+currentUser.email?.toLowerCase()!==
+ADMIN_EMAIL.toLowerCase()
 ){
 
-alert("❌ Admin access denied.");
+alert("Admin only.");
+
 return;
 
 }
-
-currentRole="admin";
-renderAdminNav();
 
 openModal(`
 
@@ -1822,21 +2882,23 @@ openModal(`
 
 <h2>⚙️ Admin Panel</h2>
 
-<button class="close" onclick="closeModal()">✕</button>
+<button
+class="close"
+onclick="closeModal()">✕</button>
 
-</div>
-
-<div class="notice">
-Admin: <b>${esc(currentUser.email)}</b>
 </div>
 
 <div class="row">
 
-<button class="primary" onclick="adminProducts()">
+<button
+class="primary"
+onclick="adminProducts()">
 📦 Products
 </button>
 
-<button class="primary" onclick="adminDukandar()">
+<button
+class="primary"
+onclick="adminDukandar()">
 🏪 Dukandar
 </button>
 
@@ -1844,11 +2906,15 @@ Admin: <b>${esc(currentUser.email)}</b>
 
 <div class="row">
 
-<button class="primary" onclick="adminBills()">
+<button
+class="primary"
+onclick="adminBills()">
 🧾 Bills
 </button>
 
-<button class="primary" onclick="adminKhata()">
+<button
+class="primary"
+onclick="adminKhata()">
 📒 Khata
 </button>
 
@@ -1856,11 +2922,15 @@ Admin: <b>${esc(currentUser.email)}</b>
 
 <div class="row">
 
-<button class="primary" onclick="adminStore()">
+<button
+class="primary"
+onclick="adminStore()">
 🏪 Store
 </button>
 
-<button class="primary" onclick="adminChatList()">
+<button
+class="primary"
+onclick="adminChatList()">
 💬 Chat
 </button>
 
@@ -1868,15 +2938,9 @@ Admin: <b>${esc(currentUser.email)}</b>
 
 <div class="row">
 
-<button class="primary" onclick="adminRequests()">
-📩 Product Requests
-</button>
-
-</div>
-
-<div class="row">
-
-<button class="gray" onclick="logout()">
+<button
+class="gray"
+onclick="logout()">
 🚪 Logout
 </button>
 
@@ -1889,30 +2953,35 @@ Admin: <b>${esc(currentUser.email)}</b>
 adminProducts();
 
 }
+
 window.adminPanel=adminPanel;
 
 
-/* =========================================================
+/* =========================
  ADMIN PRODUCTS
-========================================================= */
+========================= */
 
 async function adminProducts(){
 
-if(currentRole!=="admin")return;
+const data=await dbGet("products");
 
-let data=await dbGet("products");
+products=[];
 
-products=Object.entries(data||{}).map(
-([id,p])=>({id,...p})
+if(data){
+
+products=
+Object.entries(data).map(
+([id,p])=>({
+id,
+...p
+})
 );
+
+}
 
 let h=`
 
 <h3>📦 Products Management</h3>
-
-<p class="muted">
-ON/OFF, rates, flavor, weight, unit aur product information manage karein.
-</p>
 
 `;
 
@@ -1928,31 +2997,52 @@ ${esc(p.name)}
 </h3>
 
 <p>
+
 Status:
-${p.active!==false
+
+${
+p.active!==false
 ?
 `<span class="on">🟢 ON</span>`
 :
 `<span class="off">🔴 OFF</span>`
 }
+
 </p>
 
-<p>Base Rate: Rs. ${money(p.price)}</p>
+<p>
+Base Rate:
+Rs. ${money(p.price)}
+</p>
 
-<p>Flavor: ${(p.flavors||[]).length}</p>
-<p>Weight: ${(p.weights||[]).length}</p>
-<p>Unit: ${(p.units||[]).length}</p>
+<p>
+Flavor: ${(p.flavors||[]).length}
+</p>
+
+<p>
+Weight: ${(p.weights||[]).length}
+</p>
+
+<p>
+Unit: ${(p.units||[]).length}
+</p>
 
 <div class="row">
 
-<button class="primary"
+<button
+class="primary"
 onclick="editProduct('${p.id}')">
+
 ✏️ Edit
+
 </button>
 
-<button class="red"
+<button
+class="red"
 onclick="deleteProduct('${p.id}')">
+
 🗑 Delete
+
 </button>
 
 </div>
@@ -1967,25 +3057,31 @@ h+=`
 
 <br>
 
-<button class="primary" onclick="newProduct()">
+<button
+class="primary"
+onclick="newProduct()">
+
 ➕ New Product
+
 </button>
 
 `;
 
-document.getElementById("adminArea").innerHTML=h;
+document.getElementById("adminArea")
+.innerHTML=h;
 
 }
+
 window.adminProducts=adminProducts;
 
 
-/* =========================================================
+/* =========================
  NEW PRODUCT
-========================================================= */
+========================= */
 
 async function newProduct(){
 
-let r=push(ref(db,"products"));
+const r=push(ref(db,"products"));
 
 await set(r,{
 
@@ -2017,32 +3113,38 @@ await loadProducts();
 showStatus("✅ New Product add ho gaya");
 
 }
+
 window.newProduct=newProduct;
 
 
-/* =========================================================
+/* =========================
  EDIT PRODUCT
-========================================================= */
+========================= */
 
 function editProduct(id){
 
-let p=products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
 
-let flavorRows=(p.flavors||[]).map(x=>`
+let flavorRows=
+(p.flavors||[]).map(x=>`
 
 <div class="adminItem">
 
 <div class="row">
 
-<input value="${esc(x.name)}" placeholder="Flavor">
+<input
+value="${esc(x.name)}"
+placeholder="Flavor">
 
-<input type="number"
+<input
+type="number"
 value="${Number(x.price||0)}"
 placeholder="Rate">
 
-<button class="red"
+<button
+class="red"
 onclick="removeVariantRow(this)">
 ✕
 </button>
@@ -2053,19 +3155,24 @@ onclick="removeVariantRow(this)">
 
 `).join("");
 
-let weightRows=(p.weights||[]).map(x=>`
+let weightRows=
+(p.weights||[]).map(x=>`
 
 <div class="adminItem">
 
 <div class="row">
 
-<input value="${esc(x.name)}" placeholder="Weight">
+<input
+value="${esc(x.name)}"
+placeholder="Weight">
 
-<input type="number"
+<input
+type="number"
 value="${Number(x.price||0)}"
 placeholder="Rate">
 
-<button class="red"
+<button
+class="red"
 onclick="removeVariantRow(this)">
 ✕
 </button>
@@ -2076,19 +3183,24 @@ onclick="removeVariantRow(this)">
 
 `).join("");
 
-let unitRows=(p.units||[]).map(x=>`
+let unitRows=
+(p.units||[]).map(x=>`
 
 <div class="adminItem">
 
 <div class="row">
 
-<input value="${esc(x.name)}" placeholder="Unit">
+<input
+value="${esc(x.name)}"
+placeholder="Unit">
 
-<input type="number"
+<input
+type="number"
 value="${Number(x.price||0)}"
 placeholder="Rate">
 
-<button class="red"
+<button
+class="red"
 onclick="removeVariantRow(this)">
 ✕
 </button>
@@ -2099,13 +3211,16 @@ onclick="removeVariantRow(this)">
 
 `).join("");
 
-document.getElementById("adminArea").innerHTML=`
+document.getElementById("adminArea")
+.innerHTML=`
 
 <div class="head">
 
 <h2>✏️ Edit Product</h2>
 
-<button class="gray" onclick="adminProducts()">
+<button
+class="gray"
+onclick="adminProducts()">
 ← Back
 </button>
 
@@ -2113,28 +3228,34 @@ document.getElementById("adminArea").innerHTML=`
 
 <label>Product Name</label>
 
-<input id="epName"
+<input
+id="epName"
 value="${esc(p.name)}">
 
 <label>Icon</label>
 
-<input id="epIcon"
+<input
+id="epIcon"
 value="${esc(p.icon||"📦")}">
 
 <label>Base Rate</label>
 
-<input id="epPrice"
+<input
+id="epPrice"
 type="number"
 value="${Number(p.price||0)}">
 
 <label>Short Information</label>
 
-<input id="epShort"
+<input
+id="epShort"
 value="${esc(p.shortInfo||"")}">
 
-<label>Complete Information</label>
+<label>Product Information</label>
 
-<textarea id="epInfo" rows="5">${esc(p.info||"")}</textarea>
+<textarea
+id="epInfo"
+rows="5">${esc(p.info||"")}</textarea>
 
 <br>
 
@@ -2154,10 +3275,14 @@ Product ON
 <h3>🌈 Flavors & Rates</h3>
 
 <div id="flavorList">
+
 ${flavorRows}
+
 </div>
 
-<button class="gray" onclick="addFlavorRow()">
+<button
+class="gray"
+onclick="addFlavorRow()">
 ➕ Add Flavor
 </button>
 
@@ -2166,10 +3291,14 @@ ${flavorRows}
 <h3>⚖️ Weights & Rates</h3>
 
 <div id="weightList">
+
 ${weightRows}
+
 </div>
 
-<button class="gray" onclick="addWeightRow()">
+<button
+class="gray"
+onclick="addWeightRow()">
 ➕ Add Weight
 </button>
 
@@ -2178,10 +3307,14 @@ ${weightRows}
 <h3>📦 Units & Rates</h3>
 
 <div id="unitList">
+
 ${unitRows}
+
 </div>
 
-<button class="gray" onclick="addUnitRow()">
+<button
+class="gray"
+onclick="addUnitRow()">
 ➕ Add Unit
 </button>
 
@@ -2189,11 +3322,15 @@ ${unitRows}
 
 <h3>🖼️ Product Picture</h3>
 
-<input id="epImage" type="file" accept="image/*">
+<input
+id="epImage"
+type="file"
+accept="image/*">
 
 <br><br>
 
-<button class="primary"
+<button
+class="primary"
 onclick="saveProduct('${id}')">
 
 💾 Save Product
@@ -2203,19 +3340,27 @@ onclick="saveProduct('${id}')">
 `;
 
 }
+
 window.editProduct=editProduct;
 
 
 function removeVariantRow(btn){
+
 btn.closest(".adminItem")?.remove();
+
 }
-window.removeVariantRow=removeVariantRow;
+
+window.removeVariantRow=
+removeVariantRow;
 
 
 function addFlavorRow(){
 
 document.getElementById("flavorList")
-.insertAdjacentHTML("beforeend",`
+.insertAdjacentHTML(
+"beforeend",
+
+`
 
 <div class="adminItem">
 
@@ -2225,7 +3370,8 @@ document.getElementById("flavorList")
 
 <input type="number" placeholder="Rate">
 
-<button class="red"
+<button
+class="red"
 onclick="removeVariantRow(this)">
 ✕
 </button>
@@ -2237,13 +3383,17 @@ onclick="removeVariantRow(this)">
 `);
 
 }
+
 window.addFlavorRow=addFlavorRow;
 
 
 function addWeightRow(){
 
 document.getElementById("weightList")
-.insertAdjacentHTML("beforeend",`
+.insertAdjacentHTML(
+"beforeend",
+
+`
 
 <div class="adminItem">
 
@@ -2253,7 +3403,8 @@ document.getElementById("weightList")
 
 <input type="number" placeholder="Rate">
 
-<button class="red"
+<button
+class="red"
 onclick="removeVariantRow(this)">
 ✕
 </button>
@@ -2265,13 +3416,17 @@ onclick="removeVariantRow(this)">
 `);
 
 }
+
 window.addWeightRow=addWeightRow;
 
 
 function addUnitRow(){
 
 document.getElementById("unitList")
-.insertAdjacentHTML("beforeend",`
+.insertAdjacentHTML(
+"beforeend",
+
+`
 
 <div class="adminItem">
 
@@ -2281,7 +3436,8 @@ document.getElementById("unitList")
 
 <input type="number" placeholder="Rate">
 
-<button class="red"
+<button
+class="red"
 onclick="removeVariantRow(this)">
 ✕
 </button>
@@ -2293,27 +3449,44 @@ onclick="removeVariantRow(this)">
 `);
 
 }
+
 window.addUnitRow=addUnitRow;
 
 
+/* =========================
+ COLLECT VARIANTS
+========================= */
+
 function collectVariantRows(listId){
 
-let box=document.getElementById(listId);
-let result=[];
+const list=
+document.getElementById(listId);
 
-if(!box)return result;
+const result=[];
 
-box.querySelectorAll(".adminItem").forEach(row=>{
+if(!list)return result;
 
-let inputs=row.querySelectorAll("input");
+list.querySelectorAll(".adminItem")
+.forEach(row=>{
+
+const inputs=
+row.querySelectorAll("input");
 
 if(inputs.length<2)return;
 
-let name=inputs[0].value.trim();
-let price=Number(inputs[1].value)||0;
+const name=
+inputs[0].value.trim();
+
+const price=
+Number(inputs[1].value)||0;
 
 if(name){
-result.push({name,price});
+
+result.push({
+name,
+price
+});
+
 }
 
 });
@@ -2323,34 +3496,42 @@ return result;
 }
 
 
-/* =========================================================
+/* =========================
  SAVE PRODUCT
-========================================================= */
+========================= */
 
 async function saveProduct(id){
 
-let p=products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
 
-let data={
+const data={
 
-name:document.getElementById("epName").value.trim(),
+name:
+document.getElementById("epName")
+.value.trim(),
 
 icon:
-document.getElementById("epIcon").value.trim()||"📦",
+document.getElementById("epIcon")
+.value.trim()||"📦",
 
 price:
-Number(document.getElementById("epPrice").value)||0,
+Number(
+document.getElementById("epPrice").value
+)||0,
 
 shortInfo:
-document.getElementById("epShort").value.trim(),
+document.getElementById("epShort")
+.value.trim(),
 
 info:
-document.getElementById("epInfo").value.trim(),
+document.getElementById("epInfo")
+.value.trim(),
 
 active:
-document.getElementById("epActive").checked,
+document.getElementById("epActive")
+.checked,
 
 flavors:
 collectVariantRows("flavorList"),
@@ -2363,7 +3544,9 @@ collectVariantRows("unitList")
 
 };
 
-let file=document.getElementById("epImage").files[0];
+const file=
+document.getElementById("epImage")
+.files[0];
 
 try{
 
@@ -2372,18 +3555,20 @@ if(file){
 if(file.size>8*1024*1024){
 
 alert("Image 8MB se choti honi chahiye.");
+
 return;
 
 }
 
-let r=storageRef(
+const r=storageRef(
 storage,
 "products/"+id+"_"+Date.now()
 );
 
 await uploadBytes(r,file);
 
-data.image=await getDownloadURL(r);
+data.image=
+await getDownloadURL(r);
 
 }else{
 
@@ -2391,110 +3576,138 @@ data.image=p.image||"";
 
 }
 
-await dbUpdate("products/"+id,data);
+await dbUpdate(
+"products/"+id,
+data
+);
 
 await loadProducts();
+
 await adminProducts();
 
 showStatus("✅ Product save ho gaya");
 
 }catch(e){
 
-alert("Product save error:\n"+e.message);
+alert(
+"Product save error:\n"+
+e.message
+);
 
 }
 
 }
+
 window.saveProduct=saveProduct;
 
 
-/* =========================================================
+/* =========================
  DELETE PRODUCT
-========================================================= */
+========================= */
 
 async function deleteProduct(id){
 
-let p=products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
 
-if(!confirm("Delete "+p.name+"?"))return;
+if(!confirm(
+"Delete "+p.name+"?"
+))return;
 
 await dbRemove("products/"+id);
 
 await loadProducts();
+
 await adminProducts();
 
 showStatus("🗑 Product delete ho gaya");
 
 }
-window.deleteProduct=deleteProduct;
+
+window.deleteProduct=
+deleteProduct;
 
 
-/* =========================================================
+/* =========================
  BILLS
-========================================================= */
+========================= */
 
 async function getAllBills(){
 
-let data=await dbGet("bills");
+const data=await dbGet("bills");
 
 if(!data)return[];
 
-return Object.entries(data).map(
-([id,b])=>({id,...b})
-);
+return Object.entries(data)
+.map(([id,b])=>({
+id,
+...b
+}));
 
 }
 
 
 async function adminBills(){
 
-let all=await getAllBills();
+const all=await getAllBills();
 
 let h="<h3>🧾 All Bills</h3>";
 
-if(!all.length)
+if(!all.length){
+
 h+="<p>Abhi koi bill nahi hai.</p>";
 
-all.slice().reverse().forEach(b=>{
+}
+
+all.slice().reverse()
+.forEach(b=>{
 
 h+=`
 
 <div class="adminItem">
 
-<b>🏪 ${esc(b.customer?.name||"")}</b>
+<b>
+🏪 ${esc(b.customer?.name||"")}
+</b>
 
 <br>
 
-Bill: ${esc(b.id)}
+Bill:
+${esc(b.id)}
 
 <br>
 
-Date: ${esc(b.date)}
+Date:
+${esc(b.date)}
 
 <br>
 
-Total: Rs. ${money(b.total)}
+Total:
+Rs. ${money(b.total)}
 
 <br>
 
-Jama: Rs. ${money(b.paid)}
+Jama:
+Rs. ${money(b.paid)}
 
 <br>
 
 <span class="balance">
-Bakaya: Rs. ${money(b.balance)}
+Bakaya:
+Rs. ${money(b.balance)}
 </span>
 
 <br><br>
 
-<button class="primary"
+<button
+class="primary"
 onclick="adminViewBill('${b.id}')">
 🧾 View
 </button>
 
-<button class="primary"
+<button
+class="primary"
 onclick="adminEditBill('${b.id}')">
 ✏️ Edit
 </button>
@@ -2505,15 +3718,17 @@ onclick="adminEditBill('${b.id}')">
 
 });
 
-document.getElementById("adminArea").innerHTML=h;
+document.getElementById("adminArea")
+.innerHTML=h;
 
 }
+
 window.adminBills=adminBills;
 
 
 async function adminViewBill(id){
 
-let b=await dbGet("bills/"+id);
+const b=await dbGet("bills/"+id);
 
 if(!b)return;
 
@@ -2523,41 +3738,52 @@ document.getElementById("billModal")
 .classList.add("show");
 
 }
-window.adminViewBill=adminViewBill;
+
+window.adminViewBill=
+adminViewBill;
 
 
-/* =========================================================
+/* =========================
  DUKANDAR
-========================================================= */
+========================= */
 
 async function adminDukandar(){
 
-let all=await getAllBills();
-let map={};
+const all=await getAllBills();
+
+const map={};
 
 all.forEach(b=>{
 
-let uid=b.uid;
+const uid=b.uid;
 
 if(!map[uid]){
 
 map[uid]={
+
 uid,
+
 name:b.customer?.name||"",
+
 phone:b.customer?.phone||"",
+
 address:b.customer?.address||""
+
 };
 
 }
 
 });
 
-let users=Object.values(map);
+const users=Object.values(map);
 
 let h="<h3>🏪 Dukandar List</h3>";
 
-if(!users.length)
+if(!users.length){
+
 h+="<p>Abhi koi dukandar order nahi mila.</p>";
+
+}
 
 users.forEach(u=>{
 
@@ -2565,19 +3791,26 @@ h+=`
 
 <div class="adminItem">
 
-<h3>🏪 ${esc(u.name)}</h3>
+<h3>
+🏪 ${esc(u.name)}
+</h3>
 
-Phone: ${esc(u.phone)}
+Phone:
+${esc(u.phone)}
 
 <br>
 
-Address: ${esc(u.address||"-")}
+Address:
+${esc(u.address||"-")}
 
 <br><br>
 
-<button class="primary"
+<button
+class="primary"
 onclick="openDukandar('${u.uid}')">
+
 Open Dukandar
+
 </button>
 
 </div>
@@ -2586,44 +3819,63 @@ Open Dukandar
 
 });
 
-document.getElementById("adminArea").innerHTML=h;
+document.getElementById("adminArea")
+.innerHTML=h;
 
 }
-window.adminDukandar=adminDukandar;
 
+window.adminDukandar=
+adminDukandar;
+
+
+/* =========================
+ OPEN DUKANDAR
+========================= */
 
 async function openDukandar(uid){
 
-let all=await getAllBills();
+const all=await getAllBills();
 
-let userBills=all.filter(b=>b.uid===uid);
+const userBills=
+all.filter(b=>b.uid===uid);
 
 if(!userBills.length){
+
 alert("No bills.");
+
 return;
+
 }
 
-let u=userBills[0].customer;
+const u=userBills[0].customer;
 
-let total=userBills.reduce(
+const total=
+userBills.reduce(
 (a,b)=>a+Number(b.total||0),0
 );
 
-let paid=userBills.reduce(
+const paid=
+userBills.reduce(
 (a,b)=>a+Number(b.paid||0),0
 );
 
-let balance=userBills.reduce(
+const balance=
+userBills.reduce(
 (a,b)=>a+Number(b.balance||0),0
 );
 
-document.getElementById("adminArea").innerHTML=`
+document.getElementById("adminArea")
+.innerHTML=`
 
 <div class="head">
 
-<h2>🏪 ${esc(u.name)}</h2>
+<h2>
+🏪 ${esc(u.name)}
+</h2>
 
-<button class="gray" onclick="adminDukandar()">
+<button
+class="gray"
+onclick="adminDukandar()">
 ← Back
 </button>
 
@@ -2631,11 +3883,22 @@ document.getElementById("adminArea").innerHTML=`
 
 <div class="notice">
 
-Total: <b>Rs. ${money(total)}</b>
+Total:
+<b>Rs. ${money(total)}</b>
+
 <br>
-Jama: <b class="paid">Rs. ${money(paid)}</b>
+
+Jama:
+<b class="paid">
+Rs. ${money(paid)}
+</b>
+
 <br>
-Bakaya: <b class="balance">Rs. ${money(balance)}</b>
+
+Bakaya:
+<b class="balance">
+Rs. ${money(balance)}
+</b>
 
 </div>
 
@@ -2649,28 +3912,34 @@ ${userBills.slice().reverse().map(b=>`
 
 <br>
 
-Date: ${esc(b.date)}
+Date:
+${esc(b.date)}
 
 <br>
 
-Total: Rs. ${money(b.total)}
+Total:
+Rs. ${money(b.total)}
 
 <br>
 
-Jama: Rs. ${money(b.paid)}
+Jama:
+Rs. ${money(b.paid)}
 
 <br>
 
-Bakaya: Rs. ${money(b.balance)}
+Bakaya:
+Rs. ${money(b.balance)}
 
 <div class="row">
 
-<button class="primary"
+<button
+class="primary"
 onclick="adminEditBill('${b.id}')">
 ✏️ Edit / Jama
 </button>
 
-<button class="primary"
+<button
+class="primary"
 onclick="adminViewBill('${b.id}')">
 🧾 Bill
 </button>
@@ -2685,31 +3954,37 @@ onclick="adminViewBill('${b.id}')">
 
 <h3>💬 Chat</h3>
 
-<button class="primary"
+<button
+class="primary"
 onclick="adminCustomerChat('${uid}')">
 Open Chat
 </button>
 
 <br><br>
 
-<button class="red"
+<button
+class="red"
 onclick="deleteCustomerEverything('${uid}')">
+
 🗑 Delete Bill + Khata + Chat
+
 </button>
 
 `;
 
 }
-window.openDukandar=openDukandar;
+
+window.openDukandar=
+openDukandar;
 
 
-/* =========================================================
+/* =========================
  EDIT BILL
-========================================================= */
+========================= */
 
 async function adminEditBill(id){
 
-let b=await dbGet("bills/"+id);
+const b=await dbGet("bills/"+id);
 
 if(!b)return;
 
@@ -2719,13 +3994,17 @@ let html=`
 
 <h2>✏️ Bill Edit</h2>
 
-<button class="gray" onclick="adminBills()">
+<button
+class="gray"
+onclick="adminBills()">
 ← Back
 </button>
 
 </div>
 
-<h3>${esc(b.customer?.name||"")}</h3>
+<h3>
+${esc(b.customer?.name||"")}
+</h3>
 
 `;
 
@@ -2739,9 +4018,25 @@ html+=`
 
 <br>
 
-${x.flavor?"Flavor: "+esc(x.flavor)+"<br>":""}
-${x.weight?"Weight: "+esc(x.weight)+"<br>":""}
-${x.unit?"Unit: "+esc(x.unit)+"<br>":""}
+${x.request
+?
+"<b>📦 Product Request</b>"
+:""
+}
+
+<br>
+
+${x.flavor?
+"Flavor: "+esc(x.flavor)+"<br>":""}
+
+${x.weight?
+"Weight: "+esc(x.weight)+"<br>":""}
+
+${x.unit?
+"Unit: "+esc(x.unit)+"<br>":""}
+
+${x.comment?
+"Comment: "+esc(x.comment)+"<br>":""}
 
 <label>Quantity</label>
 
@@ -2755,7 +4050,7 @@ value="${x.qty}">
 <input
 id="billRate${i}"
 type="number"
-value="${x.price}">
+value="${Number(x.price||0)}">
 
 </div>
 
@@ -2784,17 +4079,21 @@ Rs. ${money(b.balance)}
 
 <label>Jama Amount</label>
 
-<input id="paymentAmount"
+<input
+id="paymentAmount"
 type="number"
 value="0">
 
 <label>Jama Note</label>
 
-<input id="paymentNote" value="Jama">
+<input
+id="paymentNote"
+value="Jama">
 
 <br><br>
 
-<button class="primary"
+<button
+class="primary"
 onclick="saveBillEdit('${id}')">
 
 💾 Save / Update
@@ -2803,56 +4102,89 @@ onclick="saveBillEdit('${id}')">
 
 `;
 
-document.getElementById("adminArea").innerHTML=html;
+document.getElementById("adminArea")
+.innerHTML=html;
 
 }
-window.adminEditBill=adminEditBill;
 
+window.adminEditBill=
+adminEditBill;
+
+
+/* =========================
+ SAVE BILL
+========================= */
 
 async function saveBillEdit(id){
 
-let b=await dbGet("bills/"+id);
+const b=await dbGet("bills/"+id);
 
 if(!b)return;
 
 (b.items||[]).forEach((x,i)=>{
 
-let q=document.getElementById("billQty"+i);
-let r=document.getElementById("billRate"+i);
+const q=
+document.getElementById("billQty"+i);
 
-if(q)x.qty=Number(q.value)||1;
-if(r)x.price=Number(r.value)||0;
+const r=
+document.getElementById("billRate"+i);
+
+if(q)
+x.qty=Number(q.value)||1;
+
+if(r)
+x.price=Number(r.value)||0;
 
 });
 
-b.total=(b.items||[]).reduce(
-(a,x)=>a+Number(x.qty)*Number(x.price),0
+b.total=
+(b.items||[]).reduce(
+(a,x)=>
+a+
+Number(x.qty)*
+Number(x.price),
+0
 );
 
-let payment=
-Number(document.getElementById("paymentAmount").value)||0;
+const payment=
+Number(
+document.getElementById("paymentAmount")
+.value
+)||0;
 
-let note=
-document.getElementById("paymentNote").value.trim()||"Jama";
+const note=
+document.getElementById("paymentNote")
+.value.trim()||"Jama";
 
 if(payment>0){
 
-b.paid=Number(b.paid||0)+payment;
+b.paid=
+Number(b.paid||0)+payment;
 
-if(!b.history)b.history=[];
+if(!b.history)
+b.history=[];
 
 b.history.push({
 
-date:new Date().toLocaleString("en-PK"),
+date:
+new Date().toLocaleString("en-PK"),
+
 type:note,
+
 jama:payment,
-balance:Math.max(0,b.total-b.paid)
+
+balance:
+Math.max(0,b.total-b.paid)
 
 });
 
 }
 
-b.balance=Math.max(0,b.total-b.paid);
+b.balance=
+Math.max(
+0,
+b.total-b.paid
+);
 
 await dbSet("bills/"+id,b);
 
@@ -2865,21 +4197,25 @@ alert(
 openDukandar(b.uid);
 
 }
-window.saveBillEdit=saveBillEdit;
+
+window.saveBillEdit=
+saveBillEdit;
 
 
-/* =========================================================
- KHATA
-========================================================= */
+/* =========================
+ KHATA ADMIN
+========================= */
 
 async function adminKhata(){
 
-let all=await getAllBills();
-let map={};
+const all=await getAllBills();
+
+const map={};
 
 all.forEach(b=>{
 
-if(!map[b.uid])map[b.uid]=[];
+if(!map[b.uid])
+map[b.uid]=[];
 
 map[b.uid].push(b);
 
@@ -2887,21 +4223,26 @@ map[b.uid].push(b);
 
 let h="<h3>📒 Khata</h3>";
 
-Object.entries(map).forEach(([uid,list])=>{
+Object.entries(map).forEach(
+([uid,list])=>{
 
-let total=list.reduce(
+const total=
+list.reduce(
 (a,b)=>a+Number(b.total||0),0
 );
 
-let paid=list.reduce(
+const paid=
+list.reduce(
 (a,b)=>a+Number(b.paid||0),0
 );
 
-let balance=list.reduce(
+const balance=
+list.reduce(
 (a,b)=>a+Number(b.balance||0),0
 );
 
-let name=list[0].customer?.name||"";
+const name=
+list[0].customer?.name||"";
 
 h+=`
 
@@ -2909,23 +4250,29 @@ h+=`
 
 <h3>🏪 ${esc(name)}</h3>
 
-Total: Rs. ${money(total)}
+Total:
+Rs. ${money(total)}
 
 <br>
 
-Jama: Rs. ${money(paid)}
+Jama:
+Rs. ${money(paid)}
 
 <br>
 
 <span class="balance">
-Bakaya: Rs. ${money(balance)}
+Bakaya:
+Rs. ${money(balance)}
 </span>
 
 <br><br>
 
-<button class="primary"
+<button
+class="primary"
 onclick="openDukandar('${uid}')">
+
 Open Khata
+
 </button>
 
 </div>
@@ -2934,15 +4281,18 @@ Open Khata
 
 });
 
-document.getElementById("adminArea").innerHTML=h;
+document.getElementById("adminArea")
+.innerHTML=h;
 
 }
-window.adminKhata=adminKhata;
+
+window.adminKhata=
+adminKhata;
 
 
-/* =========================================================
+/* =========================
  DELETE CUSTOMER
-========================================================= */
+========================= */
 
 async function deleteCustomerEverything(uid){
 
@@ -2950,36 +4300,48 @@ if(!confirm(
 "Is dukandar ka Bill + Khata + Chat sab delete karna hai?"
 ))return;
 
-let all=await getAllBills();
-let jobs=[];
+const all=await getAllBills();
+
+const jobs=[];
 
 all.forEach(b=>{
 
 if(b.uid===uid){
-jobs.push(dbRemove("bills/"+b.id));
+
+jobs.push(
+dbRemove("bills/"+b.id)
+);
+
 }
 
 });
 
-jobs.push(dbRemove("chats/"+uid));
+jobs.push(
+dbRemove("chats/"+uid)
+);
 
 await Promise.all(jobs);
 
-alert("✅ Bill + Khata + Chat delete ho gaya.");
+alert(
+"✅ Bill + Khata + Chat delete ho gaya."
+);
 
 adminDukandar();
 
 }
-window.deleteCustomerEverything=deleteCustomerEverything;
+
+window.deleteCustomerEverything=
+deleteCustomerEverything;
 
 
-/* =========================================================
- STORE ADMIN
-========================================================= */
+/* ==================================================
+ STORE
+================================================== */
 
 function adminStore(){
 
-document.getElementById("adminArea").innerHTML=`
+document.getElementById("adminArea")
+.innerHTML=`
 
 <h3>🏪 Store Information</h3>
 
@@ -3000,14 +4362,15 @@ accept="audio/*">
 
 <br>
 
-<button class="primary"
+<button
+class="primary"
 onclick="uploadStoreVoice()">
 Save Voice
 </button>
 
 <hr>
 
-<h3>🎥 Video / Advertisement</h3>
+<h3>🎥 Video</h3>
 
 <input
 type="file"
@@ -3016,21 +4379,24 @@ accept="video/*">
 
 <br>
 
-<button class="primary"
+<button
+class="primary"
 onclick="uploadStoreVideo()">
 Save Video
 </button>
 
 <br><br>
 
-<button class="primary"
+<button
+class="primary"
 onclick="saveMarquee()">
 Save Marquee
 </button>
 
 <br><br>
 
-<button class="red"
+<button
+class="red"
 onclick="deleteStore()">
 🗑 Delete Store Media
 </button>
@@ -3038,15 +4404,21 @@ onclick="deleteStore()">
 `;
 
 }
-window.adminStore=adminStore;
+
+window.adminStore=
+adminStore;
 
 
 async function saveMarquee(){
 
-let text=
-document.getElementById("storeMarquee").value.trim();
+const text=
+document.getElementById("storeMarquee")
+.value.trim();
 
-await dbSet("store/marquee",text);
+await dbSet(
+"store/marquee",
+text
+);
 
 store.marquee=text;
 
@@ -3055,35 +4427,40 @@ renderStore();
 showStatus("✅ Marquee save ho gaya");
 
 }
-window.saveMarquee=saveMarquee;
 
+window.saveMarquee=
+saveMarquee;
 
-/* =========================================================
- STORE VOICE
-========================================================= */
 
 async function uploadStoreVoice(){
 
-let file=
-document.getElementById("storeVoiceFile").files[0];
+const file=
+document.getElementById("storeVoiceFile")
+.files[0];
 
 if(!file){
+
 alert("Voice select karein.");
 return;
+
 }
 
 try{
 
-let r=storageRef(
+const r=storageRef(
 storage,
 "store/voice_"+Date.now()
 );
 
 await uploadBytes(r,file);
 
-let url=await getDownloadURL(r);
+const url=
+await getDownloadURL(r);
 
-await dbSet("store/voice",url);
+await dbSet(
+"store/voice",
+url
+);
 
 store.voice=url;
 
@@ -3093,40 +4470,48 @@ alert("✅ Voice uploaded.");
 
 }catch(e){
 
-alert("Voice upload error:\n"+e.message);
+alert(
+"Voice upload error:\n"+
+e.message
+);
 
 }
 
 }
-window.uploadStoreVoice=uploadStoreVoice;
 
+window.uploadStoreVoice=
+uploadStoreVoice;
 
-/* =========================================================
- STORE VIDEO
-========================================================= */
 
 async function uploadStoreVideo(){
 
-let file=
-document.getElementById("storeVideoFile").files[0];
+const file=
+document.getElementById("storeVideoFile")
+.files[0];
 
 if(!file){
+
 alert("Video select karein.");
 return;
+
 }
 
 try{
 
-let r=storageRef(
+const r=storageRef(
 storage,
 "store/video_"+Date.now()
 );
 
 await uploadBytes(r,file);
 
-let url=await getDownloadURL(r);
+const url=
+await getDownloadURL(r);
 
-await dbSet("store/video",url);
+await dbSet(
+"store/video",
+url
+);
 
 store.video=url;
 
@@ -3136,116 +4521,17 @@ alert("✅ Video uploaded.");
 
 }catch(e){
 
-alert("Video upload error:\n"+e.message);
+alert(
+"Video upload error:\n"+
+e.message
+);
 
 }
 
 }
-window.uploadStoreVideo=uploadStoreVideo;
 
-
-/* =========================================================
- STORE MEDIA
-========================================================= */
-
-function renderStore(){
-
-document.getElementById("marqueeText").textContent=
-store.marquee||
-"Peerbakhsh All In One Wholesale";
-
-let h="";
-
-if(store.voice){
-
-h+=`
-
-<div class="mediaBox">
-
-<b>🎙️ Dukaan ki Voice</b>
-
-<audio
-controls
-src="${esc(store.voice)}">
-</audio>
-
-</div>
-
-`;
-
-}
-
-if(store.video){
-
-h+=`
-
-<div class="mediaBox">
-
-<b>🎥 Dukaan ka Video / Advertisement</b>
-
-<video
-controls
-playsinline
-src="${esc(store.video)}">
-</video>
-
-</div>
-
-`;
-
-}
-
-document.getElementById("storeMedia").innerHTML=h;
-
-}
-
-
-function playStoreVoice(){
-
-if(!store.voice){
-
-alert("Abhi dukaan ki voice available nahi hai.");
-return;
-
-}
-
-let audio=document.createElement("audio");
-
-audio.src=store.voice;
-audio.controls=true;
-audio.autoplay=true;
-
-document.getElementById("storeMedia").prepend(audio);
-
-}
-
-
-function playStoreVideo(){
-
-if(!store.video){
-
-alert("Abhi dukaan ka video available nahi hai.");
-return;
-
-}
-
-let video=document.createElement("video");
-
-video.src=store.video;
-video.controls=true;
-video.autoplay=true;
-video.playsInline=true;
-
-video.style.width="100%";
-video.style.maxHeight="400px";
-video.style.marginTop="10px";
-video.style.borderRadius="10px";
-
-document.getElementById("storeMedia").prepend(video);
-
-}
-window.playStoreVoice=playStoreVoice;
-window.playStoreVideo=playStoreVideo;
+window.uploadStoreVideo=
+uploadStoreVideo;
 
 
 async function deleteStore(){
@@ -3260,214 +4546,87 @@ video:""
 
 renderStore();
 
-showStatus("✅ Store information delete ho gayi");
+showStatus("Store information delete ho gayi");
 
 }
-window.deleteStore=deleteStore;
+
+window.deleteStore=
+deleteStore;
+
+
+function renderStore(){
+
+document.getElementById("marqueeText")
+.textContent=
+store.marquee||
+"Peerbakhsh All In One Wholesale";
+
+let h="";
+
+if(store.voice){
+
+h+=`
+
+<div class="audioStore">
+
+<b>🎙️ Dukaan ki Voice</b>
+
+<br><br>
+
+<audio
+controls
+style="width:100%"
+src="${esc(store.voice)}">
+</audio>
+
+</div>
+
+`;
+
+}
+
+if(store.video){
+
+h+=`
+
+<div class="audioStore">
+
+<b>🎥 Dukaan ki Video</b>
+
+<br><br>
+
+<video
+controls
+src="${esc(store.video)}">
+</video>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("storeMedia")
+.innerHTML=h;
+
+}
 
 
 async function loadStore(){
 
-let s=await dbGet("store");
+const s=await dbGet("store");
 
-if(s)store=s;
+if(s)
+store=s;
 
 renderStore();
 
 }
 
 
-/* =========================================================
- PRODUCT REQUEST
- ========================================================= */
-
-async function sendProductRequest(){
-
-if(!currentUser){
-
-openModal(`
-
-<div class="head">
-
-<h2>🏪 Login Required</h2>
-
-<button class="close" onclick="closeModal()">✕</button>
-
-</div>
-
-<p>
-Product request bhejne ke liye Dukandar login karein.
-</p>
-
-<button class="primary" onclick="customerLogin()">
-Dukandar Login
-</button>
-
-`);
-
-return;
-
-}
-
-let product=
-document.getElementById("requestProduct")
-.value.trim();
-
-let note=
-document.getElementById("requestNote")
-.value.trim();
-
-if(!product){
-
-alert("Product ka naam likhein.");
-return;
-
-}
-
-let r=push(ref(db,"productRequests"));
-
-await set(r,{
-
-id:r.key,
-
-uid:currentUser.uid,
-
-product,
-
-note,
-
-date:new Date().toLocaleString("en-PK"),
-
-time:Date.now(),
-
-status:"Pending"
-
-});
-
-document.getElementById("requestProduct").value="";
-document.getElementById("requestNote").value="";
-
-showStatus("✅ Product request Admin ko bhej di");
-
-}
-window.sendProductRequest=sendProductRequest;
-
-
-/* =========================================================
- ADMIN PRODUCT REQUESTS
-========================================================= */
-
-async function adminRequests(){
-
-let data=await dbGet("productRequests");
-
-let requests=Object.entries(data||{})
-.map(([id,x])=>({id,...x}));
-
-let h=`
-
-<h3>📩 Product Requests</h3>
-
-<p class="muted">
-Dukandar ne jo products request kiye hain wo yahan nazar aayenge.
-</p>
-
-`;
-
-if(!requests.length){
-
-h+="<p>Abhi koi request nahi hai.</p>";
-
-}
-
-requests
-.sort((a,b)=>Number(b.time||0)-Number(a.time||0))
-.forEach(r=>{
-
-h+=`
-
-<div class="requestCard">
-
-<h3>📦 ${esc(r.product)}</h3>
-
-<span class="badge">
-${esc(r.status||"Pending")}
-</span>
-
-<br><br>
-
-Note:
-${esc(r.note||"-")}
-
-<br>
-
-Date:
-${esc(r.date||"")}
-
-<br>
-
-UID:
-<small>${esc(r.uid||"")}</small>
-
-<br><br>
-
-<button class="primary"
-onclick="completeRequest('${r.id}')">
-
-✅ Complete
-
-</button>
-
-<button class="red"
-onclick="deleteRequest('${r.id}')">
-
-🗑 Delete
-
-</button>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("adminArea").innerHTML=h;
-
-}
-window.adminRequests=adminRequests;
-
-
-async function completeRequest(id){
-
-await dbUpdate(
-"productRequests/"+id,
-{status:"Completed"}
-);
-
-adminRequests();
-
-showStatus("✅ Request completed");
-
-}
-window.completeRequest=completeRequest;
-
-
-async function deleteRequest(id){
-
-if(!confirm("Request delete karni hai?"))
-return;
-
-await dbRemove("productRequests/"+id);
-
-adminRequests();
-
-}
-window.deleteRequest=deleteRequest;
-
-
-/* =========================================================
- CUSTOMER CHAT
-========================================================= */
+/* ==================================================
+ CHAT
+================================================== */
 
 function openCustomerChat(){
 
@@ -3479,13 +4638,19 @@ openModal(`
 
 <h2>💬 Dukandar Login</h2>
 
-<button class="close" onclick="closeModal()">✕</button>
+<button
+class="close"
+onclick="closeModal()">✕</button>
 
 </div>
 
-<p>Chat ke liye pehle login karein.</p>
+<p>
+Chat ke liye pehle login karein.
+</p>
 
-<button class="primary" onclick="customerLogin()">
+<button
+class="primary"
+onclick="customerLogin()">
 Login
 </button>
 
@@ -3495,7 +4660,9 @@ return;
 
 }
 
-currentChatCustomer=currentUser.uid;
+currentChatCustomer=
+currentUser.uid;
+
 currentChatRole="customer";
 
 openChat(
@@ -3505,31 +4672,33 @@ currentUser.uid,
 );
 
 }
-window.openCustomerChat=openCustomerChat;
 
+window.openCustomerChat=
+openCustomerChat;
 
-/* =========================================================
- ADMIN CHAT LIST
-========================================================= */
 
 async function adminChatList(){
 
-let all=await getAllBills();
-let users={};
+const all=await getAllBills();
+
+const users={};
 
 all.forEach(b=>{
 
 if(!users[b.uid]){
+
 users[b.uid]=
 b.customer?.name||
 "Dukandar";
+
 }
 
 });
 
 let h="<h3>💬 Chat List</h3>";
 
-Object.entries(users).forEach(([uid,name])=>{
+Object.entries(users).forEach(
+([uid,name])=>{
 
 h+=`
 
@@ -3539,9 +4708,12 @@ h+=`
 
 <br><br>
 
-<button class="primary"
+<button
+class="primary"
 onclick="adminCustomerChat('${uid}')">
+
 Open Chat
+
 </button>
 
 </div>
@@ -3550,25 +4722,33 @@ Open Chat
 
 });
 
-if(!Object.keys(users).length)
+if(!Object.keys(users).length){
+
 h+="<p>Abhi koi customer nahi hai.</p>";
 
-document.getElementById("adminArea").innerHTML=h;
+}
+
+document.getElementById("adminArea")
+.innerHTML=h;
 
 }
-window.adminChatList=adminChatList;
+
+window.adminChatList=
+adminChatList;
 
 
 async function adminCustomerChat(uid){
 
-if(currentRole!=="admin")return;
+if(currentRole!=="admin")
+return;
 
 currentChatCustomer=uid;
 currentChatRole="admin";
 
-let all=await getAllBills();
+const all=await getAllBills();
 
-let b=all.find(x=>x.uid===uid);
+const b=
+all.find(x=>x.uid===uid);
 
 openChat(
 uid,
@@ -3577,26 +4757,31 @@ b?.customer?.name||"Dukandar",
 );
 
 }
-window.adminCustomerChat=adminCustomerChat;
 
+window.adminCustomerChat=
+adminCustomerChat;
 
-/* =========================================================
- OPEN CHAT
-========================================================= */
 
 async function openChat(uid,name,role){
 
-let data=await dbGet("chats/"+uid);
+const data=
+await dbGet("chats/"+uid);
 
 let messages=[];
 
 if(data){
 
-messages=Object.entries(data)
-.map(([id,m])=>({id,...m}));
+messages=
+Object.entries(data)
+.map(([id,m])=>({
+id,
+...m
+}));
 
 messages.sort(
-(a,b)=>Number(a.time||0)-Number(b.time||0)
+(a,b)=>
+Number(a.time||0)-
+Number(b.time||0)
 );
 
 }
@@ -3607,11 +4792,15 @@ let html=`
 
 <h2>💬 ${esc(name)}</h2>
 
-<button class="close" onclick="closeModal()">✕</button>
+<button
+class="close"
+onclick="closeModal()">✕</button>
 
 </div>
 
-<div id="chatWindow" class="chatWindow">
+<div
+id="chatWindow"
+class="chatWindow">
 
 `;
 
@@ -3621,7 +4810,9 @@ html+=`
 
 <div class="msg ${m.from}">
 
-${m.type==="text"?esc(m.text):""}
+${m.type==="text"
+?esc(m.text)
+:""}
 
 ${m.type==="image"
 ?`<img src="${esc(m.data)}">`
@@ -3633,7 +4824,9 @@ ${m.type==="voice"
 
 <br>
 
-<small>${esc(m.date||"")}</small>
+<small>
+${esc(m.date||"")}
+</small>
 
 </div>
 
@@ -3651,11 +4844,13 @@ html+=`
 id="chatText"
 placeholder="Message...">
 
-<button onclick="sendTextChat()">
+<button
+onclick="sendTextChat()">
 ➤
 </button>
 
-<button onclick="startVoice()">
+<button
+onclick="startVoice()">
 🎤
 </button>
 
@@ -3680,127 +4875,164 @@ openModal(html);
 
 setTimeout(()=>{
 
-let w=document.getElementById("chatWindow");
+const w=
+document.getElementById("chatWindow");
 
-if(w)w.scrollTop=w.scrollHeight;
+if(w)
+w.scrollTop=w.scrollHeight;
 
 },100);
 
 }
 
+window.openChat=openChat;
 
-/* =========================================================
- SEND TEXT
-========================================================= */
+
+/* =========================
+ SEND CHAT TEXT
+========================= */
 
 async function sendTextChat(){
 
-let input=document.getElementById("chatText");
+const input=
+document.getElementById("chatText");
 
 if(!input)return;
 
-let text=input.value.trim();
+const text=input.value.trim();
 
 if(!text)return;
 
-let r=push(
-ref(db,"chats/"+currentChatCustomer)
+const r=
+push(
+ref(
+db,
+"chats/"+currentChatCustomer
+)
 );
 
 await set(r,{
 
 from:currentChatRole,
-
 type:"text",
-
 text,
 
-date:new Date().toLocaleString("en-PK"),
+date:
+new Date().toLocaleString("en-PK"),
 
 time:Date.now(),
-
 read:false
 
 });
 
 openChat(
 currentChatCustomer,
-currentChatRole==="admin"?"Dukandar":"Admin",
+
+currentChatRole==="admin"
+?
+"Dukandar"
+:
+"Admin",
+
 currentChatRole
+
 );
 
 }
-window.sendTextChat=sendTextChat;
+
+window.sendTextChat=
+sendTextChat;
 
 
-/* =========================================================
+/* =========================
  CHAT IMAGE
-========================================================= */
+========================= */
 
 async function sendChatImage(){
 
-let file=document.getElementById("chatImage").files[0];
+const file=
+document.getElementById("chatImage")
+.files[0];
 
 if(!file)return;
 
 if(file.size>8*1024*1024){
 
-alert("Image 8MB se choti honi chahiye.");
+alert(
+"Image 8MB se choti honi chahiye."
+);
+
 return;
 
 }
 
 try{
 
-let r=storageRef(
+const r=storageRef(
 storage,
-"chat/"+currentChatCustomer+
+"chat/"+
+currentChatCustomer+
 "/img_"+Date.now()
 );
 
 await uploadBytes(r,file);
 
-let url=await getDownloadURL(r);
+const url=
+await getDownloadURL(r);
 
-let msg=push(
-ref(db,"chats/"+currentChatCustomer)
+const msg=
+push(
+ref(
+db,
+"chats/"+currentChatCustomer
+)
 );
 
 await set(msg,{
 
 from:currentChatRole,
-
 type:"image",
-
 data:url,
 
-date:new Date().toLocaleString("en-PK"),
+date:
+new Date().toLocaleString("en-PK"),
 
 time:Date.now(),
-
 read:false
 
 });
 
 openChat(
 currentChatCustomer,
-currentChatRole==="admin"?"Dukandar":"Admin",
+
+currentChatRole==="admin"
+?
+"Dukandar"
+:
+"Admin",
+
 currentChatRole
+
 );
 
 }catch(e){
 
-alert("Image upload error:\n"+e.message);
+alert(
+"Image upload error:\n"+
+e.message
+);
 
 }
 
 }
-window.sendChatImage=sendChatImage;
+
+window.sendChatImage=
+sendChatImage;
 
 
-/* =========================================================
+/* =========================
  VOICE CHAT
-========================================================= */
+========================= */
 
 async function startVoice(){
 
@@ -3810,20 +5042,23 @@ recorder.state==="recording"
 ){
 
 recorder.stop();
+
 return;
 
 }
 
 try{
 
-let stream=
-await navigator.mediaDevices.getUserMedia({
+const stream=
+await navigator.mediaDevices
+.getUserMedia({
 audio:true
 });
 
 voiceChunks=[];
 
-recorder=new MediaRecorder(stream);
+recorder=
+new MediaRecorder(stream);
 
 recorder.ondataavailable=e=>{
 
@@ -3834,56 +5069,77 @@ voiceChunks.push(e.data);
 
 recorder.onstop=async()=>{
 
-let blob=new Blob(
+const blob=
+new Blob(
 voiceChunks,
-{type:"audio/webm"}
+{
+type:"audio/webm"
+}
 );
 
 try{
 
-let r=storageRef(
+const r=storageRef(
 storage,
-"chat/"+currentChatCustomer+
-"/voice_"+Date.now()+".webm"
+"chat/"+
+currentChatCustomer+
+"/voice_"+
+Date.now()+
+".webm"
 );
 
 await uploadBytes(r,blob);
 
-let url=await getDownloadURL(r);
+const url=
+await getDownloadURL(r);
 
-let msg=push(
-ref(db,"chats/"+currentChatCustomer)
+const msg=
+push(
+ref(
+db,
+"chats/"+currentChatCustomer
+)
 );
 
 await set(msg,{
 
 from:currentChatRole,
-
 type:"voice",
-
 data:url,
 
-date:new Date().toLocaleString("en-PK"),
+date:
+new Date().toLocaleString("en-PK"),
 
 time:Date.now(),
-
 read:false
 
 });
 
 openChat(
 currentChatCustomer,
-currentChatRole==="admin"?"Dukandar":"Admin",
+
+currentChatRole==="admin"
+?
+"Dukandar"
+:
+"Admin",
+
 currentChatRole
+
 );
 
 }catch(e){
 
-alert("Voice upload error:\n"+e.message);
+alert(
+"Voice upload error:\n"+
+e.message
+);
 
 }
 
-stream.getTracks().forEach(x=>x.stop());
+stream
+.getTracks()
+.forEach(x=>x.stop());
 
 };
 
@@ -3903,12 +5159,13 @@ e.message
 }
 
 }
+
 window.startVoice=startVoice;
 
 
-/* =========================================================
+/* =========================
  GO PRODUCTS
-========================================================= */
+========================= */
 
 function goProducts(){
 
@@ -3918,19 +5175,37 @@ behavior:"smooth"
 });
 
 }
+
 window.goProducts=goProducts;
 
 
-/* =========================================================
+/* =========================
  START
-========================================================= */
+========================= */
+
+try{
 
 await loadProducts();
+
 await loadStore();
 
 renderProducts();
+
 updateCart();
-renderAdminNav();
+
+}catch(e){
+
+console.error(
+"START ERROR:",
+e
+);
+
+alert(
+"Website Firebase se connect nahi ho rahi:\n\n"+
+e.message
+);
+
+}
 
 </script>
 
