@@ -103,7 +103,7 @@ margin-top:10px
 }
 
 .pic{
-height:160px;
+height:180px;
 background:#edf4ef;
 border-radius:10px;
 display:grid;
@@ -131,127 +131,6 @@ padding:9px;
 border:1px solid #ccd6d0;
 border-radius:7px;
 margin-top:5px
-}
-
-/* NEW VARIANT BUTTON SYSTEM */
-
-.variantSelector{
-background:#f7faf8;
-border:1px solid #d8e6dc;
-padding:10px;
-border-radius:10px;
-margin-top:10px
-}
-
-.variantButtons{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:7px;
-margin-top:8px
-}
-
-.variantButton{
-border:1px solid #cbd8cf;
-background:#fff;
-color:#18221d;
-padding:10px 6px;
-border-radius:8px;
-font-weight:bold;
-font-size:12px
-}
-
-.variantButton.active{
-background:#087443;
-color:#fff;
-border-color:#087443
-}
-
-.variantSummary{
-font-size:12px;
-color:#68736d;
-margin-top:8px;
-line-height:1.5
-}
-
-.selectionModal{
-position:fixed;
-inset:0;
-background:#0008;
-z-index:350;
-display:none;
-align-items:center;
-justify-content:center;
-padding:12px
-}
-
-.selectionModal.show{
-display:flex
-}
-
-.selectionBox{
-background:#fff;
-width:min(600px,100%);
-max-height:92vh;
-overflow:auto;
-border-radius:14px;
-padding:16px
-}
-
-.selectionHead{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-position:sticky;
-top:0;
-background:#fff;
-padding-bottom:10px;
-z-index:2
-}
-
-.selectionGroup{
-border:1px solid #ddd;
-border-radius:10px;
-padding:10px;
-margin-top:10px
-}
-
-.selectionGroup h3{
-margin:0 0 8px
-}
-
-.checkItem{
-display:flex;
-align-items:center;
-gap:10px;
-padding:10px;
-margin-top:6px;
-border:1px solid #ddd;
-border-radius:8px;
-background:#fafafa
-}
-
-.checkItem input{
-width:20px;
-height:20px;
-margin:0;
-accent-color:#087443
-}
-
-.checkItem span{
-flex:1
-}
-
-.checkRate{
-font-weight:bold;
-color:#087443;
-font-size:12px
-}
-
-.selectHint{
-font-size:11px;
-color:#68736d;
-margin-top:4px
 }
 
 button.primary{
@@ -284,6 +163,24 @@ background:#eee;
 border:0;
 padding:9px 12px;
 border-radius:7px
+}
+
+button.blue{
+background:#e6f0ff;
+color:#1757a6;
+border:0;
+padding:9px 12px;
+border-radius:7px;
+font-weight:bold
+}
+
+button.orange{
+background:#fff0d9;
+color:#9a5a00;
+border:0;
+padding:9px 12px;
+border-radius:7px;
+font-weight:bold
 }
 
 .row{
@@ -452,11 +349,123 @@ from{transform:translateX(0)}
 to{transform:translateX(-100%)}
 }
 
-.variantBox{
+.variantSelector{
 background:#f7faf8;
+border:1px solid #d8e6dc;
 padding:10px;
-border-radius:8px;
+border-radius:10px;
 margin-top:10px
+}
+
+.variantButtons{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:7px;
+margin-top:8px
+}
+
+.variantButton{
+border:1px solid #cbd8cf;
+background:#fff;
+color:#18221d;
+padding:10px 6px;
+border-radius:8px;
+font-weight:bold;
+font-size:12px
+}
+
+.variantButton.active{
+background:#087443;
+color:#fff;
+border-color:#087443
+}
+
+.variantSummary{
+font-size:12px;
+color:#68736d;
+margin-top:8px;
+line-height:1.5
+}
+
+.selectionModal{
+position:fixed;
+inset:0;
+background:#0008;
+z-index:350;
+display:none;
+align-items:center;
+justify-content:center;
+padding:12px
+}
+
+.selectionModal.show{
+display:flex
+}
+
+.selectionBox{
+background:#fff;
+width:min(650px,100%);
+max-height:92vh;
+overflow:auto;
+border-radius:14px;
+padding:16px
+}
+
+.selectionHead{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+position:sticky;
+top:0;
+background:#fff;
+padding-bottom:10px;
+z-index:2
+}
+
+.selectionGroup{
+border:1px solid #ddd;
+border-radius:10px;
+padding:10px;
+margin-top:10px
+}
+
+.selectionGroup h3{
+margin:0 0 8px
+}
+
+.checkItem{
+display:flex;
+align-items:center;
+gap:10px;
+padding:10px;
+margin-top:6px;
+border:1px solid #ddd;
+border-radius:8px;
+background:#fafafa
+}
+
+.checkItem input{
+width:20px;
+height:20px;
+margin:0;
+accent-color:#087443
+}
+
+.checkItem span{
+flex:1
+}
+
+.checkRate{
+font-weight:bold;
+color:#087443;
+font-size:12px
+}
+
+.selectHint{
+font-size:11px;
+color:#68736d;
+margin-top:4px
 }
 
 .rateBox{
@@ -476,6 +485,36 @@ font-size:13px
 
 .rateRow:last-child{
 border-bottom:0
+}
+
+.hiddenCost{
+background:#fff3cd;
+border:1px solid #efd36e;
+padding:8px;
+border-radius:7px;
+margin-top:6px
+}
+
+.costLabel{
+color:#856404;
+font-size:11px;
+font-weight:bold
+}
+
+.profitBox{
+background:#e9f7ef;
+border:1px solid #b8e2c7;
+padding:10px;
+border-radius:8px;
+margin-top:10px
+}
+
+.profit{
+color:#087443
+}
+
+.loss{
+color:#c62828
 }
 
 .infoText{
@@ -580,11 +619,22 @@ margin-top:20px
 .requestBox h3{margin-top:0}
 
 .requestPreview{
-max-width:120px;
-max-height:120px;
+max-width:180px;
+max-height:180px;
 border-radius:8px;
 display:none;
-margin-top:8px
+margin-top:8px;
+object-fit:cover
+}
+
+.productPreview{
+width:180px;
+height:180px;
+border-radius:10px;
+object-fit:cover;
+display:none;
+margin-top:10px;
+border:1px solid #ddd
 }
 
 .whatsapp{
@@ -619,6 +669,32 @@ border-radius:8px;
 font-weight:bold
 }
 
+.stockCard{
+border:1px solid #ddd;
+background:#fff;
+padding:14px;
+border-radius:12px;
+margin-top:10px
+}
+
+.stockBar{
+height:12px;
+background:#eee;
+border-radius:20px;
+overflow:hidden;
+margin-top:8px
+}
+
+.stockBar span{
+display:block;
+height:100%;
+background:#087443;
+border-radius:20px
+}
+
+.stockBar.low span{background:#e09b00}
+.stockBar.out span{background:#c62828}
+
 .statGrid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -639,12 +715,9 @@ display:block;
 margin-top:6px
 }
 
-.profit{color:#087443}
-.loss{color:#c62828}
-
 .adminTabs{
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(4,1fr);
 gap:8px;
 margin-top:12px
 }
@@ -679,12 +752,38 @@ background:#087443;
 color:#fff
 }
 
-.comboRate{
-background:#e9f7ef;
+.sectionTitle{
+background:#087443;
+color:#fff;
 padding:10px;
 border-radius:8px;
-font-weight:bold;
+margin-top:15px
+}
+
+.monthBox{
+border:1px solid #ddd;
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+background:#fff
+}
+
+.imageChoice{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 margin-top:10px
+}
+
+.imageChoice div{
+border:1px dashed #bbb;
+padding:12px;
+border-radius:10px
+}
+
+.stockMini{
+font-size:12px;
+margin-top:8px
 }
 
 @media(max-width:700px){
@@ -727,6 +826,10 @@ font-size:10px
 grid-template-columns:1fr
 }
 
+.imageChoice{
+grid-template-columns:1fr
+}
+
 }
 </style>
 </head>
@@ -738,28 +841,14 @@ grid-template-columns:1fr
 <header>
 
 <div class="logo" id="secretAdmin">
-
 🛒 Peerbakhsh All In One Wholesale
-
 <br>
-
-<small>
-Sukkur • 0305-1933595
-</small>
-
+<small>Sukkur • 0305-1933595</small>
 </div>
 
-<button class="headBtn" onclick="goProducts()">
-🔎 Search
-</button>
-
-<button class="headBtn" onclick="openCustomerChat()">
-💬 Chat
-</button>
-
-<button class="headBtn" onclick="customerAccount()">
-📒 Khata
-</button>
+<button class="headBtn" onclick="goProducts()">🔎 Search</button>
+<button class="headBtn" onclick="openCustomerChat()">💬 Chat</button>
+<button class="headBtn" onclick="customerAccount()">📒 Khata</button>
 
 <button class="topcart" onclick="openCart()">
 🛒 <span id="cartCount">0</span>
@@ -768,24 +857,16 @@ Sukkur • 0305-1933595
 </header>
 
 <div class="marquee">
-<span id="marqueeText">
-Peerbakhsh All In One Wholesale
-</span>
+<span id="marqueeText">Peerbakhsh All In One Wholesale</span>
 </div>
 
 <section class="hero">
 
-<h1>
-Peerbakhsh All In One Wholesale
-</h1>
+<h1>Peerbakhsh All In One Wholesale</h1>
 
-<p>
-Sukkur • Wholesale General Store
-</p>
+<p>Sukkur • Wholesale General Store</p>
 
-<button class="primary" onclick="goProducts()">
-Shop Now
-</button>
+<button class="primary" onclick="goProducts()">Shop Now</button>
 
 </section>
 
@@ -809,69 +890,38 @@ oninput="renderProducts()">
 
 <div class="requestBox">
 
-<h3>
-📦 Product Nahi Mil Raha?
-</h3>
+<h3>📦 Product Nahi Mil Raha?</h3>
 
 <p class="muted">
 Agar koi product website par nahi hai to uski request bhejein.
 </p>
 
 <label>Product Name *</label>
-
-<input
-id="reqName"
-placeholder="Product ka naam">
+<input id="reqName" placeholder="Product ka naam">
 
 <label>Flavor</label>
-
-<input
-id="reqFlavor"
-placeholder="Normal, Chocolate">
+<input id="reqFlavor" placeholder="Normal, Chocolate">
 
 <label>Weight</label>
-
-<input
-id="reqWeight"
-placeholder="100g, 500g">
+<input id="reqWeight" placeholder="100g, 500g">
 
 <label>Unit</label>
-
-<input
-id="reqUnit"
-placeholder="Packet, Box, Carton">
+<input id="reqUnit" placeholder="Packet, Box, Carton">
 
 <label>Quantity *</label>
-
-<input
-id="reqQty"
-type="number"
-min="1"
-value="1">
+<input id="reqQty" type="number" min="1" value="1">
 
 <label>Comment</label>
-
-<textarea
-id="reqComment"
-rows="3"></textarea>
+<textarea id="reqComment" rows="3"></textarea>
 
 <label>Product Picture</label>
+<input id="reqImage" type="file" accept="image/*" onchange="previewRequestImage()">
 
-<input
-id="reqImage"
-type="file"
-accept="image/*"
-onchange="previewRequestImage()">
-
-<img
-id="requestPreview"
-class="requestPreview">
+<img id="requestPreview" class="requestPreview">
 
 <br>
 
-<button
-class="primary"
-style="width:100%;margin-top:12px"
+<button class="primary" style="width:100%;margin-top:12px"
 onclick="addRequestToCart()">
 
 ➕ Request Cart Mein Add Karein
@@ -882,25 +932,15 @@ onclick="addRequestToCart()">
 
 </main>
 
-<div
-id="shade"
-class="shade"
-onclick="closeCart()">
-</div>
+<div id="shade" class="shade" onclick="closeCart()"></div>
 
-<aside
-id="cartDrawer"
-class="drawer">
+<aside id="cartDrawer" class="drawer">
 
 <div class="head">
 
 <h2>🛒 Cart</h2>
 
-<button
-class="close"
-onclick="closeCart()">
-✕
-</button>
+<button class="close" onclick="closeCart()">✕</button>
 
 </div>
 
@@ -911,26 +951,15 @@ Total:
 Rs. <span id="cartTotal">0</span>
 </h3>
 
-<button
-class="primary"
-style="width:100%"
-onclick="checkout()">
-
+<button class="primary" style="width:100%" onclick="checkout()">
 🧾 Order / WhatsApp
-
 </button>
 
 </aside>
 
-<!-- GENERAL MODAL -->
-
 <div id="modal" class="modal">
-
 <div id="modalBox" class="box"></div>
-
 </div>
-
-<!-- VARIANT SELECTION MODAL -->
 
 <div id="variantModal" class="selectionModal">
 
@@ -942,11 +971,7 @@ onclick="checkout()">
 ⚙️ Select Options
 </h2>
 
-<button
-class="close"
-onclick="closeVariantModal()">
-✕
-</button>
+<button class="close" onclick="closeVariantModal()">✕</button>
 
 </div>
 
@@ -954,20 +979,12 @@ onclick="closeVariantModal()">
 
 <div class="row">
 
-<button
-class="gray"
-onclick="clearVariantSelection()">
-
+<button class="gray" onclick="clearVariantSelection()">
 ↺ Clear
-
 </button>
 
-<button
-class="primary"
-onclick="saveVariantSelection()">
-
+<button class="primary" onclick="saveVariantSelection()">
 ✅ Save Selection
-
 </button>
 
 </div>
@@ -984,21 +1001,9 @@ onclick="saveVariantSelection()">
 
 <div class="row">
 
-<button
-class="primary"
-onclick="window.print()">
+<button class="primary" onclick="window.print()">🖨 Print</button>
 
-🖨 Print
-
-</button>
-
-<button
-class="gray"
-onclick="closeBill()">
-
-Close
-
-</button>
+<button class="gray" onclick="closeBill()">Close</button>
 
 </div>
 
@@ -1008,27 +1013,18 @@ Close
 
 <div class="bottom">
 
-<button onclick="goProducts()">
-🏠 Home
-</button>
+<button onclick="goProducts()">🏠 Home</button>
 
-<button
-onclick="document.getElementById('search').focus()">
-🔎 Search
-</button>
+<button onclick="document.getElementById('search').focus()">🔎 Search</button>
 
 <button onclick="openCart()">
 🛒 Cart
 <span id="bottomCount">0</span>
 </button>
 
-<button onclick="openCustomerChat()">
-💬 Chat
-</button>
+<button onclick="openCustomerChat()">💬 Chat</button>
 
-<button onclick="customerAccount()">
-📒 Khata
-</button>
+<button onclick="customerAccount()">📒 Khata</button>
 
 </div>
 
@@ -1106,16 +1102,11 @@ measurementId:
 const app=initializeApp(firebaseConfig);
 
 const auth=getAuth(app);
-
 const db=getDatabase(app);
-
 const storage=getStorage(app);
 
-const ADMIN_EMAIL=
-"peerbakhsh144@gmail.com";
-
-const WHATSAPP=
-"923051933595";
+const ADMIN_EMAIL="peerbakhsh144@gmail.com";
+const WHATSAPP="923051933595";
 
 
 /* =========================================================
@@ -1140,13 +1131,7 @@ let currentChatRole="customer";
 let recorder=null;
 let voiceChunks=[];
 
-
-/*
-NEW VARIANT SELECTION STATE
-*/
-
 let variantSelectionProductId=null;
-
 let variantSelections={};
 
 
@@ -1158,13 +1143,11 @@ function esc(s){
 
 return String(s??"")
 .replace(/[&<>"']/g,m=>({
-
 "&":"&amp;",
 "<":"&lt;",
 ">":"&gt;",
 '"':"&quot;",
 "'":"&#39;"
-
 }[m]));
 
 }
@@ -1184,8 +1167,7 @@ return Number(n||0);
 
 function showStatus(t){
 
-const x=
-document.getElementById("status");
+const x=document.getElementById("status");
 
 x.textContent=t;
 
@@ -1199,40 +1181,27 @@ x.classList.remove("show");
 
 async function dbGet(path){
 
-const snap=
-await get(ref(db,path));
+const snap=await get(ref(db,path));
 
-return snap.exists()
-?
-snap.val()
-:
-null;
+return snap.exists()?snap.val():null;
 
 }
 
 async function dbSet(path,data){
 
-await set(
-ref(db,path),
-data
-);
+await set(ref(db,path),data);
 
 }
 
 async function dbUpdate(path,data){
 
-await update(
-ref(db,path),
-data
-);
+await update(ref(db,path),data);
 
 }
 
 async function dbRemove(path){
 
-await remove(
-ref(db,path)
-);
+await remove(ref(db,path));
 
 }
 
@@ -1243,56 +1212,39 @@ MODALS
 
 function openModal(html){
 
-document.getElementById(
-"modalBox"
-).innerHTML=html;
+document.getElementById("modalBox").innerHTML=html;
 
-document.getElementById(
-"modal"
-).classList.add("show");
+document.getElementById("modal").classList.add("show");
 
 }
 
 function closeModal(){
 
-document.getElementById(
-"modal"
-).classList.remove("show");
+document.getElementById("modal").classList.remove("show");
 
-document.getElementById(
-"modalBox"
-).innerHTML="";
+document.getElementById("modalBox").innerHTML="";
 
 }
 
 window.closeModal=closeModal;
 
-
 function closeCart(){
 
-document.getElementById(
-"shade"
-).classList.remove("show");
+document.getElementById("shade").classList.remove("show");
 
-document.getElementById(
-"cartDrawer"
-).classList.remove("open");
+document.getElementById("cartDrawer").classList.remove("open");
 
 }
 
 window.closeCart=closeCart;
 
-
 function closeBill(){
 
-document.getElementById(
-"billModal"
-).classList.remove("show");
+document.getElementById("billModal").classList.remove("show");
 
 }
 
 window.closeBill=closeBill;
-
 
 function closeAll(){
 
@@ -1307,24 +1259,21 @@ window.closeAll=closeAll;
 
 
 /* =========================================================
-SECRET ADMIN 5 CLICKS
+SECRET ADMIN
+5 CLICKS
 ========================================================= */
 
 let adminTapCount=0;
 let adminTapTimer=null;
 
-document
-.getElementById("secretAdmin")
-.addEventListener("click",()=>{
+document.getElementById("secretAdmin").addEventListener("click",()=>{
 
 adminTapCount++;
 
 clearTimeout(adminTapTimer);
 
 adminTapTimer=setTimeout(()=>{
-
 adminTapCount=0;
-
 },2000);
 
 if(adminTapCount>=5){
@@ -1344,16 +1293,13 @@ adminLogin();
 AUTH
 ========================================================= */
 
-onAuthStateChanged(
-auth,
-user=>{
+onAuthStateChanged(auth,user=>{
 
 currentUser=user;
 
 if(!user){
 
 currentRole="guest";
-
 return;
 
 }
@@ -1376,8 +1322,7 @@ showStatus("✅ Dukandar Login");
 
 }
 
-}
-);
+});
 
 
 /* =========================================================
@@ -1405,11 +1350,7 @@ openModal(`
 
 <h2>🔐 Admin Login</h2>
 
-<button
-class="close"
-onclick="closeModal()">
-✕
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
@@ -1420,12 +1361,8 @@ placeholder="Admin Password">
 
 <br><br>
 
-<button
-class="primary"
-onclick="doLogin()">
-
+<button class="primary" onclick="doLogin()">
 🔐 Login
-
 </button>
 
 `);
@@ -1438,14 +1375,11 @@ window.adminLogin=adminLogin;
 async function doLogin(){
 
 const password=
-document
-.getElementById("loginPassword")
-?.value||"";
+document.getElementById("loginPassword")?.value||"";
 
 if(!password){
 
 alert("Password required hai.");
-
 return;
 
 }
@@ -1481,10 +1415,7 @@ alert("Admin access denied.");
 
 }catch(e){
 
-alert(
-"Admin Login Failed:\n\n"+
-e.message
-);
+alert("Admin Login Failed:\n\n"+e.message);
 
 }
 
@@ -1505,11 +1436,7 @@ openModal(`
 
 <h2>🏪 Dukandar Login</h2>
 
-<button
-class="close"
-onclick="closeModal()">
-✕
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
@@ -1525,12 +1452,8 @@ placeholder="Password">
 
 <br><br>
 
-<button
-class="primary"
-onclick="customerDoLogin()">
-
+<button class="primary" onclick="customerDoLogin()">
 Login
-
 </button>
 
 `);
@@ -1543,14 +1466,10 @@ window.customerLogin=customerLogin;
 async function customerDoLogin(){
 
 const email=
-document
-.getElementById("customerEmail")
-.value.trim();
+document.getElementById("customerEmail").value.trim();
 
 const password=
-document
-.getElementById("customerPassword")
-.value;
+document.getElementById("customerPassword").value;
 
 try{
 
@@ -1564,10 +1483,7 @@ closeModal();
 
 }catch(e){
 
-alert(
-"Login failed:\n"+
-e.message
-);
+alert("Login failed:\n"+e.message);
 
 }
 
@@ -1593,6 +1509,127 @@ window.logout=logout;
 
 
 /* =========================================================
+NORMALIZE
+========================================================= */
+
+function normalizeVariant(x){
+
+return{
+
+name:String(x?.name||""),
+
+price:number(x?.price),
+
+costPrice:number(
+x?.costPrice!==undefined
+?
+x.costPrice
+:
+0
+
+)
+
+};
+
+}
+
+
+function normalizeCombination(x){
+
+return{
+
+flavor:String(x?.flavor||""),
+weight:String(x?.weight||""),
+unit:String(x?.unit||""),
+
+price:number(x?.price),
+costPrice:number(x?.costPrice),
+
+/* stock ab HAR combination (flavor+weight+unit) ka apna,
+   base unit mein rakha jata hai */
+stock:number(
+x?.stock!==undefined?x.stock:0
+)
+
+};
+
+}
+
+
+function normalizeProduct(id,p){
+
+const combinations=
+(p.combinations||[]).map(normalizeCombination);
+
+return{
+
+id,
+
+...p,
+
+/* baseUnit sirf admin ke liye label hai
+   (jaise Piece, Gram, ml wagera) */
+baseUnit:String(p.baseUnit||"Piece"),
+
+minStock:number(
+p.minStock!==undefined
+?
+p.minStock
+:
+10
+),
+
+costPrice:number(p.costPrice),
+
+price:number(p.price),
+
+flavors:(p.flavors||[]).map(normalizeVariant),
+
+weights:(p.weights||[]).map(normalizeVariant),
+
+units:(p.units||[]).map(normalizeVariant),
+
+combinations
+
+};
+
+}
+
+
+/* combination ka total stock (sirf ADMIN dashboards ke liye) */
+function productTotalStock(p){
+
+return(p.combinations||[])
+.reduce((a,c)=>a+number(c.stock),0);
+
+}
+
+window.productTotalStock=productTotalStock;
+
+
+function comboKey(flavor,weight,unit){
+
+return[
+flavor||"",
+weight||"",
+unit||""
+].join("|||");
+
+}
+
+
+function findCombo(p,flavor,weight,unit){
+
+return(p.combinations||[]).find(x=>
+String(x.flavor||"")===String(flavor||"") &&
+String(x.weight||"")===String(weight||"") &&
+String(x.unit||"")===String(unit||"")
+)||null;
+
+}
+
+
+/* =========================================================
 PRODUCT LOAD
 ========================================================= */
 
@@ -1600,39 +1637,17 @@ async function loadProducts(){
 
 try{
 
-const data=
-await dbGet("products");
+const data=await dbGet("products");
 
 if(data){
 
 products=
 Object.entries(data)
-.map(([id,p])=>({
-
-id,
-
-...p,
-
-stock:number(p.stock),
-
-costPrice:number(p.costPrice),
-
-price:number(p.price),
-
-flavors:p.flavors||[],
-
-weights:p.weights||[],
-
-units:p.units||[],
-
-combinations:p.combinations||[]
-
-}));
+.map(([id,p])=>normalizeProduct(id,p));
 
 }else{
 
-const r=
-push(ref(db,"products"));
+const r=push(ref(db,"products"));
 
 const first={
 
@@ -1642,136 +1657,94 @@ icon:"🥜",
 
 image:"",
 
-info:
-"Pika Nut wholesale product.",
+info:"Pika Nut wholesale product.",
 
-shortInfo:
-"Wholesale Pika Nut",
+shortInfo:"Wholesale Pika Nut",
 
 price:120,
 
 costPrice:90,
 
-stock:50,
+minStock:10,
+
+baseUnit:"Piece",
 
 active:true,
 
 flavors:[
-
-{
-name:"Normal",
-price:120
-},
-
-{
-name:"Chocolate",
-price:130
-},
-
-{
-name:"Vanilla",
-price:135
-}
-
+{name:"Normal",price:120,costPrice:90},
+{name:"Chocolate",price:130,costPrice:95},
+{name:"Vanilla",price:135,costPrice:100}
 ],
 
 weights:[
-
-{
-name:"100g",
-price:120
-},
-
-{
-name:"250g",
-price:280
-},
-
-{
-name:"500g",
-price:520
-}
-
+{name:"100g",price:120,costPrice:90},
+{name:"250g",price:280,costPrice:210},
+{name:"500g",price:520,costPrice:390}
 ],
 
 units:[
-
-{
-name:"Packet",
-price:120
-},
-
-{
-name:"Box",
-price:1200
-},
-
-{
-name:"Carton",
-price:2400
-}
-
+{name:"Packet",price:120,costPrice:90},
+{name:"Box",price:1200,costPrice:900},
+{name:"Carton",price:2400,costPrice:1800}
 ],
 
 combinations:[
-
 {
 flavor:"Normal",
 weight:"100g",
 unit:"Packet",
 price:120,
-costPrice:90
+costPrice:90,
+stock:50
 },
-
 {
 flavor:"Normal",
 weight:"250g",
 unit:"Packet",
 price:280,
-costPrice:210
+costPrice:210,
+stock:30
 },
-
 {
 flavor:"Normal",
 weight:"500g",
 unit:"Packet",
 price:520,
-costPrice:390
+costPrice:390,
+stock:20
 },
-
 {
 flavor:"Chocolate",
 weight:"100g",
 unit:"Packet",
 price:130,
-costPrice:95
+costPrice:95,
+stock:25
 },
-
 {
 flavor:"Chocolate",
 weight:"250g",
 unit:"Packet",
 price:300,
-costPrice:220
+costPrice:220,
+stock:15
 },
-
 {
 flavor:"Chocolate",
 weight:"500g",
 unit:"Packet",
 price:550,
-costPrice:410
+costPrice:410,
+stock:10
 }
-
 ]
 
 };
 
 await set(r,first);
 
-first.id=r.key;
-
-products=[first];
+products=[normalizeProduct(r.key,first)];
 
 }
 
@@ -1781,9 +1754,7 @@ renderProducts();
 
 console.error(e);
 
-showStatus(
-"⚠️ Products load nahi hue"
-);
+showStatus("⚠️ Products load nahi hue");
 
 }
 
@@ -1791,113 +1762,49 @@ showStatus(
 
 
 /* =========================================================
-NEW CHECKBOX VARIANT SYSTEM
+VARIANT SELECTION
 ========================================================= */
-
-/*
-Selected options sirf unhi dimensions se liye jate hain
-jin mein user ne checkbox tick kiya ho.
-
-Agar Flavor skip:
-flavor = ""
-
-Agar Weight skip:
-weight = ""
-
-Agar Unit skip:
-unit = ""
-
-Is tarah koi dimension compulsory nahi.
-*/
-
 
 function getProductSelections(id){
 
-const p=
-products.find(x=>x.id===id);
-
-if(!p){
-
-return{
-flavors:[],
-weights:[],
-units:[]
-};
-
-}
-
-
-const saved=
-variantSelections[id]||{};
-
+const saved=variantSelections[id]||{};
 
 return{
 
-flavors:Array.isArray(saved.flavors)
-?
-saved.flavors
-:
-[],
-
-weights:Array.isArray(saved.weights)
-?
-saved.weights
-:
-[],
-
-units:Array.isArray(saved.units)
-?
-saved.units
-:
-[]
+flavors:Array.isArray(saved.flavors)?saved.flavors:[],
+weights:Array.isArray(saved.weights)?saved.weights:[],
+units:Array.isArray(saved.units)?saved.units:[]
 
 };
 
 }
 
-
-/* =========================================================
-OPEN VARIANT SELECTOR
-========================================================= */
 
 function openVariantSelector(id){
 
-const p=
-products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
 
-
 variantSelectionProductId=id;
-
 
 if(!variantSelections[id]){
 
 variantSelections[id]={
-
 flavors:[],
 weights:[],
 units:[]
-
 };
 
 }
 
+const selected=variantSelections[id];
 
-const selected=
-variantSelections[id];
-
-
-document.getElementById(
-"variantModalTitle"
-).textContent=
+document.getElementById("variantModalTitle").textContent=
 "⚙️ "+p.name+" — Options";
-
 
 let html="";
 
-
-/* FLAVORS */
 
 if((p.flavors||[]).length){
 
@@ -1905,20 +1812,11 @@ html+=`
 
 <div class="selectionGroup">
 
-<h3>
-🌈 Flavor
-</h3>
+<h3>🌈 Flavor</h3>
 
-<div class="selectHint">
-Jo Flavor chahiye us par tick karein. Skip karna allowed hai.
-</div>
+${p.flavors.map(x=>{
 
-${p.flavors.map((x,i)=>{
-
-const checked=
-selected.flavors.includes(
-String(x.name)
-);
+const checked=selected.flavors.includes(String(x.name));
 
 return`
 
@@ -1930,9 +1828,7 @@ class="variantCheck flavorCheck"
 value="${esc(x.name)}"
 ${checked?"checked":""}>
 
-<span>
-${esc(x.name)}
-</span>
+<span>${esc(x.name)}</span>
 
 <span class="checkRate">
 Rs. ${money(x.price)}
@@ -1951,28 +1847,17 @@ Rs. ${money(x.price)}
 }
 
 
-/* WEIGHTS */
-
 if((p.weights||[]).length){
 
 html+=`
 
 <div class="selectionGroup">
 
-<h3>
-⚖️ Weight
-</h3>
-
-<div class="selectHint">
-Jo Weight chahiye us par tick karein. Skip karna allowed hai.
-</div>
+<h3>⚖️ Weight</h3>
 
 ${p.weights.map(x=>{
 
-const checked=
-selected.weights.includes(
-String(x.name)
-);
+const checked=selected.weights.includes(String(x.name));
 
 return`
 
@@ -1984,9 +1869,7 @@ class="variantCheck weightCheck"
 value="${esc(x.name)}"
 ${checked?"checked":""}>
 
-<span>
-${esc(x.name)}
-</span>
+<span>${esc(x.name)}</span>
 
 <span class="checkRate">
 Rs. ${money(x.price)}
@@ -2005,28 +1888,17 @@ Rs. ${money(x.price)}
 }
 
 
-/* UNITS */
-
 if((p.units||[]).length){
 
 html+=`
 
 <div class="selectionGroup">
 
-<h3>
-📦 Unit
-</h3>
-
-<div class="selectHint">
-Jo Unit chahiye us par tick karein. Skip karna allowed hai.
-</div>
+<h3>📦 Unit</h3>
 
 ${p.units.map(x=>{
 
-const checked=
-selected.units.includes(
-String(x.name)
-);
+const checked=selected.units.includes(String(x.name));
 
 return`
 
@@ -2038,9 +1910,7 @@ class="variantCheck unitCheck"
 value="${esc(x.name)}"
 ${checked?"checked":""}>
 
-<span>
-${esc(x.name)}
-</span>
+<span>${esc(x.name)}</span>
 
 <span class="checkRate">
 Rs. ${money(x.price)}
@@ -2059,323 +1929,107 @@ Rs. ${money(x.price)}
 }
 
 
-if(!html){
+document.getElementById("variantSelectionContent").innerHTML=
+html||`<div class="notice">Is product mein variants nahi hain.</div>`;
 
-html=`
-
-<div class="notice">
-
-Is product ke liye Flavor, Weight ya Unit options available nahi hain.
-
-</div>
-
-`;
+document.getElementById("variantModal").classList.add("show");
 
 }
 
+window.openVariantSelector=openVariantSelector;
 
-document.getElementById(
-"variantSelectionContent"
-).innerHTML=html;
-
-
-document.getElementById(
-"variantModal"
-).classList.add("show");
-
-}
-
-window.openVariantSelector=
-openVariantSelector;
-
-
-/* =========================================================
-SAVE CHECKBOX SELECTION
-========================================================= */
 
 function saveVariantSelection(){
 
-const id=
-variantSelectionProductId;
+const id=variantSelectionProductId;
 
 if(!id){
 
 closeVariantModal();
-
 return;
 
 }
 
-
-const flavors=
-Array.from(
-document.querySelectorAll(
-".flavorCheck:checked"
-)
-)
-.map(x=>x.value);
-
-
-const weights=
-Array.from(
-document.querySelectorAll(
-".weightCheck:checked"
-)
-)
-.map(x=>x.value);
-
-
-const units=
-Array.from(
-document.querySelectorAll(
-".unitCheck:checked"
-)
-)
-.map(x=>x.value);
-
-
 variantSelections[id]={
 
-flavors,
-weights,
-units
+flavors:
+Array.from(document.querySelectorAll(".flavorCheck:checked"))
+.map(x=>x.value),
+
+weights:
+Array.from(document.querySelectorAll(".weightCheck:checked"))
+.map(x=>x.value),
+
+units:
+Array.from(document.querySelectorAll(".unitCheck:checked"))
+.map(x=>x.value)
 
 };
-
 
 closeVariantModal();
 
 updateProductRate(id);
-
 updateVariantButton(id);
 
-showStatus(
-"✅ Selection save ho gayi"
-);
+showStatus("✅ Selection save ho gayi");
 
 }
 
-window.saveVariantSelection=
-saveVariantSelection;
+window.saveVariantSelection=saveVariantSelection;
 
-
-/* =========================================================
-CLEAR SELECTION
-========================================================= */
 
 function clearVariantSelection(){
 
-const id=
-variantSelectionProductId;
+const id=variantSelectionProductId;
 
 if(!id)return;
 
-
 variantSelections[id]={
-
 flavors:[],
 weights:[],
 units:[]
-
 };
 
-
 document
-.querySelectorAll(
-"#variantSelectionContent input[type=checkbox]"
-)
-.forEach(x=>{
-x.checked=false;
-});
-
+.querySelectorAll("#variantSelectionContent input[type=checkbox]")
+.forEach(x=>x.checked=false);
 
 updateProductRate(id);
-
 updateVariantButton(id);
 
 }
 
-window.clearVariantSelection=
-clearVariantSelection;
+window.clearVariantSelection=clearVariantSelection;
 
-
-/* =========================================================
-CLOSE VARIANT MODAL
-========================================================= */
 
 function closeVariantModal(){
 
-document.getElementById(
-"variantModal"
-).classList.remove("show");
+document.getElementById("variantModal").classList.remove("show");
 
 variantSelectionProductId=null;
 
 }
 
-window.closeVariantModal=
-closeVariantModal;
+window.closeVariantModal=closeVariantModal;
 
 
 /* =========================================================
-VARIANT BUTTON SUMMARY
-========================================================= */
-
-function updateVariantButton(id){
-
-const p=
-products.find(x=>x.id===id);
-
-if(!p)return;
-
-
-const selected=
-getProductSelections(id);
-
-
-const button=
-document.getElementById(
-"variantButton_"+id
-);
-
-const summary=
-document.getElementById(
-"variantSummary_"+id
-);
-
-
-if(!button||!summary)return;
-
-
-const total=
-selected.flavors.length+
-selected.weights.length+
-selected.units.length;
-
-
-if(!total){
-
-button.textContent=
-"⚙️ Flavor / Weight / Unit Select";
-
-summary.textContent=
-"Koi option select nahi hai — sab skip bhi kar sakte hain.";
-
-button.classList.remove("active");
-
-return;
-
-}
-
-
-button.textContent=
-"✅ Options Selected";
-
-button.classList.add("active");
-
-
-const parts=[];
-
-
-if(selected.flavors.length){
-
-parts.push(
-"🌈 "+
-selected.flavors.join(", ")
-);
-
-}
-
-
-if(selected.weights.length){
-
-parts.push(
-"⚖️ "+
-selected.weights.join(", ")
-);
-
-}
-
-
-if(selected.units.length){
-
-parts.push(
-"📦 "+
-selected.units.join(", ")
-);
-
-}
-
-
-summary.innerHTML=
-parts.join(" • ");
-
-}
-
-window.updateVariantButton=
-updateVariantButton;
-
-
-/* =========================================================
-GET SELECTED VARIANTS
-OPTIONAL DIMENSIONS
+RATE ENGINE
 ========================================================= */
 
 function getSelectedVariants(id){
 
-const p=
-products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
-if(!p)return [];
+if(!p)return[];
 
+const selected=getProductSelections(id);
 
-const selected=
-getProductSelections(id);
-
-
-/*
-IMPORTANT:
-
-Agar user ne Flavor select nahi kiya
-to [""] use hoga.
-
-Agar Weight select nahi kiya
-to [""] use hoga.
-
-Agar Unit select nahi kiya
-to [""] use hoga.
-
-Iska matlab:
-Koi bhi category skip ki ja sakti hai.
-*/
-
-
-const flavors=
-selected.flavors.length
-?
-selected.flavors
-:
-[""];
-
-
-const weights=
-selected.weights.length
-?
-selected.weights
-:
-[""];
-
-
-const units=
-selected.units.length
-?
-selected.units
-:
-[""];
-
+const flavors=selected.flavors.length?selected.flavors:[""];
+const weights=selected.weights.length?selected.weights:[""];
+const units=selected.units.length?selected.units:[""];
 
 const result=[];
-
 
 flavors.forEach(flavor=>{
 
@@ -2383,171 +2037,65 @@ weights.forEach(weight=>{
 
 units.forEach(unit=>{
 
-const combo=
-(p.combinations||[]).find(x=>
+const combo=findCombo(p,flavor,weight,unit);
 
-String(x.flavor||"")===
-String(flavor||"") &&
-
-String(x.weight||"")===
-String(weight||"") &&
-
-String(x.unit||"")===
-String(unit||"")
-
-);
-
-
-let price=
-number(p.price);
-
-let costPrice=
-number(p.costPrice);
-
-
-/*
-EXACT COMBINATION
-*/
+let price=number(p.price);
+let costPrice=number(p.costPrice);
 
 if(combo){
 
-price=
-number(combo.price);
+price=number(combo.price);
+costPrice=number(combo.costPrice);
 
-costPrice=
-combo.costPrice!==undefined
-?
-number(combo.costPrice)
-:
-number(p.costPrice);
+}else{
 
-}
-
-
-/*
-FALLBACK
-
-Sirf selected dimension ki rate
-consider ki jayegi.
-
-Priority:
-Unit > Weight > Flavor
-*/
-
-else{
-
-const f=
-(p.flavors||[])
-.find(x=>
-String(x.name)===
-String(flavor)
+const f=(p.flavors||[]).find(
+x=>String(x.name)===String(flavor)
 );
 
-const w=
-(p.weights||[])
-.find(x=>
-String(x.name)===
-String(weight)
+const w=(p.weights||[]).find(
+x=>String(x.name)===String(weight)
 );
 
-const u=
-(p.units||[])
-.find(x=>
-String(x.name)===
-String(unit)
+const u=(p.units||[]).find(
+x=>String(x.name)===String(unit)
 );
 
-
-if(
-f &&
-f.price!==undefined &&
-flavor
-){
-
-price=
-number(f.price);
-
+if(f && flavor){
+price=number(f.price);
+costPrice=number(f.costPrice);
 }
 
-
-if(
-w &&
-w.price!==undefined &&
-weight
-){
-
-price=
-number(w.price);
-
+if(w && weight){
+price=number(w.price);
+costPrice=number(w.costPrice);
 }
 
-
-if(
-u &&
-u.price!==undefined &&
-unit
-){
-
-price=
-number(u.price);
-
+if(u && unit){
+price=number(u.price);
+costPrice=number(u.costPrice);
 }
 
 }
 
-
-/*
-EMPTY ALL DIMENSIONS:
-
-Default product rate.
-*/
-
-if(
-!flavor &&
-!weight &&
-!unit
-){
-
-price=
-number(p.price);
-
-costPrice=
-number(p.costPrice);
-
-}
-
-
-/*
-KEY
-*/
-
-const key=
-[
+const key=[
 flavor,
 weight,
 unit
 ].join("|||");
 
-
-if(
-!result.some(x=>
-x.key===key
-)
-){
+if(!result.some(x=>x.key===key)){
 
 result.push({
 
 key,
-
 flavor,
-
 weight,
-
 unit,
-
 price,
-
-costPrice
+costPrice,
+profitPerUnit:price-costPrice,
+hasCombo:!!combo
 
 });
 
@@ -2558,84 +2106,91 @@ costPrice
 });
 
 });
-
 
 return result;
 
 }
 
-window.getSelectedVariants=
-getSelectedVariants;
+window.getSelectedVariants=getSelectedVariants;
 
-
-/* =========================================================
-COMPATIBILITY FUNCTION
-========================================================= */
 
 function getSelectedVariant(id){
 
-const list=
-getSelectedVariants(id);
-
-return list[0]||null;
+return getSelectedVariants(id)[0]||null;
 
 }
 
-window.getSelectedVariant=
-getSelectedVariant;
+window.getSelectedVariant=getSelectedVariant;
 
 
-/* =========================================================
-MULTI RATE DISPLAY
-========================================================= */
+function updateVariantButton(id){
 
-function updateProductRate(id){
+const selected=getProductSelections(id);
 
-const variants=
-getSelectedVariants(id);
+const button=document.getElementById("variantButton_"+id);
+const summary=document.getElementById("variantSummary_"+id);
 
-const el=
-document.getElementById(
-"rate_"+id
-);
+if(!button||!summary)return;
 
-if(!el)return;
+const total=
+selected.flavors.length+
+selected.weights.length+
+selected.units.length;
 
+if(!total){
 
-if(!variants.length){
+button.textContent="⚙️ Flavor / Weight / Unit Select";
+button.classList.remove("active");
 
-el.innerHTML=
-"Koi selection nahi";
+summary.textContent=
+"Koi option select nahi hai — default rate use hoga.";
 
 return;
 
 }
 
+button.textContent="✅ Options Selected";
+button.classList.add("active");
 
-el.innerHTML=
-variants.map(v=>`
+const parts=[];
+
+if(selected.flavors.length)
+parts.push("🌈 "+selected.flavors.join(", "));
+
+if(selected.weights.length)
+parts.push("⚖️ "+selected.weights.join(", "));
+
+if(selected.units.length)
+parts.push("📦 "+selected.units.join(", "));
+
+summary.innerHTML=parts.join(" • ");
+
+}
+
+window.updateVariantButton=updateVariantButton;
+
+
+function updateProductRate(id){
+
+const variants=getSelectedVariants(id);
+
+const el=document.getElementById("rate_"+id);
+
+if(!el)return;
+
+el.innerHTML=variants.map(v=>`
 
 <div class="rateRow">
 
-<b>
-${esc(v.flavor||"Any Flavor")}
-</b>
-
+<b>${esc(v.flavor||"Any Flavor")}</b>
 ×
-
-<b>
-${esc(v.weight||"Any Weight")}
-</b>
-
+<b>${esc(v.weight||"Any Weight")}</b>
 ×
-
-<b>
-${esc(v.unit||"Any Unit")}
-</b>
+<b>${esc(v.unit||"Any Unit")}</b>
 
 <br>
 
-💰
+💰 Sale Rate:
 Rs. ${money(v.price)}
 
 </div>
@@ -2644,43 +2199,27 @@ Rs. ${money(v.price)}
 
 }
 
-window.updateProductRate=
-updateProductRate;
+window.updateProductRate=updateProductRate;
 
 
 /* =========================================================
 PRODUCT DISPLAY
+(customer ko stock kabhi nahi dikhaya jata)
 ========================================================= */
 
 function renderProducts(){
 
-const grid=
-document.getElementById(
-"productGrid"
-);
+const grid=document.getElementById("productGrid");
 
 if(!grid)return;
 
-
 const q=
-(
-document.getElementById("search")
-?.value||""
-)
-.toLowerCase();
+(document.getElementById("search")?.value||"").toLowerCase();
 
-
-const list=
-products.filter(p=>
-
+const list=products.filter(p=>
 p.active!==false &&
-
-String(p.name||"")
-.toLowerCase()
-.includes(q)
-
+String(p.name||"").toLowerCase().includes(q)
 );
-
 
 if(!list.length){
 
@@ -2688,9 +2227,7 @@ grid.innerHTML=`
 
 <div class="card">
 
-<h3>
-📦 Product nahi mila
-</h3>
+<h3>📦 Product nahi mila</h3>
 
 <p>
 Neeche Product Request box se request bhej dein.
@@ -2704,11 +2241,7 @@ return;
 
 }
 
-
-grid.innerHTML=
-list.map(p=>{
-
-return`
+grid.innerHTML=list.map(p=>`
 
 <div class="card">
 
@@ -2717,23 +2250,18 @@ return`
 ${
 p.image
 ?
-`<img src="${esc(p.image)}">`
+`<img src="${esc(p.image)}" alt="${esc(p.name)}">`
 :
 esc(p.icon||"📦")
 }
 
 </div>
 
-<h3>
-${esc(p.name)}
-</h3>
+<h3>${esc(p.name)}</h3>
 
 <p class="muted">
 ${esc(p.shortInfo||"")}
 </p>
-
-
-<!-- NEW BUTTON -->
 
 <div class="variantSelector">
 
@@ -2752,18 +2280,15 @@ id="variantSummary_${p.id}"
 class="variantSummary">
 
 Koi option select nahi hai —
-sab skip bhi kar sakte hain.
+default rate use hoga.
 
 </div>
 
-
 <div class="rateBox">
 
-💰 Selected Combination Rates:
+💰 Sale Rate:
 
-<div
-id="rate_${p.id}"
-style="margin-top:8px">
+<div id="rate_${p.id}" style="margin-top:8px">
 
 Default Rate:
 Rs. ${money(p.price)}
@@ -2774,13 +2299,9 @@ Rs. ${money(p.price)}
 
 </div>
 
-
 <div class="qty">
 
-<button
-onclick="changeQty('${p.id}',-1)">
-−
-</button>
+<button onclick="changeQty('${p.id}',-1)">−</button>
 
 <input
 id="qty${p.id}"
@@ -2788,13 +2309,9 @@ type="number"
 min="1"
 value="1">
 
-<button
-onclick="changeQty('${p.id}',1)">
-+
-</button>
+<button onclick="changeQty('${p.id}',1)">+</button>
 
 </div>
-
 
 <div class="row">
 
@@ -2818,10 +2335,7 @@ onclick="addCart('${p.id}')">
 
 </div>
 
-`;
-
-}).join("");
-
+`).join("");
 
 list.forEach(p=>{
 
@@ -2836,25 +2350,16 @@ updateProductRate(p.id);
 
 }
 
-window.renderProducts=
-renderProducts;
+window.renderProducts=renderProducts;
 
-
-/* =========================================================
-QUANTITY
-========================================================= */
 
 function changeQty(id,n){
 
-const el=
-document.getElementById(
-"qty"+id
-);
+const el=document.getElementById("qty"+id);
 
 if(!el)return;
 
-let q=
-number(el.value)||1;
+let q=number(el.value)||1;
 
 q+=n;
 
@@ -2869,12 +2374,12 @@ window.changeQty=changeQty;
 
 /* =========================================================
 PRODUCT INFO
+(stock yahan bhi nahi dikhaya jata)
 ========================================================= */
 
 function showProductInfo(id){
 
-const p=
-products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
 
@@ -2883,86 +2388,50 @@ openModal(`
 <div class="head">
 
 <h2>
-${esc(p.icon||"📦")}
+${p.image?`<img src="${esc(p.image)}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;vertical-align:middle">`:esc(p.icon||"📦")}
 ${esc(p.name)}
 </h2>
 
-<button
-class="close"
-onclick="closeModal()">
-✕
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
 <hr>
 
 <div class="infoText">
-
-${esc(
-p.info||
-"Product information available nahi hai."
-)}
-
+${esc(p.info||"Product information available nahi hai.")}
 </div>
 
 <hr>
 
-<h3>
-💰 Main Rate
-</h3>
+<h3>💰 Main Sale Rate</h3>
 
-<p>
-Rs. ${money(p.price)}
-</p>
-
+<p>Rs. ${money(p.price)}</p>
 
 ${
 (p.combinations||[]).length
 ?
 `
 
-<hr>
-
-<h3>
-💰 All Combination Rates
-</h3>
+<h3>💰 Combination Rates</h3>
 
 <table class="comboTable">
 
 <tr class="comboHead">
-
 <th>Flavor</th>
 <th>Weight</th>
 <th>Unit</th>
 <th>Sale</th>
-<th>Cost</th>
-
 </tr>
 
 ${p.combinations.map(x=>`
 
 <tr>
 
-<td>
-${esc(x.flavor)}
-</td>
-
-<td>
-${esc(x.weight)}
-</td>
-
-<td>
-${esc(x.unit)}
-</td>
-
-<td>
-Rs. ${money(x.price)}
-</td>
-
-<td>
-Rs. ${money(x.costPrice)}
-</td>
+<td>${esc(x.flavor)}</td>
+<td>${esc(x.weight)}</td>
+<td>${esc(x.unit)}</td>
+<td>Rs. ${money(x.price)}</td>
 
 </tr>
 
@@ -2977,83 +2446,57 @@ Rs. ${money(x.costPrice)}
 
 <br>
 
-<button
-class="primary"
-onclick="closeModal()">
-
+<button class="primary" onclick="closeModal()">
 Close
-
 </button>
 
 `);
 
 }
 
-window.showProductInfo=
-showProductInfo;
+window.showProductInfo=showProductInfo;
 
 
 /* =========================================================
 ADD CART
+(customer side par KOI stock check nahi hota —
+stock sirf background mein admin ke liye track hota hai)
 ========================================================= */
 
 function addCart(id){
 
-const p=
-products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
 
-
-const variants=
-getSelectedVariants(id);
+const variants=getSelectedVariants(id);
 
 if(!variants.length){
 
-alert(
-"Kam az kam aik selection karein."
-);
-
+alert("Selection available nahi.");
 return;
 
 }
 
-
 const qty=
-number(
-document.getElementById(
-"qty"+id
-)?.value
-)||1;
-
+number(document.getElementById("qty"+id)?.value)||1;
 
 variants.forEach(v=>{
 
-const old=
-cart.find(x=>
+const old=cart.find(x=>
 
 x.id===id &&
-
 x.request!==true &&
-
-String(x.flavor||"")===
-String(v.flavor||"") &&
-
-String(x.weight||"")===
-String(v.weight||"") &&
-
-String(x.unit||"")===
-String(v.unit||"")
+String(x.flavor||"")===String(v.flavor||"") &&
+String(x.weight||"")===String(v.weight||"") &&
+String(x.unit||"")===String(v.unit||"")
 
 );
-
 
 if(old){
 
 old.qty+=qty;
-
 old.price=v.price;
-
 old.costPrice=v.costPrice;
 
 }else{
@@ -3061,19 +2504,15 @@ old.costPrice=v.costPrice;
 cart.push({
 
 id:p.id,
-
 name:p.name,
-
 icon:p.icon,
+image:p.image||"",
 
 flavor:v.flavor,
-
 weight:v.weight,
-
 unit:v.unit,
 
 price:v.price,
-
 costPrice:v.costPrice,
 
 qty,
@@ -3086,15 +2525,13 @@ request:false
 
 });
 
-
 updateCart();
 
 openCart();
 
 showStatus(
-"🛒 "+
-variants.length+
-" combination(s) cart mein add ho gayi."
+"🛒 "+variants.length+
+" combination cart mein add ho gayi."
 );
 
 }
@@ -3109,42 +2546,19 @@ CART
 function updateCart(){
 
 const count=
-cart.reduce(
-(a,x)=>a+number(x.qty),
-0
-);
-
+cart.reduce((a,x)=>a+number(x.qty),0);
 
 const total=
-cart.reduce(
-(a,x)=>
-a+
-number(x.qty)*
-number(x.price),
-0
-);
+cart.reduce((a,x)=>
+a+number(x.qty)*number(x.price),0);
 
+document.getElementById("cartCount").textContent=count;
+document.getElementById("bottomCount").textContent=count;
+document.getElementById("cartTotal").textContent=money(total);
 
-document.getElementById(
-"cartCount"
-).textContent=count;
-
-document.getElementById(
-"bottomCount"
-).textContent=count;
-
-document.getElementById(
-"cartTotal"
-).textContent=
-money(total);
-
-
-document.getElementById(
-"cartItems"
-).innerHTML=
+document.getElementById("cartItems").innerHTML=
 
 cart.length
-
 ?
 
 cart.map((x,i)=>`
@@ -3152,94 +2566,50 @@ cart.map((x,i)=>`
 <div class="adminItem">
 
 <h3>
-${esc(x.icon||"📦")}
+
+${
+x.image
+?
+`<img src="${esc(x.image)}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;vertical-align:middle">`
+:
+esc(x.icon||"📦")
+}
+
 ${esc(x.name)}
+
 </h3>
 
-${
-x.request
-?
-`
+${x.request?`
 
 <div class="notice">
-
-<b>
-📦 Product Request
-</b>
-
+<b>📦 Product Request</b>
 <br>
-
 Price admin confirm karega.
-
 </div>
 
-`
-:
-""
-}
+`:""}
 
+${x.flavor?`
+<div>🌈 Flavor: <b>${esc(x.flavor)}</b></div>
+`:""}
 
-${
-x.flavor
-?
-`
-<div>
-🌈 Flavor:
-<b>
-${esc(x.flavor)}
-</b>
-</div>
-`
-:
-""
-}
+${x.weight?`
+<div>⚖️ Weight: <b>${esc(x.weight)}</b></div>
+`:""}
 
-
-${
-x.weight
-?
-`
-<div>
-⚖️ Weight:
-<b>
-${esc(x.weight)}
-</b>
-</div>
-`
-:
-""
-}
-
-
-${
-x.unit
-?
-`
-<div>
-📦 Unit:
-<b>
-${esc(x.unit)}
-</b>
-</div>
-`
-:
-""
-}
-
+${x.unit?`
+<div>📦 Unit: <b>${esc(x.unit)}</b></div>
+`:""}
 
 <hr>
 
 Qty:
-<b>
-${number(x.qty)}
-</b>
+<b>${number(x.qty)}</b>
 
 <br>
 
 Rate:
-
 <b>
-
 ${
 x.request
 ?
@@ -3247,41 +2617,23 @@ x.request
 :
 "Rs. "+money(x.price)
 }
-
 </b>
 
-
-${
-x.request
-?
-""
-:
-`
+${!x.request?`
 
 <br>
 
 Amount:
-
 <b>
-Rs.
-${money(
-number(x.price)*
-number(x.qty)
-)}
+Rs. ${money(number(x.price)*number(x.qty))}
 </b>
 
-`
-}
-
+`:""}
 
 <br><br>
 
-<button
-class="red"
-onclick="deleteCart(${i})">
-
+<button class="red" onclick="deleteCart(${i})">
 🗑 Delete
-
 </button>
 
 </div>
@@ -3289,13 +2641,11 @@ onclick="deleteCart(${i})">
 `).join("")
 
 :
-
 "<p>Cart empty hai.</p>";
 
 }
 
-window.updateCart=
-updateCart;
+window.updateCart=updateCart;
 
 
 function deleteCart(i){
@@ -3306,24 +2656,17 @@ updateCart();
 
 }
 
-window.deleteCart=
-deleteCart;
+window.deleteCart=deleteCart;
 
 
 function openCart(){
 
-document.getElementById(
-"shade"
-).classList.add("show");
-
-document.getElementById(
-"cartDrawer"
-).classList.add("open");
+document.getElementById("shade").classList.add("show");
+document.getElementById("cartDrawer").classList.add("open");
 
 }
 
-window.openCart=
-openCart;
+window.openCart=openCart;
 
 
 /* =========================================================
@@ -3332,205 +2675,120 @@ REQUEST
 
 function previewRequestImage(){
 
-const file=
-document.getElementById(
-"reqImage"
-).files[0];
+const file=document.getElementById("reqImage").files[0];
 
-const img=
-document.getElementById(
-"requestPreview"
-);
+const img=document.getElementById("requestPreview");
 
 if(!file){
 
 img.style.display="none";
-
 return;
 
 }
 
-img.src=
-URL.createObjectURL(file);
-
+img.src=URL.createObjectURL(file);
 img.style.display="block";
 
 }
 
-window.previewRequestImage=
-previewRequestImage;
+window.previewRequestImage=previewRequestImage;
 
 
 async function addRequestToCart(){
 
-const name=
-document.getElementById(
-"reqName"
-).value.trim();
-
-const flavor=
-document.getElementById(
-"reqFlavor"
-).value.trim();
-
-const weight=
-document.getElementById(
-"reqWeight"
-).value.trim();
-
-const unit=
-document.getElementById(
-"reqUnit"
-).value.trim();
+const name=document.getElementById("reqName").value.trim();
+const flavor=document.getElementById("reqFlavor").value.trim();
+const weight=document.getElementById("reqWeight").value.trim();
+const unit=document.getElementById("reqUnit").value.trim();
 
 const qty=
-number(
-document.getElementById(
-"reqQty"
-).value
-)||1;
+number(document.getElementById("reqQty").value)||1;
 
 const comment=
-document.getElementById(
-"reqComment"
-).value.trim();
+document.getElementById("reqComment").value.trim();
 
-const file=
-document.getElementById(
-"reqImage"
-).files[0];
-
+const file=document.getElementById("reqImage").files[0];
 
 if(!name){
 
-alert(
-"Product Name zaroor likhein."
-);
-
+alert("Product Name zaroor likhein.");
 return;
 
 }
 
-
 let image="";
-
 
 if(file){
 
 if(file.size>8*1024*1024){
 
-alert(
-"Picture 8MB se choti honi chahiye."
-);
-
+alert("Picture 8MB se choti honi chahiye.");
 return;
 
 }
-
 
 try{
 
 const r=
 storageRef(
 storage,
-"requests/"+
-Date.now()+"_"+file.name
+"requests/"+Date.now()+"_"+file.name
 );
 
 await uploadBytes(r,file);
 
-image=
-await getDownloadURL(r);
+image=await getDownloadURL(r);
 
 }catch(e){
 
-alert(
-"Picture upload error:\n"+
-e.message
-);
-
+alert("Picture upload error:\n"+e.message);
 return;
 
 }
 
 }
 
-
 cart.push({
 
 id:"request_"+Date.now(),
 
 name,
-
 icon:"📦",
+image,
 
 flavor,
-
 weight,
-
 unit,
 
 price:0,
-
 costPrice:0,
 
 qty,
-
 comment,
-
 image,
 
 request:true
 
 });
 
-
 updateCart();
 
-showStatus(
-"📦 Product Request Cart mein add ho gayi"
-);
+showStatus("📦 Product Request Cart mein add ho gayi");
 
-
-document.getElementById(
-"reqName"
-).value="";
-
-document.getElementById(
-"reqFlavor"
-).value="";
-
-document.getElementById(
-"reqWeight"
-).value="";
-
-document.getElementById(
-"reqUnit"
-).value="";
-
-document.getElementById(
-"reqQty"
-).value="1";
-
-document.getElementById(
-"reqComment"
-).value="";
-
-document.getElementById(
-"reqImage"
-).value="";
-
-document.getElementById(
-"requestPreview"
-).style.display="none";
-
+document.getElementById("reqName").value="";
+document.getElementById("reqFlavor").value="";
+document.getElementById("reqWeight").value="";
+document.getElementById("reqUnit").value="";
+document.getElementById("reqQty").value="1";
+document.getElementById("reqComment").value="";
+document.getElementById("reqImage").value="";
+document.getElementById("requestPreview").style.display="none";
 
 openCart();
 
 }
 
-window.addRequestToCart=
-addRequestToCart;
+window.addRequestToCart=addRequestToCart;
 
 
 /* =========================================================
@@ -3542,11 +2800,9 @@ function checkout(){
 if(!cart.length){
 
 alert("Cart empty hai.");
-
 return;
 
 }
-
 
 if(!currentUser){
 
@@ -3554,15 +2810,9 @@ openModal(`
 
 <div class="head">
 
-<h2>
-🏪 Pehle Login Karein
-</h2>
+<h2>🏪 Pehle Login Karein</h2>
 
-<button
-class="close"
-onclick="closeModal()">
-✕
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
@@ -3570,12 +2820,8 @@ onclick="closeModal()">
 Order ke liye pehle dukandar login karein.
 </p>
 
-<button
-class="primary"
-onclick="customerLogin()">
-
+<button class="primary" onclick="customerLogin()">
 Dukandar Login
-
 </button>
 
 `);
@@ -3584,47 +2830,30 @@ return;
 
 }
 
-
 openModal(`
 
 <div class="head">
 
-<h2>
-🧾 Order Confirm
-</h2>
+<h2>🧾 Order Confirm</h2>
 
-<button
-class="close"
-onclick="closeModal()">
-✕
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
-<input
-id="customerName"
-placeholder="Dukaan ka naam">
+<input id="customerName" placeholder="Dukaan ka naam">
 
-<input
-id="customerPhone"
-placeholder="Phone">
+<input id="customerPhone" placeholder="Phone">
 
-<input
-id="customerAddress"
-placeholder="Address">
+<input id="customerAddress" placeholder="Address">
 
 <br><br>
 
 <div class="notice">
-📲 Order save hone ke baad WhatsApp ka option milega.
+📦 Order confirm karte hi save ho jayega.
 </div>
 
-<button
-class="primary"
-onclick="createOrder()">
-
+<button class="primary" onclick="createOrder()">
 Confirm Order
-
 </button>
 
 `);
@@ -3636,184 +2865,134 @@ window.checkout=checkout;
 
 /* =========================================================
 CREATE ORDER
+Order HAMESHA confirm hota hai — customer side par
+koi stock check ya block nahi hai.
+Stock sirf background mein (admin ke liye) har
+combination (flavor+weight+unit) ke hisab se,
+base unit mein minus hoti hai. Negative bhi ho sakta
+hai — admin panel mein low/negative dikh jayega.
 ========================================================= */
 
 async function createOrder(){
 
-const name=
-document.getElementById(
-"customerName"
-).value.trim();
-
-const phone=
-document.getElementById(
-"customerPhone"
-).value.trim();
-
-const address=
-document.getElementById(
-"customerAddress"
-).value.trim();
-
+const name=document.getElementById("customerName").value.trim();
+const phone=document.getElementById("customerPhone").value.trim();
+const address=document.getElementById("customerAddress").value.trim();
 
 if(!name||!phone){
 
-alert(
-"Dukaan ka naam aur phone required hai."
-);
-
+alert("Dukaan ka naam aur phone required hai.");
 return;
 
 }
 
 
 /*
-STOCK CHECK
-*/
-
-for(const item of cart){
-
-if(item.request)continue;
-
-const stock=
-number(
-await dbGet(
-"products/"+
-item.id+
-"/stock"
-)
-);
-
-if(stock<item.qty){
-
-alert(
-"Order complete nahi ho saka. Stock kam hai."
-);
-
-return;
-
-}
-
-}
-
-
-/*
-TOTAL
+TOTAL SALES
 */
 
 const total=
-cart.reduce(
-(a,x)=>
-a+
-number(x.qty)*
-number(x.price),
-0
-);
+cart.reduce((a,x)=>
+a+number(x.qty)*number(x.price),0);
 
 
 /*
-COST
+TOTAL COGS
 */
 
 const totalCost=
-cart.reduce(
-(a,x)=>
-a+
-number(x.qty)*
-number(x.costPrice),
-0
-);
+cart.reduce((a,x)=>
+a+number(x.qty)*number(x.costPrice),0);
 
+
+/*
+GROSS PROFIT
+*/
 
 const totalProfit=
 total-totalCost;
 
 
-const billRef=
-push(ref(db,"bills"));
+/*
+MARGIN
+*/
 
-const billId=
-billRef.key;
+const margin=
+total>0
+?
+(totalProfit/total)*100
+:
+0;
 
-const now=
-new Date()
-.toLocaleString("en-PK");
 
+const billRef=push(ref(db,"bills"));
+const billId=billRef.key;
+
+const now=new Date().toLocaleString("en-PK");
+const timestamp=Date.now();
 
 const stockChanges=[];
 
-
 try{
 
-
 /*
-DEDUCT STOCK
+BACKGROUND COMBINATION STOCK DEDUCTION
+(customer ko kabhi nahi dikhaya jata, order kabhi
+block nahi hota — sirf ledger record hoti hai)
 */
 
 for(const item of cart){
 
 if(item.request)continue;
 
+const p=products.find(x=>x.id===item.id);
 
-const stockRef=
-ref(
-db,
-"products/"+
-item.id+
-"/stock"
+if(!p)continue;
+
+const combos=p.combinations||[];
+
+const idx=combos.findIndex(x=>
+String(x.flavor||"")===String(item.flavor||"") &&
+String(x.weight||"")===String(item.weight||"") &&
+String(x.unit||"")===String(item.unit||"")
 );
 
+/* agar is exact flavor/weight/unit ka koi
+combination admin ne define hi nahi kiya,
+to stock track nahi hogi — sirf sale save hogi */
 
-const snap=
-await get(stockRef);
+if(idx===-1)continue;
 
+const stockPath=
+"products/"+item.id+"/combinations/"+idx+"/stock";
+
+const snap=await get(ref(db,stockPath));
 
 const oldStock=
-snap.exists()
-?
-number(snap.val())
-:
-0;
+snap.exists()?number(snap.val()):0;
 
+const newStock=oldStock-number(item.qty);
 
-if(oldStock<item.qty){
-
-throw new Error(
-"Stock changed. Please try again."
-);
-
-}
-
-
-const newStock=
-oldStock-number(item.qty);
-
-
-await set(
-stockRef,
-newStock
-);
-
+await set(ref(db,stockPath),newStock);
 
 stockChanges.push({
 
 productId:item.id,
-
-productName:item.name,
+productName:p.name,
 
 flavor:item.flavor||"",
-
 weight:item.weight||"",
-
 unit:item.unit||"",
 
+type:"SALE",
+
+quantity:number(item.qty),
+
 oldStock,
-
-quantity:item.qty,
-
 newStock,
 
-date:now
+date:now,
+timestamp
 
 });
 
@@ -3831,29 +3010,24 @@ id:billId,
 uid:currentUser.uid,
 
 date:now,
-
-timestamp:Date.now(),
+timestamp,
 
 customer:{
-
 name,
-
 phone,
-
 address
-
 },
 
 items:
-JSON.parse(
-JSON.stringify(cart)
-),
+JSON.parse(JSON.stringify(cart)),
 
 total,
 
 totalCost,
 
 profit:totalProfit,
+
+profitMargin:margin,
 
 paid:0,
 
@@ -3864,6 +3038,7 @@ stockChanges,
 history:[{
 
 date:now,
+timestamp,
 
 type:"Order",
 
@@ -3876,23 +3051,60 @@ balance:total
 };
 
 
-await set(
-billRef,
-bill
-);
+await set(billRef,bill);
 
 
 /*
-PROFIT
+PROFIT LEDGER
 */
 
-const profitRef=
-push(ref(db,"profitLedger"));
+const profitRef=push(ref(db,"profitLedger"));
+
+await set(profitRef,{
+
+billId,
+
+uid:currentUser.uid,
+
+date:now,
+timestamp,
+
+sales:total,
+
+cost:totalCost,
+
+profit:totalProfit,
+
+margin
+
+});
 
 
-await set(
-profitRef,
-{
+/*
+MASTER STOCK LEDGER (per combination)
+*/
+
+for(const change of stockChanges){
+
+const r=push(ref(db,"stockLedger"));
+
+await set(r,{
+
+productId:change.productId,
+
+productName:change.productName,
+
+flavor:change.flavor,
+weight:change.weight,
+unit:change.unit,
+
+type:"SALE",
+
+quantity:change.quantity,
+
+oldStock:change.oldStock,
+
+newStock:change.newStock,
 
 billId,
 
@@ -3900,16 +3112,11 @@ uid:currentUser.uid,
 
 date:now,
 
-timestamp:Date.now(),
+timestamp
 
-sales:total,
-
-cost:totalCost,
-
-profit:totalProfit
+});
 
 }
-);
 
 
 /*
@@ -3929,7 +3136,7 @@ document
 .classList.add("show");
 
 showStatus(
-"✅ Order + Stock + Profit update ho gaya"
+"✅ Order Confirm ho gaya"
 );
 
 await loadProducts();
@@ -3947,8 +3154,7 @@ e.message
 
 }
 
-window.createOrder=
-createOrder;
+window.createOrder=createOrder;
 
 
 /* =========================================================
@@ -3960,96 +3166,53 @@ function makeWhatsAppText(b){
 let text=
 "🛒 Peerbakhsh All In One Wholesale\n\n";
 
-
-text+=
-"🏪 Dukaan: "+
-(b.customer?.name||"")+
-"\n";
-
-
-text+=
-"📞 Phone: "+
-(b.customer?.phone||"")+
-"\n";
-
-
-text+=
-"📍 Address: "+
-(b.customer?.address||"")+
-"\n\n";
-
+text+="🏪 Dukaan: "+(b.customer?.name||"")+"\n";
+text+="📞 Phone: "+(b.customer?.phone||"")+"\n";
+text+="📍 Address: "+(b.customer?.address||"")+"\n\n";
 
 text+="🧾 Order\n";
 text+="--------------------\n";
 
-
 (b.items||[]).forEach((x,i)=>{
 
-text+=
-`${i+1}. ${x.name}\n`;
-
+text+=`${i+1}. ${x.name}\n`;
 
 if(x.flavor)
-text+=
-`Flavor: ${x.flavor}\n`;
-
+text+=`Flavor: ${x.flavor}\n`;
 
 if(x.weight)
-text+=
-`Weight: ${x.weight}\n`;
-
+text+=`Weight: ${x.weight}\n`;
 
 if(x.unit)
-text+=
-`Unit: ${x.unit}\n`;
+text+=`Unit: ${x.unit}\n`;
 
-
-text+=
-`Qty: ${x.qty}\n`;
-
+text+=`Qty: ${x.qty}\n`;
 
 if(x.request){
 
-text+=
-"💰 Rate: Admin Confirm\n";
+text+="💰 Rate: Admin Confirm\n";
 
 }else{
 
-text+=
-`Rate: Rs. ${x.price}\n`;
-
-text+=
-`Amount: Rs. ${x.price*x.qty}\n`;
+text+=`Rate: Rs. ${x.price}\n`;
+text+=`Amount: Rs. ${x.price*x.qty}\n`;
 
 }
 
-
 if(x.comment)
-text+=
-`💬 Comment: ${x.comment}\n`;
-
+text+=`💬 Comment: ${x.comment}\n`;
 
 if(x.image)
-text+=
-`🖼️ Picture: ${x.image}\n`;
-
+text+=`🖼️ Picture: ${x.image}\n`;
 
 text+="\n";
 
 });
 
-
 text+="--------------------\n";
 
-text+=
-"Total: Rs. "+
-money(b.total)+
-"\n";
-
-text+=
-"Bill: "+
-b.id;
-
+text+="Total: Rs. "+money(b.total)+"\n";
+text+="Bill: "+b.id;
 
 return text;
 
@@ -4058,25 +3221,17 @@ return text;
 
 function openBillWhatsApp(b){
 
-const text=
-makeWhatsAppText(b);
-
+const text=makeWhatsAppText(b);
 
 window.open(
-
-"https://wa.me/"+
-WHATSAPP+
-"?text="+
-encodeURIComponent(text),
-
+"https://wa.me/"+WHATSAPP+
+"?text="+encodeURIComponent(text),
 "_blank"
-
 );
 
 }
 
-window.openBillWhatsApp=
-openBillWhatsApp;
+window.openBillWhatsApp=openBillWhatsApp;
 
 
 /* =========================================================
@@ -4085,9 +3240,7 @@ BILL
 
 function renderBill(b){
 
-document.getElementById(
-"billContent"
-).innerHTML=`
+document.getElementById("billContent").innerHTML=`
 
 <h2 style="text-align:center">
 Peerbakhsh All In One Wholesale
@@ -4099,36 +3252,30 @@ Sukkur • 0305-1933595
 
 <hr>
 
-<b>Bill:</b>
-${esc(b.id)}
+<b>Bill:</b> ${esc(b.id)}
 
 <br>
 
-<b>Date:</b>
-${esc(b.date)}
+<b>Date:</b> ${esc(b.date)}
 
 <br>
 
-<b>Dukaan:</b>
-${esc(b.customer?.name||"")}
+<b>Dukaan:</b> ${esc(b.customer?.name||"")}
 
 <br>
 
-<b>Phone:</b>
-${esc(b.customer?.phone||"")}
+<b>Phone:</b> ${esc(b.customer?.phone||"")}
 
 <hr>
 
 <table class="billtable">
 
 <tr>
-
 <th>Product</th>
 <th>Details</th>
 <th>Qty</th>
 <th>Rate</th>
 <th>Amount</th>
-
 </tr>
 
 ${(b.items||[]).map(x=>`
@@ -4136,54 +3283,43 @@ ${(b.items||[]).map(x=>`
 <tr>
 
 <td>
-${esc(x.name)}
-</td>
 
-<td>
-
-${x.flavor?
-"Flavor: "+esc(x.flavor)+"<br>"
-:""}
-
-${x.weight?
-"Weight: "+esc(x.weight)+"<br>"
-:""}
-
-${x.unit?
-"Unit: "+esc(x.unit)+"<br>"
-:""}
-
-${x.request?
-"<b>Request</b>"
-:""}
-
-</td>
-
-<td>
-${x.qty}
-</td>
-
-<td>
-
-${x.request
+${
+x.image
 ?
-"Admin Confirm"
+`<img src="${esc(x.image)}" style="width:35px;height:35px;object-fit:cover;border-radius:5px;vertical-align:middle">`
 :
-"Rs. "+money(x.price)}
+esc(x.icon||"📦")
+}
+
+${esc(x.name)}
 
 </td>
 
 <td>
 
+${x.flavor?"Flavor: "+esc(x.flavor)+"<br>":""}
+
+${x.weight?"Weight: "+esc(x.weight)+"<br>":""}
+
+${x.unit?"Unit: "+esc(x.unit)+"<br>":""}
+
+${x.request?"<b>Request</b>":""}
+
+</td>
+
+<td>${x.qty}</td>
+
+<td>
+${x.request?"Admin Confirm":"Rs. "+money(x.price)}
+</td>
+
+<td>
 ${x.request
 ?
 "-"
 :
-"Rs. "+
-money(
-x.qty*x.price
-)}
-
+"Rs. "+money(x.qty*x.price)}
 </td>
 
 </tr>
@@ -4193,24 +3329,15 @@ x.qty*x.price
 </table>
 
 <h3 class="right">
-
-Total:
-Rs. ${money(b.total)}
-
+Total: Rs. ${money(b.total)}
 </h3>
 
 <h3 class="right paid">
-
-Jama:
-Rs. ${money(b.paid)}
-
+Jama: Rs. ${money(b.paid)}
 </h3>
 
 <h3 class="right balance">
-
-Bakaya:
-Rs. ${money(b.balance)}
-
+Bakaya: Rs. ${money(b.balance)}
 </h3>
 
 <hr>
@@ -4233,8 +3360,7 @@ onclick='openBillWhatsApp(${JSON.stringify(b).replace(/'/g,"&#39;")})'>
 
 }
 
-window.renderBill=
-renderBill;
+window.renderBill=renderBill;
 
 
 /* =========================================================
@@ -4246,27 +3372,19 @@ async function customerAccount(){
 if(!currentUser){
 
 customerLogin();
-
 return;
 
 }
 
-
-const data=
-await dbGet("bills");
+const data=await dbGet("bills");
 
 let my=[];
 
-
 if(data){
 
-Object.entries(data)
-.forEach(([id,b])=>{
+Object.entries(data).forEach(([id,b])=>{
 
-if(
-b.uid===
-currentUser.uid
-){
+if(b.uid===currentUser.uid){
 
 my.push({
 id,
@@ -4279,28 +3397,19 @@ id,
 
 }
 
-
 if(!my.length){
 
 openModal(`
 
 <div class="head">
 
-<h2>
-📒 Mera Khata
-</h2>
+<h2>📒 Mera Khata</h2>
 
-<button
-class="close"
-onclick="closeModal()">
-✕
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
-<p>
-Abhi koi Bill nahi hai.
-</p>
+<p>Abhi koi Bill nahi hai.</p>
 
 `);
 
@@ -4308,67 +3417,34 @@ return;
 
 }
 
-
-const total=
-my.reduce(
-(a,b)=>
-a+number(b.total),
-0
-);
-
-
-const paid=
-my.reduce(
-(a,b)=>
-a+number(b.paid),
-0
-);
-
-
-const balance=
-my.reduce(
-(a,b)=>
-a+number(b.balance),
-0
-);
-
+const total=my.reduce((a,b)=>a+number(b.total),0);
+const paid=my.reduce((a,b)=>a+number(b.paid),0);
+const balance=my.reduce((a,b)=>a+number(b.balance),0);
 
 openModal(`
 
 <div class="head">
 
-<h2>
-📒 Mera Khata
-</h2>
+<h2>📒 Mera Khata</h2>
 
-<button
-class="close"
-onclick="closeModal()">
-✕
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
 <div class="notice">
 
 Total:
-<b>
-Rs. ${money(total)}
-</b>
+<b>Rs. ${money(total)}</b>
 
 <br>
 
 Jama:
-<b class="paid">
-Rs. ${money(paid)}
-</b>
+<b class="paid">Rs. ${money(paid)}</b>
 
 <br>
 
 Bakaya:
-<b class="balance">
-Rs. ${money(balance)}
-</b>
+<b class="balance">Rs. ${money(balance)}</b>
 
 </div>
 
@@ -4376,29 +3452,23 @@ ${my.slice().reverse().map(b=>`
 
 <div class="adminItem">
 
-<b>
-Bill: ${esc(b.id)}
-</b>
+<b>Bill: ${esc(b.id)}</b>
 
 <br>
 
-Date:
-${esc(b.date)}
+Date: ${esc(b.date)}
 
 <br>
 
-Total:
-Rs. ${money(b.total)}
+Total: Rs. ${money(b.total)}
 
 <br>
 
-Jama:
-Rs. ${money(b.paid)}
+Jama: Rs. ${money(b.paid)}
 
 <br>
 
-Bakaya:
-Rs. ${money(b.balance)}
+Bakaya: Rs. ${money(b.balance)}
 
 <br><br>
 
@@ -4418,42 +3488,29 @@ onclick="customerViewBill('${b.id}')">
 
 }
 
-window.customerAccount=
-customerAccount;
+window.customerAccount=customerAccount;
 
 
 async function customerViewBill(id){
 
-const b=
-await dbGet(
-"bills/"+id
-);
+const b=await dbGet("bills/"+id);
 
 if(!b)return;
 
-
-if(
-!currentUser ||
-b.uid!==currentUser.uid
-){
+if(!currentUser||b.uid!==currentUser.uid){
 
 alert("Access denied.");
-
 return;
 
 }
 
-
 renderBill(b);
 
-document
-.getElementById("billModal")
-.classList.add("show");
+document.getElementById("billModal").classList.add("show");
 
 }
 
-window.customerViewBill=
-customerViewBill;
+window.customerViewBill=customerViewBill;
 
 
 /* =========================================================
@@ -4469,69 +3526,45 @@ ADMIN_EMAIL.toLowerCase()
 ){
 
 alert("Admin only.");
-
 return;
 
 }
-
 
 openModal(`
 
 <div class="head">
 
-<h2>
-⚙️ Admin Panel
-</h2>
+<h2>⚙️ MASTER ADMIN PANEL</h2>
 
-<button
-class="close"
-onclick="closeModal()">
-✕
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
 <div class="adminTabs">
 
-<button onclick="adminDashboard()">
-📊 Dashboard
-</button>
+<button onclick="adminDashboard()">📊 Dashboard</button>
 
-<button onclick="adminProducts()">
-📦 Products
-</button>
+<button onclick="adminProducts()">📦 Products</button>
 
-<button onclick="adminStock()">
-📦 Stock
-</button>
+<button onclick="adminStock()">📦 Master Stock</button>
 
-<button onclick="adminOutOfStock()">
-🔴 Stock Khatam
-</button>
+<button onclick="adminPurchases()">🛒 Purchase</button>
 
-<button onclick="adminProfit()">
-💰 Profit
-</button>
+<button onclick="adminOutOfStock()">🔴 Low/Out</button>
 
-<button onclick="adminDukandar()">
-🏪 Dukandar
-</button>
+<button onclick="adminProfit()">💰 Profit</button>
 
-<button onclick="adminBills()">
-🧾 Bills
-</button>
+<button onclick="adminStockLedger()">📒 Stock Ledger</button>
 
-<button onclick="adminKhata()">
-📒 Khata
-</button>
+<button onclick="adminDukandar()">🏪 Dukandar</button>
 
-<button onclick="adminStore()">
-🏪 Store
-</button>
+<button onclick="adminBills()">🧾 Bills</button>
 
-<button onclick="adminChatList()">
-💬 Chat
-</button>
+<button onclick="adminKhata()">📒 Khata</button>
+
+<button onclick="adminStore()">🏪 Store</button>
+
+<button onclick="adminChatList()">💬 Chat</button>
 
 </div>
 
@@ -4539,12 +3572,8 @@ onclick="closeModal()">
 
 <br>
 
-<button
-class="gray"
-onclick="logout()">
-
+<button class="gray" onclick="logout()">
 🚪 Logout
-
 </button>
 
 `);
@@ -4553,154 +3582,16 @@ adminDashboard();
 
 }
 
-window.adminPanel=
-adminPanel;
+window.adminPanel=adminPanel;
 
 
 /* =========================================================
-DASHBOARD
+BILLS / LEDGER
 ========================================================= */
-
-async function adminDashboard(){
-
-const bills=
-await getAllBills();
-
-const ledger=
-await getProfitLedger();
-
-const productsData=
-await dbGet("products");
-
-
-const list=
-productsData
-?
-Object.entries(productsData)
-.map(([id,p])=>({
-id,
-...p
-}))
-:
-[];
-
-
-const out=
-list.filter(
-p=>number(p.stock)<=0
-);
-
-
-const totalSales=
-ledger.reduce(
-(a,x)=>
-a+number(x.sales),
-0
-);
-
-
-const totalCost=
-ledger.reduce(
-(a,x)=>
-a+number(x.cost),
-0
-);
-
-
-const totalProfit=
-ledger.reduce(
-(a,x)=>
-a+number(x.profit),
-0
-);
-
-
-document.getElementById(
-"adminArea"
-).innerHTML=`
-
-<h3>
-📊 Admin Dashboard
-</h3>
-
-<div class="statGrid">
-
-<div class="stat">
-
-Sales
-
-<b>
-Rs. ${money(totalSales)}
-</b>
-
-</div>
-
-<div class="stat">
-
-Cost
-
-<b>
-Rs. ${money(totalCost)}
-</b>
-
-</div>
-
-<div class="stat">
-
-Profit
-
-<b class="profit">
-Rs. ${money(totalProfit)}
-</b>
-
-</div>
-
-<div class="stat">
-
-Orders
-
-<b>
-${bills.length}
-</b>
-
-</div>
-
-<div class="stat">
-
-Stock Khatam
-
-<b class="loss">
-${out.length}
-</b>
-
-</div>
-
-</div>
-
-<div class="notice">
-
-🔐 <b>
-Customer ko stock information nahi dikhai jati.
-</b>
-
-<br>
-
-Stock quantity sirf Admin Panel mein hai.
-
-</div>
-
-`;
-
-}
-
-window.adminDashboard=
-adminDashboard;
-
 
 async function getAllBills(){
 
-const data=
-await dbGet("bills");
+const data=await dbGet("bills");
 
 if(!data)return[];
 
@@ -4715,8 +3606,22 @@ id,
 
 async function getProfitLedger(){
 
-const data=
-await dbGet("profitLedger");
+const data=await dbGet("profitLedger");
+
+if(!data)return[];
+
+return Object.entries(data)
+.map(([id,x])=>({
+id,
+...x
+}));
+
+}
+
+
+async function getStockLedger(){
+
+const data=await dbGet("stockLedger");
 
 if(!data)return[];
 
@@ -4730,64 +3635,1484 @@ id,
 
 
 /* =========================================================
-ADMIN PRODUCTS
+DATE HELPERS
 ========================================================= */
 
-async function adminProducts(){
+function startOfDay(){
 
-const data=
-await dbGet("products");
+const d=new Date();
 
-products=[];
+d.setHours(0,0,0,0);
 
+return d.getTime();
 
-if(data){
+}
 
-products=
-Object.entries(data)
-.map(([id,p])=>({
+function startOfWeek(){
 
-id,
-...p,
+const d=new Date();
 
-stock:number(p.stock),
+const day=d.getDay();
 
-costPrice:number(p.costPrice),
+const diff=day===0?-6:1-day;
 
-price:number(p.price),
+d.setDate(d.getDate()+diff);
 
-flavors:p.flavors||[],
+d.setHours(0,0,0,0);
 
-weights:p.weights||[],
+return d.getTime();
 
-units:p.units||[],
+}
 
-combinations:p.combinations||[]
+function startOfMonth(){
 
-}));
+const d=new Date();
+
+d.setDate(1);
+
+d.setHours(0,0,0,0);
+
+return d.getTime();
+
+}
+
+function startOfYear(){
+
+const d=new Date();
+
+d.setMonth(0,1);
+
+d.setHours(0,0,0,0);
+
+return d.getTime();
 
 }
 
 
-let h=
-"<h3>📦 Products Management</h3>";
+function calculateSums(list){
+
+const sales=list.reduce(
+(a,x)=>a+number(x.sales),0
+);
+
+const cost=list.reduce(
+(a,x)=>a+number(x.cost),0
+);
+
+const profit=list.reduce(
+(a,x)=>a+number(x.profit),0
+);
+
+const margin=
+sales>0
+?
+(profit/sales)*100
+:
+0;
+
+return{
+sales,
+cost,
+profit,
+margin
+};
+
+}
 
 
-products.forEach(p=>{
+/* =========================================================
+MASTER STOCK DASHBOARD
+(ab har product ke andar HAR combination
+(flavor+weight+unit) ka apna stock, base unit mein)
+========================================================= */
+
+async function adminStock(){
+
+const data=await dbGet("products");
+
+if(!data){
+
+document.getElementById("adminArea").innerHTML=
+"<p>Products nahi hain.</p>";
+
+return;
+
+}
+
+const list=
+Object.entries(data)
+.map(([id,p])=>normalizeProduct(id,p));
+
+let totalUnits=0;
+let inventoryCost=0;
+let inventorySale=0;
+let lowCount=0;
+let outCount=0;
+
+list.forEach(p=>{
+
+(p.combinations||[]).forEach(c=>{
+
+const stock=number(c.stock);
+
+totalUnits+=stock;
+inventoryCost+=stock*number(c.costPrice);
+inventorySale+=stock*number(c.price);
+
+if(stock<=0)outCount++;
+else if(stock<=number(p.minStock))lowCount++;
+
+});
+
+});
+
+const potentialProfit=
+inventorySale-inventoryCost;
+
+let h=`
+
+<h3>📦 MASTER STOCK SYSTEM</h3>
+
+<div class="notice">
+
+<b>Master Stock Formula (per Flavor/Weight/Unit combination, Base Unit mein)</b>
+
+<br><br>
+
+Inventory Cost =
+Stock × Purchase Cost (per combination)
+
+<br>
+
+Potential Sale =
+Stock × Sale Rate (per combination)
+
+<br>
+
+Potential Profit =
+Potential Sale − Inventory Cost
+
+</div>
+
+<div class="statGrid">
+
+<div class="stat">
+Total Products
+<b>${list.length}</b>
+</div>
+
+<div class="stat">
+Total Base Units
+<b>${money(totalUnits)}</b>
+</div>
+
+<div class="stat">
+Inventory Cost
+<b>Rs. ${money(inventoryCost)}</b>
+</div>
+
+<div class="stat">
+Inventory Sale Value
+<b>Rs. ${money(inventorySale)}</b>
+</div>
+
+<div class="stat">
+Potential Profit
+<b class="profit">
+Rs. ${money(potentialProfit)}
+</b>
+</div>
+
+<div class="stat">
+Low Stock Combos
+<b class="loss">${lowCount}</b>
+</div>
+
+<div class="stat">
+Out Of Stock Combos
+<b class="loss">${outCount}</b>
+</div>
+
+</div>
+
+`;
+
+list.forEach(p=>{
+
+const min=number(p.minStock);
+const total=productTotalStock(p);
+
+h+=`
+
+<div class="stockCard">
+
+<h3>
+
+${
+p.image
+?
+`<img src="${esc(p.image)}" style="width:45px;height:45px;object-fit:cover;border-radius:7px;vertical-align:middle">`
+:
+esc(p.icon||"📦")
+}
+
+${esc(p.name)}
+
+<span class="muted" style="font-size:12px">
+(Base Unit: ${esc(p.baseUnit||"Piece")})
+</span>
+
+</h3>
+
+<p>
+Total Stock (sab combinations):
+<b>${total}</b>
+</p>
+
+<p>
+🔔 Minimum Stock Alert (per combination):
+<b>${min}</b>
+</p>
+
+`;
+
+if(!(p.combinations||[]).length){
+
+h+=`<div class="notice">Is product mein koi combination define nahi hai.</div>`;
+
+}else{
+
+p.combinations.forEach((c,idx)=>{
+
+const stock=number(c.stock);
+
+const percent=
+min>0
+?
+Math.min(100,(stock/(min*3))*100)
+:
+stock>0
+?
+100
+:
+0;
+
+let cls="stockGood";
+
+if(stock<=0)
+cls="stockOut";
+else if(stock<=min)
+cls="stockLow";
+
+h+=`
+
+<div class="adminItem">
+
+<b>
+🌈 ${esc(c.flavor||"-")}
+×
+⚖️ ${esc(c.weight||"-")}
+×
+📦 ${esc(c.unit||"-")}
+</b>
+
+<div class="${cls}" style="margin-top:6px">
+
+📦 Current Stock (${esc(p.baseUnit||"Piece")}):
+${stock}
+
+</div>
+
+<div class="stockBar ${stock<=0?"out":stock<=min?"low":""}">
+<span style="width:${percent}%"></span>
+</div>
+
+<p>
+💰 Sale Rate:
+<b>Rs. ${money(c.price)}</b>
+</p>
+
+<div class="hiddenCost">
+
+🔒 Purchase Cost:
+Rs. ${money(c.costPrice)}
+
+</div>
+
+<p>
+Inventory Cost:
+<b>Rs. ${money(stock*c.costPrice)}</b>
+</p>
+
+<p>
+Potential Sale:
+<b>Rs. ${money(stock*c.price)}</b>
+</p>
+
+<p class="profit">
+Potential Profit:
+<b>Rs. ${money(stock*(c.price-c.costPrice))}</b>
+</p>
+
+<div class="row">
+
+<button
+class="primary"
+onclick="stockPurchase('${p.id}',${idx})">
+
+🛒 Purchase / IN
+
+</button>
+
+<button
+class="orange"
+onclick="stockAdjustment('${p.id}',${idx})">
+
+⚙️ Adjust
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+h+=`
+
+<div class="row">
+
+<button
+class="gray"
+style="width:100%"
+onclick="editProduct('${p.id}')">
+
+✏️ Product Edit
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("adminArea").innerHTML=h;
+
+}
+
+window.adminStock=adminStock;
+
+
+/* =========================================================
+PURCHASE / STOCK IN (per combination, base unit mein)
+========================================================= */
+
+function stockPurchase(id,idx){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return;
+
+const c=(p.combinations||[])[idx];
+
+if(!c){
+
+alert("Combination nahi mila.");
+return;
+
+}
+
+openModal(`
+
+<div class="head">
+
+<h2>🛒 Stock Purchase / IN</h2>
+
+<button class="close" onclick="closeModal()">✕</button>
+
+</div>
+
+<h3>
+${esc(p.name)}
+<br>
+<span class="muted" style="font-size:13px">
+🌈 ${esc(c.flavor||"-")} × ⚖️ ${esc(c.weight||"-")} × 📦 ${esc(c.unit||"-")}
+</span>
+</h3>
+
+<div class="notice">
+
+Current Stock (${esc(p.baseUnit||"Piece")}):
+<b>${number(c.stock)}</b>
+
+<br>
+
+Current Purchase Cost:
+<b>Rs. ${money(c.costPrice)}</b>
+
+</div>
+
+<label>Purchase Quantity (${esc(p.baseUnit||"Piece")} mein)</label>
+
+<input
+id="purchaseQty"
+type="number"
+min="1"
+value="1">
+
+<label>Purchase Cost Per ${esc(p.baseUnit||"Piece")}</label>
+
+<input
+id="purchaseCost"
+type="number"
+min="0"
+value="${number(c.costPrice)}">
+
+<label>Supplier / Party</label>
+
+<input
+id="purchaseSupplier"
+placeholder="Supplier name">
+
+<label>Purchase Note</label>
+
+<textarea
+id="purchaseNote"
+rows="3"
+placeholder="Invoice / purchase detail"></textarea>
+
+<br>
+
+<button
+class="primary"
+style="width:100%"
+onclick="saveStockPurchase('${id}',${idx})">
+
+💾 Save Purchase + Stock IN
+
+</button>
+
+`);
+
+}
+
+window.stockPurchase=stockPurchase;
+
+
+async function saveStockPurchase(id,idx){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return;
+
+const c=(p.combinations||[])[idx];
+
+if(!c)return;
+
+const qty=
+number(document.getElementById("purchaseQty").value);
+
+const cost=
+number(document.getElementById("purchaseCost").value);
+
+const supplier=
+document.getElementById("purchaseSupplier").value.trim();
+
+const note=
+document.getElementById("purchaseNote").value.trim();
+
+if(qty<=0){
+
+alert("Quantity 0 se zyada honi chahiye.");
+return;
+
+}
+
+if(cost<0){
+
+alert("Cost invalid hai.");
+return;
+
+}
+
+const stockPath="products/"+id+"/combinations/"+idx+"/stock";
+const costPath="products/"+id+"/combinations/"+idx+"/costPrice";
+
+const oldStock=number(await dbGet(stockPath));
+
+const newStock=oldStock+qty;
+
+
+/*
+Weighted Average Cost (per combination)
+*/
+
+const oldCost=number(c.costPrice);
+
+const totalOldValue=oldStock*oldCost;
+const totalNewValue=qty*cost;
+
+const averageCost=
+newStock>0
+?
+(totalOldValue+totalNewValue)/newStock
+:
+cost;
+
+
+await dbSet(stockPath,newStock);
+
+await dbSet(
+costPath,
+Number(averageCost.toFixed(2))
+);
+
+
+/*
+STOCK LEDGER
+*/
+
+const r=push(ref(db,"stockLedger"));
+
+await set(r,{
+
+productId:id,
+productName:p.name,
+
+flavor:c.flavor||"",
+weight:c.weight||"",
+unit:c.unit||"",
+
+type:"PURCHASE",
+
+quantity:qty,
+
+purchaseCost:cost,
+
+oldStock,
+newStock,
+
+oldCost,
+newCost:averageCost,
+
+supplier,
+note,
+
+date:new Date().toLocaleString("en-PK"),
+timestamp:Date.now(),
+
+uid:currentUser.uid
+
+});
+
+
+closeModal();
+
+await loadProducts();
+
+adminStock();
+
+showStatus(
+"✅ Stock IN + Average Cost update ho gaya"
+);
+
+}
+
+window.saveStockPurchase=saveStockPurchase;
+
+
+/* =========================================================
+STOCK ADJUSTMENT (per combination, base unit mein)
+========================================================= */
+
+function stockAdjustment(id,idx){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return;
+
+const c=(p.combinations||[])[idx];
+
+if(!c){
+
+alert("Combination nahi mila.");
+return;
+
+}
+
+openModal(`
+
+<div class="head">
+
+<h2>⚙️ Stock Adjustment</h2>
+
+<button class="close" onclick="closeModal()">✕</button>
+
+</div>
+
+<h3>
+${esc(p.name)}
+<br>
+<span class="muted" style="font-size:13px">
+🌈 ${esc(c.flavor||"-")} × ⚖️ ${esc(c.weight||"-")} × 📦 ${esc(c.unit||"-")}
+</span>
+</h3>
+
+<div class="notice">
+
+Current Stock (${esc(p.baseUnit||"Piece")}):
+<b>${number(c.stock)}</b>
+
+</div>
+
+<label>New Actual Stock</label>
+
+<input
+id="adjustStock"
+type="number"
+min="0"
+value="${number(c.stock)}">
+
+<label>Reason</label>
+
+<select id="adjustType">
+
+<option value="COUNT">Physical Count</option>
+<option value="DAMAGE">Damage</option>
+<option value="LOST">Lost</option>
+<option value="RETURN">Return</option>
+<option value="OTHER">Other</option>
+
+</select>
+
+<label>Note</label>
+
+<textarea
+id="adjustNote"
+rows="3"></textarea>
+
+<br>
+
+<button
+class="primary"
+style="width:100%"
+onclick="saveStockAdjustment('${id}',${idx})">
+
+💾 Save Adjustment
+
+</button>
+
+`);
+
+}
+
+window.stockAdjustment=stockAdjustment;
+
+
+async function saveStockAdjustment(id,idx){
+
+const p=products.find(x=>x.id===id);
+
+if(!p)return;
+
+const c=(p.combinations||[])[idx];
+
+if(!c)return;
+
+const newStock=
+Math.max(
+0,
+number(document.getElementById("adjustStock").value)
+);
+
+const type=
+document.getElementById("adjustType").value;
+
+const note=
+document.getElementById("adjustNote").value.trim();
+
+const stockPath="products/"+id+"/combinations/"+idx+"/stock";
+
+const oldStock=number(await dbGet(stockPath));
+
+const difference=newStock-oldStock;
+
+await dbSet(stockPath,newStock);
+
+const r=push(ref(db,"stockLedger"));
+
+await set(r,{
+
+productId:id,
+productName:p.name,
+
+flavor:c.flavor||"",
+weight:c.weight||"",
+unit:c.unit||"",
+
+type:"ADJUSTMENT",
+
+reason:type,
+
+quantity:difference,
+
+oldStock,
+newStock,
+
+note,
+
+date:new Date().toLocaleString("en-PK"),
+timestamp:Date.now(),
+
+uid:currentUser.uid
+
+});
+
+closeModal();
+
+await loadProducts();
+
+adminStock();
+
+showStatus("✅ Stock adjustment save ho gaya");
+
+}
+
+window.saveStockAdjustment=saveStockAdjustment;
+
+
+/* =========================================================
+LOW / OUT STOCK (per combination)
+========================================================= */
+
+async function adminOutOfStock(){
+
+const data=await dbGet("products");
+
+const list=
+data
+?
+Object.entries(data).map(([id,p])=>normalizeProduct(id,p))
+:
+[];
+
+const rows=[];
+
+list.forEach(p=>{
+
+(p.combinations||[]).forEach((c,idx)=>{
+
+if(number(c.stock)<=number(p.minStock)){
+
+rows.push({
+p,c,idx
+});
+
+}
+
+});
+
+});
+
+let h=`
+
+<h3>🔴 Low / Out Of Stock (per Combination)</h3>
+
+`;
+
+if(!rows.length){
+
+h+=`
+
+<div class="stockGood">
+✅ Koi Low/Out Stock combination nahi hai.
+</div>
+
+`;
+
+}else{
+
+rows.forEach(({p,c,idx})=>{
+
+const stock=number(c.stock);
+const min=number(p.minStock);
 
 h+=`
 
 <div class="adminItem">
 
 <h3>
-${esc(p.icon||"📦")}
+
+${
+p.image
+?
+`<img src="${esc(p.image)}" style="width:45px;height:45px;object-fit:cover;border-radius:7px;vertical-align:middle">`
+:
+esc(p.icon||"📦")
+}
+
 ${esc(p.name)}
+
+</h3>
+
+<p class="muted">
+🌈 ${esc(c.flavor||"-")} × ⚖️ ${esc(c.weight||"-")} × 📦 ${esc(c.unit||"-")}
+</p>
+
+<div class="${
+stock<=0
+?
+"stockOut"
+:
+"stockLow"
+}">
+
+${
+stock<=0
+?
+"🔴 STOCK KHATAM"
+:
+"⚠️ LOW STOCK"
+}
+
+<br>
+
+Current:
+${stock} ${esc(p.baseUnit||"Piece")}
+
+<br>
+
+Minimum:
+${min}
+
+</div>
+
+<br>
+
+<button
+class="primary"
+onclick="stockPurchase('${p.id}',${idx})">
+
+🛒 Stock Add Karein
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("adminArea").innerHTML=h;
+
+}
+
+window.adminOutOfStock=adminOutOfStock;
+
+
+/* =========================================================
+STOCK LEDGER
+========================================================= */
+
+async function adminStockLedger(){
+
+const ledger=await getStockLedger();
+
+ledger.sort(
+(a,b)=>number(b.timestamp)-number(a.timestamp)
+);
+
+let h=`
+
+<h3>📒 MASTER STOCK LEDGER</h3>
+
+<div class="notice">
+
+Yahan har Stock IN, Sale OUT aur Adjustment ka complete record hota hai — har flavor/weight/unit combination ke hisab se.
+
+</div>
+
+`;
+
+if(!ledger.length){
+
+h+="<p>Abhi Stock Ledger empty hai.</p>";
+
+}
+
+ledger.slice(0,150).forEach(x=>{
+
+let type=x.type||"";
+
+let label="";
+
+if(type==="PURCHASE")
+label="🟢 PURCHASE / IN";
+
+else if(type==="SALE")
+label="🔴 SALE / OUT";
+
+else
+label="⚙️ ADJUSTMENT";
+
+h+=`
+
+<div class="adminItem">
+
+<b>${label}</b>
+
+<br>
+
+Product:
+<b>${esc(x.productName||"")}</b>
+
+${
+(x.flavor||x.weight||x.unit)
+?
+`<br>🌈 ${esc(x.flavor||"-")} × ⚖️ ${esc(x.weight||"-")} × 📦 ${esc(x.unit||"-")}`
+:
+""
+}
+
+<br>
+
+Date:
+${esc(x.date||"")}
+
+<br>
+
+Quantity:
+<b>${number(x.quantity)}</b>
+
+<br>
+
+Old Stock:
+${number(x.oldStock)}
+
+<br>
+
+New Stock:
+<b>${number(x.newStock)}</b>
+
+${x.purchaseCost!==undefined?`
+
+<br>
+
+Purchase Cost:
+Rs. ${money(x.purchaseCost)}
+
+`:""}
+
+${x.supplier?`
+
+<br>
+
+Supplier:
+${esc(x.supplier)}
+
+`:""}
+
+${x.reason?`
+
+<br>
+
+Reason:
+${esc(x.reason)}
+
+`:""}
+
+${x.note?`
+
+<br>
+
+Note:
+${esc(x.note)}
+
+`:""}
+
+${x.billId?`
+
+<br>
+
+Bill:
+${esc(x.billId)}
+
+`:""}
+
+</div>
+
+`;
+
+});
+
+document.getElementById("adminArea").innerHTML=h;
+
+}
+
+window.adminStockLedger=adminStockLedger;
+
+
+/* =========================================================
+PROFIT DASHBOARD
+========================================================= */
+
+async function adminProfit(){
+
+const ledger=await getProfitLedger();
+
+const today=ledger.filter(
+x=>number(x.timestamp)>=startOfDay()
+);
+
+const week=ledger.filter(
+x=>number(x.timestamp)>=startOfWeek()
+);
+
+const month=ledger.filter(
+x=>number(x.timestamp)>=startOfMonth()
+);
+
+const year=ledger.filter(
+x=>number(x.timestamp)>=startOfYear()
+);
+
+const D=calculateSums(today);
+const W=calculateSums(week);
+const M=calculateSums(month);
+const Y=calculateSums(year);
+const A=calculateSums(ledger);
+
+
+document.getElementById("adminArea").innerHTML=`
+
+<h3>💰 COMPLETE PROFIT SYSTEM</h3>
+
+<div class="notice">
+
+<b>Actual Gross Profit Formula:</b>
+
+<br><br>
+
+Sales Revenue − COGS = Gross Profit
+
+<br><br>
+
+COGS = Sold Quantity × Actual Purchase Cost
+
+<br><br>
+
+Customer ko Purchase Cost, COGS aur Profit nahi dikhaya jata.
+
+</div>
+
+
+<h3 class="sectionTitle">
+📅 Today
+</h3>
+
+<div class="statGrid">
+
+<div class="stat">
+Sales
+<b>Rs. ${money(D.sales)}</b>
+</div>
+
+<div class="stat">
+COGS
+<b>Rs. ${money(D.cost)}</b>
+</div>
+
+<div class="stat">
+Gross Profit
+<b class="profit">
+Rs. ${money(D.profit)}
+</b>
+</div>
+
+<div class="stat">
+Margin
+<b>${D.margin.toFixed(2)}%</b>
+</div>
+
+</div>
+
+
+<h3 class="sectionTitle">
+📅 This Week
+</h3>
+
+<div class="statGrid">
+
+<div class="stat">
+Sales
+<b>Rs. ${money(W.sales)}</b>
+</div>
+
+<div class="stat">
+COGS
+<b>Rs. ${money(W.cost)}</b>
+</div>
+
+<div class="stat">
+Gross Profit
+<b class="profit">
+Rs. ${money(W.profit)}
+</b>
+</div>
+
+<div class="stat">
+Margin
+<b>${W.margin.toFixed(2)}%</b>
+</div>
+
+</div>
+
+
+<h3 class="sectionTitle">
+📅 This Month
+</h3>
+
+<div class="statGrid">
+
+<div class="stat">
+Sales
+<b>Rs. ${money(M.sales)}</b>
+</div>
+
+<div class="stat">
+COGS
+<b>Rs. ${money(M.cost)}</b>
+</div>
+
+<div class="stat">
+Gross Profit
+<b class="profit">
+Rs. ${money(M.profit)}
+</b>
+</div>
+
+<div class="stat">
+Margin
+<b>${M.margin.toFixed(2)}%</b>
+</div>
+
+</div>
+
+
+<h3 class="sectionTitle">
+📅 This Year
+</h3>
+
+<div class="statGrid">
+
+<div class="stat">
+Sales
+<b>Rs. ${money(Y.sales)}</b>
+</div>
+
+<div class="stat">
+COGS
+<b>Rs. ${money(Y.cost)}</b>
+</div>
+
+<div class="stat">
+Gross Profit
+<b class="profit">
+Rs. ${money(Y.profit)}
+</b>
+</div>
+
+<div class="stat">
+Margin
+<b>${Y.margin.toFixed(2)}%</b>
+</div>
+
+</div>
+
+
+<h3 class="sectionTitle">
+♾️ All Time
+</h3>
+
+<div class="statGrid">
+
+<div class="stat">
+Total Sales
+<b>Rs. ${money(A.sales)}</b>
+</div>
+
+<div class="stat">
+Total COGS
+<b>Rs. ${money(A.cost)}</b>
+</div>
+
+<div class="stat">
+Total Profit
+<b class="profit">
+Rs. ${money(A.profit)}
+</b>
+</div>
+
+<div class="stat">
+Total Margin
+<b>${A.margin.toFixed(2)}%</b>
+</div>
+
+</div>
+
+
+<hr>
+
+<h3>🧾 Recent Profit Records</h3>
+
+${ledger
+.slice()
+.sort((a,b)=>number(b.timestamp)-number(a.timestamp))
+.slice(0,100)
+.map(x=>`
+
+<div class="adminItem">
+
+<b>Bill: ${esc(x.billId||"")}</b>
+
+<br>
+
+Date:
+${esc(x.date||"")}
+
+<br>
+
+Sales:
+Rs. ${money(x.sales)}
+
+<br>
+
+COGS:
+Rs. ${money(x.cost)}
+
+<br>
+
+Gross Profit:
+<b class="${number(x.profit)>=0?"profit":"loss"}">
+Rs. ${money(x.profit)}
+</b>
+
+<br>
+
+Margin:
+${number(x.margin).toFixed(2)}%
+
+</div>
+
+`).join("")}
+
+`;
+
+}
+
+window.adminProfit=adminProfit;
+
+
+/* =========================================================
+ADMIN DASHBOARD
+========================================================= */
+
+async function adminDashboard(){
+
+const bills=await getAllBills();
+const ledger=await getProfitLedger();
+const productsData=await dbGet("products");
+
+const list=
+productsData
+?
+Object.entries(productsData).map(([id,p])=>normalizeProduct(id,p))
+:
+[];
+
+let out=0;
+let low=0;
+let inventoryCost=0;
+let inventorySale=0;
+
+list.forEach(p=>{
+
+(p.combinations||[]).forEach(c=>{
+
+const stock=number(c.stock);
+
+inventoryCost+=stock*number(c.costPrice);
+inventorySale+=stock*number(c.price);
+
+if(stock<=0)out++;
+else if(stock<=number(p.minStock))low++;
+
+});
+
+});
+
+const A=calculateSums(ledger);
+
+const inventoryProfit=
+inventorySale-inventoryCost;
+
+document.getElementById("adminArea").innerHTML=`
+
+<h3>📊 MASTER ADMIN DASHBOARD</h3>
+
+<div class="statGrid">
+
+<div class="stat">
+Total Sales
+<b>Rs. ${money(A.sales)}</b>
+</div>
+
+<div class="stat">
+COGS
+<b>Rs. ${money(A.cost)}</b>
+</div>
+
+<div class="stat">
+Gross Profit
+<b class="profit">
+Rs. ${money(A.profit)}
+</b>
+</div>
+
+<div class="stat">
+Profit Margin
+<b>${A.margin.toFixed(2)}%</b>
+</div>
+
+<div class="stat">
+Orders
+<b>${bills.length}</b>
+</div>
+
+<div class="stat">
+Products
+<b>${list.length}</b>
+</div>
+
+<div class="stat">
+Low Stock Combos
+<b class="loss">${low}</b>
+</div>
+
+<div class="stat">
+Out Of Stock Combos
+<b class="loss">${out}</b>
+</div>
+
+<div class="stat">
+Inventory Cost
+<b>Rs. ${money(inventoryCost)}</b>
+</div>
+
+<div class="stat">
+Inventory Sale
+<b>Rs. ${money(inventorySale)}</b>
+</div>
+
+<div class="stat">
+Inventory Potential Profit
+<b class="profit">
+Rs. ${money(inventoryProfit)}
+</b>
+</div>
+
+</div>
+
+<div class="notice">
+
+🔐 Customer ko stock, Purchase Cost, COGS, Profit aur Inventory Value — kuch bhi nahi dikhaya jata.
+
+<br><br>
+
+📦 Order hamesha confirm hota hai, customer side par koi stock check ya block nahi hai.
+
+<br><br>
+
+📦 Stock system automatically (per Flavor/Weight/Unit, Base Unit mein):
+
+<br>
+
+Purchase → Stock IN
+
+<br>
+
+Sale → Stock OUT (background mein, order block nahi karta)
+
+<br>
+
+Adjustment → Stock Correction
+
+<br>
+
+Sale → COGS + Profit
+
+</div>
+
+`;
+
+}
+
+window.adminDashboard=adminDashboard;
+
+
+/* =========================================================
+PRODUCT MANAGEMENT
+========================================================= */
+
+async function adminProducts(){
+
+const data=await dbGet("products");
+
+products=[];
+
+if(data){
+
+products=
+Object.entries(data)
+.map(([id,p])=>normalizeProduct(id,p));
+
+}
+
+let h="<h3>📦 Products Management</h3>";
+
+products.forEach(p=>{
+
+const total=productTotalStock(p);
+
+h+=`
+
+<div class="adminItem">
+
+<h3>
+
+${
+p.image
+?
+`<img src="${esc(p.image)}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;vertical-align:middle">`
+:
+esc(p.icon||"📦")
+}
+
+${esc(p.name)}
+
 </h3>
 
 <p>
-
 Status:
-
 ${
 p.active!==false
 ?
@@ -4795,41 +5120,40 @@ p.active!==false
 :
 `<span class="off">🔴 OFF</span>`
 }
-
 </p>
 
-<div class="${
-number(p.stock)<=0
-?
-"stockOut"
-:
-number(p.stock)<=10
-?
-"stockLow"
-:
-"stockGood"
-}">
+<div class="stockGood">
 
-Stock:
-${number(p.stock)}
+Total Stock (sab combinations, ${esc(p.baseUnit||"Piece")}):
+${total}
+
+<br>
+
+Minimum Stock Alert:
+${number(p.minStock)}
 
 </div>
-
-<p>
-Purchase Cost:
-Rs. ${money(p.costPrice)}
-</p>
 
 <p>
 Default Sale Rate:
 Rs. ${money(p.price)}
 </p>
 
+<div class="hiddenCost">
+
+<span class="costLabel">
+🔒 Hidden Purchase Cost (default)
+</span>
+
+<br>
+
+Rs. ${money(p.costPrice)}
+
+</div>
+
 <p>
 Combinations:
-<b>
-${(p.combinations||[]).length}
-</b>
+<b>${(p.combinations||[]).length}</b>
 </p>
 
 <div class="row">
@@ -4844,9 +5168,9 @@ onclick="editProduct('${p.id}')">
 
 <button
 class="primary"
-onclick="stockQuickAdd('${p.id}')">
+onclick="adminStock()">
 
-➕ Stock
+🛒 Stock
 
 </button>
 
@@ -4866,30 +5190,21 @@ onclick="deleteProduct('${p.id}')">
 
 });
 
-
 h+=`
 
 <br>
 
-<button
-class="primary"
-onclick="newProduct()">
-
+<button class="primary" onclick="newProduct()">
 ➕ New Product
-
 </button>
 
 `;
 
-
-document.getElementById(
-"adminArea"
-).innerHTML=h;
+document.getElementById("adminArea").innerHTML=h;
 
 }
 
-window.adminProducts=
-adminProducts;
+window.adminProducts=adminProducts;
 
 
 /* =========================================================
@@ -4898,9 +5213,7 @@ NEW PRODUCT
 
 async function newProduct(){
 
-const r=
-push(ref(db,"products"));
-
+const r=push(ref(db,"products"));
 
 await set(r,{
 
@@ -4918,468 +5231,62 @@ price:0,
 
 costPrice:0,
 
-stock:0,
+minStock:10,
+
+baseUnit:"Piece",
 
 active:true,
 
 flavors:[
-
 {
 name:"Normal",
-price:0
+price:0,
+costPrice:0
 }
-
 ],
 
 weights:[
-
 {
 name:"Default",
-price:0
+price:0,
+costPrice:0
 }
-
 ],
 
 units:[
-
 {
 name:"Piece",
-price:0
+price:0,
+costPrice:0
 }
-
 ],
 
 combinations:[
-
 {
 flavor:"Normal",
 weight:"Default",
 unit:"Piece",
 price:0,
-costPrice:0
+costPrice:0,
+stock:0
 }
-
 ]
 
 });
 
-
-await adminProducts();
-
 await loadProducts();
 
-showStatus(
-"✅ New Product add ho gaya"
-);
+await editProduct(r.key);
+
+showStatus("✅ New Product create ho gaya");
 
 }
 
-window.newProduct=
-newProduct;
+window.newProduct=newProduct;
 
 
 /* =========================================================
-STOCK
-========================================================= */
-
-async function stockQuickAdd(id){
-
-const p=
-products.find(x=>x.id===id);
-
-if(!p)return;
-
-
-const amount=
-prompt(
-`${p.name}\n\nKitna stock add karna hai?`
-);
-
-
-if(amount===null)return;
-
-
-const add=
-number(amount);
-
-
-if(add<=0){
-
-alert(
-"Stock amount 0 se zyada hona chahiye."
-);
-
-return;
-
-}
-
-
-const old=
-number(
-await dbGet(
-"products/"+id+"/stock"
-)
-);
-
-
-const newStock=
-old+add;
-
-
-await dbSet(
-"products/"+id+"/stock",
-newStock
-);
-
-
-const logRef=
-push(ref(db,"stockLedger"));
-
-
-await set(
-logRef,
-{
-
-productId:id,
-
-productName:p.name,
-
-type:"IN",
-
-quantity:add,
-
-oldStock:old,
-
-newStock,
-
-date:
-new Date()
-.toLocaleString("en-PK"),
-
-timestamp:Date.now()
-
-}
-);
-
-
-await adminStock();
-
-showStatus(
-"✅ Stock add ho gaya"
-);
-
-}
-
-window.stockQuickAdd=
-stockQuickAdd;
-
-
-async function adminStock(){
-
-const data=
-await dbGet("products");
-
-
-if(!data){
-
-document.getElementById(
-"adminArea"
-).innerHTML=
-"<p>Products nahi hain.</p>";
-
-return;
-
-}
-
-
-const list=
-Object.entries(data)
-.map(([id,p])=>({
-id,
-...p
-}));
-
-
-let h=`
-
-<h3>
-📦 Stock Management
-</h3>
-
-<div class="notice">
-
-Customer ko stock section nazar nahi aata.
-
-</div>
-
-`;
-
-
-list.forEach(p=>{
-
-const stock=
-number(p.stock);
-
-
-h+=`
-
-<div class="adminItem">
-
-<h3>
-${esc(p.icon||"📦")}
-${esc(p.name)}
-</h3>
-
-<div class="${
-stock<=0
-?
-"stockOut"
-:
-stock<=10
-?
-"stockLow"
-:
-"stockGood"
-}">
-
-Current Stock:
-${stock}
-
-</div>
-
-<p>
-Purchase Cost:
-Rs. ${money(p.costPrice)}
-</p>
-
-<p>
-Sale Rate:
-Rs. ${money(p.price)}
-</p>
-
-<div class="row">
-
-<button
-class="primary"
-onclick="stockQuickAdd('${p.id}')">
-
-➕ Add Stock
-
-</button>
-
-<button
-class="gray"
-onclick="stockRemove('${p.id}')">
-
-➖ Remove
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-
-document.getElementById(
-"adminArea"
-).innerHTML=h;
-
-}
-
-window.adminStock=
-adminStock;
-
-
-async function stockRemove(id){
-
-const p=
-products.find(x=>x.id===id);
-
-if(!p)return;
-
-
-const amount=
-prompt(
-`${p.name}\n\nKitna stock remove karna hai?`
-);
-
-
-if(amount===null)return;
-
-
-const qty=
-number(amount);
-
-
-if(qty<=0)return;
-
-
-const old=
-number(
-await dbGet(
-"products/"+id+"/stock"
-)
-);
-
-
-const newStock=
-Math.max(0,old-qty);
-
-
-await dbSet(
-"products/"+id+"/stock",
-newStock
-);
-
-
-const r=
-push(ref(db,"stockLedger"));
-
-
-await set(
-r,
-{
-
-productId:id,
-
-productName:p.name,
-
-type:"OUT",
-
-quantity:Math.min(qty,old),
-
-oldStock:old,
-
-newStock,
-
-date:
-new Date()
-.toLocaleString("en-PK"),
-
-timestamp:Date.now()
-
-}
-);
-
-
-adminStock();
-
-}
-
-window.stockRemove=
-stockRemove;
-
-
-/* =========================================================
-OUT OF STOCK
-========================================================= */
-
-async function adminOutOfStock(){
-
-const data=
-await dbGet("products");
-
-
-const list=
-data
-?
-Object.entries(data)
-.map(([id,p])=>({
-id,
-...p
-}))
-.filter(
-p=>number(p.stock)<=0
-)
-:
-[];
-
-
-let h=`
-
-<h3>
-🔴 Stock Khatam
-</h3>
-
-`;
-
-
-if(!list.length){
-
-h+=`
-
-<div class="stockGood">
-
-✅ Abhi koi stock khatam nahi hai.
-
-</div>
-
-`;
-
-}else{
-
-list.forEach(p=>{
-
-h+=`
-
-<div class="adminItem">
-
-<h3>
-${esc(p.icon||"📦")}
-${esc(p.name)}
-</h3>
-
-<div class="stockOut">
-
-🔴 STOCK KHATAM
-
-</div>
-
-<p>
-Purchase Cost:
-Rs. ${money(p.costPrice)}
-</p>
-
-<p>
-Sale Rate:
-Rs. ${money(p.price)}
-</p>
-
-<br>
-
-<button
-class="primary"
-onclick="stockQuickAdd('${p.id}')">
-
-➕ Stock Add Karein
-
-</button>
-
-</div>
-
-`;
-
-});
-
-}
-
-
-document.getElementById(
-"adminArea"
-).innerHTML=h;
-
-}
-
-window.adminOutOfStock=
-adminOutOfStock;
-
-
-/* =========================================================
-VARIANT HELPERS
+VARIANT ROWS
 ========================================================= */
 
 function removeVariantRow(btn){
@@ -5388,15 +5295,12 @@ btn.closest(".adminItem")?.remove();
 
 }
 
-window.removeVariantRow=
-removeVariantRow;
+window.removeVariantRow=removeVariantRow;
 
 
 function addFlavorRow(){
 
-document
-.getElementById("flavorList")
-.insertAdjacentHTML(
+document.getElementById("flavorList").insertAdjacentHTML(
 "beforeend",
 `
 
@@ -5404,12 +5308,15 @@ document
 
 <div class="row">
 
-<input
-placeholder="Flavor">
+<input placeholder="Flavor">
 
 <input
 type="number"
-placeholder="Default Rate">
+placeholder="Sale Rate">
+
+<input
+type="number"
+placeholder="Hidden Cost">
 
 <button
 class="red"
@@ -5428,15 +5335,12 @@ onclick="removeVariantRow(this)">
 
 }
 
-window.addFlavorRow=
-addFlavorRow;
+window.addFlavorRow=addFlavorRow;
 
 
 function addWeightRow(){
 
-document
-.getElementById("weightList")
-.insertAdjacentHTML(
+document.getElementById("weightList").insertAdjacentHTML(
 "beforeend",
 `
 
@@ -5444,12 +5348,15 @@ document
 
 <div class="row">
 
-<input
-placeholder="Weight">
+<input placeholder="Weight">
 
 <input
 type="number"
-placeholder="Default Rate">
+placeholder="Sale Rate">
+
+<input
+type="number"
+placeholder="Hidden Cost">
 
 <button
 class="red"
@@ -5468,15 +5375,12 @@ onclick="removeVariantRow(this)">
 
 }
 
-window.addWeightRow=
-addWeightRow;
+window.addWeightRow=addWeightRow;
 
 
 function addUnitRow(){
 
-document
-.getElementById("unitList")
-.insertAdjacentHTML(
+document.getElementById("unitList").insertAdjacentHTML(
 "beforeend",
 `
 
@@ -5484,12 +5388,15 @@ document
 
 <div class="row">
 
-<input
-placeholder="Unit">
+<input placeholder="Unit">
 
 <input
 type="number"
-placeholder="Default Rate">
+placeholder="Sale Rate">
+
+<input
+type="number"
+placeholder="Hidden Cost">
 
 <button
 class="red"
@@ -5508,8 +5415,7 @@ onclick="removeVariantRow(this)">
 
 }
 
-window.addUnitRow=
-addUnitRow;
+window.addUnitRow=addUnitRow;
 
 
 /* =========================================================
@@ -5518,45 +5424,37 @@ COLLECT VARIANTS
 
 function collectVariantRows(listId){
 
-const list=
-document.getElementById(listId);
+const list=document.getElementById(listId);
 
 const result=[];
 
 if(!list)return result;
 
+list.querySelectorAll(".adminItem").forEach(row=>{
 
-list
-.querySelectorAll(".adminItem")
-.forEach(row=>{
+const inputs=row.querySelectorAll("input");
 
-const inputs=
-row.querySelectorAll("input");
+if(inputs.length<3)return;
 
-if(inputs.length<2)return;
+const name=inputs[0].value.trim();
 
+const price=number(inputs[1].value);
 
-const name=
-inputs[0].value.trim();
-
-const price=
-number(inputs[1].value);
-
+const costPrice=number(inputs[2].value);
 
 if(name){
 
 result.push({
 
 name,
-
-price
+price,
+costPrice
 
 });
 
 }
 
 });
-
 
 return result;
 
@@ -5565,59 +5463,45 @@ return result;
 
 /* =========================================================
 COMBINATION GENERATOR
+(stock preserve karta hai agar combination pehle se
+exist karta ho)
 ========================================================= */
 
 function generateCombinations(){
 
-const flavors=
-collectVariantRows("flavorList");
-
-const weights=
-collectVariantRows("weightList");
-
-const units=
-collectVariantRows("unitList");
-
+const flavors=collectVariantRows("flavorList");
+const weights=collectVariantRows("weightList");
+const units=collectVariantRows("unitList");
 
 const old={};
 
+document.querySelectorAll(".comboExisting").forEach(row=>{
 
-document
-.querySelectorAll(".comboExisting")
-.forEach(row=>{
-
-const key=
-row.dataset.key;
-
+const key=row.dataset.key;
 
 old[key]={
 
-price:
-number(
+price:number(
 row.querySelector(".comboPrice")?.value
 ),
 
-costPrice:
-number(
+costPrice:number(
 row.querySelector(".comboCost")?.value
+),
+
+stock:number(
+row.querySelector(".comboStock")?.value
 )
 
 };
 
 });
 
-
-const container=
-document.getElementById(
-"combinationList"
-);
-
+const container=document.getElementById("combinationList");
 
 if(!container)return;
 
-
 let html="";
-
 
 flavors.forEach(f=>{
 
@@ -5625,30 +5509,25 @@ weights.forEach(w=>{
 
 units.forEach(u=>{
 
-const key=
-[
+const key=[
 f.name,
 w.name,
 u.name
 ].join("|||");
-
 
 const previous=
 old[key]||
 {
 
 price:
-number(
-u.price||
-w.price||
-f.price||
-0
-),
+number(u.price||w.price||f.price||0),
 
-costPrice:0
+costPrice:
+number(u.costPrice||w.costPrice||f.costPrice||0),
+
+stock:0
 
 };
-
 
 html+=`
 
@@ -5656,17 +5535,9 @@ html+=`
 class="comboExisting"
 data-key="${esc(key)}">
 
-<td>
-${esc(f.name)}
-</td>
-
-<td>
-${esc(w.name)}
-</td>
-
-<td>
-${esc(u.name)}
-</td>
+<td>${esc(f.name)}</td>
+<td>${esc(w.name)}</td>
+<td>${esc(u.name)}</td>
 
 <td>
 
@@ -5686,6 +5557,15 @@ value="${previous.costPrice}">
 
 </td>
 
+<td>
+
+<input
+class="comboStock"
+type="number"
+value="${previous.stock}">
+
+</td>
+
 </tr>
 
 `;
@@ -5696,13 +5576,11 @@ value="${previous.costPrice}">
 
 });
 
-
 container.innerHTML=html;
 
 }
 
-window.generateCombinations=
-generateCombinations;
+window.generateCombinations=generateCombinations;
 
 
 /* =========================================================
@@ -5713,72 +5591,108 @@ function collectCombinations(){
 
 const result=[];
 
-
-document
-.querySelectorAll(
-"#combinationList tr"
-)
+document.querySelectorAll("#combinationList tr")
 .forEach(row=>{
 
-const cells=
-row.querySelectorAll("td");
+const cells=row.querySelectorAll("td");
 
+if(cells.length<6)return;
 
-if(cells.length<5)return;
+const flavor=cells[0].textContent.trim();
+const weight=cells[1].textContent.trim();
+const unit=cells[2].textContent.trim();
 
-
-const flavor=
-cells[0]
-.textContent
-.trim();
-
-const weight=
-cells[1]
-.textContent
-.trim();
-
-const unit=
-cells[2]
-.textContent
-.trim();
-
-
-const price=
-number(
-cells[3]
-.querySelector("input")
-?.value
+const price=number(
+cells[3].querySelector("input")?.value
 );
 
-
-const costPrice=
-number(
-cells[4]
-.querySelector("input")
-?.value
+const costPrice=number(
+cells[4].querySelector("input")?.value
 );
 
+const stock=number(
+cells[5].querySelector("input")?.value
+);
 
 result.push({
 
 flavor,
-
 weight,
-
 unit,
 
 price,
 
-costPrice
+costPrice,
+
+stock
 
 });
 
 });
-
 
 return result;
 
 }
+
+
+/* =========================================================
+IMAGE PREVIEW
+========================================================= */
+
+function previewProductImage(){
+
+const file=document.getElementById("epImage")?.files[0];
+
+const img=document.getElementById("productPreview");
+
+if(!file||!img){
+
+if(img)img.style.display="none";
+
+return;
+
+}
+
+if(file.size>8*1024*1024){
+
+alert("Image 8MB se choti honi chahiye.");
+
+document.getElementById("epImage").value="";
+
+img.style.display="none";
+
+return;
+
+}
+
+img.src=URL.createObjectURL(file);
+img.style.display="block";
+
+}
+
+window.previewProductImage=previewProductImage;
+
+
+/* =========================================================
+REMOVE PRODUCT IMAGE
+========================================================= */
+
+function clearProductImage(){
+
+document.getElementById("epRemoveImage").checked=true;
+
+const img=document.getElementById("productPreview");
+
+if(img){
+
+img.src="";
+img.style.display="none";
+
+}
+
+}
+
+window.clearProductImage=clearProductImage;
 
 
 /* =========================================================
@@ -5787,15 +5701,12 @@ EDIT PRODUCT
 
 function editProduct(id){
 
-const p=
-products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
 
 
-const flavorRows=
-(p.flavors||[])
-.map(x=>`
+const flavorRows=(p.flavors||[]).map(x=>`
 
 <div class="adminItem">
 
@@ -5808,7 +5719,12 @@ placeholder="Flavor">
 <input
 type="number"
 value="${number(x.price)}"
-placeholder="Default Rate">
+placeholder="Sale Rate">
+
+<input
+type="number"
+value="${number(x.costPrice)}"
+placeholder="Hidden Cost">
 
 <button
 class="red"
@@ -5825,9 +5741,7 @@ onclick="removeVariantRow(this)">
 `).join("");
 
 
-const weightRows=
-(p.weights||[])
-.map(x=>`
+const weightRows=(p.weights||[]).map(x=>`
 
 <div class="adminItem">
 
@@ -5840,7 +5754,12 @@ placeholder="Weight">
 <input
 type="number"
 value="${number(x.price)}"
-placeholder="Default Rate">
+placeholder="Sale Rate">
+
+<input
+type="number"
+value="${number(x.costPrice)}"
+placeholder="Hidden Cost">
 
 <button
 class="red"
@@ -5857,9 +5776,7 @@ onclick="removeVariantRow(this)">
 `).join("");
 
 
-const unitRows=
-(p.units||[])
-.map(x=>`
+const unitRows=(p.units||[]).map(x=>`
 
 <div class="adminItem">
 
@@ -5872,7 +5789,12 @@ placeholder="Unit">
 <input
 type="number"
 value="${number(x.price)}"
-placeholder="Default Rate">
+placeholder="Sale Rate">
+
+<input
+type="number"
+value="${number(x.costPrice)}"
+placeholder="Hidden Cost">
 
 <button
 class="red"
@@ -5889,48 +5811,80 @@ onclick="removeVariantRow(this)">
 `).join("");
 
 
-document.getElementById(
-"adminArea"
-).innerHTML=`
+document.getElementById("adminArea").innerHTML=`
 
 <div class="head">
 
-<h2>
-✏️ Edit Product
-</h2>
+<h2>✏️ Edit Product</h2>
 
-<button
-class="gray"
-onclick="adminProducts()">
-
+<button class="gray" onclick="adminProducts()">
 ← Back
-
 </button>
 
 </div>
 
 
-<label>
-Product Name
-</label>
+<label>Product Name</label>
 
 <input
 id="epName"
 value="${esc(p.name)}">
 
 
-<label>
-Icon
-</label>
+<div class="imageChoice">
+
+<div>
+
+<label>🖼️ Product Picture</label>
+
+<input
+id="epImage"
+type="file"
+accept="image/*"
+onchange="previewProductImage()">
+
+<p class="muted">
+Picture upload karne ke baad icon ki jagah picture website par show hogi.
+</p>
+
+<img
+id="productPreview"
+class="productPreview"
+src="${esc(p.image||"")}"
+style="${p.image?"display:block":"display:none"}">
+
+</div>
+
+<div>
+
+<label>📦 Backup Icon</label>
 
 <input
 id="epIcon"
 value="${esc(p.icon||"📦")}">
 
+<p class="muted">
+Agar picture upload nahi hogi to ye icon show hoga.
+</p>
 
-<label>
-Default Sale Rate
+<label style="display:block;margin-top:12px">
+
+<input
+id="epRemoveImage"
+type="checkbox"
+style="width:20px"
+>
+
+Existing picture remove karein
+
 </label>
+
+</div>
+
+</div>
+
+
+<label>Default Sale Rate</label>
 
 <input
 id="epPrice"
@@ -5938,9 +5892,7 @@ type="number"
 value="${number(p.price)}">
 
 
-<label>
-Default Purchase Cost
-</label>
+<label>🔒 Default Hidden Purchase Cost</label>
 
 <input
 id="epCost"
@@ -5948,45 +5900,61 @@ type="number"
 value="${number(p.costPrice)}">
 
 
-<label>
-Current Stock
-</label>
+<label>📏 Base Unit (jis unit mein stock rakhi jaye — jaise Piece, Gram, ml)</label>
 
 <input
-id="epStock"
+id="epBaseUnit"
+value="${esc(p.baseUnit||"Piece")}">
+
+
+<label>🔔 Minimum Stock Alert (per combination)</label>
+
+<input
+id="epMinStock"
 type="number"
-value="${number(p.stock)}">
+min="0"
+value="${number(p.minStock)}">
 
 
 <div class="notice">
 
-💡 Exact combination ka rate neeche set karein.
+🔐 <b>Master Stock + Profit</b>
 
 <br><br>
 
-Example:
+Stock ab HAR Flavor/Weight/Unit combination ka apna
+alag rakha jata hai (neeche combination table mein),
+Base Unit ke hisab se.
 
-<b>
-Chocolate + 500g + Box
-</b>
+<br>
 
-ka rate alag set kiya ja sakta hai.
+Customer ko stock kabhi nahi dikhaya jata.
+
+<br>
+
+Purchase Cost customer ko nahi dikhegi.
+
+<br>
+
+Stock purchase karte waqt weighted average cost
+(per combination) automatically calculate hogi.
+
+<br>
+
+Profit:
+<b>Sale − COGS</b>
 
 </div>
 
 
-<label>
-Short Information
-</label>
+<label>Short Information</label>
 
 <input
 id="epShort"
 value="${esc(p.shortInfo||"")}">
 
 
-<label>
-Product Information
-</label>
+<label>Product Information</label>
 
 <textarea
 id="epInfo"
@@ -6000,6 +5968,7 @@ rows="5">${esc(p.info||"")}</textarea>
 <input
 id="epActive"
 type="checkbox"
+style="width:20px"
 ${p.active!==false?"checked":""}>
 
 Product ON
@@ -6009,64 +5978,46 @@ Product ON
 
 <hr>
 
-<h3>
+<h3 class="sectionTitle">
 🌈 Flavors
 </h3>
 
 <div id="flavorList">
-
 ${flavorRows}
-
 </div>
 
-<button
-class="gray"
-onclick="addFlavorRow()">
-
+<button class="gray" onclick="addFlavorRow()">
 ➕ Add Flavor
-
 </button>
 
 
 <hr>
 
-<h3>
+<h3 class="sectionTitle">
 ⚖️ Weights
 </h3>
 
 <div id="weightList">
-
 ${weightRows}
-
 </div>
 
-<button
-class="gray"
-onclick="addWeightRow()">
-
+<button class="gray" onclick="addWeightRow()">
 ➕ Add Weight
-
 </button>
 
 
 <hr>
 
-<h3>
+<h3 class="sectionTitle">
 📦 Units
 </h3>
 
 <div id="unitList">
-
 ${unitRows}
-
 </div>
 
-<button
-class="gray"
-onclick="addUnitRow()">
-
+<button class="gray" onclick="addUnitRow()">
 ➕ Add Unit
-
 </button>
 
 
@@ -6074,19 +6025,26 @@ onclick="addUnitRow()">
 
 <div class="notice">
 
-<b>
-⚡ Combination Rate Generator
-</b>
+<b>⚡ Exact Combination Profit + Stock</b>
 
 <br><br>
 
-System automatically:
+Example:
 
-<b>
-Flavor × Weight × Unit
-</b>
+<br>
 
-ki sari combinations banayega.
+Chocolate + 500g + Box
+
+<br><br>
+
+Is combination ka apna Sale Rate, Hidden Purchase Cost
+aur Stock (Base Unit mein) set kar sakte hain.
+
+<br><br>
+
+⚠️ "Generate All Combinations" dobara chalane se
+purani Stock values existing combinations ki
+preserve rehti hain.
 
 </div>
 
@@ -6109,32 +6067,18 @@ onclick="generateCombinations()">
 
 <tr class="comboHead">
 
-<th>
-Flavor
-</th>
-
-<th>
-Weight
-</th>
-
-<th>
-Unit
-</th>
-
-<th>
-Sale Rate
-</th>
-
-<th>
-Cost
-</th>
+<th>Flavor</th>
+<th>Weight</th>
+<th>Unit</th>
+<th>Sale Rate</th>
+<th>🔒 Hidden Cost</th>
+<th>📦 Stock</th>
 
 </tr>
 
 </thead>
 
-<tbody
-id="combinationList">
+<tbody id="combinationList">
 
 ${
 (p.combinations||[])
@@ -6150,17 +6094,11 @@ x.unit
 ].join("|||")
 )}">
 
-<td>
-${esc(x.flavor)}
-</td>
+<td>${esc(x.flavor)}</td>
 
-<td>
-${esc(x.weight)}
-</td>
+<td>${esc(x.weight)}</td>
 
-<td>
-${esc(x.unit)}
-</td>
+<td>${esc(x.unit)}</td>
 
 <td>
 
@@ -6180,6 +6118,15 @@ value="${number(x.costPrice)}">
 
 </td>
 
+<td>
+
+<input
+class="comboStock"
+type="number"
+value="${number(x.stock)}">
+
+</td>
+
 </tr>
 
 `).join("")
@@ -6194,18 +6141,6 @@ value="${number(x.costPrice)}">
 
 <hr>
 
-<h3>
-🖼️ Product Picture
-</h3>
-
-<input
-id="epImage"
-type="file"
-accept="image/*">
-
-
-<br><br>
-
 <button
 class="primary"
 style="width:100%"
@@ -6219,8 +6154,7 @@ onclick="saveProduct('${id}')">
 
 }
 
-window.editProduct=
-editProduct;
+window.editProduct=editProduct;
 
 
 /* =========================================================
@@ -6229,60 +6163,38 @@ SAVE PRODUCT
 
 async function saveProduct(id){
 
-const p=
-products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
-
 
 const data={
 
 name:
-document
-.getElementById("epName")
-.value.trim(),
+document.getElementById("epName").value.trim(),
 
 icon:
-document
-.getElementById("epIcon")
-.value.trim()||
-"📦",
+document.getElementById("epIcon").value.trim()||"📦",
 
 price:
-number(
-document
-.getElementById("epPrice")
-.value
-),
+number(document.getElementById("epPrice").value),
 
 costPrice:
-number(
-document
-.getElementById("epCost")
-.value
-),
+number(document.getElementById("epCost").value),
 
-stock:
-number(
-document
-.getElementById("epStock")
-.value
-),
+baseUnit:
+document.getElementById("epBaseUnit").value.trim()||"Piece",
+
+minStock:
+number(document.getElementById("epMinStock").value),
 
 shortInfo:
-document
-.getElementById("epShort")
-.value.trim(),
+document.getElementById("epShort").value.trim(),
 
 info:
-document
-.getElementById("epInfo")
-.value.trim(),
+document.getElementById("epInfo").value.trim(),
 
 active:
-document
-.getElementById("epActive")
-.checked,
+document.getElementById("epActive").checked,
 
 flavors:
 collectVariantRows("flavorList"),
@@ -6298,78 +6210,61 @@ collectCombinations()
 
 };
 
+const removeImage=
+document.getElementById("epRemoveImage").checked;
 
 const file=
-document
-.getElementById("epImage")
-.files[0];
-
+document.getElementById("epImage").files[0];
 
 try{
 
-if(file){
+if(removeImage){
+
+data.image="";
+
+}else if(file){
 
 if(file.size>8*1024*1024){
 
-alert(
-"Image 8MB se choti honi chahiye."
-);
-
+alert("Image 8MB se choti honi chahiye.");
 return;
 
 }
 
-
 const r=
 storageRef(
 storage,
-"products/"+
-id+
-"_"+Date.now()
+"products/"+id+"_"+Date.now()
 );
-
 
 await uploadBytes(r,file);
 
-
-data.image=
-await getDownloadURL(r);
+data.image=await getDownloadURL(r);
 
 }else{
 
-data.image=
-p.image||"";
+data.image=p.image||"";
 
 }
 
-
-await dbUpdate(
-"products/"+id,
-data
-);
-
+await dbUpdate("products/"+id,data);
 
 await loadProducts();
-
 await adminProducts();
 
 showStatus(
-"✅ Product + Multi Rates save ho gaye"
+"✅ Product + Picture + Stock + Cost save ho gaya"
 );
 
 }catch(e){
 
-alert(
-"Product save error:\n"+
-e.message
-);
+alert("Product save error:\n"+e.message);
 
 }
 
 }
 
-window.saveProduct=
-saveProduct;
+window.saveProduct=saveProduct;
 
 
 /* =========================================================
@@ -6378,339 +6273,22 @@ DELETE PRODUCT
 
 async function deleteProduct(id){
 
-const p=
-products.find(x=>x.id===id);
+const p=products.find(x=>x.id===id);
 
 if(!p)return;
 
+if(!confirm("Delete "+p.name+"?"))return;
 
-if(!confirm(
-"Delete "+p.name+"?"
-))return;
-
-
-await dbRemove(
-"products/"+id
-);
-
+await dbRemove("products/"+id);
 
 await loadProducts();
-
 await adminProducts();
 
-showStatus(
-"🗑 Product delete ho gaya"
-);
+showStatus("🗑 Product delete ho gaya");
 
 }
 
-window.deleteProduct=
-deleteProduct;
-
-
-/* =========================================================
-PROFIT
-========================================================= */
-
-function startOfWeek(){
-
-const d=new Date();
-
-const day=d.getDay();
-
-const diff=
-day===0
-?
--6
-:
-1-day;
-
-d.setDate(
-d.getDate()+diff
-);
-
-d.setHours(0,0,0,0);
-
-return d.getTime();
-
-}
-
-
-function startOfMonth(){
-
-const d=new Date();
-
-d.setDate(1);
-
-d.setHours(0,0,0,0);
-
-return d.getTime();
-
-}
-
-
-function startOfYear(){
-
-const d=new Date();
-
-d.setMonth(0,1);
-
-d.setHours(0,0,0,0);
-
-return d.getTime();
-
-}
-
-
-async function adminProfit(){
-
-const ledger=
-await getProfitLedger();
-
-
-const week=
-ledger.filter(
-x=>
-number(x.timestamp)>=
-startOfWeek()
-);
-
-
-const month=
-ledger.filter(
-x=>
-number(x.timestamp)>=
-startOfMonth()
-);
-
-
-const year=
-ledger.filter(
-x=>
-number(x.timestamp)>=
-startOfYear()
-);
-
-
-function sums(list){
-
-return{
-
-sales:
-list.reduce(
-(a,x)=>
-a+number(x.sales),
-0
-),
-
-cost:
-list.reduce(
-(a,x)=>
-a+number(x.cost),
-0
-),
-
-profit:
-list.reduce(
-(a,x)=>
-a+number(x.profit),
-0
-)
-
-};
-
-}
-
-
-const A=sums(ledger);
-const W=sums(week);
-const M=sums(month);
-const Y=sums(year);
-
-
-document.getElementById(
-"adminArea"
-).innerHTML=`
-
-<h3>
-💰 Profit System
-</h3>
-
-<div class="statGrid">
-
-<div class="stat">
-
-All Time Sales
-
-<b>
-Rs. ${money(A.sales)}
-</b>
-
-</div>
-
-<div class="stat">
-
-All Time Cost
-
-<b>
-Rs. ${money(A.cost)}
-</b>
-
-</div>
-
-<div class="stat">
-
-All Time Profit
-
-<b class="profit">
-Rs. ${money(A.profit)}
-</b>
-
-</div>
-
-</div>
-
-
-<h3>
-📅 This Week
-</h3>
-
-<div class="statGrid">
-
-<div class="stat">
-Sales
-<b>
-Rs. ${money(W.sales)}
-</b>
-</div>
-
-<div class="stat">
-Cost
-<b>
-Rs. ${money(W.cost)}
-</b>
-</div>
-
-<div class="stat">
-Profit
-<b class="profit">
-Rs. ${money(W.profit)}
-</b>
-</div>
-
-</div>
-
-
-<h3>
-📅 This Month
-</h3>
-
-<div class="statGrid">
-
-<div class="stat">
-Sales
-<b>
-Rs. ${money(M.sales)}
-</b>
-</div>
-
-<div class="stat">
-Cost
-<b>
-Rs. ${money(M.cost)}
-</b>
-</div>
-
-<div class="stat">
-Profit
-<b class="profit">
-Rs. ${money(M.profit)}
-</b>
-</div>
-
-</div>
-
-
-<h3>
-📅 This Year
-</h3>
-
-<div class="statGrid">
-
-<div class="stat">
-Sales
-<b>
-Rs. ${money(Y.sales)}
-</b>
-</div>
-
-<div class="stat">
-Cost
-<b>
-Rs. ${money(Y.cost)}
-</b>
-</div>
-
-<div class="stat">
-Profit
-<b class="profit">
-Rs. ${money(Y.profit)}
-</b>
-</div>
-
-</div>
-
-
-<hr>
-
-<h3>
-🧾 Recent Profit Records
-</h3>
-
-${ledger
-.slice()
-.reverse()
-.slice(0,30)
-.map(x=>`
-
-<div class="adminItem">
-
-<b>
-Bill: ${esc(x.billId||"")}
-</b>
-
-<br>
-
-Date:
-${esc(x.date||"")}
-
-<br>
-
-Sales:
-Rs. ${money(x.sales)}
-
-<br>
-
-Cost:
-Rs. ${money(x.cost)}
-
-<br>
-
-Profit:
-<b class="profit">
-Rs. ${money(x.profit)}
-</b>
-
-</div>
-
-`).join("")}
-
-`;
-
-}
-
-window.adminProfit=
-adminProfit;
+window.deleteProduct=deleteProduct;
 
 
 /* =========================================================
@@ -6719,34 +6297,26 @@ BILLS
 
 async function adminBills(){
 
-const all=
-await getAllBills();
+const all=await getAllBills();
 
-let h=
-"<h3>🧾 All Bills</h3>";
-
+let h="<h3>🧾 All Bills</h3>";
 
 if(!all.length){
 
-h+=
-"<p>Abhi koi bill nahi hai.</p>";
+h+="<p>Abhi koi bill nahi hai.</p>";
 
 }
 
-
 all
 .slice()
-.reverse()
+.sort((a,b)=>number(b.timestamp)-number(a.timestamp))
 .forEach(b=>{
 
 h+=`
 
 <div class="adminItem">
 
-<b>
-🏪
-${esc(b.customer?.name||"")}
-</b>
+<b>🏪 ${esc(b.customer?.name||"")}</b>
 
 <br>
 
@@ -6765,10 +6335,20 @@ Rs. ${money(b.total)}
 
 <br>
 
+COGS:
+Rs. ${money(b.totalCost)}
+
+<br>
+
 Profit:
 <span class="profit">
 Rs. ${money(b.profit)}
 </span>
+
+<br>
+
+Margin:
+${number(b.profitMargin).toFixed(2)}%
 
 <br>
 
@@ -6778,10 +6358,8 @@ Rs. ${money(b.paid)}
 <br>
 
 <span class="balance">
-
 Bakaya:
 Rs. ${money(b.balance)}
-
 </span>
 
 <br><br>
@@ -6808,36 +6386,26 @@ onclick="adminEditBill('${b.id}')">
 
 });
 
-
-document.getElementById(
-"adminArea"
-).innerHTML=h;
+document.getElementById("adminArea").innerHTML=h;
 
 }
 
-window.adminBills=
-adminBills;
+window.adminBills=adminBills;
 
 
 async function adminViewBill(id){
 
-const b=
-await dbGet(
-"bills/"+id
-);
+const b=await dbGet("bills/"+id);
 
 if(!b)return;
 
 renderBill(b);
 
-document
-.getElementById("billModal")
-.classList.add("show");
+document.getElementById("billModal").classList.add("show");
 
 }
 
-window.adminViewBill=
-adminViewBill;
+window.adminViewBill=adminViewBill;
 
 
 /* =========================================================
@@ -6846,82 +6414,50 @@ EDIT BILL
 
 async function adminEditBill(id){
 
-const b=
-await dbGet(
-"bills/"+id
-);
+const b=await dbGet("bills/"+id);
 
 if(!b)return;
-
 
 let html=`
 
 <div class="head">
 
-<h2>
-✏️ Bill Edit
-</h2>
+<h2>✏️ Bill Edit</h2>
 
-<button
-class="gray"
-onclick="adminBills()">
-
+<button class="gray" onclick="adminBills()">
 ← Back
-
 </button>
 
 </div>
 
-<h3>
-${esc(b.customer?.name||"")}
-</h3>
+<h3>${esc(b.customer?.name||"")}</h3>
 
 `;
 
-
-(b.items||[])
-.forEach((x,i)=>{
+(b.items||[]).forEach((x,i)=>{
 
 html+=`
 
 <div class="adminItem">
 
-<b>
-${esc(x.name)}
-</b>
+<b>${esc(x.name)}</b>
 
 <br>
 
-${x.flavor?
-"🌈 Flavor: "+
-esc(x.flavor)+
-"<br>"
-:""}
+${x.flavor?"🌈 Flavor: "+esc(x.flavor)+"<br>":""}
 
-${x.weight?
-"⚖️ Weight: "+
-esc(x.weight)+
-"<br>"
-:""}
+${x.weight?"⚖️ Weight: "+esc(x.weight)+"<br>":""}
 
-${x.unit?
-"📦 Unit: "+
-esc(x.unit)+
-"<br>"
-:""}
+${x.unit?"📦 Unit: "+esc(x.unit)+"<br>":""}
 
-<label>
-Quantity
-</label>
+<label>Quantity</label>
 
 <input
 id="billQty${i}"
 type="number"
 value="${x.qty}">
 
-<label>
-Sale Rate
-</label>
+<label>Sale Rate</label>
 
 <input
 id="billRate${i}"
@@ -6929,7 +6465,7 @@ type="number"
 value="${number(x.price)}">
 
 <label>
-Purchase Cost
+🔒 Hidden Purchase Cost
 </label>
 
 <input
@@ -6943,7 +6479,6 @@ value="${number(x.costPrice)}">
 
 });
 
-
 html+=`
 
 <div class="notice">
@@ -6953,8 +6488,18 @@ Rs. ${money(b.total)}
 
 <br>
 
+Current COGS:
+Rs. ${money(b.totalCost)}
+
+<br>
+
 Current Profit:
 Rs. ${money(b.profit)}
+
+<br>
+
+Current Margin:
+${number(b.profitMargin).toFixed(2)}%
 
 <br>
 
@@ -6968,18 +6513,14 @@ Rs. ${money(b.balance)}
 
 </div>
 
-<label>
-Jama Amount
-</label>
+<label>Jama Amount</label>
 
 <input
 id="paymentAmount"
 type="number"
 value="0">
 
-<label>
-Jama Note
-</label>
+<label>Jama Note</label>
 
 <input
 id="paymentNote"
@@ -6997,61 +6538,35 @@ onclick="saveBillEdit('${id}')">
 
 `;
 
-
-document.getElementById(
-"adminArea"
-).innerHTML=html;
+document.getElementById("adminArea").innerHTML=html;
 
 }
 
-window.adminEditBill=
-adminEditBill;
+window.adminEditBill=adminEditBill;
 
 
 /* =========================================================
-SAVE BILL
+SAVE BILL EDIT
 ========================================================= */
 
 async function saveBillEdit(id){
 
-const b=
-await dbGet(
-"bills/"+id
-);
+const b=await dbGet("bills/"+id);
 
 if(!b)return;
 
 
-(b.items||[])
-.forEach((x,i)=>{
+(b.items||[]).forEach((x,i)=>{
 
-const q=
-document.getElementById(
-"billQty"+i
-);
+const q=document.getElementById("billQty"+i);
+const r=document.getElementById("billRate"+i);
+const c=document.getElementById("billCost"+i);
 
-const r=
-document.getElementById(
-"billRate"+i
-);
+if(q)x.qty=number(q.value)||1;
 
-const c=
-document.getElementById(
-"billCost"+i
-);
+if(r)x.price=number(r.value);
 
-
-if(q)
-x.qty=
-number(q.value)||1;
-
-if(r)
-x.price=
-number(r.value);
-
-if(c)
-x.costPrice=
-number(c.value);
+if(c)x.costPrice=number(c.value);
 
 });
 
@@ -7059,78 +6574,58 @@ number(c.value);
 b.total=
 (b.items||[])
 .reduce(
-(a,x)=>
-a+
-number(x.qty)*
-number(x.price),
+(a,x)=>a+number(x.qty)*number(x.price),
 0
 );
-
 
 b.totalCost=
 (b.items||[])
 .reduce(
-(a,x)=>
-a+
-number(x.qty)*
-number(x.costPrice),
+(a,x)=>a+number(x.qty)*number(x.costPrice),
 0
 );
-
 
 b.profit=
 b.total-b.totalCost;
 
+b.profitMargin=
+b.total>0
+?
+(b.profit/b.total)*100
+:
+0;
+
 
 const payment=
 number(
-document
-.getElementById(
-"paymentAmount"
-).value
+document.getElementById("paymentAmount").value
 );
 
-
 const note=
-document
-.getElementById(
-"paymentNote"
-)
-.value
-.trim()||
-"Jama";
-
+document.getElementById("paymentNote")
+.value.trim()||"Jama";
 
 if(payment>0){
 
-b.paid=
-number(b.paid)+payment;
+b.paid=number(b.paid)+payment;
 
-
-if(!b.history)
-b.history=[];
-
+if(!b.history)b.history=[];
 
 b.history.push({
 
-date:
-new Date()
-.toLocaleString("en-PK"),
+date:new Date().toLocaleString("en-PK"),
+timestamp:Date.now(),
 
 type:note,
 
 jama:payment,
 
 balance:
-Math.max(
-0,
-b.total-b.paid
-)
+Math.max(0,b.total-b.paid)
 
 });
 
 }
-
 
 b.balance=
 Math.max(
@@ -7139,15 +6634,10 @@ b.total-b.paid
 );
 
 
-await dbSet(
-"bills/"+id,
-b
-);
+await dbSet("bills/"+id,b);
 
 
-const ledger=
-await getProfitLedger();
-
+const ledger=await getProfitLedger();
 
 for(const x of ledger){
 
@@ -7161,7 +6651,9 @@ sales:b.total,
 
 cost:b.totalCost,
 
-profit:b.profit
+profit:b.profit,
+
+margin:b.profitMargin
 
 }
 );
@@ -7169,21 +6661,19 @@ profit:b.profit
 }
 
 }
-
 
 alert(
 "✅ Bill update ho gaya.\n"+
-"✅ Profit update ho gaya.\n"+
+"✅ COGS update ho gaya.\n"+
+"✅ Profit dobara calculate ho gaya.\n"+
 "✅ Khata update ho gaya."
 );
 
-
-openDukandar(b.uid);
+adminBills();
 
 }
 
-window.saveBillEdit=
-saveBillEdit;
+window.saveBillEdit=saveBillEdit;
 
 
 /* =========================================================
@@ -7192,11 +6682,9 @@ DUKANDAR
 
 async function adminDukandar(){
 
-const all=
-await getAllBills();
+const all=await getAllBills();
 
 const map={};
-
 
 all.forEach(b=>{
 
@@ -7206,14 +6694,11 @@ map[b.uid]={
 
 uid:b.uid,
 
-name:
-b.customer?.name||"",
+name:b.customer?.name||"",
 
-phone:
-b.customer?.phone||"",
+phone:b.customer?.phone||"",
 
-address:
-b.customer?.address||""
+address:b.customer?.address||""
 
 };
 
@@ -7221,22 +6706,15 @@ b.customer?.address||""
 
 });
 
+const users=Object.values(map);
 
-const users=
-Object.values(map);
-
-
-let h=
-"<h3>🏪 Dukandar List</h3>";
-
+let h="<h3>🏪 Dukandar List</h3>";
 
 if(!users.length){
 
-h+=
-"<p>Abhi koi dukandar order nahi mila.</p>";
+h+="<p>Abhi koi dukandar order nahi mila.</p>";
 
 }
-
 
 users.forEach(u=>{
 
@@ -7272,85 +6750,40 @@ Open Dukandar
 
 });
 
-
-document.getElementById(
-"adminArea"
-).innerHTML=h;
+document.getElementById("adminArea").innerHTML=h;
 
 }
 
-window.adminDukandar=
-adminDukandar;
+window.adminDukandar=adminDukandar;
 
-
-/* =========================================================
-OPEN DUKANDAR
-========================================================= */
 
 async function openDukandar(uid){
 
-const all=
-await getAllBills();
+const all=await getAllBills();
 
-const userBills=
-all.filter(
-b=>b.uid===uid
-);
-
+const userBills=all.filter(b=>b.uid===uid);
 
 if(!userBills.length){
 
 alert("No bills.");
-
 return;
 
 }
 
+const u=userBills[0].customer;
 
-const u=
-userBills[0].customer;
+const total=userBills.reduce((a,b)=>a+number(b.total),0);
+const paid=userBills.reduce((a,b)=>a+number(b.paid),0);
+const balance=userBills.reduce((a,b)=>a+number(b.balance),0);
 
-
-const total=
-userBills.reduce(
-(a,b)=>
-a+number(b.total),
-0
-);
-
-
-const paid=
-userBills.reduce(
-(a,b)=>
-a+number(b.paid),
-0
-);
-
-
-const balance=
-userBills.reduce(
-(a,b)=>
-a+number(b.balance),
-0
-);
-
-
-document.getElementById(
-"adminArea"
-).innerHTML=`
+document.getElementById("adminArea").innerHTML=`
 
 <div class="head">
 
-<h2>
-🏪 ${esc(u.name)}
-</h2>
+<h2>🏪 ${esc(u.name)}</h2>
 
-<button
-class="gray"
-onclick="adminDukandar()">
-
+<button class="gray" onclick="adminDukandar()">
 ← Back
-
 </button>
 
 </div>
@@ -7358,29 +6791,21 @@ onclick="adminDukandar()">
 <div class="notice">
 
 Total:
-<b>
-Rs. ${money(total)}
-</b>
+<b>Rs. ${money(total)}</b>
 
 <br>
 
 Jama:
-<b class="paid">
-Rs. ${money(paid)}
-</b>
+<b class="paid">Rs. ${money(paid)}</b>
 
 <br>
 
 Bakaya:
-<b class="balance">
-Rs. ${money(balance)}
-</b>
+<b class="balance">Rs. ${money(balance)}</b>
 
 </div>
 
-<h3>
-🧾 Bills
-</h3>
+<h3>🧾 Bills</h3>
 
 ${userBills
 .slice()
@@ -7389,9 +6814,7 @@ ${userBills
 
 <div class="adminItem">
 
-<b>
-${esc(b.id)}
-</b>
+<b>${esc(b.id)}</b>
 
 <br>
 
@@ -7446,9 +6869,7 @@ onclick="adminViewBill('${b.id}')">
 
 <hr>
 
-<h3>
-💬 Chat
-</h3>
+<h3>💬 Chat</h3>
 
 <button
 class="primary"
@@ -7472,8 +6893,7 @@ onclick="deleteCustomerEverything('${uid}')">
 
 }
 
-window.openDukandar=
-openDukandar;
+window.openDukandar=openDukandar;
 
 
 /* =========================================================
@@ -7482,11 +6902,9 @@ KHATA
 
 async function adminKhata(){
 
-const all=
-await getAllBills();
+const all=await getAllBills();
 
 const map={};
-
 
 all.forEach(b=>{
 
@@ -7497,41 +6915,15 @@ map[b.uid].push(b);
 
 });
 
+let h="<h3>📒 Khata</h3>";
 
-let h=
-"<h3>📒 Khata</h3>";
+Object.entries(map).forEach(([uid,list])=>{
 
+const total=list.reduce((a,b)=>a+number(b.total),0);
+const paid=list.reduce((a,b)=>a+number(b.paid),0);
+const balance=list.reduce((a,b)=>a+number(b.balance),0);
 
-Object.entries(map)
-.forEach(([uid,list])=>{
-
-const total=
-list.reduce(
-(a,b)=>
-a+number(b.total),
-0
-);
-
-
-const paid=
-list.reduce(
-(a,b)=>
-a+number(b.paid),
-0
-);
-
-
-const balance=
-list.reduce(
-(a,b)=>
-a+number(b.balance),
-0
-);
-
-
-const name=
-list[0].customer?.name||"";
-
+const name=list[0].customer?.name||"";
 
 h+=`
 
@@ -7552,10 +6944,8 @@ Rs. ${money(paid)}
 <br>
 
 <span class="balance">
-
 Bakaya:
 Rs. ${money(balance)}
-
 </span>
 
 <br><br>
@@ -7574,15 +6964,11 @@ Open Khata
 
 });
 
-
-document.getElementById(
-"adminArea"
-).innerHTML=h;
+document.getElementById("adminArea").innerHTML=h;
 
 }
 
-window.adminKhata=
-adminKhata;
+window.adminKhata=adminKhata;
 
 
 /* =========================================================
@@ -7595,49 +6981,31 @@ if(!confirm(
 "Is dukandar ka Bill + Khata + Chat sab delete karna hai?"
 ))return;
 
-
-const all=
-await getAllBills();
+const all=await getAllBills();
 
 const jobs=[];
-
 
 all.forEach(b=>{
 
 if(b.uid===uid){
 
-jobs.push(
-dbRemove(
-"bills/"+b.id
-)
-);
+jobs.push(dbRemove("bills/"+b.id));
 
 }
 
 });
 
-
-jobs.push(
-dbRemove(
-"chats/"+uid
-)
-);
-
+jobs.push(dbRemove("chats/"+uid));
 
 await Promise.all(jobs);
 
-
-alert(
-"✅ Bill + Khata + Chat delete ho gaya."
-);
-
+alert("✅ Bill + Khata + Chat delete ho gaya.");
 
 adminDukandar();
 
 }
 
-window.deleteCustomerEverything=
-deleteCustomerEverything;
+window.deleteCustomerEverything=deleteCustomerEverything;
 
 
 /* =========================================================
@@ -7646,17 +7014,11 @@ STORE
 
 function adminStore(){
 
-document.getElementById(
-"adminArea"
-).innerHTML=`
+document.getElementById("adminArea").innerHTML=`
 
-<h3>
-🏪 Store Information
-</h3>
+<h3>🏪 Store Information</h3>
 
-<label>
-Marquee
-</label>
+<label>Marquee</label>
 
 <input
 id="storeMarquee"
@@ -7664,9 +7026,7 @@ value="${esc(store.marquee||"")}">
 
 <br><br>
 
-<h3>
-🎙️ Voice
-</h3>
+<h3>🎙️ Voice</h3>
 
 <input
 type="file"
@@ -7685,9 +7045,7 @@ onclick="uploadStoreVoice()">
 
 <hr>
 
-<h3>
-🎥 Video / Ad
-</h3>
+<h3>🎥 Video / Ad</h3>
 
 <input
 type="file"
@@ -7728,60 +7086,40 @@ onclick="deleteStore()">
 
 }
 
-window.adminStore=
-adminStore;
+window.adminStore=adminStore;
 
 
 async function saveMarquee(){
 
 const text=
-document
-.getElementById(
-"storeMarquee"
-)
+document.getElementById("storeMarquee")
 .value.trim();
 
-
-await dbSet(
-"store/marquee",
-text
-);
-
+await dbSet("store/marquee",text);
 
 store.marquee=text;
 
 renderStore();
 
-showStatus(
-"✅ Marquee save ho gaya"
-);
+showStatus("✅ Marquee save ho gaya");
 
 }
 
-window.saveMarquee=
-saveMarquee;
+window.saveMarquee=saveMarquee;
 
 
 async function uploadStoreVoice(){
 
 const file=
-document
-.getElementById(
-"storeVoiceFile"
-)
+document.getElementById("storeVoiceFile")
 .files[0];
-
 
 if(!file){
 
-alert(
-"Voice select karein."
-);
-
+alert("Voice select karein.");
 return;
 
 }
-
 
 try{
 
@@ -7791,62 +7129,41 @@ storage,
 "store/voice_"+Date.now()
 );
 
-
 await uploadBytes(r,file);
 
-const url=
-await getDownloadURL(r);
+const url=await getDownloadURL(r);
 
-
-await dbSet(
-"store/voice",
-url
-);
-
+await dbSet("store/voice",url);
 
 store.voice=url;
 
 renderStore();
 
-alert(
-"✅ Dukaan ki Voice upload ho gayi."
-);
+alert("✅ Dukaan ki Voice upload ho gayi.");
 
 }catch(e){
 
-alert(
-"Voice upload error:\n"+
-e.message
-);
+alert("Voice upload error:\n"+e.message);
 
 }
 
 }
 
-window.uploadStoreVoice=
-uploadStoreVoice;
+window.uploadStoreVoice=uploadStoreVoice;
 
 
 async function uploadStoreVideo(){
 
 const file=
-document
-.getElementById(
-"storeVideoFile"
-)
+document.getElementById("storeVideoFile")
 .files[0];
-
 
 if(!file){
 
-alert(
-"Video / Ad select karein."
-);
-
+alert("Video / Ad select karein.");
 return;
 
 }
-
 
 try{
 
@@ -7856,40 +7173,27 @@ storage,
 "store/video_"+Date.now()
 );
 
-
 await uploadBytes(r,file);
 
-const url=
-await getDownloadURL(r);
+const url=await getDownloadURL(r);
 
-
-await dbSet(
-"store/video",
-url
-);
-
+await dbSet("store/video",url);
 
 store.video=url;
 
 renderStore();
 
-alert(
-"✅ Dukaan ki Video / Ad upload ho gayi."
-);
+alert("✅ Dukaan ki Video / Ad upload ho gayi.");
 
 }catch(e){
 
-alert(
-"Video upload error:\n"+
-e.message
-);
+alert("Video upload error:\n"+e.message);
 
 }
 
 }
 
-window.uploadStoreVideo=
-uploadStoreVideo;
+window.uploadStoreVideo=uploadStoreVideo;
 
 
 async function deleteStore(){
@@ -7898,46 +7202,29 @@ if(!confirm(
 "Dukaan ki Voice aur Video/Ad delete karni hai?"
 ))return;
 
-
 await dbRemove("store");
 
-
 store={
-
-marquee:
-"Peerbakhsh All In One Wholesale",
-
+marquee:"Peerbakhsh All In One Wholesale",
 voice:"",
-
 video:""
-
 };
-
 
 renderStore();
 
-showStatus(
-"🗑 Store media delete ho gayi"
-);
+showStatus("🗑 Store media delete ho gayi");
 
 }
 
-window.deleteStore=
-deleteStore;
+window.deleteStore=deleteStore;
 
 
 function renderStore(){
 
-document.getElementById(
-"marqueeText"
-).textContent=
-store.marquee||
-"Peerbakhsh All In One Wholesale";
+document.getElementById("marqueeText").textContent=
+store.marquee||"Peerbakhsh All In One Wholesale";
 
-
-document.getElementById(
-"storeMedia"
-).innerHTML=`
+document.getElementById("storeMedia").innerHTML=`
 
 <div
 style="
@@ -7992,20 +7279,14 @@ style="margin-top:12px">
 
 function playStoreVoice(){
 
-const box=
-document.getElementById(
-"storePlayer"
-);
-
+const box=document.getElementById("storePlayer");
 
 if(!store.voice){
 
 box.innerHTML=`
 
 <div class="notice">
-
 🎙️ Dukaan ki voice abhi upload nahi hui.
-
 </div>
 
 `;
@@ -8014,14 +7295,11 @@ return;
 
 }
 
-
 box.innerHTML=`
 
 <div class="audioStore">
 
-<b>
-🎙️ Dukaan ki Voice
-</b>
+<b>🎙️ Dukaan ki Voice</b>
 
 <br><br>
 
@@ -8038,26 +7316,19 @@ src="${esc(store.voice)}">
 
 }
 
-window.playStoreVoice=
-playStoreVoice;
+window.playStoreVoice=playStoreVoice;
 
 
 function playStoreVideo(){
 
-const box=
-document.getElementById(
-"storePlayer"
-);
-
+const box=document.getElementById("storePlayer");
 
 if(!store.video){
 
 box.innerHTML=`
 
 <div class="notice">
-
 🎥 Dukaan ki video / ad abhi upload nahi hui.
-
 </div>
 
 `;
@@ -8066,14 +7337,11 @@ return;
 
 }
 
-
 box.innerHTML=`
 
 <div class="audioStore">
 
-<b>
-🎥 Dukaan ki Video / Ad
-</b>
+<b>🎥 Dukaan ki Video / Ad</b>
 
 <br><br>
 
@@ -8095,15 +7363,12 @@ src="${esc(store.video)}">
 
 }
 
-window.playStoreVideo=
-playStoreVideo;
+window.playStoreVideo=playStoreVideo;
 
 
 async function loadStore(){
 
-const s=
-await dbGet("store");
-
+const s=await dbGet("store");
 
 if(s){
 
@@ -8114,13 +7379,11 @@ s.marquee||
 "Peerbakhsh All In One Wholesale",
 
 voice:s.voice||"",
-
 video:s.video||""
 
 };
 
 }
-
 
 renderStore();
 
@@ -8139,28 +7402,16 @@ openModal(`
 
 <div class="head">
 
-<h2>
-💬 Dukandar Login
-</h2>
+<h2>💬 Dukandar Login</h2>
 
-<button
-class="close"
-onclick="closeModal()">
-✕
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
-<p>
-Chat ke liye pehle login karein.
-</p>
+<p>Chat ke liye pehle login karein.</p>
 
-<button
-class="primary"
-onclick="customerLogin()">
-
+<button class="primary" onclick="customerLogin()">
 Login
-
 </button>
 
 `);
@@ -8169,13 +7420,8 @@ return;
 
 }
 
-
-currentChatCustomer=
-currentUser.uid;
-
-currentChatRole=
-"customer";
-
+currentChatCustomer=currentUser.uid;
+currentChatRole="customer";
 
 openChat(
 currentUser.uid,
@@ -8185,17 +7431,14 @@ currentUser.uid,
 
 }
 
-window.openCustomerChat=
-openCustomerChat;
+window.openCustomerChat=openCustomerChat;
 
 
 async function adminChatList(){
 
-const all=
-await getAllBills();
+const all=await getAllBills();
 
 const users={};
-
 
 all.forEach(b=>{
 
@@ -8209,21 +7452,15 @@ b.customer?.name||
 
 });
 
+let h="<h3>💬 Chat List</h3>";
 
-let h=
-"<h3>💬 Chat List</h3>";
-
-
-Object.entries(users)
-.forEach(([uid,name])=>{
+Object.entries(users).forEach(([uid,name])=>{
 
 h+=`
 
 <div class="adminItem">
 
-<b>
-🏪 ${esc(name)}
-</b>
+<b>🏪 ${esc(name)}</b>
 
 <br><br>
 
@@ -8241,44 +7478,29 @@ Open Chat
 
 });
 
-
 if(!Object.keys(users).length){
 
-h+=
-"<p>Abhi koi customer nahi hai.</p>";
+h+="<p>Abhi koi customer nahi hai.</p>";
 
 }
 
-
-document.getElementById(
-"adminArea"
-).innerHTML=h;
+document.getElementById("adminArea").innerHTML=h;
 
 }
 
-window.adminChatList=
-adminChatList;
+window.adminChatList=adminChatList;
 
 
 async function adminCustomerChat(uid){
 
 if(currentRole!=="admin")return;
 
-
 currentChatCustomer=uid;
-
 currentChatRole="admin";
 
+const all=await getAllBills();
 
-const all=
-await getAllBills();
-
-
-const b=
-all.find(
-x=>x.uid===uid
-);
-
+const b=all.find(x=>x.uid===uid);
 
 openChat(
 uid,
@@ -8288,24 +7510,14 @@ b?.customer?.name||"Dukandar",
 
 }
 
-window.adminCustomerChat=
-adminCustomerChat;
+window.adminCustomerChat=adminCustomerChat;
 
-
-/* =========================================================
-OPEN CHAT
-========================================================= */
 
 async function openChat(uid,name,role){
 
-const data=
-await dbGet(
-"chats/"+uid
-);
-
+const data=await dbGet("chats/"+uid);
 
 let messages=[];
-
 
 if(data){
 
@@ -8316,40 +7528,25 @@ id,
 ...m
 }));
 
-
 messages.sort(
-(a,b)=>
-number(a.time)-
-number(b.time)
+(a,b)=>number(a.time)-number(b.time)
 );
 
 }
-
 
 let html=`
 
 <div class="head">
 
-<h2>
-💬 ${esc(name)}
-</h2>
+<h2>💬 ${esc(name)}</h2>
 
-<button
-class="close"
-onclick="closeModal()">
-
-✕
-
-</button>
+<button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
-<div
-id="chatWindow"
-class="chatWindow">
+<div id="chatWindow" class="chatWindow">
 
 `;
-
 
 messages.forEach(m=>{
 
@@ -8357,29 +7554,19 @@ html+=`
 
 <div class="msg ${m.from}">
 
-${
-m.type==="text"
-?
-esc(m.text)
-:
-""
-}
+${m.type==="text"?esc(m.text):""}
 
-${
-m.type==="image"
+${m.type==="image"
 ?
 `<img src="${esc(m.data)}">`
 :
-""
-}
+""}
 
-${
-m.type==="voice"
+${m.type==="voice"
 ?
 `<audio controls src="${esc(m.data)}"></audio>`
 :
-""
-}
+""}
 
 <br>
 
@@ -8393,7 +7580,6 @@ ${esc(m.date||"")}
 
 });
 
-
 html+=`
 
 </div>
@@ -8404,18 +7590,12 @@ html+=`
 id="chatText"
 placeholder="Message...">
 
-<button
-onclick="sendTextChat()">
-
+<button onclick="sendTextChat()">
 ➤
-
 </button>
 
-<button
-onclick="startVoice()">
-
+<button onclick="startVoice()">
 🎤
-
 </button>
 
 <label style="padding:10px">
@@ -8435,212 +7615,135 @@ onchange="sendChatImage()">
 
 `;
 
-
 openModal(html);
-
 
 setTimeout(()=>{
 
-const w=
-document.getElementById(
-"chatWindow"
-);
+const w=document.getElementById("chatWindow");
 
 if(w)
-w.scrollTop=
-w.scrollHeight;
+w.scrollTop=w.scrollHeight;
 
 },100);
 
 }
 
-window.openChat=
-openChat;
+window.openChat=openChat;
 
-
-/* =========================================================
-TEXT CHAT
-========================================================= */
 
 async function sendTextChat(){
 
-const input=
-document.getElementById(
-"chatText"
-);
-
+const input=document.getElementById("chatText");
 
 if(!input)return;
 
-
-const text=
-input.value.trim();
-
+const text=input.value.trim();
 
 if(!text)return;
-
 
 const r=
 push(
 ref(
 db,
-"chats/"+
-currentChatCustomer
+"chats/"+currentChatCustomer
 )
 );
 
+await set(r,{
 
-await set(
-r,
-{
-
-from:
-currentChatRole,
+from:currentChatRole,
 
 type:"text",
 
 text,
 
-date:
-new Date()
-.toLocaleString("en-PK"),
+date:new Date().toLocaleString("en-PK"),
 
 time:Date.now(),
 
 read:false
 
-}
-);
-
+});
 
 openChat(
 currentChatCustomer,
-
-currentChatRole==="admin"
-?
-"Dukandar"
-:
-"Admin",
-
+currentChatRole==="admin"?"Dukandar":"Admin",
 currentChatRole
 );
 
 }
 
-window.sendTextChat=
-sendTextChat;
+window.sendTextChat=sendTextChat;
 
-
-/* =========================================================
-CHAT IMAGE
-========================================================= */
 
 async function sendChatImage(){
 
 const file=
-document
-.getElementById(
-"chatImage"
-)
+document.getElementById("chatImage")
 .files[0];
-
 
 if(!file)return;
 
-
 if(file.size>8*1024*1024){
 
-alert(
-"Image 8MB se choti honi chahiye."
-);
-
+alert("Image 8MB se choti honi chahiye.");
 return;
 
 }
-
 
 try{
 
 const r=
 storageRef(
 storage,
-"chat/"+
-currentChatCustomer+
-"/img_"+
-Date.now()
+"chat/"+currentChatCustomer+
+"/img_"+Date.now()
 );
-
 
 await uploadBytes(r,file);
 
-
-const url=
-await getDownloadURL(r);
-
+const url=await getDownloadURL(r);
 
 const msg=
 push(
 ref(
 db,
-"chats/"+
-currentChatCustomer
+"chats/"+currentChatCustomer
 )
 );
 
+await set(msg,{
 
-await set(
-msg,
-{
-
-from:
-currentChatRole,
+from:currentChatRole,
 
 type:"image",
 
 data:url,
 
-date:
-new Date()
-.toLocaleString("en-PK"),
+date:new Date().toLocaleString("en-PK"),
 
 time:Date.now(),
 
 read:false
 
-}
-);
-
+});
 
 openChat(
 currentChatCustomer,
-
-currentChatRole==="admin"
-?
-"Dukandar"
-:
-"Admin",
-
+currentChatRole==="admin"?"Dukandar":"Admin",
 currentChatRole
 );
 
 }catch(e){
 
-alert(
-"Image upload error:\n"+
-e.message
-);
+alert("Image upload error:\n"+e.message);
 
 }
 
 }
 
-window.sendChatImage=
-sendChatImage;
+window.sendChatImage=sendChatImage;
 
-
-/* =========================================================
-VOICE CHAT
-========================================================= */
 
 async function startVoice(){
 
@@ -8650,42 +7753,29 @@ recorder.state==="recording"
 ){
 
 recorder.stop();
-
 return;
 
 }
 
-
 try{
 
 const stream=
-await navigator
-.mediaDevices
-.getUserMedia({
+await navigator.mediaDevices.getUserMedia({
 audio:true
 });
 
-
 voiceChunks=[];
 
-
-recorder=
-new MediaRecorder(stream);
-
+recorder=new MediaRecorder(stream);
 
 recorder.ondataavailable=e=>{
 
-if(e.data.size){
-
+if(e.data.size)
 voiceChunks.push(e.data);
-
-}
 
 };
 
-
-recorder.onstop=
-async()=>{
+recorder.onstop=async()=>{
 
 const blob=
 new Blob(
@@ -8695,96 +7785,61 @@ type:"audio/webm"
 }
 );
 
-
 try{
 
 const r=
 storageRef(
 storage,
-"chat/"+
-currentChatCustomer+
-"/voice_"+
-Date.now()+
+"chat/"+currentChatCustomer+
+"/voice_"+Date.now()+
 ".webm"
 );
 
+await uploadBytes(r,blob);
 
-await uploadBytes(
-r,
-blob
-);
-
-
-const url=
-await getDownloadURL(r);
-
+const url=await getDownloadURL(r);
 
 const msg=
 push(
 ref(
 db,
-"chats/"+
-currentChatCustomer
+"chats/"+currentChatCustomer
 )
 );
 
+await set(msg,{
 
-await set(
-msg,
-{
-
-from:
-currentChatRole,
+from:currentChatRole,
 
 type:"voice",
 
 data:url,
 
-date:
-new Date()
-.toLocaleString("en-PK"),
+date:new Date().toLocaleString("en-PK"),
 
 time:Date.now(),
 
 read:false
 
-}
-);
-
+});
 
 openChat(
 currentChatCustomer,
-
-currentChatRole==="admin"
-?
-"Dukandar"
-:
-"Admin",
-
+currentChatRole==="admin"?"Dukandar":"Admin",
 currentChatRole
 );
 
 }catch(e){
 
-alert(
-"Voice upload error:\n"+
-e.message
-);
+alert("Voice upload error:\n"+e.message);
 
 }
 
-
-stream
-.getTracks()
-.forEach(
-x=>x.stop()
-);
+stream.getTracks().forEach(x=>x.stop());
 
 };
 
-
 recorder.start();
-
 
 showStatus(
 "🎤 Recording start — dobara button dabayein stop ke liye"
@@ -8801,8 +7856,7 @@ e.message
 
 }
 
-window.startVoice=
-startVoice;
+window.startVoice=startVoice;
 
 
 /* =========================================================
@@ -8819,8 +7873,7 @@ behavior:"smooth"
 
 }
 
-window.goProducts=
-goProducts;
+window.goProducts=goProducts;
 
 
 /* =========================================================
@@ -8839,10 +7892,7 @@ updateCart();
 
 }catch(e){
 
-console.error(
-"START ERROR:",
-e
-);
+console.error("START ERROR:",e);
 
 alert(
 "Website Firebase se connect nahi ho rahi:\n\n"+
