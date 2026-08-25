@@ -6,6 +6,8 @@
 
 <title>Peerbakhsh All In One Wholesale</title>
 
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
 <style>
 *{box-sizing:border-box}
 
@@ -886,6 +888,12 @@ class="search"
 placeholder="🔎 Search product..."
 oninput="renderProducts()">
 
+<input
+id="barcodeScanInput"
+class="search"
+placeholder="🔖 Barcode Scan Karein (ya type karke Enter dabayein)"
+onkeydown="if(event.key==='Enter')scanBarcodeAdd()">
+
 <div id="productGrid" class="grid"></div>
 
 <div class="requestBox">
@@ -1118,6 +1126,53 @@ let currentRole="guest";
 
 let products=[];
 let cart=[];
+
+const CART_STORAGE_KEY="peerbakhsh_cart_v1";
+
+function saveCartLocal(){
+
+try{
+
+localStorage.setItem(
+CART_STORAGE_KEY,
+JSON.stringify(cart)
+);
+
+}catch(e){
+
+console.error("Cart save error:",e);
+
+}
+
+}
+
+function loadCartLocal(){
+
+try{
+
+const raw=localStorage.getItem(CART_STORAGE_KEY);
+
+if(raw){
+
+const parsed=JSON.parse(raw);
+
+if(Array.isArray(parsed)){
+
+cart=parsed;
+
+}
+
+}
+
+}catch(e){
+
+console.error("Cart load error:",e);
+
+cart=[];
+
+}
+
+}
 
 let store={
 marquee:"Peerbakhsh All In One Wholesale",
@@ -1549,7 +1604,10 @@ costPrice:number(x?.costPrice),
    base unit mein rakha jata hai */
 stock:number(
 x?.stock!==undefined?x.stock:0
-)
+),
+
+/* barcode — har combination ka apna, market POS jaisa */
+barcode:String(x?.barcode||"")
 
 };
 
@@ -2545,6 +2603,13 @@ CART
 
 function updateCart(){
 
+/* Cart hamesha save hoti hai — page dubara khulne
+par (reload/close/reopen) Cart khali nahi hoti.
+Sirf Order confirm hone par ya customer khud
+kisi item ko Delete karay to hi Cart change hoti hai. */
+
+saveCartLocal();
+
 const count=
 cart.reduce((a,x)=>a+number(x.qty),0);
 
@@ -3342,13 +3407,14 @@ Bakaya: Rs. ${money(b.balance)}
 
 <hr>
 
+<div class="row">
+
 <button
 class="whatsapp"
 style="
 border:0;
 padding:11px;
 border-radius:8px;
-width:100%;
 font-weight:bold"
 onclick='openBillWhatsApp(${JSON.stringify(b).replace(/'/g,"&#39;")})'>
 
@@ -3356,11 +3422,196 @@ onclick='openBillWhatsApp(${JSON.stringify(b).replace(/'/g,"&#39;")})'>
 
 </button>
 
+<button
+class="blue"
+onclick='renderInvoice(${JSON.stringify(b).replace(/'/g,"&#39;")})'>
+
+🧾 Invoice Dekhein
+
+</button>
+
+</div>
+
 `;
 
 }
 
 window.renderBill=renderBill;
+
+
+/* =========================================================
+INVOICE
+(Bill hi ki tafseel, formal Invoice format mein —
+print/PDF/WhatsApp ke liye)
+========================================================= */
+
+function invoiceNumber(b){
+
+const raw=String(b.id||"").toUpperCase();
+
+const short=raw.slice(-8);
+
+return "INV-"+short;
+
+}
+
+
+function renderInvoice(b){
+
+const dueNote=
+number(b.balance)>0
+?
+"⚠️ Bakaya Rs. "+money(b.balance)+" abhi baqi hai."
+:
+"✅ Poori payment mil chuki hai.";
+
+document.getElementById("billContent").innerHTML=`
+
+<div style="border:2px solid #087443;border-radius:10px;padding:15px">
+
+<div class="head">
+
+<div>
+
+<h2 style="margin:0;color:#087443">
+🧾 INVOICE
+</h2>
+
+<p class="muted" style="margin:4px 0 0">
+Peerbakhsh All In One Wholesale
+<br>
+Sukkur • 0305-1933595
+</p>
+
+</div>
+
+<div style="text-align:right">
+
+<b>Invoice #:</b> ${esc(invoiceNumber(b))}
+<br>
+<b>Date:</b> ${esc(b.date)}
+<br>
+<b>Bill Ref:</b> ${esc(b.id)}
+
+</div>
+
+</div>
+
+<hr>
+
+<h3 style="margin-bottom:4px">Bill To:</h3>
+
+<b>🏪 ${esc(b.customer?.name||"")}</b>
+<br>
+📞 ${esc(b.customer?.phone||"")}
+<br>
+📍 ${esc(b.customer?.address||"-")}
+
+<hr>
+
+<table class="billtable">
+
+<tr>
+<th>#</th>
+<th>Product</th>
+<th>Details</th>
+<th>Qty</th>
+<th>Rate</th>
+<th>Amount</th>
+</tr>
+
+${(b.items||[]).map((x,i)=>`
+
+<tr>
+
+<td>${i+1}</td>
+
+<td>${esc(x.name)}</td>
+
+<td>
+
+${x.flavor?"Flavor: "+esc(x.flavor)+"<br>":""}
+${x.weight?"Weight: "+esc(x.weight)+"<br>":""}
+${x.unit?"Unit: "+esc(x.unit)+"<br>":""}
+${x.request?"<b>Request</b>":""}
+
+</td>
+
+<td>${x.qty}</td>
+
+<td>${x.request?"Admin Confirm":"Rs. "+money(x.price)}</td>
+
+<td>${x.request?"-":"Rs. "+money(x.qty*x.price)}</td>
+
+</tr>
+
+`).join("")}
+
+</table>
+
+<div style="text-align:right;margin-top:10px">
+
+<div>Subtotal: <b>Rs. ${money(b.total)}</b></div>
+
+<h3 class="right" style="margin:6px 0">
+Grand Total: Rs. ${money(b.total)}
+</h3>
+
+<div class="paid">Jama Shuda: Rs. ${money(b.paid)}</div>
+
+<div class="balance" style="font-size:16px">
+Bakaya: Rs. ${money(b.balance)}
+</div>
+
+</div>
+
+<div class="notice" style="margin-top:14px">
+${dueNote}
+</div>
+
+<div style="margin-top:20px;display:flex;justify-content:space-between;font-size:12px;color:#68736d">
+
+<div>
+Terms: Bakaya raqam jald ada karein.
+<br>
+Delivery ke waqt goods check kar lein.
+</div>
+
+<div style="text-align:right">
+_____________________
+<br>
+Authorized Signature
+</div>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<button
+class="gray"
+onclick='renderBill(${JSON.stringify(b).replace(/'/g,"&#39;")})'>
+
+⬅ Bill View
+
+</button>
+
+<button
+class="whatsapp"
+onclick='openBillWhatsApp(${JSON.stringify(b).replace(/'/g,"&#39;")})'>
+
+📲 WhatsApp Invoice
+
+</button>
+
+</div>
+
+`;
+
+}
+
+window.renderInvoice=renderInvoice;
 
 
 /* =========================================================
@@ -3561,6 +3812,10 @@ openModal(`
 <button onclick="adminBills()">🧾 Bills</button>
 
 <button onclick="adminKhata()">📒 Khata</button>
+
+<button onclick="adminExpenses()">💸 Expenses</button>
+
+<button onclick="adminBarcode()">🔖 Barcode</button>
 
 <button onclick="adminStore()">🏪 Store</button>
 
@@ -4662,12 +4917,119 @@ window.adminStockLedger=adminStockLedger;
 
 
 /* =========================================================
+PURCHASE HISTORY
+(Stock Ledger mein se sirf PURCHASE / Stock IN entries)
+========================================================= */
+
+async function adminPurchases(){
+
+const ledger=await getStockLedger();
+
+const purchases=ledger
+.filter(x=>x.type==="PURCHASE")
+.sort((a,b)=>number(b.timestamp)-number(a.timestamp));
+
+const totalQty=
+purchases.reduce((a,x)=>a+number(x.quantity),0);
+
+const totalValue=
+purchases.reduce(
+(a,x)=>a+(number(x.quantity)*number(x.purchaseCost)),
+0
+);
+
+let h=`
+
+<h3>🛒 Purchase History</h3>
+
+<div class="statGrid">
+
+<div class="stat">
+Total Purchases
+<b>${purchases.length}</b>
+</div>
+
+<div class="stat">
+Total Quantity
+<b>${money(totalQty)}</b>
+</div>
+
+<div class="stat">
+Total Purchase Value
+<b>Rs. ${money(totalValue)}</b>
+</div>
+
+</div>
+
+`;
+
+if(!purchases.length){
+
+h+="<p>Abhi koi purchase record nahi hai.</p>";
+
+}
+
+purchases.slice(0,150).forEach(x=>{
+
+h+=`
+
+<div class="adminItem">
+
+<b>🟢 ${esc(x.productName||"")}</b>
+
+${
+(x.flavor||x.weight||x.unit)
+?
+`<br>🌈 ${esc(x.flavor||"-")} × ⚖️ ${esc(x.weight||"-")} × 📦 ${esc(x.unit||"-")}`
+:
+""
+}
+
+<br>
+
+Date:
+${esc(x.date||"")}
+
+<br>
+
+Quantity:
+<b>${number(x.quantity)}</b>
+
+<br>
+
+Cost Per Unit:
+Rs. ${money(x.purchaseCost)}
+
+<br>
+
+Total Value:
+<b>Rs. ${money(number(x.quantity)*number(x.purchaseCost))}</b>
+
+${x.supplier?`<br>Supplier: ${esc(x.supplier)}`:""}
+
+${x.note?`<br>Note: ${esc(x.note)}`:""}
+
+</div>
+
+`;
+
+});
+
+document.getElementById("adminArea").innerHTML=h;
+
+}
+
+window.adminPurchases=adminPurchases;
+
+
+/* =========================================================
 PROFIT DASHBOARD
 ========================================================= */
 
 async function adminProfit(){
 
 const ledger=await getProfitLedger();
+const expenses=await getExpenses();
 
 const today=ledger.filter(
 x=>number(x.timestamp)>=startOfDay()
@@ -4683,6 +5045,26 @@ x=>number(x.timestamp)>=startOfMonth()
 
 const year=ledger.filter(
 x=>number(x.timestamp)>=startOfYear()
+);
+
+const expToday=expenses.filter(
+x=>number(x.timestamp)>=startOfDay()
+).reduce((a,x)=>a+number(x.amount),0);
+
+const expWeek=expenses.filter(
+x=>number(x.timestamp)>=startOfWeek()
+).reduce((a,x)=>a+number(x.amount),0);
+
+const expMonth=expenses.filter(
+x=>number(x.timestamp)>=startOfMonth()
+).reduce((a,x)=>a+number(x.amount),0);
+
+const expYear=expenses.filter(
+x=>number(x.timestamp)>=startOfYear()
+).reduce((a,x)=>a+number(x.amount),0);
+
+const expAll=expenses.reduce(
+(a,x)=>a+number(x.amount),0
 );
 
 const D=calculateSums(today);
@@ -4707,6 +5089,10 @@ Sales Revenue − COGS = Gross Profit
 <br><br>
 
 COGS = Sold Quantity × Actual Purchase Cost
+
+<br><br>
+
+Net Profit = Gross Profit − Expenses
 
 <br><br>
 
@@ -4735,6 +5121,18 @@ COGS
 Gross Profit
 <b class="profit">
 Rs. ${money(D.profit)}
+</b>
+</div>
+
+<div class="stat">
+Expenses
+<b class="loss">Rs. ${money(expToday)}</b>
+</div>
+
+<div class="stat">
+Net Profit
+<b class="${D.profit-expToday>=0?"profit":"loss"}">
+Rs. ${money(D.profit-expToday)}
 </b>
 </div>
 
@@ -4770,6 +5168,18 @@ Rs. ${money(W.profit)}
 </div>
 
 <div class="stat">
+Expenses
+<b class="loss">Rs. ${money(expWeek)}</b>
+</div>
+
+<div class="stat">
+Net Profit
+<b class="${W.profit-expWeek>=0?"profit":"loss"}">
+Rs. ${money(W.profit-expWeek)}
+</b>
+</div>
+
+<div class="stat">
 Margin
 <b>${W.margin.toFixed(2)}%</b>
 </div>
@@ -4797,6 +5207,18 @@ COGS
 Gross Profit
 <b class="profit">
 Rs. ${money(M.profit)}
+</b>
+</div>
+
+<div class="stat">
+Expenses
+<b class="loss">Rs. ${money(expMonth)}</b>
+</div>
+
+<div class="stat">
+Net Profit
+<b class="${M.profit-expMonth>=0?"profit":"loss"}">
+Rs. ${money(M.profit-expMonth)}
 </b>
 </div>
 
@@ -4832,6 +5254,18 @@ Rs. ${money(Y.profit)}
 </div>
 
 <div class="stat">
+Expenses
+<b class="loss">Rs. ${money(expYear)}</b>
+</div>
+
+<div class="stat">
+Net Profit
+<b class="${Y.profit-expYear>=0?"profit":"loss"}">
+Rs. ${money(Y.profit-expYear)}
+</b>
+</div>
+
+<div class="stat">
 Margin
 <b>${Y.margin.toFixed(2)}%</b>
 </div>
@@ -4856,9 +5290,21 @@ Total COGS
 </div>
 
 <div class="stat">
-Total Profit
+Total Gross Profit
 <b class="profit">
 Rs. ${money(A.profit)}
+</b>
+</div>
+
+<div class="stat">
+Total Expenses
+<b class="loss">Rs. ${money(expAll)}</b>
+</div>
+
+<div class="stat">
+Total Net Profit
+<b class="${A.profit-expAll>=0?"profit":"loss"}">
+Rs. ${money(A.profit-expAll)}
 </b>
 </div>
 
@@ -4930,6 +5376,7 @@ async function adminDashboard(){
 
 const bills=await getAllBills();
 const ledger=await getProfitLedger();
+const expenses=await getExpenses();
 const productsData=await dbGet("products");
 
 const list=
@@ -4962,6 +5409,12 @@ else if(stock<=number(p.minStock))low++;
 
 const A=calculateSums(ledger);
 
+const totalExpenses=
+expenses.reduce((a,x)=>a+number(x.amount),0);
+
+const netProfit=
+A.profit-totalExpenses;
+
 const inventoryProfit=
 inventorySale-inventoryCost;
 
@@ -4985,6 +5438,18 @@ COGS
 Gross Profit
 <b class="profit">
 Rs. ${money(A.profit)}
+</b>
+</div>
+
+<div class="stat">
+Total Expenses
+<b class="loss">Rs. ${money(totalExpenses)}</b>
+</div>
+
+<div class="stat">
+Net Profit
+<b class="${netProfit>=0?"profit":"loss"}">
+Rs. ${money(netProfit)}
 </b>
 </div>
 
@@ -5491,6 +5956,10 @@ row.querySelector(".comboCost")?.value
 
 stock:number(
 row.querySelector(".comboStock")?.value
+),
+
+barcode:String(
+row.querySelector(".comboBarcode")?.value||""
 )
 
 };
@@ -5525,7 +5994,9 @@ number(u.price||w.price||f.price||0),
 costPrice:
 number(u.costPrice||w.costPrice||f.costPrice||0),
 
-stock:0
+stock:0,
+
+barcode:""
 
 };
 
@@ -5563,6 +6034,15 @@ value="${previous.costPrice}">
 class="comboStock"
 type="number"
 value="${previous.stock}">
+
+</td>
+
+<td>
+
+<input
+class="comboBarcode"
+placeholder="auto"
+value="${esc(previous.barcode||"")}">
 
 </td>
 
@@ -5614,6 +6094,10 @@ const stock=number(
 cells[5].querySelector("input")?.value
 );
 
+const barcode=String(
+cells[6]?.querySelector("input")?.value||""
+).trim();
+
 result.push({
 
 flavor,
@@ -5624,7 +6108,9 @@ price,
 
 costPrice,
 
-stock
+stock,
+
+barcode
 
 });
 
@@ -6073,6 +6559,7 @@ onclick="generateCombinations()">
 <th>Sale Rate</th>
 <th>🔒 Hidden Cost</th>
 <th>📦 Stock</th>
+<th>🔖 Barcode</th>
 
 </tr>
 
@@ -6124,6 +6611,15 @@ value="${number(x.costPrice)}">
 class="comboStock"
 type="number"
 value="${number(x.stock)}">
+
+</td>
+
+<td>
+
+<input
+class="comboBarcode"
+placeholder="auto"
+value="${esc(x.barcode||"")}">
 
 </td>
 
@@ -7009,6 +7505,637 @@ window.deleteCustomerEverything=deleteCustomerEverything;
 
 
 /* =========================================================
+EXPENSE SYSTEM
+(Rent, Salary, Bills wagera — business ke rozana kharch,
+jo Net Profit mein Profit dashboard/Dashboard par count
+hote hain: Net Profit = Gross Profit − Expenses)
+========================================================= */
+
+async function getExpenses(){
+
+const data=await dbGet("expenses");
+
+if(!data)return[];
+
+return Object.entries(data)
+.map(([id,x])=>({
+id,
+...x
+}));
+
+}
+
+
+async function adminExpenses(){
+
+const expenses=await getExpenses();
+
+expenses.sort(
+(a,b)=>number(b.timestamp)-number(a.timestamp)
+);
+
+const today=expenses.filter(
+x=>number(x.timestamp)>=startOfDay()
+);
+
+const week=expenses.filter(
+x=>number(x.timestamp)>=startOfWeek()
+);
+
+const month=expenses.filter(
+x=>number(x.timestamp)>=startOfMonth()
+);
+
+const year=expenses.filter(
+x=>number(x.timestamp)>=startOfYear()
+);
+
+const sum=list=>
+list.reduce((a,x)=>a+number(x.amount),0);
+
+let h=`
+
+<h3>💸 Expense System</h3>
+
+<div class="notice">
+
+Rozana ke Kharch (Rent, Salary, Bills, Transport wagera)
+yahan record karein. Ye Profit Dashboard mein
+<b>Net Profit</b> calculate karne ke liye use hote hain.
+
+</div>
+
+<div class="statGrid">
+
+<div class="stat">
+Aaj
+<b class="loss">Rs. ${money(sum(today))}</b>
+</div>
+
+<div class="stat">
+Is Hafta
+<b class="loss">Rs. ${money(sum(week))}</b>
+</div>
+
+<div class="stat">
+Is Mahiny
+<b class="loss">Rs. ${money(sum(month))}</b>
+</div>
+
+<div class="stat">
+Is Saal
+<b class="loss">Rs. ${money(sum(year))}</b>
+</div>
+
+<div class="stat">
+Total (Sab)
+<b class="loss">Rs. ${money(sum(expenses))}</b>
+</div>
+
+</div>
+
+<div class="adminItem">
+
+<h3>➕ Naya Expense Add Karein</h3>
+
+<label>Category</label>
+
+<select id="expCategory">
+
+<option value="Rent">🏠 Rent</option>
+<option value="Salary">👤 Salary</option>
+<option value="Utility Bill">💡 Utility Bill</option>
+<option value="Transport">🚚 Transport</option>
+<option value="Maintenance">🔧 Maintenance</option>
+<option value="Other">📌 Other</option>
+
+</select>
+
+<label>Amount</label>
+
+<input
+id="expAmount"
+type="number"
+min="0"
+placeholder="Rs.">
+
+<label>Note</label>
+
+<input
+id="expNote"
+placeholder="Detail (optional)">
+
+<br><br>
+
+<button
+class="primary"
+style="width:100%"
+onclick="saveExpense()">
+
+💾 Expense Save Karein
+
+</button>
+
+</div>
+
+<h3 class="sectionTitle">🧾 Recent Expenses</h3>
+
+`;
+
+if(!expenses.length){
+
+h+="<p>Abhi koi expense record nahi hai.</p>";
+
+}
+
+expenses.slice(0,150).forEach(x=>{
+
+h+=`
+
+<div class="adminItem">
+
+<b>${esc(x.category||"Other")}</b>
+
+<br>
+
+Amount:
+<b class="loss">Rs. ${money(x.amount)}</b>
+
+<br>
+
+Date:
+${esc(x.date||"")}
+
+${x.note?`<br>Note: ${esc(x.note)}`:""}
+
+<br><br>
+
+<button
+class="red"
+onclick="deleteExpense('${x.id}')">
+
+🗑 Delete
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("adminArea").innerHTML=h;
+
+}
+
+window.adminExpenses=adminExpenses;
+
+
+async function saveExpense(){
+
+const category=
+document.getElementById("expCategory").value;
+
+const amount=
+number(document.getElementById("expAmount").value);
+
+const note=
+document.getElementById("expNote").value.trim();
+
+if(amount<=0){
+
+alert("Amount 0 se zyada honi chahiye.");
+return;
+
+}
+
+const r=push(ref(db,"expenses"));
+
+await set(r,{
+
+category,
+amount,
+note,
+
+date:new Date().toLocaleString("en-PK"),
+timestamp:Date.now(),
+
+uid:currentUser.uid
+
+});
+
+showStatus("✅ Expense save ho gaya");
+
+adminExpenses();
+
+}
+
+window.saveExpense=saveExpense;
+
+
+async function deleteExpense(id){
+
+if(!confirm("Ye expense delete karna hai?"))return;
+
+await dbRemove("expenses/"+id);
+
+showStatus("🗑 Expense delete ho gaya");
+
+adminExpenses();
+
+}
+
+window.deleteExpense=deleteExpense;
+
+
+/* =========================================================
+BARCODE SYSTEM
+(Har Flavor/Weight/Unit combination ka apna barcode —
+scan karke turant cart mein add kiya ja sakta hai,
+aur print ke liye barcode label bhi generate hoti hai)
+========================================================= */
+
+function ensureCombinationBarcodes(p){
+
+let changed=false;
+
+(p.combinations||[]).forEach((c,idx)=>{
+
+if(!c.barcode){
+
+c.barcode=
+"PB"+
+String(p.id||"").replace(/[^A-Za-z0-9]/g,"").slice(-4).toUpperCase()+
+String(idx).padStart(2,"0")+
+String(Date.now()).slice(-4);
+
+changed=true;
+
+}
+
+});
+
+return changed;
+
+}
+
+
+function findComboByBarcode(barcode){
+
+const code=String(barcode||"").trim();
+
+if(!code)return null;
+
+for(const p of products){
+
+const idx=(p.combinations||[]).findIndex(
+c=>String(c.barcode||"")===code
+);
+
+if(idx!==-1){
+
+return{
+product:p,
+combo:p.combinations[idx],
+idx
+};
+
+}
+
+}
+
+return null;
+
+}
+
+window.findComboByBarcode=findComboByBarcode;
+
+
+function scanBarcodeAdd(inputId){
+
+const input=document.getElementById(inputId||"barcodeScanInput");
+
+if(!input)return;
+
+const code=input.value.trim();
+
+input.value="";
+
+if(!code)return;
+
+const found=findComboByBarcode(code);
+
+if(!found){
+
+showStatus("❌ Barcode se koi product nahi mila");
+
+return;
+
+}
+
+const{product,combo}=found;
+
+const old=cart.find(x=>
+
+x.id===product.id &&
+x.request!==true &&
+String(x.flavor||"")===String(combo.flavor||"") &&
+String(x.weight||"")===String(combo.weight||"") &&
+String(x.unit||"")===String(combo.unit||"")
+
+);
+
+if(old){
+
+old.qty+=1;
+old.price=combo.price;
+old.costPrice=combo.costPrice;
+
+}else{
+
+cart.push({
+
+id:product.id,
+name:product.name,
+icon:product.icon,
+image:product.image||"",
+
+flavor:combo.flavor,
+weight:combo.weight,
+unit:combo.unit,
+
+price:combo.price,
+costPrice:combo.costPrice,
+
+qty:1,
+
+request:false
+
+});
+
+}
+
+updateCart();
+
+showStatus(
+"🔖 "+product.name+" Barcode se Cart mein add ho gaya"
+);
+
+}
+
+window.scanBarcodeAdd=scanBarcodeAdd;
+
+
+function printBarcodeLabel(productId,idx){
+
+const p=products.find(x=>x.id===productId);
+
+if(!p)return;
+
+const c=(p.combinations||[])[idx];
+
+if(!c)return;
+
+if(!c.barcode){
+
+alert("Is combination ka barcode set nahi hai. Pehle Product Edit se Barcode field bharein ya 'Auto Generate Barcodes' use karein.");
+return;
+
+}
+
+openModal(`
+
+<div class="head">
+
+<h2>🖨️ Barcode Label</h2>
+
+<button class="close" onclick="closeModal()">✕</button>
+
+</div>
+
+<div
+id="barcodePrintArea"
+style="text-align:center;padding:15px;border:1px dashed #bbb;border-radius:10px">
+
+<b>${esc(p.name)}</b>
+<br>
+<span class="muted">
+${esc(c.flavor||"-")} × ${esc(c.weight||"-")} × ${esc(c.unit||"-")}
+</span>
+<br><br>
+
+<svg id="barcodeSvg"></svg>
+
+<br>
+
+Rs. ${money(c.price)}
+
+</div>
+
+<br>
+
+<button class="primary" style="width:100%" onclick="window.print()">
+🖨 Print Label
+</button>
+
+`);
+
+setTimeout(()=>{
+
+try{
+
+if(window.JsBarcode){
+
+window.JsBarcode(
+"#barcodeSvg",
+c.barcode,
+{
+format:"CODE128",
+width:2,
+height:60,
+displayValue:true,
+fontSize:14
+}
+);
+
+}else{
+
+document.getElementById("barcodePrintArea").innerHTML+=
+`<p class="muted">Barcode library load nahi hui — internet check karein.<br><b>${esc(c.barcode)}</b></p>`;
+
+}
+
+}catch(e){
+
+console.error(e);
+
+}
+
+},50);
+
+}
+
+window.printBarcodeLabel=printBarcodeLabel;
+
+
+async function adminBarcode(){
+
+const data=await dbGet("products");
+
+const list=
+data
+?
+Object.entries(data).map(([id,p])=>normalizeProduct(id,p))
+:
+[];
+
+let h=`
+
+<h3>🔖 Barcode System</h3>
+
+<div class="notice">
+
+Har Flavor/Weight/Unit combination ka apna barcode
+hota hai. Barcode scan (ya type) karke seedha Cart
+mein add karein — market ke POS jaisa.
+
+</div>
+
+<div class="adminItem">
+
+<label>🔍 Barcode Scan / Type Karein</label>
+
+<input
+id="adminBarcodeScanInput"
+placeholder="Barcode scan karein ya type karke Enter dabayein"
+onkeydown="if(event.key==='Enter')scanBarcodeAdd('adminBarcodeScanInput')">
+
+<br><br>
+
+<button class="primary" style="width:100%" onclick="scanBarcodeAdd('adminBarcodeScanInput')">
+➕ Barcode se Cart mein Add Karein
+</button>
+
+</div>
+
+<button class="gray" style="width:100%;margin-top:10px" onclick="autoGenerateAllBarcodes()">
+⚡ Missing Barcodes Auto-Generate Karein
+</button>
+
+`;
+
+list.forEach(p=>{
+
+if(!(p.combinations||[]).length)return;
+
+h+=`
+
+<div class="stockCard">
+
+<h3>
+
+${
+p.image
+?
+`<img src="${esc(p.image)}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;vertical-align:middle">`
+:
+esc(p.icon||"📦")
+}
+
+${esc(p.name)}
+
+</h3>
+
+`;
+
+p.combinations.forEach((c,idx)=>{
+
+h+=`
+
+<div class="adminItem">
+
+<b>
+🌈 ${esc(c.flavor||"-")} × ⚖️ ${esc(c.weight||"-")} × 📦 ${esc(c.unit||"-")}
+</b>
+
+<br>
+
+Barcode:
+<b>${esc(c.barcode||"— set nahi —")}</b>
+
+<br><br>
+
+<button
+class="primary"
+onclick="printBarcodeLabel('${p.id}',${idx})">
+
+🖨️ Label Print
+
+</button>
+
+</div>
+
+`;
+
+});
+
+h+=`</div>`;
+
+});
+
+document.getElementById("adminArea").innerHTML=h;
+
+}
+
+window.adminBarcode=adminBarcode;
+
+
+async function autoGenerateAllBarcodes(){
+
+const data=await dbGet("products");
+
+if(!data){
+
+showStatus("Products nahi hain");
+return;
+
+}
+
+const jobs=[];
+
+Object.entries(data).forEach(([id,p])=>{
+
+const normalized=normalizeProduct(id,p);
+
+const changed=ensureCombinationBarcodes(normalized);
+
+if(changed){
+
+jobs.push(
+dbUpdate(
+"products/"+id,
+{combinations:normalized.combinations}
+)
+);
+
+}
+
+});
+
+await Promise.all(jobs);
+
+await loadProducts();
+
+showStatus("✅ Missing Barcodes generate ho gaye");
+
+adminBarcode();
+
+}
+
+window.autoGenerateAllBarcodes=autoGenerateAllBarcodes;
+
+
+/* =========================================================
 STORE
 ========================================================= */
 
@@ -7881,6 +9008,8 @@ START
 ========================================================= */
 
 try{
+
+loadCartLocal();
 
 await loadProducts();
 
