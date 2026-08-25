@@ -4322,13 +4322,30 @@ type="number"
 min="1"
 value="1">
 
-<label>Purchase Cost Per ${esc(p.baseUnit||"Piece")}</label>
+<label>Purchase Cost Per ${esc(p.baseUnit||"Piece")}
+(Sirf goods ki price, bina extra kharcha ke)</label>
 
 <input
 id="purchaseCost"
 type="number"
 min="0"
 value="${number(c.costPrice)}">
+
+<label>➕ Extra Expense (is poori Purchase par —
+jaise Transport/Loading/Freight)</label>
+
+<input
+id="purchaseExtraExpense"
+type="number"
+min="0"
+value="0"
+placeholder="Rs. — total, quantity mein automatically divide hoga">
+
+<div class="notice" id="purchaseCostPreview">
+
+Final Cost Per Unit = Purchase Cost + (Extra Expense ÷ Quantity)
+
+</div>
 
 <label>Supplier / Party</label>
 
@@ -4356,6 +4373,41 @@ onclick="saveStockPurchase('${id}',${idx})">
 
 `);
 
+setTimeout(()=>{
+
+const qtyEl=document.getElementById("purchaseQty");
+const costEl=document.getElementById("purchaseCost");
+const expEl=document.getElementById("purchaseExtraExpense");
+const preview=document.getElementById("purchaseCostPreview");
+
+function refreshPreview(){
+
+const qty=Math.max(1,number(qtyEl.value)||1);
+const cost=number(costEl.value);
+const extra=number(expEl.value);
+
+const perUnitExtra=extra/qty;
+const finalCost=cost+perUnitExtra;
+
+preview.innerHTML=
+"Final Cost Per Unit = "+money(cost)+
+" + ("+money(extra)+" ÷ "+qty+") = "+
+"<b>Rs. "+finalCost.toFixed(2)+"</b>";
+
+}
+
+if(qtyEl&&costEl&&expEl&&preview){
+
+qtyEl.addEventListener("input",refreshPreview);
+costEl.addEventListener("input",refreshPreview);
+expEl.addEventListener("input",refreshPreview);
+
+refreshPreview();
+
+}
+
+},50);
+
 }
 
 window.stockPurchase=stockPurchase;
@@ -4374,8 +4426,11 @@ if(!c)return;
 const qty=
 number(document.getElementById("purchaseQty").value);
 
-const cost=
+const baseCost=
 number(document.getElementById("purchaseCost").value);
+
+const extraExpense=
+number(document.getElementById("purchaseExtraExpense").value);
 
 const supplier=
 document.getElementById("purchaseSupplier").value.trim();
@@ -4390,12 +4445,26 @@ return;
 
 }
 
-if(cost<0){
+if(baseCost<0||extraExpense<0){
 
 alert("Cost invalid hai.");
 return;
 
 }
+
+/*
+Extra Expense (jaise Transport/Freight) is poori
+purchase ki quantity mein equally divide hoke
+Purchase Cost Per Unit mein shamil ho jati hai —
+taake Gross Profit automatically sahi nikle,
+chahe aap Carton bechein ya Packet.
+*/
+
+const perUnitExtra=
+qty>0?(extraExpense/qty):0;
+
+const cost=
+baseCost+perUnitExtra;
 
 const stockPath="products/"+id+"/combinations/"+idx+"/stock";
 const costPath="products/"+id+"/combinations/"+idx+"/costPrice";
@@ -4448,6 +4517,10 @@ unit:c.unit||"",
 type:"PURCHASE",
 
 quantity:qty,
+
+baseCost,
+
+extraExpense,
 
 purchaseCost:cost,
 
@@ -4862,8 +4935,18 @@ ${x.purchaseCost!==undefined?`
 
 <br>
 
-Purchase Cost:
+Final Cost Per Unit:
 Rs. ${money(x.purchaseCost)}
+
+`:""}
+
+${x.extraExpense?`
+
+<br>
+
+➕ Extra Expense (is purchase par):
+Rs. ${money(x.extraExpense)}
+(Base Rs. ${money(x.baseCost)} + Expense allocate hoke Final Cost bana)
 
 `:""}
 
