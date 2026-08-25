@@ -844,8 +844,6 @@ grid-template-columns:1fr
 
 <div class="logo" id="secretAdmin">
 🛒 Peerbakhsh All In One Wholesale
-<br>
-<small>Sukkur • 0305-1933595</small>
 </div>
 
 <button class="headBtn" onclick="goProducts()">🔎 Search</button>
@@ -1121,8 +1119,79 @@ const WHATSAPP="923051933595";
 GLOBAL
 ========================================================= */
 
-let currentUser=null;
+let firebaseUser=null;
 let currentRole="guest";
+
+/* Dukandar ki identity ab Firebase Auth (email/password)
+se NAHI hoti — sirf Naam + WhatsApp Number se.
+Ye Firebase "customers" node mein save hoti hai aur
+tab tak Server par mehfooz rehti hai jab tak Admin
+khud delete na kare — LEKIN device par khud-ba-khud
+save/yaad NAHI rakhi jati. Har baar (har page load par,
+ya jab Cart/Khata/Chat access karein) Dukandar ko
+apna Naam + Number dobara likhna hoga. */
+let customerIdentity=null;
+
+function sanitizePhone(phone){
+
+return String(phone||"").replace(/[^0-9]/g,"");
+
+}
+
+
+async function registerCustomerIdentity(name,phone){
+
+const id=sanitizePhone(phone);
+
+if(!id||id.length<7){
+
+throw new Error("Sahi WhatsApp Number likhein.");
+
+}
+
+if(!name){
+
+throw new Error("Naam likhein.");
+
+}
+
+const existing=await dbGet("customers/"+id);
+
+await dbSet("customers/"+id,{
+
+name,
+phone,
+
+createdAt:
+existing?.createdAt||new Date().toLocaleString("en-PK"),
+
+createdTimestamp:
+existing?.createdTimestamp||Date.now(),
+
+updatedAt:new Date().toLocaleString("en-PK"),
+updatedTimestamp:Date.now()
+
+});
+
+customerIdentity={
+id,
+name,
+phone
+};
+
+return customerIdentity;
+
+}
+
+
+function clearCustomerIdentity(){
+
+customerIdentity=null;
+
+}
+
+window.clearCustomerIdentity=clearCustomerIdentity;
+
 
 let products=[];
 let cart=[];
@@ -1350,11 +1419,15 @@ AUTH
 
 onAuthStateChanged(auth,user=>{
 
-currentUser=user;
+/* Ab Firebase Auth SIRF Admin ke liye hai —
+Dukandar ki identity Naam+WhatsApp Number se
+alag system se aati hai (neeche dekhein). */
+
+firebaseUser=user;
 
 if(!user){
 
-currentRole="guest";
+if(currentRole==="admin")currentRole="guest";
 return;
 
 }
@@ -1369,12 +1442,6 @@ currentRole="admin";
 
 showStatus("✅ Admin Login");
 
-}else{
-
-currentRole="customer";
-
-showStatus("✅ Dukandar Login");
-
 }
 
 });
@@ -1387,9 +1454,9 @@ ADMIN LOGIN
 function adminLogin(){
 
 if(
-currentUser &&
-currentUser.email &&
-currentUser.email.toLowerCase()===
+firebaseUser &&
+firebaseUser.email &&
+firebaseUser.email.toLowerCase()===
 ADMIN_EMAIL.toLowerCase()
 ){
 
@@ -1454,7 +1521,7 @@ result.user.email.toLowerCase()===
 ADMIN_EMAIL.toLowerCase()
 ){
 
-currentUser=result.user;
+firebaseUser=result.user;
 currentRole="admin";
 
 closeModal();
@@ -1480,35 +1547,54 @@ window.doLogin=doLogin;
 
 
 /* =========================================================
-CUSTOMER LOGIN
+DUKANDAR IDENTITY
+(Ab Gmail/Password ki zaroorat nahi — sirf Naam +
+WhatsApp Number se account ban jata hai, jo Firebase
+"customers" node mein aur is device ki local memory
+mein save rehta hai — jab tak Admin khud delete na kare)
 ========================================================= */
 
-function customerLogin(){
+let pendingIdentityAction=null;
+
+function customerLogin(afterAction){
+
+pendingIdentityAction=
+typeof afterAction==="function"?afterAction:null;
 
 openModal(`
 
 <div class="head">
 
-<h2>🏪 Dukandar Login</h2>
+<h2>🏪 Dukandar Account</h2>
 
 <button class="close" onclick="closeModal()">✕</button>
 
 </div>
 
-<input
-id="customerEmail"
-type="email"
-placeholder="Dukandar Email">
+<p class="muted">
+Order karne ke liye bas apna Naam aur WhatsApp Number darj karein —
+koi Email/Password nahi chahiye.
+</p>
+
+<label>Aap ka Naam / Dukaan ka Naam</label>
 
 <input
-id="customerPassword"
-type="password"
-placeholder="Password">
+id="customerNameInput"
+placeholder="Naam likhein"
+value="${esc(customerIdentity?.name||"")}">
+
+<label>WhatsApp Number</label>
+
+<input
+id="customerPhoneInput"
+type="tel"
+placeholder="03XXXXXXXXX"
+value="${esc(customerIdentity?.phone||"")}">
 
 <br><br>
 
-<button class="primary" onclick="customerDoLogin()">
-Login
+<button class="primary" style="width:100%" onclick="customerDoLogin()">
+✅ Save & Continue
 </button>
 
 `);
@@ -1520,25 +1606,31 @@ window.customerLogin=customerLogin;
 
 async function customerDoLogin(){
 
-const email=
-document.getElementById("customerEmail").value.trim();
+const name=
+document.getElementById("customerNameInput").value.trim();
 
-const password=
-document.getElementById("customerPassword").value;
+const phone=
+document.getElementById("customerPhoneInput").value.trim();
 
 try{
 
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
+await registerCustomerIdentity(name,phone);
+
+currentRole="customer";
 
 closeModal();
 
+showStatus("✅ Khush Aamdeed, "+name);
+
+const action=pendingIdentityAction;
+
+pendingIdentityAction=null;
+
+if(action)action();
+
 }catch(e){
 
-alert("Login failed:\n"+e.message);
+alert("Save nahi hua:\n"+e.message);
 
 }
 
@@ -1547,16 +1639,39 @@ alert("Login failed:\n"+e.message);
 window.customerDoLogin=customerDoLogin;
 
 
-async function logout(){
+function customerSwitchAccount(){
 
-await signOut(auth);
+if(!confirm(
+"Ye device se Dukandar account hata dega (Firebase par data mehfooz rahega). Naya account banana hai?"
+))return;
 
-currentUser=null;
+clearCustomerIdentity();
+
 currentRole="guest";
 
 closeAll();
 
-showStatus("Logout ho gaya");
+showStatus("Account switch ho gaya — naya Naam/Number darj karein");
+
+}
+
+window.customerSwitchAccount=customerSwitchAccount;
+
+
+async function logout(){
+
+/* Ye button sirf Admin Panel mein hai — Admin ko
+Firebase Auth se logout karta hai. Dukandar ki
+identity is se affect nahi hoti. */
+
+await signOut(auth);
+
+firebaseUser=null;
+currentRole="guest";
+
+closeAll();
+
+showStatus("Admin Logout ho gaya");
 
 }
 
@@ -2869,27 +2984,9 @@ return;
 
 }
 
-if(!currentUser){
+if(!customerIdentity){
 
-openModal(`
-
-<div class="head">
-
-<h2>🏪 Pehle Login Karein</h2>
-
-<button class="close" onclick="closeModal()">✕</button>
-
-</div>
-
-<p>
-Order ke liye pehle dukandar login karein.
-</p>
-
-<button class="primary" onclick="customerLogin()">
-Dukandar Login
-</button>
-
-`);
+customerLogin(checkout);
 
 return;
 
@@ -2905,9 +3002,9 @@ openModal(`
 
 </div>
 
-<input id="customerName" placeholder="Dukaan ka naam">
+<input id="customerName" placeholder="Dukaan ka naam" value="${esc(customerIdentity.name||"")}">
 
-<input id="customerPhone" placeholder="Phone">
+<input id="customerPhone" placeholder="Phone" value="${esc(customerIdentity.phone||"")}">
 
 <input id="customerAddress" placeholder="Address">
 
@@ -3072,7 +3169,7 @@ const bill={
 
 id:billId,
 
-uid:currentUser.uid,
+uid:customerIdentity.id,
 
 date:now,
 timestamp,
@@ -3129,7 +3226,7 @@ await set(profitRef,{
 
 billId,
 
-uid:currentUser.uid,
+uid:customerIdentity.id,
 
 date:now,
 timestamp,
@@ -3173,7 +3270,7 @@ newStock:change.newStock,
 
 billId,
 
-uid:currentUser.uid,
+uid:customerIdentity.id,
 
 date:now,
 
@@ -3620,9 +3717,9 @@ CUSTOMER KHATA
 
 async function customerAccount(){
 
-if(!currentUser){
+if(!customerIdentity){
 
-customerLogin();
+customerLogin(customerAccount);
 return;
 
 }
@@ -3635,7 +3732,7 @@ if(data){
 
 Object.entries(data).forEach(([id,b])=>{
 
-if(b.uid===currentUser.uid){
+if(b.uid===customerIdentity.id){
 
 my.push({
 id,
@@ -3661,6 +3758,16 @@ openModal(`
 </div>
 
 <p>Abhi koi Bill nahi hai.</p>
+
+<hr>
+
+<p class="muted">
+Aap: <b>${esc(customerIdentity.name)}</b> (${esc(customerIdentity.phone)})
+</p>
+
+<button class="gray" style="width:100%" onclick="customerSwitchAccount()">
+🔁 Account Switch (naya Dukandar)
+</button>
 
 `);
 
@@ -3735,6 +3842,16 @@ onclick="customerViewBill('${b.id}')">
 
 `).join("")}
 
+<hr>
+
+<p class="muted">
+Aap: <b>${esc(customerIdentity.name)}</b> (${esc(customerIdentity.phone)})
+</p>
+
+<button class="gray" style="width:100%" onclick="customerSwitchAccount()">
+🔁 Account Switch (naya Dukandar)
+</button>
+
 `);
 
 }
@@ -3748,7 +3865,7 @@ const b=await dbGet("bills/"+id);
 
 if(!b)return;
 
-if(!currentUser||b.uid!==currentUser.uid){
+if(!customerIdentity||b.uid!==customerIdentity.id){
 
 alert("Access denied.");
 return;
@@ -3771,8 +3888,8 @@ ADMIN PANEL
 function adminPanel(){
 
 if(
-!currentUser ||
-currentUser.email?.toLowerCase()!==
+!firebaseUser ||
+firebaseUser.email?.toLowerCase()!==
 ADMIN_EMAIL.toLowerCase()
 ){
 
@@ -4536,7 +4653,7 @@ note,
 date:new Date().toLocaleString("en-PK"),
 timestamp:Date.now(),
 
-uid:currentUser.uid
+uid:firebaseUser.uid
 
 });
 
@@ -4699,7 +4816,7 @@ note,
 date:new Date().toLocaleString("en-PK"),
 timestamp:Date.now(),
 
-uid:currentUser.uid
+uid:firebaseUser.uid
 
 });
 
@@ -7261,41 +7378,43 @@ DUKANDAR
 
 async function adminDukandar(){
 
+const customersData=await dbGet("customers");
 const all=await getAllBills();
 
-const map={};
+const billMap={};
 
 all.forEach(b=>{
 
-if(!map[b.uid]){
+if(!billMap[b.uid])billMap[b.uid]=[];
 
-map[b.uid]={
-
-uid:b.uid,
-
-name:b.customer?.name||"",
-
-phone:b.customer?.phone||"",
-
-address:b.customer?.address||""
-
-};
-
-}
+billMap[b.uid].push(b);
 
 });
 
-const users=Object.values(map);
+const customers=
+customersData
+?
+Object.entries(customersData).map(([id,c])=>({
+id,
+name:c.name||"",
+phone:c.phone||"",
+createdAt:c.createdAt||"",
+orders:(billMap[id]||[]).length
+}))
+:
+[];
 
 let h="<h3>🏪 Dukandar List</h3>";
 
-if(!users.length){
+if(!customers.length){
 
-h+="<p>Abhi koi dukandar order nahi mila.</p>";
+h+="<p>Abhi koi Dukandar register nahi hua.</p>";
 
 }
 
-users.forEach(u=>{
+customers
+.sort((a,b)=>(b.orders)-(a.orders))
+.forEach(u=>{
 
 h+=`
 
@@ -7305,19 +7424,24 @@ h+=`
 🏪 ${esc(u.name)}
 </h3>
 
-Phone:
+📞 WhatsApp:
 ${esc(u.phone)}
 
 <br>
 
-Address:
-${esc(u.address||"-")}
+Register:
+${esc(u.createdAt||"-")}
+
+<br>
+
+Orders:
+<b>${u.orders}</b>
 
 <br><br>
 
 <button
 class="primary"
-onclick="openDukandar('${u.uid}')">
+onclick="openDukandar('${u.id}')">
 
 Open Dukandar
 
@@ -7342,14 +7466,25 @@ const all=await getAllBills();
 
 const userBills=all.filter(b=>b.uid===uid);
 
-if(!userBills.length){
+const customerInfo=await dbGet("customers/"+uid);
 
-alert("No bills.");
+if(!userBills.length&&!customerInfo){
+
+alert("Ye Dukandar nahi mila.");
 return;
 
 }
 
-const u=userBills[0].customer;
+const u=
+userBills.length
+?
+userBills[0].customer
+:
+{
+name:customerInfo?.name||"",
+phone:customerInfo?.phone||"",
+address:""
+};
 
 const total=userBills.reduce((a,b)=>a+number(b.total),0);
 const paid=userBills.reduce((a,b)=>a+number(b.paid),0);
@@ -7366,6 +7501,11 @@ document.getElementById("adminArea").innerHTML=`
 </button>
 
 </div>
+
+<p class="muted">
+📞 ${esc(u.phone)}
+${customerInfo?.createdAt?" • Register: "+esc(customerInfo.createdAt):""}
+</p>
 
 <div class="notice">
 
@@ -7384,7 +7524,13 @@ Bakaya:
 
 </div>
 
-<h3>🧾 Bills</h3>
+${
+userBills.length
+?
+`<h3>🧾 Bills</h3>`
+:
+`<p>Abhi is Dukandar ka koi order nahi hai.</p>`
+}
 
 ${userBills
 .slice()
@@ -7464,7 +7610,7 @@ Open Chat
 class="red"
 onclick="deleteCustomerEverything('${uid}')">
 
-🗑 Delete Bill + Khata + Chat
+🗑 Delete Account (Bill + Khata + Chat + Register)
 
 </button>
 
@@ -7557,7 +7703,7 @@ DELETE CUSTOMER
 async function deleteCustomerEverything(uid){
 
 if(!confirm(
-"Is dukandar ka Bill + Khata + Chat sab delete karna hai?"
+"Is Dukandar ka Account + Bill + Khata + Chat sab delete karna hai? (Dukandar dobara Naam/Number se register kar sakta hai)"
 ))return;
 
 const all=await getAllBills();
@@ -7576,9 +7722,11 @@ jobs.push(dbRemove("bills/"+b.id));
 
 jobs.push(dbRemove("chats/"+uid));
 
+jobs.push(dbRemove("customers/"+uid));
+
 await Promise.all(jobs);
 
-alert("✅ Bill + Khata + Chat delete ho gaya.");
+alert("✅ Account + Bill + Khata + Chat delete ho gaya.");
 
 adminDukandar();
 
@@ -7803,7 +7951,7 @@ note,
 date:new Date().toLocaleString("en-PK"),
 timestamp:Date.now(),
 
-uid:currentUser.uid
+uid:firebaseUser.uid
 
 });
 
@@ -8606,35 +8754,19 @@ CHAT
 
 function openCustomerChat(){
 
-if(!currentUser){
+if(!customerIdentity){
 
-openModal(`
-
-<div class="head">
-
-<h2>💬 Dukandar Login</h2>
-
-<button class="close" onclick="closeModal()">✕</button>
-
-</div>
-
-<p>Chat ke liye pehle login karein.</p>
-
-<button class="primary" onclick="customerLogin()">
-Login
-</button>
-
-`);
+customerLogin(openCustomerChat);
 
 return;
 
 }
 
-currentChatCustomer=currentUser.uid;
+currentChatCustomer=customerIdentity.id;
 currentChatRole="customer";
 
 openChat(
-currentUser.uid,
+customerIdentity.id,
 "Admin",
 "customer"
 );
@@ -8647,6 +8779,8 @@ window.openCustomerChat=openCustomerChat;
 async function adminChatList(){
 
 const all=await getAllBills();
+
+const customersData=await dbGet("customers");
 
 const users={};
 
@@ -8661,6 +8795,20 @@ b.customer?.name||
 }
 
 });
+
+if(customersData){
+
+Object.entries(customersData).forEach(([id,c])=>{
+
+if(!users[id]){
+
+users[id]=c.name||"Dukandar";
+
+}
+
+});
+
+}
 
 let h="<h3>💬 Chat List</h3>";
 
@@ -8712,9 +8860,19 @@ const all=await getAllBills();
 
 const b=all.find(x=>x.uid===uid);
 
+let name=b?.customer?.name;
+
+if(!name){
+
+const c=await dbGet("customers/"+uid);
+
+name=c?.name;
+
+}
+
 openChat(
 uid,
-b?.customer?.name||"Dukandar",
+name||"Dukandar",
 "admin"
 );
 
