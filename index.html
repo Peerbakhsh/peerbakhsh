@@ -864,6 +864,16 @@ background:#087443;
 color:#fff
 }
 
+.cardHighlight{
+animation:cardGlow 1.6s ease 2
+}
+
+@keyframes cardGlow{
+0%{box-shadow:0 0 0 0 rgba(8,116,67,0)}
+50%{box-shadow:0 0 0 8px rgba(8,116,67,0.35)}
+100%{box-shadow:0 0 0 0 rgba(8,116,67,0)}
+}
+
 @media(max-width:700px){
 
 header{padding:9px 2%}
@@ -2595,7 +2605,7 @@ return;
 
 grid.innerHTML=list.map(p=>`
 
-<div class="card">
+<div class="card" id="productCard_${p.id}">
 
 <div class="pic">
 
@@ -2833,11 +2843,29 @@ return;
 const qty=
 number(document.getElementById("qty"+id)?.value)||1;
 
+addVariantsToCart(p,variants,qty);
+
+openCart();
+
+}
+
+window.addCart=addCart;
+
+
+/* =========================================================
+ADD VARIANTS TO CART (shared helper)
+Ye addCart() (button click) aur Voice Command
+(processVoiceCommand) dono use karte hain, taake
+dono jagah same logic ho.
+========================================================= */
+
+function addVariantsToCart(p,variants,qty){
+
 variants.forEach(v=>{
 
 const old=cart.find(x=>
 
-x.id===id &&
+x.id===p.id &&
 x.request!==true &&
 String(x.flavor||"")===String(v.flavor||"") &&
 String(x.weight||"")===String(v.weight||"") &&
@@ -2879,16 +2907,12 @@ request:false
 
 updateCart();
 
-openCart();
-
 showStatus(
 "🛒 "+variants.length+
 " combination cart mein add ho gayi."
 );
 
 }
-
-window.addCart=addCart;
 
 
 /* =========================================================
@@ -9087,11 +9111,18 @@ const input=document.getElementById("assistantInput");
 
 if(input){
 
+/* Seedha bhej nahi rahe — pehle text box mein
+dikha rahe hain taake dukandar check kar sake
+ke phone ne sahi suna ya nahi. Agar sahi ho to
+sirf ➤ dabana hai, galat ho to edit kar lein. */
+
 input.value=said;
+
+input.focus();
 
 }
 
-sendAssistantMessage();
+showStatus("🎤 Suna: \""+said+"\" — sahi hai to ➤ dabayein");
 
 };
 
@@ -9212,7 +9243,24 @@ input.value="";
 
 assistantMessages.push({from:"user",text});
 
-const reply=answerAssistant(text);
+/* Pehle check karein ke ye koi ACTION command hai
+(product dikhao, cart mein dalo, order karo) —
+agar hai to seedha ACTION kar dete hain. Warna
+normal sawal-jawab (rate poochna waghera) hota hai. */
+
+const commandReply=processVoiceCommand(text);
+
+const reply=
+
+commandReply!==null
+
+?
+
+commandReply
+
+:
+
+answerAssistant(text);
 
 assistantMessages.push({from:"bot",text:reply});
 
@@ -9225,17 +9273,332 @@ speakAssistantReply(reply);
 window.sendAssistantMessage=sendAssistantMessage;
 
 
+/* =========================================================
+VOICE / TEXT SHOPPING COMMANDS
+"Chips dikhao" → product tak scroll karke highlight
+"Chips 3 packet dalo" → seedha Cart mein add
+"Cart dikhao" → Cart khol deta hai
+"Order karo" → Checkout shuru, phir "Confirm karo"
+bolne par order place ho jata hai (safety ke liye
+2-step confirmation hai, taake ghalat awaaz se
+galti se order na chala jaye)
+========================================================= */
+
+let assistantPendingOrderConfirm=false;
+
+
+/* Voice Recognition kabhi kabhi lafz mila-jula sunta
+hai (jaise "Cart" ko "Card" samajh leta hai, kyunke
+en-US accent mein dono ki awaaz milti hai). Yahan
+aisi common galtiyan pehle hi theek kar dete hain,
+taake commands sahi samjhein — bilkul jaisa koi
+insaan khud andaza laga leta hai. */
+
+function normalizeVoiceText(text){
+
+let t=String(text||"").toLowerCase().trim();
+
+const corrections=[
+
+[/\bcard\b/g,"cart"],
+[/\bkart\b/g,"cart"],
+[/\bcurt\b/g,"cart"],
+
+[/\border\b/g,"order"],
+[/\bardar\b/g,"order"],
+
+[/\bconform\b/g,"confirm"],
+[/\bconfirmd\b/g,"confirm"],
+[/\bconfarm\b/g,"confirm"],
+
+[/\bkero\b/g,"karo"],
+[/\bkro\b/g,"karo"],
+
+[/\bdalu\b/g,"dalo"],
+[/\bdalow\b/g,"dalo"]
+
+];
+
+corrections.forEach(([pattern,replacement])=>{
+
+t=t.replace(pattern,replacement);
+
+});
+
+return t;
+
+}
+
+
+function scrollToProduct(id){
+
+const card=document.getElementById("productCard_"+id);
+
+if(!card)return;
+
+card.scrollIntoView({behavior:"smooth",block:"center"});
+
+card.classList.add("cardHighlight");
+
+setTimeout(()=>{
+
+card.classList.remove("cardHighlight");
+
+},3200);
+
+}
+
+
+function extractQuantity(text){
+
+const digitMatch=text.match(/\d+/);
+
+if(digitMatch){
+
+return parseInt(digitMatch[0],10);
+
+}
+
+const numberWords={
+
+"ek":1,"one":1,
+"do":2,"two":2,
+"teen":3,"three":3,
+"char":4,"chaar":4,"four":4,
+"panch":5,"paanch":5,"five":5,
+"che":6,"chay":6,"six":6,
+"saat":7,"seven":7,
+"aath":8,"eight":8,
+"nau":9,"nine":9,
+"das":10,"ten":10
+
+};
+
+const words=text.split(/\s+/);
+
+for(const w of words){
+
+if(numberWords[w]!==undefined){
+
+return numberWords[w];
+
+}
+
+}
+
+return 1;
+
+}
+
+
+function processVoiceCommand(rawText){
+
+const text=normalizeVoiceText(rawText);
+
+/* STEP 1 — agar order confirmation pending hai */
+
+if(assistantPendingOrderConfirm){
+
+assistantPendingOrderConfirm=false;
+
+if(/confirm|haan|theek|kar do|kardo|yes|ok|okay/.test(text)){
+
+const nameField=document.getElementById("customerName");
+
+if(nameField){
+
+createOrder();
+
+return "✅ Order Confirm ho gaya!";
+
+}
+
+return "Order form nahi mila, dobara 'Order Karo' bolein.";
+
+}
+
+if(/nahi|cancel|rehne do|rehnay do|ruk jao/.test(text)){
+
+closeModal();
+
+return "Theek hai, Order cancel kar diya.";
+
+}
+
+/* Na "haan" na "nahi" bola — dobara normal
+processing mein chala jayega niche */
+
+}
+
+/* STEP 2 — Order / Checkout command */
+
+if(
+/order/.test(text) &&
+/(kar|karo|kardo|confirm|place|de do|dedo)/.test(text)
+
+){
+
+if(!cart.length){
+
+return "Cart khali hai — pehle koi product Cart mein dalein.";
+
+}
+
+checkout();
+
+if(customerIdentity){
+
+assistantPendingOrderConfirm=true;
+
+return "🧾 Order tayyar hai. Confirm karne ke liye 'Confirm Karo' bolein ya likhein.";
+
+}
+
+return "Pehli dafa apna Naam aur WhatsApp Number darj karein, phir dobara 'Order Karo' bolein.";
+
+}
+
+/* STEP 3 — Cart mein Add karna
+(jaise "chips 3 packet dalo", "2 pika nut add karo") */
+
+const addVerb=
+
+/(dalo|daal do|daal den|dal do|add karo|add kardo|daaldo)/;
+
+if(addVerb.test(text)){
+
+const product=findBestProduct(text);
+
+if(!product){
+
+return "Konsa product Cart mein dalna hai? Product ka naam bolein.";
+
+}
+
+const qty=extractQuantity(text);
+
+const variants=getSelectedVariants(product.id);
+
+const useVariants=
+
+variants.length
+
+?
+
+variants
+
+:
+
+[{
+
+flavor:"",weight:"",unit:"",
+
+price:product.price,
+
+costPrice:product.costPrice
+
+}];
+
+addVariantsToCart(product,useVariants,qty);
+
+return "✅ "+product.name+" x"+qty+" Cart mein add ho gaye.";
+
+}
+
+/* STEP 4 — Cart kholna/dikhana */
+
+if(
+
+/\bcart\b/.test(text) &&
+
+/(khol|dikhao|jao|show|kholo)/.test(text)
+
+){
+
+openCart();
+
+return "🛒 Cart khol diya.";
+
+}
+
+/* STEP 5 — Product tak "jao"/dikhao (sirf navigate,
+add nahi karta) */
+
+if(
+
+/(par jao|dikhao|khol|chalo|kholo)/.test(text)
+
+){
+
+const product=findBestProduct(text);
+
+if(product){
+
+scrollToProduct(product.id);
+
+return "👉 "+product.name+" dikha diya, neeche scroll ho gaya.";
+
+}
+
+}
+
+/* Koi command match nahi hua — normal Q&A hoga */
+
+return null;
+
+}
+
+window.processVoiceCommand=processVoiceCommand;
+
+
 /* Assistant ki "samajh" — sirf keyword matching hai,
 koi paid AI nahi, is liye 100% free aur turant hai. */
 
-function answerAssistant(question){
+/* =========================================================
+FIND BEST PRODUCT (shared helper)
+Text ke andar se best-matching product dhoondta hai —
+exact naam, phir sab alfaz maujood, phir halki spelling
+ki galti tolerate karta hai. Assistant ke Q&A aur Voice
+Commands dono isay istemal karte hain.
+========================================================= */
 
-const q=question.toLowerCase().trim();
+function editDistance(a,b){
 
-/* Product ka naam / rate poochna.
-BOHOT SIMPLE tareeqa: jo product ka naam sawal ke
-andar mile, wahi ek product dhoondo aur SIRF uska
-naam + rate bata do — koi extra cheez nahi. */
+const m=a.length,n=b.length;
+
+const dp=Array.from({length:m+1},()=>new Array(n+1).fill(0));
+
+for(let i=0;i<=m;i++)dp[i][0]=i;
+for(let j=0;j<=n;j++)dp[0][j]=j;
+
+for(let i=1;i<=m;i++){
+
+for(let j=1;j<=n;j++){
+
+dp[i][j]=
+
+a[i-1]===b[j-1]
+
+?
+
+dp[i-1][j-1]
+
+:
+
+1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+
+}
+
+}
+
+return dp[m][n];
+
+}
+
+
+function findBestProduct(text){
+
+const q=String(text||"").toLowerCase().trim();
 
 const activeProducts=
 products.filter(p=>p.active!==false&&p.name);
@@ -9249,8 +9612,6 @@ const nameLower=String(p.name).toLowerCase().trim();
 
 if(!nameLower)return;
 
-/* Sawal ke andar product ka poora naam maujood ho */
-
 if(q.includes(nameLower)){
 
 if(nameLower.length>bestMatchLen){
@@ -9263,9 +9624,6 @@ bestMatchLen=nameLower.length;
 }
 
 });
-
-/* Agar poora naam nahi mila, to har product-naam ke
-alfaz check karein — SAB alfaz sawal mein hone chahiye */
 
 if(!bestMatch){
 
@@ -9299,6 +9657,77 @@ bestMatchLen=len;
 });
 
 }
+
+if(!bestMatch){
+
+const qWords=
+
+q.replace(/[^a-z0-9\s]/gi," ").split(/\s+/).filter(w=>w.length>1);
+
+let bestScore=Infinity;
+
+activeProducts.forEach(p=>{
+
+const nameWords=
+
+String(p.name).toLowerCase().trim().split(/\s+/)
+
+.filter(w=>w.length>1);
+
+if(!nameWords.length)return;
+
+let totalDist=0;
+let allClose=true;
+
+nameWords.forEach(w=>{
+
+let minDist=Infinity;
+
+qWords.forEach(qw=>{
+
+const d=editDistance(qw,w);
+
+if(d<minDist)minDist=d;
+
+});
+
+const maxAllowed=
+
+w.length<=3?1:(w.length<=6?2:3);
+
+if(minDist>maxAllowed){
+
+allClose=false;
+
+}
+
+totalDist+=minDist;
+
+});
+
+if(allClose&&totalDist<bestScore){
+
+bestScore=totalDist;
+bestMatch=p;
+
+}
+
+});
+
+}
+
+return bestMatch;
+
+}
+
+
+function answerAssistant(question){
+
+const q=question.toLowerCase().trim();
+
+/* Product ka naam / rate poochna. */
+
+const bestMatch=findBestProduct(q);
 
 if(bestMatch){
 
