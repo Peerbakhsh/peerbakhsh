@@ -588,6 +588,36 @@ max-width:200px;
 display:block
 }
 
+.msgTick{
+font-size:11px;
+float:right;
+margin-left:6px
+}
+
+.msgTick.sent{
+color:#9aa39c
+}
+
+.msgTick.seen{
+color:#4fc3f7
+}
+
+.chatBadge{
+display:inline-block;
+background:#c62828;
+color:#fff;
+font-size:10px;
+font-weight:bold;
+border-radius:10px;
+min-width:16px;
+height:16px;
+line-height:16px;
+text-align:center;
+padding:0 4px;
+margin-left:4px;
+vertical-align:top
+}
+
 .chatTools{
 display:flex;
 gap:5px;
@@ -788,6 +818,52 @@ font-size:12px;
 margin-top:8px
 }
 
+.assistantFab{
+position:fixed;
+right:16px;
+bottom:86px;
+width:56px;
+height:56px;
+border-radius:50%;
+background:#087443;
+color:#fff;
+font-size:26px;
+border:0;
+box-shadow:0 4px 14px #0005;
+z-index:120;
+cursor:pointer
+}
+
+.assistantWindow{
+height:400px;
+overflow:auto;
+background:#eef2ef;
+padding:10px;
+border-radius:10px
+}
+
+.assistantMsg{
+max-width:82%;
+padding:9px 12px;
+margin:7px 0;
+border-radius:12px;
+clear:both;
+line-height:1.5;
+font-size:14px
+}
+
+.assistantMsg.bot{
+float:left;
+background:#fff;
+border:1px solid #ddd
+}
+
+.assistantMsg.user{
+float:right;
+background:#087443;
+color:#fff
+}
+
 @media(max-width:700px){
 
 header{padding:9px 2%}
@@ -844,10 +920,12 @@ grid-template-columns:1fr
 
 <div class="logo" id="secretAdmin">
 🛒 Peerbakhsh All In One Wholesale
+<br>
+<small>Sukkur • 0305-1933595</small>
 </div>
 
 <button class="headBtn" onclick="goProducts()">🔎 Search</button>
-<button class="headBtn" onclick="openCustomerChat()">💬 Chat</button>
+<button class="headBtn" onclick="openCustomerChat()">💬 Chat<span id="headChatBadge"></span></button>
 <button class="headBtn" onclick="customerAccount()">📒 Khata</button>
 
 <button class="topcart" onclick="openCart()">
@@ -1028,11 +1106,21 @@ Rs. <span id="cartTotal">0</span>
 <span id="bottomCount">0</span>
 </button>
 
-<button onclick="openCustomerChat()">💬 Chat</button>
+<button onclick="openCustomerChat()">💬 Chat<span id="bottomChatBadge"></span></button>
 
 <button onclick="customerAccount()">📒 Khata</button>
 
 </div>
+
+<button
+id="assistantFab"
+class="assistantFab"
+onclick="openAssistant()"
+title="Help / Sawal Poochain">
+
+🤖
+
+</button>
 
 <script type="module">
 
@@ -1058,7 +1146,9 @@ set,
 push,
 get,
 update,
-remove
+remove,
+onValue,
+off
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -1179,6 +1269,8 @@ name,
 phone
 };
 
+attachCustomerChatBadge();
+
 return customerIdentity;
 
 }
@@ -1187,6 +1279,16 @@ return customerIdentity;
 function clearCustomerIdentity(){
 
 customerIdentity=null;
+
+if(customerBadgeUnsubscribe){
+
+customerBadgeUnsubscribe();
+customerBadgeUnsubscribe=null;
+
+}
+
+updateChatBadgeUI("headChatBadge",0);
+updateChatBadgeUI("bottomChatBadge",0);
 
 }
 
@@ -1251,12 +1353,72 @@ video:""
 
 let currentChatCustomer=null;
 let currentChatRole="customer";
+let currentChatName="";
+
+/* Chat ab REAL-TIME hai (WhatsApp jaisa) — ye Firebase
+listener detach function rakhta hai jab chat modal khula
+hota hai, aur chat close hote hi listener hata deta hai. */
+let activeChatDetach=null;
+let chatIsInitialLoad=true;
+
+/* Unread badge listeners — Customer aur Admin dono ke
+liye alag alag, taake "kitne naye messages hain" pata
+chal sake aur notification sound bajay. */
+let customerBadgeUnsubscribe=null;
+let adminBadgeUnsubscribe=null;
+let lastCustomerUnread=0;
+let lastAdminUnread=0;
 
 let recorder=null;
 let voiceChunks=[];
 
 let variantSelectionProductId=null;
 let variantSelections={};
+
+
+/* =========================================================
+NOTIFICATION SOUND
+(Web Audio se generate hoti hai — koi file chahiye nahi)
+========================================================= */
+
+function playNotificationSound(){
+
+try{
+
+const AudioCtx=window.AudioContext||window.webkitAudioContext;
+
+if(!AudioCtx)return;
+
+const ctx=new AudioCtx();
+
+const o=ctx.createOscillator();
+const g=ctx.createGain();
+
+o.connect(g);
+g.connect(ctx.destination);
+
+o.frequency.value=880;
+
+g.gain.setValueAtTime(0.16,ctx.currentTime);
+g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.35);
+
+o.start();
+
+o.stop(ctx.currentTime+0.35);
+
+setTimeout(()=>{
+
+try{ctx.close();}catch(e){}
+
+},500);
+
+}catch(e){
+
+console.error("Notification sound error:",e);
+
+}
+
+}
 
 
 /* =========================================================
@@ -1343,6 +1505,14 @@ document.getElementById("modal").classList.add("show");
 }
 
 function closeModal(){
+
+if(activeChatDetach){
+
+activeChatDetach();
+
+activeChatDetach=null;
+
+}
 
 document.getElementById("modal").classList.remove("show");
 
@@ -1524,6 +1694,8 @@ ADMIN_EMAIL.toLowerCase()
 firebaseUser=result.user;
 currentRole="admin";
 
+attachAdminChatBadge();
+
 closeModal();
 adminPanel();
 
@@ -1668,6 +1840,13 @@ await signOut(auth);
 
 firebaseUser=null;
 currentRole="guest";
+
+if(adminBadgeUnsubscribe){
+
+adminBadgeUnsubscribe();
+adminBadgeUnsubscribe=null;
+
+}
 
 closeAll();
 
@@ -3936,7 +4115,7 @@ openModal(`
 
 <button onclick="adminStore()">🏪 Store</button>
 
-<button onclick="adminChatList()">💬 Chat</button>
+<button onclick="adminChatList()">💬 Chat<span id="adminChatBadge"></span></button>
 
 </div>
 
@@ -8776,6 +8955,483 @@ customerIdentity.id,
 window.openCustomerChat=openCustomerChat;
 
 
+/* =========================================================
+LIVE HELP ASSISTANT
+(Bilkul FREE, koi bahar ki service nahi — seedha
+usi live "products" data se jawab deta hai jo page
+pehle se load kar chuka hai. Isliye rate turant
+update hone par jawab bhi turant sahi hota hai.
+STOCK KABHI NAHI BATATA — customer se stock hamesha
+chupaya jata hai, is assistant mein bhi.)
+========================================================= */
+
+let assistantMessages=[];
+
+function openAssistant(){
+
+if(!assistantMessages.length){
+
+assistantMessages.push({
+
+from:"bot",
+
+text:
+"👋 Assalam-o-Alaikum! Main Peerbakhsh Wholesale ka Help Assistant hoon.\n\n"+
+"Aap mujh se pooch sakte hain:\n"+
+"• Kisi product ka rate\n"+
+"• Order kaise karein\n"+
+"• Khata / Bill kaise dekhein\n"+
+"• WhatsApp Number\n"+
+"• Product Request kaise bhejein\n\n"+
+"Bas neeche apna sawal likhein 👇"
+
+});
+
+}
+
+openModal(`
+
+<div class="head">
+
+<h2>🤖 Help Assistant</h2>
+
+<button class="close" onclick="closeModal()">✕</button>
+
+</div>
+
+<div id="assistantWindow" class="assistantWindow"></div>
+
+<div class="chatTools">
+
+<input
+id="assistantInput"
+placeholder="Apna sawal likhein ya 🎤 dabayein..."
+onkeydown="if(event.key==='Enter')sendAssistantMessage()">
+
+<button onclick="sendAssistantMessage()">➤</button>
+
+<button id="assistantMicBtn" onclick="assistantVoiceInput()">🎤</button>
+
+</div>
+
+<label style="display:block;margin-top:8px;font-size:12px;color:#68736d">
+
+<input
+id="assistantVoiceReplyToggle"
+type="checkbox"
+style="width:16px;vertical-align:middle"
+checked>
+
+🔊 Jawab awaaz mein bhi sunayein
+
+</label>
+
+`);
+
+renderAssistantChat();
+
+}
+
+window.openAssistant=openAssistant;
+
+
+/* =========================================================
+VOICE INPUT (Speech-to-Text)
+Jo likhna nahi jaante, wo 🎤 dabakar bol sakte hain
+========================================================= */
+
+function assistantVoiceInput(){
+
+const SpeechRec=
+window.SpeechRecognition||window.webkitSpeechRecognition;
+
+if(!SpeechRec){
+
+alert(
+"Aap ka browser Voice Input support nahi karta.\n"+
+"Kripya apna sawal likh kar bhejein."
+);
+
+return;
+
+}
+
+const btn=document.getElementById("assistantMicBtn");
+
+const recognition=new SpeechRec();
+
+/* "en-US" istemal karte hain — kyunke hamara poora
+matching system Roman Urdu/English alfaz (order, rate,
+product names) se hota hai. "ur-PK" se transcription
+Urdu script (اردو) mein aata hai jo kabhi match nahi
+hota, is liye jawab hamesha generic (fallback) aata tha. */
+
+recognition.lang="en-US";
+recognition.interimResults=false;
+recognition.maxAlternatives=1;
+
+if(btn){
+
+btn.textContent="🔴";
+btn.disabled=true;
+
+}
+
+showStatus("🎤 Boliye... sun raha hoon");
+
+recognition.onresult=event=>{
+
+const said=event.results[0][0].transcript;
+
+const input=document.getElementById("assistantInput");
+
+if(input){
+
+input.value=said;
+
+}
+
+sendAssistantMessage();
+
+};
+
+recognition.onerror=event=>{
+
+showStatus("❌ Awaaz samajh nahi aayi, dobara koshish karein");
+
+};
+
+recognition.onend=()=>{
+
+if(btn){
+
+btn.textContent="🎤";
+btn.disabled=false;
+
+}
+
+};
+
+try{
+
+recognition.start();
+
+}catch(e){
+
+if(btn){
+
+btn.textContent="🎤";
+btn.disabled=false;
+
+}
+
+}
+
+}
+
+window.assistantVoiceInput=assistantVoiceInput;
+
+
+/* =========================================================
+VOICE OUTPUT (Text-to-Speech)
+Jawab khud bhi bol kar sunata hai
+========================================================= */
+
+function speakAssistantReply(text){
+
+try{
+
+const toggle=
+document.getElementById("assistantVoiceReplyToggle");
+
+if(toggle&&!toggle.checked)return;
+
+if(!window.speechSynthesis)return;
+
+window.speechSynthesis.cancel();
+
+const clean=
+String(text||"")
+.replace(/[📦🛒✅🎤🔊👋😊📍📲📒⚙️🧾❌🔴🎙️🎥🏪🌈⚖️1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣🙏]/gu,"");
+
+const utter=new SpeechSynthesisUtterance(clean);
+
+/* "ur-PK" ki awaaz zyada tar phones/browsers mein
+installed hi nahi hoti (khamosh reh jata hai). "en-US"
+zyada reliable hai aur Roman Urdu text ko samajhne
+laayak tarz mein bol deta hai. */
+
+utter.lang="en-US";
+utter.rate=0.95;
+
+window.speechSynthesis.speak(utter);
+
+}catch(e){
+
+console.error("Speech output error:",e);
+
+}
+
+}
+
+
+function renderAssistantChat(){
+
+const win=document.getElementById("assistantWindow");
+
+if(!win)return;
+
+win.innerHTML=assistantMessages.map(m=>`
+
+<div class="assistantMsg ${m.from}">
+${esc(m.text).replace(/\n/g,"<br>")}
+</div>
+
+`).join("");
+
+setTimeout(()=>{
+
+win.scrollTop=win.scrollHeight;
+
+},30);
+
+}
+
+
+function sendAssistantMessage(){
+
+const input=document.getElementById("assistantInput");
+
+if(!input)return;
+
+const text=input.value.trim();
+
+if(!text)return;
+
+input.value="";
+
+assistantMessages.push({from:"user",text});
+
+const reply=answerAssistant(text);
+
+assistantMessages.push({from:"bot",text:reply});
+
+renderAssistantChat();
+
+speakAssistantReply(reply);
+
+}
+
+window.sendAssistantMessage=sendAssistantMessage;
+
+
+/* Assistant ki "samajh" — sirf keyword matching hai,
+koi paid AI nahi, is liye 100% free aur turant hai. */
+
+function answerAssistant(question){
+
+const q=question.toLowerCase().trim();
+
+/* Product ka naam / rate poochna.
+BOHOT SIMPLE tareeqa: jo product ka naam sawal ke
+andar mile, wahi ek product dhoondo aur SIRF uska
+naam + rate bata do — koi extra cheez nahi. */
+
+const activeProducts=
+products.filter(p=>p.active!==false&&p.name);
+
+let bestMatch=null;
+let bestMatchLen=0;
+
+activeProducts.forEach(p=>{
+
+const nameLower=String(p.name).toLowerCase().trim();
+
+if(!nameLower)return;
+
+/* Sawal ke andar product ka poora naam maujood ho */
+
+if(q.includes(nameLower)){
+
+if(nameLower.length>bestMatchLen){
+
+bestMatch=p;
+bestMatchLen=nameLower.length;
+
+}
+
+}
+
+});
+
+/* Agar poora naam nahi mila, to har product-naam ke
+alfaz check karein — SAB alfaz sawal mein hone chahiye */
+
+if(!bestMatch){
+
+activeProducts.forEach(p=>{
+
+const nameWords=
+
+String(p.name).toLowerCase().trim().split(/\s+/)
+
+.filter(w=>w.length>1);
+
+if(!nameWords.length)return;
+
+const allPresent=
+
+nameWords.every(w=>q.includes(w));
+
+if(allPresent){
+
+const len=nameWords.join(" ").length;
+
+if(len>bestMatchLen){
+
+bestMatch=p;
+bestMatchLen=len;
+
+}
+
+}
+
+});
+
+}
+
+if(bestMatch){
+
+return bestMatch.name+" ka rate Rs. "+money(bestMatch.price)+" hai.";
+
+}
+
+if(
+q.includes("rate")||q.includes("price")||
+q.includes("kimat")||q.includes("qeemat")||
+q.includes("daam")||q.includes("kitne ka")
+){
+
+const sample=
+activeProducts.slice(0,6).map(p=>p.name).join(", ");
+
+return "Kis product ka rate janna hai? Product ka naam likhein.\n\n"+
+
+(sample?"Kuch available products: "+sample:"Abhi products list ho rahi hai.");
+
+}
+
+/* Order kaise karein */
+
+if(
+q.includes("order")||q.includes("kharid")||
+q.includes("kaise len")||q.includes("kaise le")
+){
+
+return "📦 Order karne ka tareeqa:\n\n"+
+"1️⃣ Product par ⚙️ Flavor/Weight/Unit select karein\n"+
+"2️⃣ 🛒 Add Selected par click karein\n"+
+"3️⃣ Upar 🛒 Cart icon se Cart kholein\n"+
+"4️⃣ 🧾 Order/WhatsApp button dabayein\n"+
+"5️⃣ Apna Naam aur WhatsApp Number darj karein\n"+
+"6️⃣ Confirm Order dabayein — bas ho gaya!";
+
+}
+
+/* WhatsApp / Contact */
+
+if(
+q.includes("whatsapp")||q.includes("number")||
+q.includes("contact")||q.includes("phone")||
+q.includes("rabta")
+){
+
+return "📲 Hamara WhatsApp Number: 0305-1933595\n\n"+
+"Kisi bhi sawal ya order ke liye seedha WhatsApp par bhi rabta kar sakte hain.";
+
+}
+
+/* Khata / Bill */
+
+if(
+q.includes("khata")||q.includes("bill")||
+q.includes("bakaya")||q.includes("jama")
+){
+
+return "📒 Khata dekhne ke liye:\n\n"+
+"Neeche 'Khata' button dabayein — apna Naam aur WhatsApp Number darj karein, "+
+"phir aap ke saare Bills, Total, Jama, aur Bakaya dikh jayega.";
+
+}
+
+/* Cart */
+
+if(q.includes("cart")){
+
+return "🛒 Cart mein products add karne ke liye product par 'Add Selected' dabayein. "+
+"Cart dekhne ke liye upar ya neeche 🛒 Cart icon dabayein.";
+
+}
+
+/* Product Request */
+
+if(
+q.includes("nahi mila")||q.includes("request")||
+q.includes("available nahi")
+){
+
+return "📦 Agar koi product website par nahi hai, to neeche 'Product Nahi Mil Raha?' "+
+"section mein us ka naam, flavor, weight, unit aur quantity likh kar "+
+"'Request Cart Mein Add Karein' dabayein.";
+
+}
+
+/* Delivery / Location */
+
+if(
+q.includes("delivery")||q.includes("kab milega")||
+q.includes("kahan")||q.includes("location")||q.includes("address")
+){
+
+return "📍 Hum Sukkur mein hain. Delivery ka time confirm karne ke liye order ke baad "+
+"WhatsApp (0305-1933595) par rabta karein.";
+
+}
+
+/* Flavor/Weight/Unit help */
+
+if(
+q.includes("flavor")||q.includes("weight")||q.includes("unit")
+){
+
+return "⚙️ Har product ke andar 'Flavor / Weight / Unit Select' button hai — "+
+"usay dabayein, apni pasand ke options tick karein, phir 'Save Selection' dabayein. "+
+"Rate khud-ba-khud update ho jayega.";
+
+}
+
+/* Greeting */
+
+if(
+q.includes("salam")||q.includes("hello")||
+q.includes("hi")||q.includes("assalam")
+){
+
+return "Wa Alaikum Assalam! 😊 Bataiye, kis cheez mein madad chahiye?";
+
+}
+
+/* Fallback */
+
+return "Maazrat, is sawal ka jawab mere paas nahi hai. 🙏\n\n"+
+"Aap seedha WhatsApp (0305-1933595) par Admin se pooch sakte hain, "+
+"ya mujh se product ka naam, order, Khata, ya WhatsApp number ke bare mein poochein.";
+
+}
+
+window.answerAssistant=answerAssistant;
+
+
 async function adminChatList(){
 
 const all=await getAllBills();
@@ -8881,28 +9537,157 @@ name||"Dukandar",
 window.adminCustomerChat=adminCustomerChat;
 
 
-async function openChat(uid,name,role){
+/* =========================================================
+UNREAD CHAT BADGE (WhatsApp jaisa notification)
+========================================================= */
 
-const data=await dbGet("chats/"+uid);
+function updateChatBadgeUI(elementId,count){
 
-let messages=[];
+const el=document.getElementById(elementId);
 
-if(data){
+if(!el)return;
 
-messages=
-Object.entries(data)
-.map(([id,m])=>({
-id,
-...m
-}));
-
-messages.sort(
-(a,b)=>number(a.time)-number(b.time)
-);
+el.innerHTML=
+count>0
+?
+`<span class="chatBadge">${count>99?"99+":count}</span>`
+:
+"";
 
 }
 
-let html=`
+
+function attachCustomerChatBadge(){
+
+if(!customerIdentity)return;
+
+if(customerBadgeUnsubscribe){
+
+customerBadgeUnsubscribe();
+customerBadgeUnsubscribe=null;
+
+}
+
+const chatRef=ref(db,"chats/"+customerIdentity.id);
+
+onValue(chatRef,snap=>{
+
+const data=snap.exists()?snap.val():null;
+
+let unread=0;
+
+if(data){
+
+Object.values(data).forEach(m=>{
+
+if(m.from==="admin"&&!m.read)unread++;
+
+});
+
+}
+
+/* Agar chat abhi khuli hui hai to badge/sound zaroorat nahi
+(messages waisay hi turant "seen" ho jate hain) */
+
+const chatOpen=
+currentChatCustomer===customerIdentity.id;
+
+if(!chatOpen&&unread>lastCustomerUnread){
+
+playNotificationSound();
+
+}
+
+lastCustomerUnread=unread;
+
+updateChatBadgeUI("headChatBadge",chatOpen?0:unread);
+updateChatBadgeUI("bottomChatBadge",chatOpen?0:unread);
+
+});
+
+customerBadgeUnsubscribe=()=>{
+
+off(chatRef);
+
+};
+
+}
+
+
+function attachAdminChatBadge(){
+
+if(adminBadgeUnsubscribe){
+
+adminBadgeUnsubscribe();
+adminBadgeUnsubscribe=null;
+
+}
+
+const chatsRef=ref(db,"chats");
+
+onValue(chatsRef,snap=>{
+
+const data=snap.exists()?snap.val():null;
+
+let unread=0;
+
+if(data){
+
+Object.entries(data).forEach(([uid,messages])=>{
+
+/* Agar admin abhi isi customer ki chat khol kar
+baitha hai to us chat ke messages count na karein */
+
+if(currentChatCustomer===uid&&currentChatRole==="admin")return;
+
+Object.values(messages).forEach(m=>{
+
+if(m.from==="customer"&&!m.read)unread++;
+
+});
+
+});
+
+}
+
+if(unread>lastAdminUnread){
+
+playNotificationSound();
+
+}
+
+lastAdminUnread=unread;
+
+updateChatBadgeUI("adminChatBadge",unread);
+
+});
+
+adminBadgeUnsubscribe=()=>{
+
+off(chatsRef);
+
+};
+
+}
+
+
+function openChat(uid,name,role){
+
+/* Pehle se koi listener khula ho to hata dein */
+
+if(activeChatDetach){
+
+activeChatDetach();
+activeChatDetach=null;
+
+}
+
+currentChatCustomer=uid;
+currentChatRole=role;
+currentChatName=name;
+chatIsInitialLoad=true;
+
+openModal(`
 
 <div class="head">
 
@@ -8913,42 +9698,6 @@ let html=`
 </div>
 
 <div id="chatWindow" class="chatWindow">
-
-`;
-
-messages.forEach(m=>{
-
-html+=`
-
-<div class="msg ${m.from}">
-
-${m.type==="text"?esc(m.text):""}
-
-${m.type==="image"
-?
-`<img src="${esc(m.data)}">`
-:
-""}
-
-${m.type==="voice"
-?
-`<audio controls src="${esc(m.data)}"></audio>`
-:
-""}
-
-<br>
-
-<small>
-${esc(m.date||"")}
-</small>
-
-</div>
-
-`;
-
-});
-
-html+=`
 
 </div>
 
@@ -8981,18 +9730,117 @@ onchange="sendChatImage()">
 
 </div>
 
+`);
+
+const chatRef=ref(db,"chats/"+uid);
+
+const listener=onValue(chatRef,snap=>{
+
+const data=snap.exists()?snap.val():null;
+
+let messages=[];
+
+if(data){
+
+messages=
+Object.entries(data)
+.map(([id,m])=>({
+id,
+...m
+}));
+
+messages.sort(
+(a,b)=>number(a.time)-number(b.time)
+);
+
+}
+
+const win=document.getElementById("chatWindow");
+
+if(!win)return;
+
+win.innerHTML=messages.map(m=>{
+
+const isMine=m.from===role;
+
+const tick=
+isMine
+?
+(
+m.read
+?
+`<span class="msgTick seen">✓✓</span>`
+:
+`<span class="msgTick sent">✓</span>`
+)
+:
+"";
+
+return `
+
+<div class="msg ${m.from}">
+
+${m.type==="text"?esc(m.text):""}
+
+${m.type==="image"
+?
+`<img src="${esc(m.data)}">`
+:
+""}
+
+${m.type==="voice"
+?
+`<audio controls src="${esc(m.data)}"></audio>`
+:
+""}
+
+<br>
+
+<small>
+${esc(m.date||"")}
+${tick}
+</small>
+
+</div>
+
 `;
 
-openModal(html);
+}).join("");
 
-setTimeout(()=>{
+win.scrollTop=win.scrollHeight;
 
-const w=document.getElementById("chatWindow");
+/* Doosri taraf se aaye messages ko "Seen" mark karein
+(auto-read, kyunke ye chat abhi khuli hui hai) */
 
-if(w)
-w.scrollTop=w.scrollHeight;
+const unseenIncoming=
+messages.filter(m=>m.from!==role&&!m.read);
 
-},100);
+unseenIncoming.forEach(m=>{
+
+update(ref(db,"chats/"+uid+"/"+m.id),{read:true});
+
+});
+
+/* Naya incoming message (chat khulne ke BAAD) aaye
+to notification sound bajayein */
+
+if(!chatIsInitialLoad&&unseenIncoming.length){
+
+playNotificationSound();
+
+}
+
+chatIsInitialLoad=false;
+
+});
+
+activeChatDetach=()=>{
+
+off(chatRef);
+
+currentChatCustomer=null;
+
+};
 
 }
 
@@ -9008,6 +9856,8 @@ if(!input)return;
 const text=input.value.trim();
 
 if(!text)return;
+
+input.value="";
 
 const r=
 push(
@@ -9033,11 +9883,8 @@ read:false
 
 });
 
-openChat(
-currentChatCustomer,
-currentChatRole==="admin"?"Dukandar":"Admin",
-currentChatRole
-);
+/* Live listener khud naya message dikha dega,
+dobara openChat() call karne ki zaroorat nahi */
 
 }
 
@@ -9096,11 +9943,7 @@ read:false
 
 });
 
-openChat(
-currentChatCustomer,
-currentChatRole==="admin"?"Dukandar":"Admin",
-currentChatRole
-);
+/* Live listener khud naya message dikha dega */
 
 }catch(e){
 
@@ -9191,11 +10034,7 @@ read:false
 
 });
 
-openChat(
-currentChatCustomer,
-currentChatRole==="admin"?"Dukandar":"Admin",
-currentChatRole
-);
+/* Live listener khud naya voice message dikha dega */
 
 }catch(e){
 
