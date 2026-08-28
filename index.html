@@ -931,7 +931,7 @@ grid-template-columns:1fr
 <div class="logo" id="secretAdmin">
 🛒 Peerbakhsh All In One Wholesale
 <br>
-<small>Sukkur • 0305-1933595</small>
+<small class="storeContactText">Sukkur • 0305-1933595</small>
 </div>
 
 <button class="headBtn" onclick="goProducts()">🔎 Search</button>
@@ -1025,6 +1025,62 @@ onclick="addRequestToCart()">
 </div>
 
 </main>
+
+<footer id="siteFooter" style="margin-top:30px;padding:24px 4% 100px;background:#0d2b1c;color:#e5ede8">
+
+<div style="max-width:1200px;margin:auto;display:flex;flex-wrap:wrap;gap:24px">
+
+<div style="flex:1;min-width:220px">
+
+<h3 style="margin:0 0 8px;color:#fff">🏪 About Us</h3>
+
+<p class="footerAboutText" style="font-size:13px;line-height:1.6;color:#c7d6cd">
+
+Peerbakhsh All In One Wholesale ek trusted wholesale general store hai. Hum acchi quality products, sahi rate par, dukandaron ko supply karte hain.
+
+</p>
+
+</div>
+
+<div style="flex:1;min-width:220px">
+
+<h3 style="margin:0 0 8px;color:#fff">📞 Contact Us</h3>
+
+<p class="footerContactText" style="font-size:13px;line-height:1.6;color:#c7d6cd">
+
+📍 Sukkur
+<br>
+📲 WhatsApp: 0305-1933595
+
+</p>
+
+</div>
+
+<div style="flex:1;min-width:220px">
+
+<h3 style="margin:0 0 8px;color:#fff">🕐 Business Hours</h3>
+
+<p style="font-size:13px;line-height:1.6;color:#c7d6cd">
+
+Har roz — Subha se Raat tak
+<br>
+Order/Chat/Khata website se hamesha available
+
+</p>
+
+</div>
+
+</div>
+
+<hr style="border-color:#1c4a30;margin:20px 0 12px">
+
+<p style="text-align:center;font-size:11px;color:#8fa89a;margin:0">
+
+© 2026 Peerbakhsh All In One Wholesale. All rights reserved.
+
+</p>
+
+</footer>
 
 <div id="shade" class="shade" onclick="closeCart()"></div>
 
@@ -1144,7 +1200,12 @@ import {
 getAuth,
 signInWithEmailAndPassword,
 onAuthStateChanged,
-signOut
+signOut,
+setPersistence,
+browserSessionPersistence,
+updatePassword,
+reauthenticateWithCredential,
+EmailAuthProvider
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -1162,15 +1223,6 @@ off
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-import {
-getStorage,
-ref as storageRef,
-uploadBytes,
-getDownloadURL
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 
 /* =========================================================
@@ -1209,10 +1261,85 @@ const app=initializeApp(firebaseConfig);
 
 const auth=getAuth(app);
 const db=getDatabase(app);
-const storage=getStorage(app);
+
+/* Firebase Storage abhi PAID (Blaze) plan maangta hai,
+is liye har jagah "Cloudinary" (free) istemal ho rahi
+hai Pictures/Voice/Video upload ke liye. Neeche
+CLOUDINARY_CLOUD/CLOUDINARY_PRESET hi wo do cheezein
+hain jo agar kabhi badalni ho, sirf yahan change karein. */
+
+const CLOUDINARY_CLOUD="agbzsnil";
+const CLOUDINARY_PRESET="Wholesale_upload";
+
+async function uploadToCloudinary(file,filename){
+
+const formData=new FormData();
+
+/* Blob (jaise Voice recording) ka koi naam nahi
+hota — is liye filename khud dete hain, taake
+Cloudinary sahi tareeqay se pehchan sake */
+
+if(filename){
+
+formData.append("file",file,filename);
+
+}else{
+
+formData.append("file",file);
+
+}
+
+formData.append("upload_preset",CLOUDINARY_PRESET);
+
+const response=
+
+await fetch(
+
+"https://api.cloudinary.com/v1_1/"+CLOUDINARY_CLOUD+"/auto/upload",
+
+{
+method:"POST",
+body:formData
+}
+
+);
+
+if(!response.ok){
+
+const errText=await response.text();
+
+throw new Error("Picture/Voice upload nahi hui: "+errText);
+
+}
+
+const data=await response.json();
+
+return data.secure_url;
+
+}
+
+/* SECURITY: Admin ka login sirf isi browser TAB/SESSION
+tak yaad rahega — browser band karte hi (ya device
+restart hone par) khud-ba-khud logout ho jayega.
+Isse agar kabhi ye device kisi aur ko dikhaya/diya
+jaye, to wo khud-ba-khud Admin Panel mein nahi ghus
+sakega — password dobara zaroori hoga. */
+
+setPersistence(auth,browserSessionPersistence).catch(e=>{
+
+console.error("Auth persistence set error:",e);
+
+});
 
 const ADMIN_EMAIL="peerbakhsh144@gmail.com";
-const WHATSAPP="923051933595";
+
+/* Ye ab sirf DEFAULT/fallback values hain — asal
+value Firebase "store" node se load hoti hai
+(loadStore() function mein), taake Admin Panel se
+change kiya ja sake — code kholne ki zaroorat na ho */
+
+let WHATSAPP="923051933595";
+let STORE_ADDRESS="Sukkur";
 
 
 /* =========================================================
@@ -1252,6 +1379,22 @@ throw new Error("Sahi WhatsApp Number likhein.");
 if(!name){
 
 throw new Error("Naam likhein.");
+
+}
+
+/* Agar ye account Admin ne Block kiya hua hai, to
+register/login hone hi nahi dete — is se pehle
+zaroori check */
+
+const blockCheck=await dbGet("blockedCustomers/"+id);
+
+if(blockCheck){
+
+throw new Error(
+
+"Ye account Admin ne block kar diya hai. Zyada tafseel ke liye Admin se rabta karein."
+
+);
 
 }
 
@@ -1358,7 +1501,10 @@ cart=[];
 let store={
 marquee:"Peerbakhsh All In One Wholesale",
 voice:"",
-video:""
+video:"",
+whatsapp:"923051933595",
+address:"Sukkur",
+about:""
 };
 
 let currentChatCustomer=null;
@@ -1475,6 +1621,34 @@ x.classList.remove("show");
 
 }
 
+
+/* Kisi bhi Promise (jaise Firebase Storage upload)
+ko "atakne" se bachata hai — agar tay waqt mein
+result nahi milta to saaf error de deta hai,
+taake user ko kabhi "kuch nahi ho raha" jaisi
+khamoshi na miley. */
+
+function withTimeout(promise,ms,message){
+
+return Promise.race([
+
+promise,
+
+new Promise((_,reject)=>{
+
+setTimeout(()=>{
+
+reject(new Error(message||"Waqt khatam ho gaya."));
+
+},ms);
+
+})
+
+]);
+
+}
+
+
 async function dbGet(path){
 
 const snap=await get(ref(db,path));
@@ -1521,6 +1695,12 @@ if(activeChatDetach){
 activeChatDetach();
 
 activeChatDetach=null;
+
+}
+
+if(continuousListening){
+
+stopContinuousListening();
 
 }
 
@@ -1620,7 +1800,18 @@ ADMIN_EMAIL.toLowerCase()
 
 currentRole="admin";
 
-showStatus("✅ Admin Login");
+attachAdminChatBadge();
+
+attachSecurityBadge();
+
+/* Yahan "Admin Login" ka notification JAAN-BOOJH
+kar NAHI dikhaya jata — kyunke ye handler tab bhi
+chalta hai jab session khud-ba-khud restore ho
+(page reload par), aur agar ye device kisi aur ke
+paas ho, to unhein "Admin Login" dikhana ghalat
+tashweesh/khatra paida karta hai. Notification
+sirf tab dikhta hai jab koi khud password daal
+kar login kare — doLogin() function mein. */
 
 }
 
@@ -1706,20 +1897,40 @@ currentRole="admin";
 
 attachAdminChatBadge();
 
+attachSecurityBadge();
+
 closeModal();
 adminPanel();
+
+showStatus("✅ Admin Login Kamyab");
 
 }else{
 
 await signOut(auth);
 
-alert("Admin access denied.");
+await logUnauthorizedAttempt();
+
+alert("⚠️ Access denied. Ye koshish record ho chuki hai.");
 
 }
 
 }catch(e){
 
-alert("Admin Login Failed:\n\n"+e.message);
+/* Ghalat password — is koshish ko record karte hain
+taake Admin ko baad mein pata chal sake, aur is
+shakhs ko bhi saaf warning dete hain */
+
+await logUnauthorizedAttempt();
+
+alert(
+
+"⚠️ Password ghalat hai.\n\n"+
+
+"Warning: Ye ek unauthorized access attempt hai aur "+
+
+"record ho chuki hai."
+
+);
 
 }
 
@@ -1865,6 +2076,430 @@ showStatus("Admin Logout ho gaya");
 }
 
 window.logout=logout;
+
+
+/* =========================================================
+CHANGE PASSWORD (Admin apna password khud badal sakta hai)
+========================================================= */
+
+function adminChangePassword(){
+
+document.getElementById("adminArea").innerHTML=`
+
+<h3>🔑 Password Change Karein</h3>
+
+<div class="notice">
+
+Security ke liye pehle apna CURRENT password daalna
+hoga, phir naya password set kar sakte hain.
+
+</div>
+
+<label>Current Password</label>
+
+<input
+id="pwCurrent"
+type="password"
+placeholder="Abhi wala password">
+
+<label>Naya Password</label>
+
+<input
+id="pwNew"
+type="password"
+placeholder="Kam se kam 6 characters">
+
+<label>Naya Password Dobara Likhein</label>
+
+<input
+id="pwConfirm"
+type="password"
+placeholder="Naya password dobara">
+
+<br><br>
+
+<button
+class="primary"
+style="width:100%"
+onclick="doChangePassword()">
+
+🔑 Password Change Karein
+
+</button>
+
+`;
+
+}
+
+window.adminChangePassword=adminChangePassword;
+
+
+async function doChangePassword(){
+
+const current=document.getElementById("pwCurrent").value;
+const newPass=document.getElementById("pwNew").value;
+const confirm=document.getElementById("pwConfirm").value;
+
+if(!current||!newPass||!confirm){
+
+alert("Sab fields bharein.");
+return;
+
+}
+
+if(newPass.length<6){
+
+alert("Naya Password kam se kam 6 characters ka hona chahiye.");
+return;
+
+}
+
+if(newPass!==confirm){
+
+alert("Naya Password dono jagah same nahi hai.");
+return;
+
+}
+
+try{
+
+const credential=
+
+EmailAuthProvider.credential(ADMIN_EMAIL,current);
+
+await reauthenticateWithCredential(firebaseUser,credential);
+
+await updatePassword(firebaseUser,newPass);
+
+alert("✅ Password kamyabi se change ho gaya. Agli baar isi naye password se login karein.");
+
+adminDashboard();
+
+}catch(e){
+
+alert("Password change nahi hua:\n\n"+(e.message||e));
+
+}
+
+}
+
+window.doChangePassword=doChangePassword;
+
+
+/* =========================================================
+SECURITY — Unauthorized Access Alerts + Blocking
+Jab koi (dukandar ya anonymous) admin password ghalat
+daale, ye record hota hai. Admin isay dekh kar us
+customer ko "Block" kar sakta hai — block hote hi wo
+customer khud ko kabhi register/order/chat nahi kar
+sakega.
+========================================================= */
+
+let lastSecurityUnread=0;
+let securityBadgeUnsubscribe=null;
+
+
+function attachSecurityBadge(){
+
+if(securityBadgeUnsubscribe){
+
+securityBadgeUnsubscribe();
+securityBadgeUnsubscribe=null;
+
+}
+
+const alertsRef=ref(db,"adminAlerts");
+
+onValue(alertsRef,snap=>{
+
+const data=snap.exists()?snap.val():null;
+
+let unread=0;
+
+if(data){
+
+Object.values(data).forEach(a=>{
+
+if(!a.seen)unread++;
+
+});
+
+}
+
+if(unread>lastSecurityUnread){
+
+playNotificationSound();
+
+}
+
+lastSecurityUnread=unread;
+
+updateChatBadgeUI("securityBadge",unread);
+
+});
+
+securityBadgeUnsubscribe=()=>{
+
+off(alertsRef);
+
+};
+
+}
+
+
+async function logUnauthorizedAttempt(){
+
+try{
+
+const r=push(ref(db,"adminAlerts"));
+
+await set(r,{
+
+type:"failed_login",
+
+customerId:customerIdentity?.id||null,
+customerName:customerIdentity?.name||"Anonymous / Naam pata nahi",
+customerPhone:customerIdentity?.phone||"",
+
+userAgent:navigator.userAgent||"",
+
+date:new Date().toLocaleString("en-PK"),
+timestamp:Date.now(),
+
+seen:false
+
+});
+
+}catch(e){
+
+console.error("Security log error:",e);
+
+}
+
+}
+
+
+async function adminSecurity(){
+
+const data=await dbGet("adminAlerts");
+
+const blockedData=await dbGet("blockedCustomers");
+
+const blocked=
+
+blockedData
+
+?
+
+Object.entries(blockedData).map(([id,b])=>({id,...b}))
+
+:
+
+[];
+
+const alerts=
+
+data
+
+?
+
+Object.entries(data).map(([id,a])=>({id,...a}))
+
+:
+
+[];
+
+alerts.sort((a,b)=>number(b.timestamp)-number(a.timestamp));
+
+/* Jaise hi Admin ye tab kholay, sab alerts "seen"
+mark ho jate hain — badge saaf ho jata hai */
+
+const unseenUpdates=[];
+
+alerts.forEach(a=>{
+
+if(!a.seen){
+
+unseenUpdates.push(
+
+update(ref(db,"adminAlerts/"+a.id),{seen:true})
+
+);
+
+}
+
+});
+
+await Promise.all(unseenUpdates);
+
+let h=`
+
+<h3>⚠️ Security Alerts</h3>
+
+<div class="notice">
+
+Jab koi Admin Panel mein ghalat password daalta hai,
+yahan record ho jata hai. Agar kisi Dukandar ka Naam
+dikhe (kyunke wo pehle se register tha), to aap chahein
+to usay "Block" kar sakte hain — block hone ke baad wo
+account dobara kabhi order/chat/khata nahi kar payega.
+
+</div>
+
+`;
+
+if(!alerts.length){
+
+h+="<p>Abhi koi unauthorized attempt record nahi hua.</p>";
+
+}
+
+alerts.slice(0,100).forEach(a=>{
+
+const isBlocked=
+
+a.customerId&&blocked.some(b=>b.id===a.customerId);
+
+h+=`
+
+<div class="adminItem">
+
+<b class="loss">🚫 Ghalat Password Attempt</b>
+
+<br>
+
+Date: ${esc(a.date||"")}
+
+<br>
+
+Kaun: <b>${esc(a.customerName||"Anonymous")}</b>
+
+${a.customerPhone?`<br>Phone: ${esc(a.customerPhone)}`:""}
+
+${!a.customerId?`<br><span class="muted" style="font-size:11px">(Ye shakhs Naam/Number register kiye bagair try kar raha tha — is liye direct Block nahi ho sakta)</span>`:""}
+
+<br><br>
+
+${
+a.customerId
+
+?
+
+(isBlocked
+
+?
+
+`<span class="on">✅ Ye account Block hai</span>`
+
+:
+
+`<button class="red" onclick="blockCustomer('${a.customerId}','${esc(a.customerName||"")}','${esc(a.customerPhone||"")}')">🚫 Is Account Ko Block Karein</button>`)
+
+:
+
+""
+}
+
+</div>
+
+`;
+
+});
+
+if(blocked.length){
+
+h+=`<h3 class="sectionTitle">🚫 Blocked Accounts</h3>`;
+
+blocked.forEach(b=>{
+
+h+=`
+
+<div class="adminItem">
+
+<b>${esc(b.name||"")}</b>
+
+<br>
+
+Phone: ${esc(b.phone||"")}
+
+<br>
+
+Block hua: ${esc(b.blockedAt||"")}
+
+<br><br>
+
+<button class="primary" onclick="unblockCustomer('${b.id}')">
+
+✅ Unblock Karein
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("adminArea").innerHTML=h;
+
+}
+
+window.adminSecurity=adminSecurity;
+
+
+async function blockCustomer(id,name,phone){
+
+if(!confirm(
+
+"Kya aap "+name+" ("+phone+") ka account Block karna chahte hain?\n\n"+
+
+"Block hone ke baad wo dobara order/chat/khata nahi kar sakega."
+
+))return;
+
+await set(ref(db,"blockedCustomers/"+id),{
+
+name,
+phone,
+
+blockedAt:new Date().toLocaleString("en-PK"),
+blockedTimestamp:Date.now()
+
+});
+
+showStatus("🚫 Account Block ho gaya");
+
+adminSecurity();
+
+}
+
+window.blockCustomer=blockCustomer;
+
+
+async function unblockCustomer(id){
+
+await dbRemove("blockedCustomers/"+id);
+
+showStatus("✅ Account Unblock ho gaya");
+
+adminSecurity();
+
+}
+
+window.unblockCustomer=unblockCustomer;
+
+
+async function isCustomerBlocked(id){
+
+if(!id)return false;
+
+const b=await dbGet("blockedCustomers/"+id);
+
+return!!b;
+
+}
 
 
 /* =========================================================
@@ -3112,15 +3747,7 @@ return;
 
 try{
 
-const r=
-storageRef(
-storage,
-"requests/"+Date.now()+"_"+file.name
-);
-
-await uploadBytes(r,file);
-
-image=await getDownloadURL(r);
+image=await uploadToCloudinary(file);
 
 }catch(e){
 
@@ -3178,7 +3805,7 @@ window.addRequestToCart=addRequestToCart;
 CHECKOUT
 ========================================================= */
 
-function checkout(){
+async function checkout(){
 
 if(!cart.length){
 
@@ -3190,6 +3817,16 @@ return;
 if(!customerIdentity){
 
 customerLogin(checkout);
+
+return;
+
+}
+
+const blocked=await dbGet("blockedCustomers/"+customerIdentity.id);
+
+if(blocked){
+
+alert("Ye account Admin ne block kar diya hai. Order nahi ho sakta — Admin se rabta karein.");
 
 return;
 
@@ -3612,7 +4249,7 @@ Peerbakhsh All In One Wholesale
 </h2>
 
 <p style="text-align:center">
-Sukkur • 0305-1933595
+${esc(STORE_ADDRESS)} • ${esc(formatPhoneDisplay(WHATSAPP))}
 </p>
 
 <hr>
@@ -3780,7 +4417,7 @@ document.getElementById("billContent").innerHTML=`
 <p class="muted" style="margin:4px 0 0">
 Peerbakhsh All In One Wholesale
 <br>
-Sukkur • 0305-1933595
+${esc(STORE_ADDRESS)} • ${esc(formatPhoneDisplay(WHATSAPP))}
 </p>
 
 </div>
@@ -4136,6 +4773,12 @@ openModal(`
 <button onclick="adminExpenses()">💸 Expenses</button>
 
 <button onclick="adminBarcode()">🔖 Barcode</button>
+
+<button onclick="adminVoiceWords()">🗣️ Voice Words</button>
+
+<button onclick="adminSecurity()">⚠️ Security<span id="securityBadge"></span></button>
+
+<button onclick="adminChangePassword()">🔑 Password</button>
 
 <button onclick="adminStore()">🏪 Store</button>
 
@@ -6764,9 +7407,19 @@ type="checkbox"
 style="width:20px"
 >
 
-Existing picture remove karein
+Existing picture remove karein (product se hata dein)
 
 </label>
+
+<p class="muted" style="font-size:11px;margin-top:6px">
+⚠️ Ye picture ka link product se hata deta hai. Lekin
+asal file Cloudinary storage mein rehti hai (security
+wajuhat ki bina par website khud Cloudinary se file
+delete nahi kar sakti). Storage khali karne ke liye
+kabhi kabhi Cloudinary Media Library mein jaa kar khud
+purani/na-istemal-shuda pictures delete kar dein —
+<a href="https://console.cloudinary.com/console/media_library/folders/Wholesale" target="_blank">yahan click karein</a>.
+</p>
 
 </div>
 
@@ -7041,6 +7694,7 @@ value="${esc(x.barcode||"")}">
 <hr>
 
 <button
+id="saveProductBtn"
 class="primary"
 style="width:100%"
 onclick="saveProduct('${id}')">
@@ -7115,6 +7769,18 @@ document.getElementById("epRemoveImage").checked;
 const file=
 document.getElementById("epImage").files[0];
 
+const saveBtn=document.getElementById("saveProductBtn");
+
+if(saveBtn){
+
+saveBtn.disabled=true;
+
+saveBtn.textContent="⏳ Save ho raha hai...";
+
+}
+
+showStatus("⏳ Save ho raha hai, intezar karein...");
+
 try{
 
 if(removeImage){
@@ -7126,19 +7792,31 @@ data.image="";
 if(file.size>8*1024*1024){
 
 alert("Image 8MB se choti honi chahiye.");
+
+if(saveBtn){
+
+saveBtn.disabled=false;
+saveBtn.textContent="💾 Save Product";
+
+}
+
 return;
 
 }
 
-const r=
-storageRef(
-storage,
-"products/"+id+"_"+Date.now()
+showStatus("⏳ Picture upload ho rahi hai (Cloudinary)...");
+
+/* TIMEOUT SAFETY — agar upload kisi wajah se
+(internet/setting) atak jaye, to 25 second baad
+khud-ba-khud clear error dikhayega — "kuch bhi
+na hona" ab kabhi nahi hoga */
+
+data.image=await withTimeout(
+uploadToCloudinary(file),
+25000,
+"Picture upload atak gayi (25 second se zyada waqt lag gaya). "+
+"Internet check karein, ya Cloudinary Upload Preset settings check karein."
 );
-
-await uploadBytes(r,file);
-
-data.image=await getDownloadURL(r);
 
 }else{
 
@@ -7146,7 +7824,13 @@ data.image=p.image||"";
 
 }
 
-await dbUpdate("products/"+id,data);
+showStatus("⏳ Product data save ho raha hai...");
+
+await withTimeout(
+dbUpdate("products/"+id,data),
+15000,
+"Product save hone mein masla aaya (Database Rules check karein)."
+);
 
 await loadProducts();
 await adminProducts();
@@ -7157,7 +7841,30 @@ showStatus(
 
 }catch(e){
 
-alert("Product save error:\n"+e.message);
+console.error("Product save error:",e);
+
+let detail=e.message||String(e);
+
+let hint="";
+
+if(/upload_preset|preset/i.test(detail)){
+
+hint="\n\n💡 Wajah: Cloudinary ka 'Wholesale_upload' Upload Preset shayad delete/disable ho gaya ya naam match nahi kar raha.";
+
+}else if(/timeout|atak/i.test(detail)){
+
+hint="\n\n💡 Wajah: Upload atak gaya — internet check karein ya Cloudinary account check karein.";
+
+}
+
+alert("Product save nahi hua:\n\n"+detail+hint);
+
+if(saveBtn){
+
+saveBtn.disabled=false;
+saveBtn.textContent="💾 Save Product";
+
+}
 
 }
 
@@ -8034,16 +8741,21 @@ Total (Sab)
 
 <label>Category</label>
 
-<select id="expCategory">
+<select id="expCategory" onchange="toggleCustomExpenseCategory()">
 
 <option value="Rent">🏠 Rent</option>
 <option value="Salary">👤 Salary</option>
 <option value="Utility Bill">💡 Utility Bill</option>
 <option value="Transport">🚚 Transport</option>
 <option value="Maintenance">🔧 Maintenance</option>
-<option value="Other">📌 Other</option>
+<option value="Other">✏️ Apna Likhein (Custom)</option>
 
 </select>
+
+<input
+id="expCategoryCustom"
+placeholder="Category ka naam khud likhein"
+style="display:none">
 
 <label>Amount</label>
 
@@ -8125,10 +8837,54 @@ document.getElementById("adminArea").innerHTML=h;
 window.adminExpenses=adminExpenses;
 
 
+function toggleCustomExpenseCategory(){
+
+const select=document.getElementById("expCategory");
+const custom=document.getElementById("expCategoryCustom");
+
+if(!select||!custom)return;
+
+custom.style.display=
+
+select.value==="Other"?"block":"none";
+
+}
+
+window.toggleCustomExpenseCategory=toggleCustomExpenseCategory;
+
+
 async function saveExpense(){
 
-const category=
+const selected=
+
 document.getElementById("expCategory").value;
+
+const customText=
+
+document.getElementById("expCategoryCustom")?.value.trim()||"";
+
+/* Agar "Apna Likhein" select kiya hai to wahi
+custom naam use hota hai, warna dropdown wali
+fixed category */
+
+const category=
+
+selected==="Other"&&customText
+
+?
+
+customText
+
+:
+
+selected;
+
+if(selected==="Other"&&!customText){
+
+alert("Category ka naam likhein.");
+return;
+
+}
 
 const amount=
 number(document.getElementById("expAmount").value);
@@ -8524,6 +9280,237 @@ document.getElementById("adminArea").innerHTML=h;
 window.adminBarcode=adminBarcode;
 
 
+/* =========================================================
+VOICE WORDS — "Bacchay ko Sikhana"
+Admin yahan khud bata sakta hai ke koi lafz bolne
+ka matlab kya samjha jaye — bina code ke.
+========================================================= */
+
+async function adminVoiceWords(){
+
+await loadVoiceSynonyms();
+
+let h=`
+
+<h3>🗣️ Assistant Ko Sikhayein</h3>
+
+<div class="notice">
+
+Yahan aap Assistant ko **kuch bhi** sikha sakte hain —
+bilkul jaise kisi insaan ko sikhaya jata hai. Do
+tareeqay hain:
+
+<br><br>
+
+<b>1️⃣ Lafz ka Matlab</b> — jab koi khaas lafz bola
+jaye, usay dusre lafz mein badal do (jaise "Cartan"
+bolne par "Carton" samjho).
+
+<br><br>
+
+<b>2️⃣ Poora Jawab Sikhayein</b> — kisi bhi sawal/topic
+ka apna poora jawab likh do (jaise "Delivery kitne
+din mein hoti hai?" → aap apna jawab likh dein).
+Assistant hamesha wahi jawab dega jab bhi koi milta
+julta sawal poochega — chahe stock, policy, ya
+kuch bhi ho.
+
+</div>
+
+<div class="adminItem">
+
+<h3>➕ Naya Sikhayein</h3>
+
+<label>Type</label>
+
+<select id="vwType" onchange="toggleVoiceWordType()">
+
+<option value="word">1️⃣ Lafz ka Matlab (chhota sa lafz badalna)</option>
+<option value="qa">2️⃣ Poora Jawab Sikhayein (kisi bhi sawal ka)</option>
+
+</select>
+
+<label id="vwTriggerLabel">Jab ye bola jaye</label>
+
+<input
+id="vwTrigger"
+placeholder="jaise: cartan, lelo, tin">
+
+<label id="vwMeaningLabel">To iska matlab ye samjho</label>
+
+<textarea
+id="vwMeaning"
+rows="2"
+placeholder="jaise: carton, dalo, teen"></textarea>
+
+<br><br>
+
+<button
+class="primary"
+style="width:100%"
+onclick="saveVoiceSynonym()">
+
+💾 Sikha Dein
+
+</button>
+
+</div>
+
+<h3 class="sectionTitle">📚 Ab Tak Sikhaya Gaya</h3>
+
+`;
+
+if(!voiceSynonyms.length){
+
+h+="<p>Abhi kuch nahi sikhaya gaya.</p>";
+
+}
+
+voiceSynonyms.forEach(s=>{
+
+const isQA=s.type==="qa";
+
+h+=`
+
+<div class="adminItem">
+
+<span class="muted" style="font-size:11px">
+
+${isQA?"2️⃣ Poora Jawab":"1️⃣ Lafz ka Matlab"}
+
+</span>
+
+<br>
+
+${isQA?"Sawal/Topic mein ye lafz ho":"Jab bola jaye"}:
+<b>"${esc(s.trigger)}"</b>
+
+<br>
+
+${isQA?"Jawab":"Matlab"}:
+<b>"${esc(s.meaning)}"</b>
+
+<br><br>
+
+<button
+class="red"
+onclick="deleteVoiceSynonym('${s.id}')">
+
+🗑 Bhula Dein
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("adminArea").innerHTML=h;
+
+setTimeout(toggleVoiceWordType,0);
+
+}
+
+window.adminVoiceWords=adminVoiceWords;
+
+
+function toggleVoiceWordType(){
+
+const type=document.getElementById("vwType")?.value;
+
+const triggerLabel=document.getElementById("vwTriggerLabel");
+const meaningLabel=document.getElementById("vwMeaningLabel");
+const triggerInput=document.getElementById("vwTrigger");
+const meaningInput=document.getElementById("vwMeaning");
+
+if(!triggerLabel||!meaningLabel)return;
+
+if(type==="qa"){
+
+triggerLabel.textContent="Sawal/Topic mein ye lafz ho (jaise: delivery, warranty, timing)";
+meaningLabel.textContent="Assistant ye poora jawab de";
+
+if(triggerInput)triggerInput.placeholder="jaise: delivery time";
+if(meaningInput)meaningInput.placeholder="jaise: Delivery aam tor par 2-3 din mein ho jati hai, shehar ke andar aksar sameroz.";
+
+}else{
+
+triggerLabel.textContent="Jab ye bola jaye";
+meaningLabel.textContent="To iska matlab ye samjho";
+
+if(triggerInput)triggerInput.placeholder="jaise: cartan, lelo, tin";
+if(meaningInput)meaningInput.placeholder="jaise: carton, dalo, teen";
+
+}
+
+}
+
+window.toggleVoiceWordType=toggleVoiceWordType;
+
+
+async function saveVoiceSynonym(){
+
+const type=
+
+document.getElementById("vwType")?.value||"word";
+
+const trigger=
+
+document.getElementById("vwTrigger").value.trim().toLowerCase();
+
+const meaning=
+
+document.getElementById("vwMeaning").value.trim()+
+
+(type==="word"?"":"");
+
+const finalMeaning=
+
+type==="word"?meaning.toLowerCase():meaning;
+
+if(!trigger||!finalMeaning){
+
+alert("Dono fields bharein.");
+return;
+
+}
+
+const r=push(ref(db,"voiceSynonyms"));
+
+await set(r,{
+
+type,
+trigger,
+meaning:finalMeaning,
+
+date:new Date().toLocaleString("en-PK"),
+timestamp:Date.now()
+
+});
+
+showStatus("✅ Sikha diya");
+
+adminVoiceWords();
+
+}
+
+window.saveVoiceSynonym=saveVoiceSynonym;
+
+
+async function deleteVoiceSynonym(id){
+
+await dbRemove("voiceSynonyms/"+id);
+
+showStatus("🗑 Bhula diya");
+
+adminVoiceWords();
+
+}
+
+window.deleteVoiceSynonym=deleteVoiceSynonym;
+
+
 async function autoGenerateAllBarcodes(){
 
 const data=await dbGet("products");
@@ -8578,6 +9565,49 @@ function adminStore(){
 document.getElementById("adminArea").innerHTML=`
 
 <h3>🏪 Store Information</h3>
+
+<div class="notice">
+
+📞 Ye settings yahin se change hoti hain — kabhi code
+kholne ki zaroorat nahi. WhatsApp Number aur Address
+poori website (Header, Bill, Invoice) aur Help
+Assistant mein khud-ba-khud update ho jate hain.
+
+</div>
+
+<label>📲 WhatsApp Number</label>
+
+<input
+id="storeWhatsapp"
+placeholder="923051933595 (country code ke sath, + ya spaces ke bagair)"
+value="${esc(store.whatsapp||"")}">
+
+<label>📍 Address / Location</label>
+
+<input
+id="storeAddress"
+placeholder="jaise: Sukkur"
+value="${esc(store.address||"")}">
+
+<label>ℹ️ About Us (footer mein dikhega)</label>
+
+<textarea
+id="storeAbout"
+rows="3"
+placeholder="Dukaan ke bare mein 2-3 lines">${esc(store.about||"")}</textarea>
+
+<br><br>
+
+<button
+class="primary"
+style="width:100%"
+onclick="saveContactInfo()">
+
+💾 WhatsApp + Address + About Save Karein
+
+</button>
+
+<hr>
 
 <label>Marquee</label>
 
@@ -8650,6 +9680,62 @@ onclick="deleteStore()">
 window.adminStore=adminStore;
 
 
+async function saveContactInfo(){
+
+const whatsapp=
+
+sanitizePhone(
+
+document.getElementById("storeWhatsapp").value
+
+);
+
+const address=
+
+document.getElementById("storeAddress").value.trim();
+
+const about=
+
+document.getElementById("storeAbout")?.value.trim()||"";
+
+if(!whatsapp||whatsapp.length<10){
+
+alert("WhatsApp Number sahi format mein likhein (jaise 923051933595).");
+return;
+
+}
+
+if(!address){
+
+alert("Address likhein.");
+return;
+
+}
+
+await dbUpdate("store",{
+
+whatsapp,
+address,
+about
+
+});
+
+store.whatsapp=whatsapp;
+store.address=address;
+store.about=about;
+
+WHATSAPP=whatsapp;
+STORE_ADDRESS=address;
+
+updateContactDisplay();
+
+showStatus("✅ WhatsApp Number aur Address save ho gaye");
+
+}
+
+window.saveContactInfo=saveContactInfo;
+
+
 async function saveMarquee(){
 
 const text=
@@ -8684,15 +9770,7 @@ return;
 
 try{
 
-const r=
-storageRef(
-storage,
-"store/voice_"+Date.now()
-);
-
-await uploadBytes(r,file);
-
-const url=await getDownloadURL(r);
+const url=await uploadToCloudinary(file);
 
 await dbSet("store/voice",url);
 
@@ -8728,15 +9806,7 @@ return;
 
 try{
 
-const r=
-storageRef(
-storage,
-"store/video_"+Date.now()
-);
-
-await uploadBytes(r,file);
-
-const url=await getDownloadURL(r);
+const url=await uploadToCloudinary(file);
 
 await dbSet("store/video",url);
 
@@ -8760,16 +9830,21 @@ window.uploadStoreVideo=uploadStoreVideo;
 async function deleteStore(){
 
 if(!confirm(
-"Dukaan ki Voice aur Video/Ad delete karni hai?"
+"Dukaan ki Voice aur Video/Ad delete karni hai? (WhatsApp Number aur Address safe rahenge)"
 ))return;
 
-await dbRemove("store");
+/* Sirf Voice/Video hatate hain — WhatsApp/Address/Marquee
+ko chhedte nahi, taake wo galti se delete na ho jayein */
 
-store={
-marquee:"Peerbakhsh All In One Wholesale",
+await update(ref(db,"store"),{
+
 voice:"",
 video:""
-};
+
+});
+
+store.voice="";
+store.video="";
 
 renderStore();
 
@@ -8800,7 +9875,7 @@ margin-top:10px">
 </h3>
 
 <p class="muted">
-Sukkur • 0305-1933595
+${esc(STORE_ADDRESS)} • ${esc(formatPhoneDisplay(WHATSAPP))}
 </p>
 
 <div class="row">
@@ -8940,13 +10015,74 @@ s.marquee||
 "Peerbakhsh All In One Wholesale",
 
 voice:s.voice||"",
-video:s.video||""
+video:s.video||"",
+
+whatsapp:s.whatsapp||"923051933595",
+address:s.address||"Sukkur",
+about:s.about||""
 
 };
 
 }
 
+/* WHATSAPP aur STORE_ADDRESS ab poori website mein
+(Header, WhatsApp button, Assistant ke jawabat)
+isi live value se update ho jate hain */
+
+WHATSAPP=sanitizePhone(store.whatsapp)||"923051933595";
+STORE_ADDRESS=store.address||"Sukkur";
+
 renderStore();
+
+updateContactDisplay();
+
+}
+
+
+function updateContactDisplay(){
+
+document.querySelectorAll(".storeContactText").forEach(el=>{
+
+el.textContent=
+
+STORE_ADDRESS+" • "+formatPhoneDisplay(WHATSAPP);
+
+});
+
+document.querySelectorAll(".footerContactText").forEach(el=>{
+
+el.innerHTML=
+
+"📍 "+esc(STORE_ADDRESS)+
+
+"<br>📲 WhatsApp: "+esc(formatPhoneDisplay(WHATSAPP));
+
+});
+
+document.querySelectorAll(".footerAboutText").forEach(el=>{
+
+el.textContent=
+
+store.about||
+
+"Peerbakhsh All In One Wholesale ek trusted wholesale general store hai. Hum acchi quality products, sahi rate par, dukandaron ko supply karte hain.";
+
+});
+
+}
+
+
+function formatPhoneDisplay(digits){
+
+const d=String(digits||"").replace(/^92/,"0");
+
+if(d.length===11){
+
+return d.slice(0,4)+"-"+d.slice(4);
+
+}
+
+return d;
 
 }
 
@@ -8990,6 +10126,81 @@ chupaya jata hai, is assistant mein bhi.)
 ========================================================= */
 
 let assistantMessages=[];
+
+/* =========================================================
+VOICE WORDS (Admin sikhata hai)
+Admin Panel se koi bhi apna lafz sikha sakta hai —
+"jab main ye bolun, iska matlab ye samjho". Ye
+Firebase "voiceSynonyms" mein save hota hai aur
+har Voice/Text command se pehle apply hota hai.
+========================================================= */
+
+let voiceSynonyms=[];
+
+async function loadVoiceSynonyms(){
+
+/* Ye feature "extra/bonus" hai — agar kisi wajah se
+(Database Rules mein node missing waghera) ye load na
+ho paye, to poori website nahi rukni chahiye. Sirf
+Voice Words feature khamoshi se khali reh jayega. */
+
+try{
+
+const data=await dbGet("voiceSynonyms");
+
+if(data){
+
+voiceSynonyms=
+
+Object.entries(data).map(([id,x])=>({id,...x}));
+
+}else{
+
+voiceSynonyms=[];
+
+}
+
+}catch(e){
+
+console.error("Voice Synonyms load error (non-critical):",e);
+
+voiceSynonyms=[];
+
+}
+
+}
+
+
+function applyVoiceSynonyms(text){
+
+let t=String(text||"");
+
+voiceSynonyms.forEach(s=>{
+
+const trigger=String(s.trigger||"").trim();
+
+const meaning=String(s.meaning||"").trim();
+
+if(!trigger||!meaning)return;
+
+const pattern=
+
+new RegExp(
+
+"\\b"+trigger.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b",
+
+"gi"
+
+);
+
+t=t.replace(pattern,meaning);
+
+});
+
+return t;
+
+}
+
 
 function openAssistant(){
 
@@ -9038,6 +10249,22 @@ onkeydown="if(event.key==='Enter')sendAssistantMessage()">
 
 </div>
 
+<button
+id="continuousListenBtn"
+class="gray"
+style="width:100%;margin-top:8px"
+onclick="toggleContinuousListening()">
+
+🎙️ Auto-Sunna Shuru Karein (Bina Bar-Bar Dabaye)
+
+</button>
+
+<p class="muted" style="font-size:11px;margin-top:6px">
+Auto-Sunna ON karne ke baad bolte jayein — "Chips dikhao",
+"3 Packet dalo", "Cart dikhao" — khud-ba-khud hota jayega.
+Band karne ke liye dobara button dabayein.
+</p>
+
 <label style="display:block;margin-top:8px;font-size:12px;color:#68736d">
 
 <input
@@ -9054,9 +10281,244 @@ checked>
 
 renderAssistantChat();
 
+updateContinuousBtnUI();
+
 }
 
 window.openAssistant=openAssistant;
+
+
+/* =========================================================
+CONTINUOUS (BACKGROUND) LISTENING
+Ek baar ON karne ke baad Assistant khud sunta rehta hai —
+bar bar mic button dabana nahi paड़ta. Jo bhi bola jaye
+(product dikhao, cart mein dalo, order karo) khud-ba-khud
+ho jata hai, aur chat mein turant nazar aa jata hai.
+========================================================= */
+
+let continuousListening=false;
+let continuousRecognition=null;
+
+function updateContinuousBtnUI(){
+
+const btn=document.getElementById("continuousListenBtn");
+
+if(!btn)return;
+
+if(continuousListening){
+
+btn.textContent="🔴 Sun Raha Hoon... (Band Karne Ke Liye Dabayein)";
+btn.classList.remove("gray");
+btn.classList.add("primary");
+
+}else{
+
+btn.textContent="🎙️ Auto-Sunna Shuru Karein (Bina Bar-Bar Dabaye)";
+btn.classList.remove("primary");
+btn.classList.add("gray");
+
+}
+
+}
+
+
+function toggleContinuousListening(){
+
+if(continuousListening){
+
+stopContinuousListening();
+
+}else{
+
+startContinuousListening();
+
+}
+
+}
+
+window.toggleContinuousListening=toggleContinuousListening;
+
+
+function startContinuousListening(){
+
+const SpeechRec=
+
+window.SpeechRecognition||window.webkitSpeechRecognition;
+
+if(!SpeechRec){
+
+alert(
+
+"Aap ka browser Continuous Voice support nahi karta.\n"+
+
+"Kripya 🎤 button se ek-ek baar bol kar istemal karein."
+
+);
+
+return;
+
+}
+
+continuousListening=true;
+
+updateContinuousBtnUI();
+
+showStatus("🎙️ Auto-Sunna shuru — ab bolte jayein");
+
+runContinuousCycle();
+
+}
+
+
+function stopContinuousListening(){
+
+continuousListening=false;
+
+if(continuousRecognition){
+
+try{
+
+continuousRecognition.onend=null;
+
+continuousRecognition.stop();
+
+}catch(e){}
+
+continuousRecognition=null;
+
+}
+
+updateContinuousBtnUI();
+
+showStatus("🎙️ Auto-Sunna band ho gaya");
+
+}
+
+
+function runContinuousCycle(){
+
+if(!continuousListening)return;
+
+const SpeechRec=
+
+window.SpeechRecognition||window.webkitSpeechRecognition;
+
+const recognition=new SpeechRec();
+
+recognition.lang="en-US";
+recognition.interimResults=false;
+recognition.maxAlternatives=1;
+
+continuousRecognition=recognition;
+
+recognition.onresult=event=>{
+
+const said=
+
+event.results[event.results.length-1][0].transcript;
+
+if(said&&said.trim()){
+
+handleContinuousUtterance(said.trim());
+
+}
+
+};
+
+recognition.onerror=()=>{
+
+/* "no-speech" jaisi chhoti errors normal hain
+continuous mode mein — chup-chap agli baari
+sunna shuru kar dete hain */
+
+};
+
+recognition.onend=()=>{
+
+if(continuousListening){
+
+setTimeout(()=>{
+
+if(continuousListening)runContinuousCycle();
+
+},300);
+
+}
+
+};
+
+try{
+
+recognition.start();
+
+}catch(e){
+
+if(continuousListening){
+
+setTimeout(()=>{
+
+if(continuousListening)runContinuousCycle();
+
+},800);
+
+}
+
+}
+
+}
+
+
+function handleContinuousUtterance(said){
+
+assistantMessages.push({from:"user",text:said});
+
+/* Sikhaye gaye lafz pehle apply karte hain */
+
+const processed=applyVoiceSynonyms(said);
+
+/* Sab se pehle check: agar Admin ne is topic ka
+apna "Poora Jawab" sikhaya hai, to wahi jawab
+hamesha jeetega — kisi bhi system command se pehle,
+bilkul jaise koi insaan pehle apni sikhi hui baat
+yaad karta hai */
+
+const taught=checkTaughtAnswers(processed);
+
+const commandReply=
+
+taught!==null?null:processVoiceCommand(processed);
+
+const reply=
+
+taught!==null
+
+?
+
+taught
+
+:
+
+(
+
+commandReply!==null
+
+?
+
+commandReply
+
+:
+
+answerAssistant(processed)
+
+);
+
+assistantMessages.push({from:"bot",text:reply});
+
+renderAssistantChat();
+
+speakAssistantReply(reply);
+
+}
 
 
 /* =========================================================
@@ -9179,23 +10641,69 @@ if(toggle&&!toggle.checked)return;
 
 if(!window.speechSynthesis)return;
 
+let clean=
+String(text||"")
+.replace(/[📦🛒✅🎤🔊👋😊📍📲📒⚙️🧾❌🔴🎙️🎥🏪🌈⚖️1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣🙏👉]/gu,"");
+
+/* "Rs." aur comma wale numbers (jaise "1,200")
+TTS ko confuse kar dete hain — "Rs." ko "Rupees"
+bol dete hain, aur comma numbers ke beech se
+hata dete hain, taake "300" jaisa number saaf
+aur sahi bola jaye, ajeeb na sunai de */
+
+clean=clean.replace(/Rs\.\s*/gi,"Rupees ");
+
+clean=clean.replace(/(\d),(?=\d)/g,"");
+
+/* CHROME BUG FIX: cancel() ke turant baad speak()
+call karne se Chrome ka Speech Engine kabhi kabhi
+"atak" jata hai (khamosh ho jata hai, bina koi
+error diye) — khaas kar jab bar bar jaldi jaldi
+naye jawab aayein (jaisa Continuous Listening mein
+hota hai). Fix: cancel() ke baad thoda ruk kar
+(taake engine reset ho jaye) tab speak() karein. */
+
 window.speechSynthesis.cancel();
 
-const clean=
-String(text||"")
-.replace(/[📦🛒✅🎤🔊👋😊📍📲📒⚙️🧾❌🔴🎙️🎥🏪🌈⚖️1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣🙏]/gu,"");
+setTimeout(()=>{
+
+try{
 
 const utter=new SpeechSynthesisUtterance(clean);
 
-/* "ur-PK" ki awaaz zyada tar phones/browsers mein
-installed hi nahi hoti (khamosh reh jata hai). "en-US"
-zyada reliable hai aur Roman Urdu text ko samajhne
-laayak tarz mein bol deta hai. */
-
 utter.lang="en-US";
-utter.rate=0.95;
+utter.rate=0.9;
+utter.pitch=1;
+
+utter.onerror=e=>{
+
+console.error("Speech utterance error:",e);
+
+};
 
 window.speechSynthesis.speak(utter);
+
+/* Chrome mein kabhi kabhi speak() ke baad bhi
+engine "paused" state mein atak jata hai —
+resume() ek safety net hai */
+
+setTimeout(()=>{
+
+if(window.speechSynthesis.paused){
+
+window.speechSynthesis.resume();
+
+}
+
+},50);
+
+}catch(e){
+
+console.error("Speech output error:",e);
+
+}
+
+},80);
 
 }catch(e){
 
@@ -9243,14 +10751,32 @@ input.value="";
 
 assistantMessages.push({from:"user",text});
 
-/* Pehle check karein ke ye koi ACTION command hai
-(product dikhao, cart mein dalo, order karo) —
-agar hai to seedha ACTION kar dete hain. Warna
-normal sawal-jawab (rate poochna waghera) hota hai. */
+/* Sikhaye gaye lafz pehle apply karte hain, phir
+sabse pehle check karte hain ke Admin ne is topic
+ka apna "Poora Jawab" sikhaya hai ya nahi — wahi
+hamesha priority leta hai. Phir ACTION commands
+(product dikhao, cart mein dalo, order karo).
+Warna normal sawal-jawab hota hai. */
 
-const commandReply=processVoiceCommand(text);
+const processed=applyVoiceSynonyms(text);
+
+const taught=checkTaughtAnswers(processed);
+
+const commandReply=
+
+taught!==null?null:processVoiceCommand(processed);
 
 const reply=
+
+taught!==null
+
+?
+
+taught
+
+:
+
+(
 
 commandReply!==null
 
@@ -9260,7 +10786,9 @@ commandReply
 
 :
 
-answerAssistant(text);
+answerAssistant(processed)
+
+);
 
 assistantMessages.push({from:"bot",text:reply});
 
@@ -9459,11 +10987,13 @@ return "Pehli dafa apna Naam aur WhatsApp Number darj karein, phir dobara 'Order
 }
 
 /* STEP 3 — Cart mein Add karna
-(jaise "chips 3 packet dalo", "2 pika nut add karo") */
+(jaise "chips 3 packet dalo", "2 pika nut add karo",
+"chips edit", "3 chips kardo" — Voice kabhi "add" ko
+"edit" sun leta hai, is liye wo bhi shamil hai) */
 
 const addVerb=
 
-/(dalo|daal do|daal den|dal do|add karo|add kardo|daaldo)/;
+/(dalo|daal do|daal den|dal do|daaldo|\badd\b|\bedit\b|\bkaro\b|\bkardo\b|\bkar do\b)/;
 
 if(addVerb.test(text)){
 
@@ -9477,9 +11007,81 @@ return "Konsa product Cart mein dalna hai? Product ka naam bolein.";
 
 const qty=extractQuantity(text);
 
+/* Sawal mein bola gaya Flavor/Weight/Unit khud
+dhoondte hain (jaise "Carton" ya "Chocolate")
+— UI ki purani selection ignore karte hain, sirf
+ISI waqt jo bola gaya wahi istemal karte hain */
+
+const detected=detectVariantFromText(product,text);
+
+let useVariants;
+let variantNote="";
+
+if(detected.flavor||detected.weight||detected.unit){
+
+const matchingCombos=(product.combinations||[]).filter(c=>
+
+(!detected.flavor||String(c.flavor).toLowerCase()===detected.flavor.toLowerCase())&&
+(!detected.weight||String(c.weight).toLowerCase()===detected.weight.toLowerCase())&&
+(!detected.unit||String(c.unit).toLowerCase()===detected.unit.toLowerCase())
+
+);
+
+if(matchingCombos.length){
+
+const c=matchingCombos[0];
+
+useVariants=[{
+
+flavor:c.flavor,weight:c.weight,unit:c.unit,
+
+price:c.price,costPrice:c.costPrice
+
+}];
+
+variantNote=
+
+" ("+
+
+[detected.flavor,detected.weight,detected.unit].filter(Boolean).join(" / ")+
+
+")";
+
+}else{
+
+/* Bola gaya option product mein defined hai
+lekin uski koi specific combination/price
+set nahi — phir bhi wahi option use karte
+hain, default rate ke sath, aur user ko
+bata dete hain */
+
+useVariants=[{
+
+flavor:detected.flavor,weight:detected.weight,unit:detected.unit,
+
+price:product.price,costPrice:product.costPrice
+
+}];
+
+variantNote=
+
+" ("+
+
+[detected.flavor,detected.weight,detected.unit].filter(Boolean).join(" / ")+
+
+" — is ka alag rate set nahi, default rate use hua)";
+
+}
+
+}else{
+
+/* Sawal mein koi specific Flavor/Weight/Unit nahi
+bola gaya — website par jo pehle se select kiya
+hua hai wahi (ya default) istemal hoga */
+
 const variants=getSelectedVariants(product.id);
 
-const useVariants=
+useVariants=
 
 variants.length
 
@@ -9499,9 +11101,11 @@ costPrice:product.costPrice
 
 }];
 
+}
+
 addVariantsToCart(product,useVariants,qty);
 
-return "✅ "+product.name+" x"+qty+" Cart mein add ho gaye.";
+return "✅ "+product.name+variantNote+" x"+qty+" Cart mein add ho gaye.";
 
 }
 
@@ -9521,12 +11125,12 @@ return "🛒 Cart khol diya.";
 
 }
 
-/* STEP 5 — Product tak "jao"/dikhao (sirf navigate,
-add nahi karta) */
+/* STEP 5 — Product tak "jao"/dikhao/kahan hai
+(sirf navigate, add nahi karta) */
 
 if(
 
-/(par jao|dikhao|khol|chalo|kholo)/.test(text)
+/(par jao|dikhao|khol|chalo|kholo|kahan|kaha)/.test(text)
 
 ){
 
@@ -9721,9 +11325,115 @@ return bestMatch;
 }
 
 
+/* Kisi product ke apne Flavor/Weight/Unit options
+mein se, jo bhi sawal ke andar bola gaya hai, wo
+dhoondta hai — halki spelling ki galti bhi tolerate
+karta hai (jaise "Carton" ya "Cartan") */
+
+function detectVariantFromText(product,text){
+
+function findMatch(options){
+
+if(!options||!options.length)return"";
+
+let best="";
+let bestLen=0;
+
+options.forEach(opt=>{
+
+const name=String(opt?.name||"").toLowerCase().trim();
+
+if(!name)return;
+
+let matched=false;
+
+if(text.includes(name)){
+
+matched=true;
+
+}else{
+
+/* Halki spelling ki galti tolerate karo
+(jaise "Cartan" bolne par "Carton" samajh le) */
+
+const maxAllowed=name.length<=4?1:2;
+
+const words=
+
+text.replace(/[^a-z0-9\s]/gi," ").split(/\s+/).filter(w=>w.length>1);
+
+if(words.some(w=>editDistance(w,name)<=maxAllowed)){
+
+matched=true;
+
+}
+
+}
+
+if(matched&&name.length>bestLen){
+
+best=opt.name;
+bestLen=name.length;
+
+}
+
+});
+
+return best;
+
+}
+
+return{
+
+flavor:findMatch(product.flavors),
+weight:findMatch(product.weights),
+unit:findMatch(product.units)
+
+};
+
+}
+
+
+function checkTaughtAnswers(text){
+
+const q=String(text||"").toLowerCase();
+
+for(const s of voiceSynonyms){
+
+if(s.type==="qa"){
+
+const trigger=String(s.trigger||"").toLowerCase().trim();
+
+if(trigger&&q.includes(trigger)){
+
+return s.meaning;
+
+}
+
+}
+
+}
+
+return null;
+
+}
+
+
 function answerAssistant(question){
 
 const q=question.toLowerCase().trim();
+
+/* Sabse pehle check karein ke Admin ne is topic ka
+apna khaas jawab sikhaya hai ya nahi — agar hai to
+wahi jawab dete hain, kisi aur cheez se pehle */
+
+const taught=checkTaughtAnswers(q);
+
+if(taught!==null){
+
+return taught;
+
+}
 
 /* Product ka naam / rate poochna. */
 
@@ -9775,7 +11485,7 @@ q.includes("contact")||q.includes("phone")||
 q.includes("rabta")
 ){
 
-return "📲 Hamara WhatsApp Number: 0305-1933595\n\n"+
+return "📲 Hamara WhatsApp Number: "+formatPhoneDisplay(WHATSAPP)+"\n\n"+
 "Kisi bhi sawal ya order ke liye seedha WhatsApp par bhi rabta kar sakte hain.";
 
 }
@@ -9822,8 +11532,8 @@ q.includes("delivery")||q.includes("kab milega")||
 q.includes("kahan")||q.includes("location")||q.includes("address")
 ){
 
-return "📍 Hum Sukkur mein hain. Delivery ka time confirm karne ke liye order ke baad "+
-"WhatsApp (0305-1933595) par rabta karein.";
+return "📍 Hum "+STORE_ADDRESS+" mein hain. Delivery ka time confirm karne ke liye order ke baad "+
+"WhatsApp ("+formatPhoneDisplay(WHATSAPP)+") par rabta karein.";
 
 }
 
@@ -9853,7 +11563,7 @@ return "Wa Alaikum Assalam! 😊 Bataiye, kis cheez mein madad chahiye?";
 /* Fallback */
 
 return "Maazrat, is sawal ka jawab mere paas nahi hai. 🙏\n\n"+
-"Aap seedha WhatsApp (0305-1933595) par Admin se pooch sakte hain, "+
+"Aap seedha WhatsApp ("+formatPhoneDisplay(WHATSAPP)+") par Admin se pooch sakte hain, "+
 "ya mujh se product ka naam, order, Khata, ya WhatsApp number ke bare mein poochein.";
 
 }
@@ -10337,16 +12047,7 @@ return;
 
 try{
 
-const r=
-storageRef(
-storage,
-"chat/"+currentChatCustomer+
-"/img_"+Date.now()
-);
-
-await uploadBytes(r,file);
-
-const url=await getDownloadURL(r);
+const url=await uploadToCloudinary(file);
 
 const msg=
 push(
@@ -10427,17 +12128,7 @@ type:"audio/webm"
 
 try{
 
-const r=
-storageRef(
-storage,
-"chat/"+currentChatCustomer+
-"/voice_"+Date.now()+
-".webm"
-);
-
-await uploadBytes(r,blob);
-
-const url=await getDownloadURL(r);
+const url=await uploadToCloudinary(blob,"voice_"+Date.now()+".webm");
 
 const msg=
 push(
@@ -10520,9 +12211,34 @@ try{
 
 loadCartLocal();
 
+/* Products SABSE ZAROORI hain — agar ye load na
+ho paye to hi asal error dikhayein */
+
 await loadProducts();
 
+/* Baqi ye sab "extra" features hain — inme se koi
+fail ho (jaise Database Rules mein node missing)
+to poori website nahi rukni chahiye */
+
+try{
+
 await loadStore();
+
+}catch(e){
+
+console.error("Store load error (non-critical):",e);
+
+}
+
+try{
+
+await loadVoiceSynonyms();
+
+}catch(e){
+
+console.error("Voice Synonyms load error (non-critical):",e);
+
+}
 
 renderProducts();
 
@@ -10542,4 +12258,4 @@ e.message
 </script>
 
 </body>
-</html>
+</html> 
