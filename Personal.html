@@ -1,0 +1,10784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Karobar Hisaab System</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f1f5f9;color:#172033;padding-bottom:80px}
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.header{
+background:#0f172a;
+color:#fff;
+padding:17px 14px;
+position:sticky;
+top:0;
+z-index:20
+}
+
+.header-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px
+}
+
+.header h1{font-size:21px}
+.date{font-size:12px;opacity:.8}
+
+.container{
+max-width:1150px;
+margin:auto;
+padding:14px
+}
+
+.tabs{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+margin-bottom:15px
+}
+
+.tab{
+border:0;
+border-radius:12px;
+padding:13px 5px;
+background:#fff;
+color:#334155;
+font-weight:bold;
+box-shadow:0 2px 8px #0001
+}
+
+.tab.active{
+background:#0f172a;
+color:#fff
+}
+
+.section{display:none}
+.section.active{display:block}
+
+.card{
+background:#fff;
+border-radius:16px;
+padding:15px;
+margin-bottom:14px;
+box-shadow:0 2px 10px #00000010
+}
+
+.card h2{
+font-size:18px;
+margin-bottom:12px
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px
+}
+
+.grid3{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px
+}
+
+.grid4{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px
+}
+
+@media(max-width:700px){
+.grid,.grid3,.grid4{grid-template-columns:1fr}
+.tabs{grid-template-columns:repeat(2,1fr)}
+}
+
+label{
+display:block;
+font-size:13px;
+font-weight:bold;
+margin-bottom:5px
+}
+
+input,select{
+width:100%;
+border:1px solid #cbd5e1;
+border-radius:10px;
+padding:11px;
+background:#fff;
+outline:none
+}
+
+input:focus,select:focus{
+border-color:#2563eb
+}
+
+.btn{
+border:0;
+border-radius:10px;
+padding:11px 14px;
+font-weight:bold
+}
+
+.primary{background:#2563eb;color:#fff}
+.green{background:#16a34a;color:#fff}
+.red{background:#dc2626;color:#fff}
+.dark{background:#0f172a;color:#fff}
+.gray{background:#e2e8f0;color:#172033}
+.purple{background:#7c3aed;color:#fff}
+.orange{background:#f97316;color:#fff}
+
+.small{
+padding:7px 9px;
+font-size:12px
+}
+
+.btn:disabled{
+opacity:.5;
+cursor:not-allowed
+}
+
+.form-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:12px
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+margin-bottom:14px
+}
+
+@media(max-width:700px){
+.stats{grid-template-columns:repeat(2,1fr)}
+}
+
+.stat{
+background:#fff;
+border-radius:14px;
+padding:13px 8px;
+text-align:center;
+box-shadow:0 2px 8px #0001
+}
+
+.stat b{
+display:block;
+font-size:18px;
+margin-top:5px
+}
+
+.stat span{
+font-size:12px;
+color:#64748b
+}
+
+.table-wrap{overflow-x:auto}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:700px
+}
+
+th,td{
+padding:9px 7px;
+border-bottom:1px solid #e2e8f0;
+text-align:left;
+font-size:13px
+}
+
+th{background:#f8fafc}
+
+.profit,.paid{
+color:#15803d;
+font-weight:bold
+}
+
+.loss,.due{
+color:#dc2626;
+font-weight:bold
+}
+
+.muted{
+color:#64748b;
+font-size:12px
+}
+
+.notice{
+background:#eff6ff;
+border-left:4px solid #2563eb;
+padding:11px;
+border-radius:8px;
+margin-bottom:12px;
+font-size:13px
+}
+
+.warning{
+background:#fff7ed;
+border-left:4px solid #f97316;
+padding:11px;
+border-radius:8px;
+margin-bottom:12px;
+font-size:13px
+}
+
+.empty{
+text-align:center;
+padding:20px;
+color:#64748b
+}
+
+.hidden{display:none!important}
+
+.amount-big{
+font-size:25px;
+font-weight:bold;
+margin:5px 0
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:#0008;
+z-index:100;
+align-items:center;
+justify-content:center;
+padding:15px
+}
+
+.modal.show{display:flex}
+
+.modal-box{
+width:100%;
+max-width:900px;
+max-height:92vh;
+overflow:auto;
+background:#fff;
+border-radius:18px;
+padding:18px
+}
+
+.modal-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px
+}
+
+.close{
+border:0;
+background:#fee2e2;
+color:#991b1b;
+border-radius:50%;
+width:34px;
+height:34px
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#fff;
+border-top:1px solid #ddd;
+display:flex;
+justify-content:center;
+gap:5px;
+padding:8px;
+z-index:30
+}
+
+.bottom button{
+border:0;
+background:#f1f5f9;
+padding:9px 12px;
+border-radius:9px;
+font-size:12px
+}
+
+.bill-box{
+border:1px solid #cbd5e1;
+border-radius:12px;
+padding:12px;
+margin-top:12px;
+background:#f8fafc
+}
+
+.bill-line{
+background:#fff;
+border:1px solid #e2e8f0;
+border-radius:10px;
+padding:10px;
+margin-bottom:8px
+}
+
+.bill-head{
+display:flex;
+justify-content:space-between;
+gap:8px
+}
+
+.total-box{
+background:#eff6ff;
+border-radius:12px;
+padding:14px;
+margin-top:12px
+}
+
+.total-row{
+display:flex;
+justify-content:space-between;
+padding:4px 0
+}
+
+.final-row{
+font-size:20px;
+font-weight:bold;
+border-top:1px solid #cbd5e1;
+margin-top:8px;
+padding-top:8px
+}
+
+.person{
+border:1px solid #e2e8f0;
+border-radius:15px;
+padding:14px;
+margin-bottom:12px;
+background:#fff
+}
+
+.person.duebox{
+border:2px solid #fecaca;
+background:#fffafa
+}
+
+.person.clearbox{
+border:2px solid #bbf7d0;
+background:#fafffb
+}
+
+.person-head{
+display:flex;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap
+}
+
+.person-name{
+font-size:19px;
+font-weight:bold
+}
+
+.current{text-align:right}
+
+.current b{
+display:block;
+font-size:24px;
+margin-top:3px
+}
+
+.history{
+margin-top:12px;
+border-top:1px solid #e2e8f0;
+padding-top:12px
+}
+
+.history-item{
+background:#f8fafc;
+border:1px solid #e2e8f0;
+border-radius:10px;
+padding:10px;
+margin-bottom:8px
+}
+
+.tag{
+display:inline-block;
+padding:4px 7px;
+border-radius:6px;
+background:#e2e8f0;
+font-size:11px
+}
+
+.purple-box{
+background:#faf5ff;
+border:1px solid #ddd6fe;
+border-radius:12px;
+padding:14px
+}
+
+.report-btn{
+border:0;
+border-radius:10px;
+padding:10px 13px;
+background:#e2e8f0;
+font-weight:bold
+}
+
+.report-btn.active{
+background:#0f172a;
+color:white
+}
+
+.quantity-box{
+background:#f8fafc;
+border:1px solid #e2e8f0;
+padding:10px;
+border-radius:12px;
+margin-top:8px
+}
+
+.auto-info{
+background:#ecfdf5;
+border:1px solid #bbf7d0;
+border-radius:10px;
+padding:9px;
+font-size:12px;
+margin-top:8px;
+color:#166534
+}
+
+.search-input{
+margin-bottom:6px;
+background:#f8fafc
+}
+
+.order-item{
+background:#fff7ed;
+border:1px solid #fed7aa;
+border-radius:10px;
+padding:10px;
+margin-bottom:8px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
+flex-wrap:wrap
+}
+
+.field-actions{
+display:flex;
+gap:6px;
+margin-top:6px
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+<div class="header-row">
+<div>
+<h1>Karobar Hisaab</h1>
+<div class="date" id="todayText"></div>
+</div>
+<button class="btn small gray" onclick="lockAll()">Lock</button>
+</div>
+</header>
+
+<div class="container">
+
+<div class="tabs">
+<button class="tab active" onclick="openSection('dukan',this)">Dukan</button>
+<button class="tab" onclick="openSection('kabar',this)">Kabar</button>
+<button class="tab" onclick="openSection('udhar',this)">Personal Udhar</button>
+<button class="tab" onclick="openSection('ghar',this)">Ghar Kharcha</button>
+</div>
+
+<!-- =====================================================
+     DUKAN
+===================================================== -->
+
+<section id="dukan" class="section active">
+
+<div id="dukanLock" class="card">
+<h2>Dukan Password</h2>
+<p class="muted">Dukan ka hisaab kholne ke liye password dein.</p>
+
+<div class="grid" style="margin-top:10px">
+<div>
+<label>Password</label>
+<input type="password" id="dukanPassword">
+</div>
+
+<div style="display:flex;align-items:end">
+<button class="btn primary" onclick="unlock('dukan')">
+Dukan Kholein
+</button>
+</div>
+</div>
+</div>
+
+<div id="dukanContent" class="hidden">
+
+<div class="stats">
+<div class="stat">
+<span>Stock Value</span>
+<b id="dStock">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Farokht</span>
+<b id="dSales">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Munafa</span>
+<b id="dProfit">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Khud Istemal</span>
+<b id="dUse">Rs 0</b>
+</div>
+</div>
+
+<div class="card">
+<button class="btn purple" style="width:100%;font-size:16px"
+onclick="showDukandarUdhar()">
+💰 Dukandaron Ka Udhar / Jama
+</button>
+</div>
+
+<!-- DUKAN NEW MAAL MANGWANA -->
+
+<div class="card">
+<h2>🛒 Naya Maal Mangwana</h2>
+
+<div class="notice">
+Agar koi cheez stock mein nahi hai to yahan add kar dein.
+Ye ek alag list mein dikhegi, taake aap ek hi jagah dekh kar sara maal mangwa saken.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Cheez Ka Naam</label>
+<input id="doName" placeholder="Misal: Lays Chips">
+</div>
+
+<div>
+<label>Note (optional)</label>
+<input id="doNote" placeholder="Misal: 2 Carton chahiye">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn orange" onclick="addDOrder()">
+Mangwane Ki List Mein Add Karein
+</button>
+</div>
+
+<div id="dOrderList" style="margin-top:12px"></div>
+
+</div>
+
+<!-- DUKAN PRODUCT -->
+
+<div class="card">
+<h2>Dukan Product</h2>
+
+<div class="grid">
+
+<div>
+<label>Product Name</label>
+<input id="dName" placeholder="Pika Nut">
+</div>
+
+<div>
+<label>Choti Unit</label>
+<input id="dUnit" placeholder="Packet">
+</div>
+
+<div>
+<label>Bari Unit</label>
+<input id="dBigUnit" placeholder="Carton">
+</div>
+
+<div>
+<label>1 Bari Unit Mein Choti Units</label>
+<input type="number" id="dConv" placeholder="12">
+</div>
+
+<div>
+<label>Purchase Rate / Bari Unit</label>
+<input type="number" id="dBuy">
+</div>
+
+<div>
+<label>Sale Rate / Bari Unit</label>
+<input type="number" id="dSale">
+</div>
+
+</div>
+
+<div class="notice" style="margin-top:10px">
+Misal: 1 Carton = 12 Packet, Purchase Rs 2750 aur Sale Rs 2880.
+<br>
+Choti Unit ka rate system khud calculate karega.
+</div>
+
+<div class="form-actions">
+<button class="btn primary" onclick="addDProduct()">
+Product Add
+</button>
+
+<button class="btn gray" onclick="editDProducts()">
+Product Edit
+</button>
+</div>
+</div>
+
+<!-- DUKAN PURCHASE -->
+
+<div class="card">
+<h2>Dukan Stock Purchase</h2>
+
+<div class="grid">
+
+<div>
+<label>Product</label>
+<input type="text" class="search-input" placeholder="Product search karein..." oninput="filterSelect('dpProduct',this.value)">
+<select id="dpProduct"></select>
+</div>
+
+<div>
+<label>Bari Quantity</label>
+<input type="number" id="dpBig" value="0">
+</div>
+
+<div>
+<label>Choti Quantity</label>
+<input type="number" id="dpSmall" value="0">
+</div>
+
+<div>
+<label>Total Purchase Amount</label>
+<input type="number" id="dpAmount">
+</div>
+
+</div>
+
+<div class="auto-info">
+Bari aur Choti dono quantity ek saath bhi de sakte hain.
+Amount khali ho to Bari + Choti ke hisaab se automatic calculate hoga.
+</div>
+
+<div class="form-actions">
+<button class="btn green" onclick="buyDProduct()">
+Stock Mein Jama
+</button>
+
+<button class="btn gray" onclick="showPurchases('dukan')">
+Purchase History
+</button>
+</div>
+</div>
+
+<!-- DUKANDAR -->
+
+<div class="card">
+<h2>Dukandar Add Karein</h2>
+
+<div class="grid">
+
+<div>
+<label>Naam</label>
+<input id="dkName">
+</div>
+
+<div>
+<label>Phone</label>
+<input id="dkPhone">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn primary" onclick="addDukandar()">
+Dukandar Add
+</button>
+
+<button class="btn gray" onclick="editDukandars()">
+Edit / Delete
+</button>
+</div>
+</div>
+
+<!-- DUKAN BILL -->
+
+<div class="card">
+<h2>Dukan Bill</h2>
+
+<div class="grid">
+
+<div>
+<label>Dukandar</label>
+<input type="text" class="search-input" placeholder="Dukandar search karein..." oninput="filterSelect('dbDukandar',this.value)">
+<select id="dbDukandar"></select>
+</div>
+
+<div>
+<label>Bill Date</label>
+<input type="date" id="dbDate">
+</div>
+
+</div>
+
+<hr style="margin:15px 0">
+
+<h3 style="margin-bottom:10px">
+Product Bill Mein Add Karein
+</h3>
+
+<div class="grid">
+
+<div>
+<label>Product</label>
+<input type="text" class="search-input" placeholder="Product search karein..." oninput="filterSelect('dbProduct',this.value)">
+<select id="dbProduct"></select>
+</div>
+
+<div>
+<label>Bari Quantity</label>
+<input type="number" id="dbBigQty" value="0">
+</div>
+
+<div>
+<label>Choti Quantity</label>
+<input type="number" id="dbSmallQty" value="0">
+</div>
+
+<div>
+<label>Special Sale Rate / Bari Unit (optional)</label>
+<input type="number" id="dbSpecialRate">
+</div>
+
+<div>
+<label>Special Sale Amount (optional)</label>
+<input type="number" id="dbSpecial">
+</div>
+
+</div>
+
+<div class="auto-info">
+Misal: 2 Carton + 5 Packet.
+Agar 1 Carton = 12 Packet ho to system 29 Packet automatically calculate karega.
+<br><br>
+Kisi khaas Dukandar ko kam/zyada rate par dena ho to <b>Special Sale Rate</b> mein woh rate likh dein — system usi rate se (Bari + Choti dono ka) total khud calculate karega.
+<br>
+Agar seedha final total amount dena hai to <b>Special Sale Amount</b> use karein — ye hamesha priority par lagega.
+</div>
+
+<div class="form-actions">
+
+<button class="btn primary" onclick="addDBillLine()">
++ Bill Mein Add
+</button>
+
+<button class="btn gray" onclick="clearDBill()">
+Bill Clear
+</button>
+
+</div>
+
+<div id="dCurrentBill" class="bill-box"></div>
+
+<div class="grid" style="margin-top:10px">
+
+<div>
+<label>Total Bill</label>
+<input id="dbTotal" readonly>
+</div>
+
+<div>
+<label>Total Cost</label>
+<input id="dbCost" readonly>
+</div>
+
+<div>
+<label>Total Profit</label>
+<input id="dbProfit" readonly>
+</div>
+
+<div>
+<label>Abhi Jama</label>
+<input type="number" id="dbPaid" value="0">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn green" onclick="saveDBill()">
+POORA BILL SAVE
+</button>
+
+<button class="btn gray" onclick="showDBills()">
+Bill History
+</button>
+</div>
+</div>
+
+<!-- DUKAN USE -->
+
+<div class="card">
+<h2>Dukan Khud Istemal</h2>
+
+<div class="grid">
+
+<div>
+<label>Product</label>
+<input type="text" class="search-input" placeholder="Product search karein..." oninput="filterSelect('duProduct',this.value)">
+<select id="duProduct"></select>
+</div>
+
+<div>
+<label>Bari Quantity</label>
+<input type="number" id="duBigQty" value="0">
+</div>
+
+<div>
+<label>Choti Quantity</label>
+<input type="number" id="duSmallQty" value="0">
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button class="btn dark" onclick="useDProduct()">
+Khud Istemal
+</button>
+
+<button class="btn gray" onclick="showUses('dukan')">
+History
+</button>
+
+</div>
+</div>
+
+<!-- DUKAN EXPENSE -->
+
+<div class="card">
+<h2>Dukan Expense</h2>
+
+<div class="grid">
+
+<div>
+<label>Naam</label>
+<input id="dxName">
+</div>
+
+<div>
+<label>Amount</label>
+<input type="number" id="dxAmount">
+</div>
+
+<div>
+<label>Category</label>
+<input id="dxCat" placeholder="Transport">
+</div>
+
+<div>
+<label>Date</label>
+<input type="date" id="dxDate">
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button class="btn primary" onclick="addExpense('dukan')">
+Save Expense
+</button>
+
+<button class="btn gray" onclick="showExpenses('dukan')">
+History
+</button>
+
+</div>
+</div>
+
+<!-- STOCK -->
+
+<div class="card">
+<h2>Dukan Stock</h2>
+
+<div class="notice">
+"Theek Karein" button se kisi bhi product ka stock manually adjust kar saktay hain.
+Ye sirf stock quantity change karega — kisi Dukandar ke udhar ya hisaab par koi asar nahi hoga.
+</div>
+
+<div class="table-wrap">
+<table>
+
+<thead>
+<tr>
+<th>Product</th>
+<th>Stock</th>
+<th>Cost Value</th>
+<th>Sale Value</th>
+<th>Potential Profit</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="dStockTable"></tbody>
+
+</table>
+</div>
+
+<div class="form-actions">
+<button class="btn gray" onclick="showStockAdjustments('dukan')">
+Stock Correction History
+</button>
+</div>
+
+</div>
+
+<!-- SUMMARY -->
+
+<div class="card">
+<h2>Dukan Hisaab</h2>
+<div id="dSummary"></div>
+</div>
+
+<div class="card">
+<h2>Dukandar Hisaab</h2>
+<div id="dPeople"></div>
+</div>
+
+<!-- PASSWORD CHANGE -->
+
+<div class="card">
+<h2>🔑 Password Change Karein</h2>
+
+<div class="notice">
+Naya password set karne ke liye pehle purana password dein, phir naya password do baar likhein.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Purana Password</label>
+<input type="password" id="dukanOldPass">
+</div>
+
+<div>
+<label>Naya Password</label>
+<input type="password" id="dukanNewPass">
+</div>
+
+<div>
+<label>Naya Password (Dobara)</label>
+<input type="password" id="dukanNewPass2">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn primary" onclick="changePassword('dukan')">
+Password Update Karein
+</button>
+</div>
+</div>
+
+<div class="card">
+<h2>Danger Zone</h2>
+
+<div class="warning">
+<b>Permanent Delete:</b>
+is option se transaction/history delete hogi aur deleted transaction ka stock wapas nahi aayega.
+</div>
+
+<div class="form-actions">
+<button class="btn red" onclick="permanentDukanReset()">
+Dukan Ka Pura Hisaab Reset
+</button>
+</div>
+</div>
+
+</div>
+</section>
+
+
+<!-- =====================================================
+     KABAR
+===================================================== -->
+
+<section id="kabar" class="section">
+
+<div id="kabarLock" class="card">
+<h2>Kabar Password</h2>
+
+<div class="grid">
+
+<div>
+<label>Password</label>
+<input type="password" id="kabarPassword">
+</div>
+
+<div style="display:flex;align-items:end">
+<button class="btn primary" onclick="unlock('kabar')">
+Kabar Kholein
+</button>
+</div>
+
+</div>
+</div>
+
+<div id="kabarContent" class="hidden">
+
+<div class="stats">
+
+<div class="stat">
+<span>Stock Value</span>
+<b id="kStock">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Farokht</span>
+<b id="kSales">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Munafa</span>
+<b id="kProfit">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Khud Istemal</span>
+<b id="kUse">Rs 0</b>
+</div>
+
+</div>
+
+<!-- KABAR NEW MAAL MANGWANA -->
+
+<div class="card">
+<h2>🛒 Naya Maal Mangwana</h2>
+
+<div class="notice">
+Agar koi qism stock mein nahi hai to yahan add kar dein.
+Ye ek alag list mein dikhegi, taake aap ek hi jagah dekh kar sara maal mangwa saken.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Cheez Ka Naam</label>
+<input id="koName" placeholder="Misal: Sariya">
+</div>
+
+<div>
+<label>Note (optional)</label>
+<input id="koNote" placeholder="Misal: 50 Kg chahiye">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn orange" onclick="addKOrder()">
+Mangwane Ki List Mein Add Karein
+</button>
+</div>
+
+<div id="kOrderList" style="margin-top:12px"></div>
+
+</div>
+
+<!-- KABAR PRODUCT -->
+
+<div class="card">
+<h2>Kabar Qism</h2>
+
+<div class="grid">
+
+<div>
+<label>Naam</label>
+<input id="kName" placeholder="Loha">
+</div>
+
+<div>
+<label>Unit</label>
+<input id="kUnit" placeholder="Kg">
+</div>
+
+<div>
+<label>Base Purchase Rate / 1 Kg</label>
+<input type="number" id="kBuy">
+</div>
+
+<div>
+<label>Base Sale Rate / 1 Kg</label>
+<input type="number" id="kSale">
+</div>
+
+</div>
+
+<div class="notice">
+Rate hamesha 1 Kg ka dein.
+500 Gram, 250 Gram waghera ka rate system khud calculate karega.
+</div>
+
+<div class="form-actions">
+
+<button class="btn primary" onclick="addKProduct()">
+Kabar Add
+</button>
+
+<button class="btn gray" onclick="editKProducts()">
+Edit / Delete
+</button>
+
+</div>
+</div>
+
+<!-- KABAR SUPPLIER -->
+
+<div class="card">
+<h2>Kabar Dene Wala (Naam) Add Karein</h2>
+
+<div class="notice">
+Jis banday se aap kabar (loha, gata, plastic waghera) khareedte hain, uska naam yahan add karein.
+Phir har purchase us naam se save hogi. Naam add karna zaroori nahi — chahain to seedha "Counter" se bhi khareed sakte hain.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Naam</label>
+<input id="ksName" placeholder="Aslam">
+</div>
+
+<div>
+<label>Phone (optional)</label>
+<input id="ksPhone">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn primary" onclick="addKSupplier()">
+Naam Add
+</button>
+
+<button class="btn gray" onclick="editKSuppliers()">
+Edit / Delete
+</button>
+</div>
+</div>
+
+<!-- KABAR PURCHASE -->
+
+<div class="card">
+<h2>Kabar Maal Kharidna — Stock Jama</h2>
+
+<div class="grid">
+
+<div>
+<label>Kabar Qism</label>
+<input type="text" class="search-input" placeholder="Qism search karein..." oninput="filterSelect('kpProduct',this.value)">
+<select id="kpProduct"></select>
+</div>
+
+<div>
+<label>Kis Se Liya (optional)</label>
+<input type="text" class="search-input" placeholder="Naam search karein..." oninput="filterSelect('kpSupplier',this.value)">
+<select id="kpSupplier">
+<option value="">Naam Likhna Zaroori Nahi</option>
+</select>
+</div>
+
+<div>
+<label>Kg</label>
+<input type="number" step="0.001" id="kpKg" value="0">
+</div>
+
+<div>
+<label>Gram</label>
+<input type="number" step="1" id="kpGram" value="0">
+</div>
+
+<div>
+<label>Purchase Rate / 1 Kg (optional)</label>
+<input type="number" id="kpRate">
+</div>
+
+<div>
+<label>Total Purchase Amount (optional)</label>
+<input type="number" id="kpAmount">
+</div>
+
+<div style="grid-column:1/-1">
+<label>Details (optional) — misal: Girder, Sariya, Gata</label>
+<input id="kpDetails" placeholder="Kya kya liya likh dein">
+</div>
+
+</div>
+
+<div class="auto-info">
+Misal: 1 Kg + 500 Gram = 1.5 Kg.
+Sirf 1 Kg ka rate dena hai. Gram ka rate system khud calculate karega.
+Naam aur Details dono optional hain.
+</div>
+
+<div class="form-actions">
+
+<button class="btn green" onclick="buyKProduct()">
+Stock Mein Jama
+</button>
+
+<button class="btn gray" onclick="showPurchases('kabar')">
+Purchase History
+</button>
+
+</div>
+</div>
+
+
+<!-- KABAR BILL -->
+
+<div class="card">
+
+<h2>🧾 Kabar Complete Bill</h2>
+
+<div class="notice">
+Ek bill mein Loha 1 Kg 500 Gram, Plastic 2 Kg 250 Gram, Gata waghera sab aik saath add karein.
+Rate sirf 1 Kg ka dena hoga.
+System Gram ko automatically Kg mein convert karega.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Customer / Banda Naam</label>
+<input id="kbCustomer" placeholder="Misal: Aslam">
+</div>
+
+<div>
+<label>Bill Date</label>
+<input type="date" id="kbDate">
+</div>
+
+</div>
+
+<hr style="margin:15px 0">
+
+<div class="grid">
+
+<div>
+<label>Kabar Qism</label>
+<input type="text" class="search-input" placeholder="Qism search karein..." oninput="filterSelect('kbProduct',this.value)">
+<select id="kbProduct"></select>
+</div>
+
+<div>
+<label>Kg</label>
+<input type="number" step="0.001" id="kbKg" value="0">
+</div>
+
+<div>
+<label>Gram</label>
+<input type="number" step="1" id="kbGram" value="0">
+</div>
+
+<div>
+<label>Special Sale Rate / 1 Kg (optional)</label>
+<input type="number" id="kbSpecialRate">
+</div>
+
+<div>
+<label>Special Total Amount (optional)</label>
+<input type="number" id="kbSpecialTotal">
+</div>
+
+</div>
+
+<div class="auto-info">
+Misal: 1 Kg + 500 Gram = 1.5 Kg.
+Agar rate Rs 200/Kg hai to total Rs 300.
+Special Total Amount diya ho to woh priority par use hoga.
+</div>
+
+<div class="form-actions">
+
+<button class="btn primary" onclick="addKBillLine()">
++ Kabar Bill Mein Add
+</button>
+
+<button class="btn gray" onclick="clearKBill()">
+Bill Clear
+</button>
+
+</div>
+
+<div id="kCurrentBill" class="bill-box"></div>
+
+<div class="grid" style="margin-top:12px">
+
+<div>
+<label>Total Cost</label>
+<input id="kbCost" readonly>
+</div>
+
+<div>
+<label>Total Sale</label>
+<input id="kbTotal" readonly>
+</div>
+
+<div>
+<label>Total Profit</label>
+<input id="kbProfit" readonly>
+</div>
+
+<div>
+<label>Abhi Jama</label>
+<input type="number" id="kbPaid" value="0">
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button class="btn green" onclick="saveKBill()">
+POORA KABAR BILL SAVE
+</button>
+
+<button class="btn gray" onclick="showKBills()">
+Bill History
+</button>
+
+</div>
+
+</div>
+
+
+<!-- KABAR USE -->
+
+<div class="card">
+<h2>Kabar Khud Istemal</h2>
+
+<div class="grid">
+
+<div>
+<label>Qism</label>
+<input type="text" class="search-input" placeholder="Qism search karein..." oninput="filterSelect('kuProduct',this.value)">
+<select id="kuProduct"></select>
+</div>
+
+<div>
+<label>Kg</label>
+<input type="number" step="0.001" id="kuKg" value="0">
+</div>
+
+<div>
+<label>Gram</label>
+<input type="number" step="1" id="kuGram" value="0">
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button class="btn dark" onclick="useKProduct()">
+Khud Istemal
+</button>
+
+<button class="btn gray" onclick="showUses('kabar')">
+History
+</button>
+
+</div>
+</div>
+
+
+<!-- KABAR EXPENSE -->
+
+<div class="card">
+<h2>Kabar Expense</h2>
+
+<div class="grid">
+
+<div>
+<label>Naam</label>
+<input id="kxName">
+</div>
+
+<div>
+<label>Amount</label>
+<input type="number" id="kxAmount">
+</div>
+
+<div>
+<label>Category</label>
+<input id="kxCat" placeholder="Transport">
+</div>
+
+<div>
+<label>Date</label>
+<input type="date" id="kxDate">
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button class="btn primary" onclick="addExpense('kabar')">
+Save Expense
+</button>
+
+<button class="btn gray" onclick="showExpenses('kabar')">
+History
+</button>
+
+</div>
+</div>
+
+
+<!-- KABAR STOCK -->
+
+<div class="card">
+<h2>Kabar Stock</h2>
+
+<div class="notice">
+"Theek Karein" button se kisi bhi qism ka stock manually adjust kar saktay hain.
+Ye sirf stock quantity change karega — kisi customer ke hisaab par koi asar nahi hoga.
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Qism</th>
+<th>Stock</th>
+<th>Cost Value</th>
+<th>Sale Value</th>
+<th>Potential Profit</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="kStockTable"></tbody>
+
+</table>
+
+</div>
+
+<div class="form-actions">
+<button class="btn gray" onclick="showStockAdjustments('kabar')">
+Stock Correction History
+</button>
+</div>
+
+</div>
+
+
+<!-- KABAR SUPPLIER HISAAB -->
+
+<div class="card">
+<h2>Kabar Dene Walon Ka Hisaab</h2>
+<div id="kSuppliers"></div>
+</div>
+
+
+<!-- REPORT -->
+
+<div class="card">
+
+<h2>Daily / Weekly / Monthly / Yearly Kabar Report</h2>
+
+<div class="form-actions">
+
+<button class="report-btn active"
+onclick="showKReport('daily',this)">
+Daily
+</button>
+
+<button class="report-btn"
+onclick="showKReport('weekly',this)">
+Weekly
+</button>
+
+<button class="report-btn"
+onclick="showKReport('monthly',this)">
+Monthly
+</button>
+
+<button class="report-btn"
+onclick="showKReport('yearly',this)">
+Yearly
+</button>
+
+</div>
+
+<div id="kReport" style="margin-top:12px"></div>
+
+</div>
+
+
+<div class="card">
+<h2>Kabar Hisaab</h2>
+<div id="kSummary"></div>
+</div>
+
+<!-- PASSWORD CHANGE -->
+
+<div class="card">
+<h2>🔑 Password Change Karein</h2>
+
+<div class="notice">
+Naya password set karne ke liye pehle purana password dein, phir naya password do baar likhein.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Purana Password</label>
+<input type="password" id="kabarOldPass">
+</div>
+
+<div>
+<label>Naya Password</label>
+<input type="password" id="kabarNewPass">
+</div>
+
+<div>
+<label>Naya Password (Dobara)</label>
+<input type="password" id="kabarNewPass2">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn primary" onclick="changePassword('kabar')">
+Password Update Karein
+</button>
+</div>
+</div>
+
+
+<div class="card">
+
+<h2>Danger Zone</h2>
+
+<div class="warning">
+Kabar transactions reset karne se products delete nahi honge.
+Stock ko zero kiya jayega.
+</div>
+
+<button class="btn red" onclick="permanentKabarReset()">
+Kabar Ka Pura Hisaab Reset
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- =====================================================
+     PERSONAL UDHAR
+===================================================== -->
+
+<section id="udhar" class="section">
+
+<div id="udharLock" class="card">
+
+<h2>Personal Udhar Password</h2>
+
+<div class="grid">
+
+<div>
+<label>Password</label>
+<input type="password" id="udharPassword">
+</div>
+
+<div style="display:flex;align-items:end">
+<button class="btn primary" onclick="unlock('udhar')">
+Udhar Kholein
+</button>
+</div>
+
+</div>
+</div>
+
+
+<div id="udharContent" class="hidden">
+
+<div class="stats">
+
+<div class="stat">
+<span>Total Diya</span>
+<b id="uGiven">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Total Jama</span>
+<b id="uReturned">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Total Baqi</span>
+<b id="uDue">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Log</span>
+<b id="uPeople">0</b>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>💰 Personal Udhar Add Karein</h2>
+
+<div class="notice">
+Ye system Dukan, Kabar aur Ghar se bilkul alag hai.
+Yahan jo paisa kisi person ko dein ya wapas lein, us ka separate hisaab rahega.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Person Ka Naam</label>
+<input id="uName" placeholder="Aslam">
+</div>
+
+<div>
+<label>Phone (optional)</label>
+<input id="uPhone">
+</div>
+
+<div>
+<label>Kitna Diya?</label>
+<input type="number" id="uAmount">
+</div>
+
+<div>
+<label>Date</label>
+<input type="date" id="uDate">
+</div>
+
+<div style="grid-column:1/-1">
+<label>Detail / Note</label>
+<input id="uNote" placeholder="Personal udhar">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn purple" onclick="addPersonalLoan()">
+Udhar Save Karein
+</button>
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>🔎 Person Search</h2>
+<input id="uSearch"
+placeholder="Naam search karein..."
+oninput="refreshPersonal()">
+</div>
+
+
+<div class="card">
+<h2>Personal Udhar List</h2>
+<div id="personalPeople"></div>
+</div>
+
+
+<div class="card">
+
+<h2>Personal Udhar Report</h2>
+
+<div class="form-actions">
+
+<button class="report-btn active"
+onclick="showUReport('daily',this)">
+Daily
+</button>
+
+<button class="report-btn"
+onclick="showUReport('weekly',this)">
+Weekly
+</button>
+
+<button class="report-btn"
+onclick="showUReport('monthly',this)">
+Monthly
+</button>
+
+<button class="report-btn"
+onclick="showUReport('yearly',this)">
+Yearly
+</button>
+
+</div>
+
+<div id="uReport" style="margin-top:12px"></div>
+
+</div>
+
+<!-- PASSWORD CHANGE -->
+
+<div class="card">
+<h2>🔑 Password Change Karein</h2>
+
+<div class="notice">
+Naya password set karne ke liye pehle purana password dein, phir naya password do baar likhein.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Purana Password</label>
+<input type="password" id="udharOldPass">
+</div>
+
+<div>
+<label>Naya Password</label>
+<input type="password" id="udharNewPass">
+</div>
+
+<div>
+<label>Naya Password (Dobara)</label>
+<input type="password" id="udharNewPass2">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn primary" onclick="changePassword('udhar')">
+Password Update Karein
+</button>
+</div>
+</div>
+
+
+<div class="card">
+
+<h2>Danger Zone</h2>
+
+<div class="warning">
+Kisi person ko permanent delete karne se uski loan aur jama history bhi hamesha ke liye delete ho jayegi.
+Dukan/Kabar/Ghar par koi asar nahi hoga.
+</div>
+
+<button class="btn red" onclick="resetPersonalUdhar()">
+Personal Udhar Pura Reset
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- =====================================================
+     GHAR
+===================================================== -->
+
+<section id="ghar" class="section">
+
+<div id="gharLock" class="card">
+
+<h2>Ghar Kharcha Password</h2>
+
+<div class="grid">
+
+<div>
+<label>Password</label>
+<input type="password" id="gharPassword">
+</div>
+
+<div style="display:flex;align-items:end">
+<button class="btn primary" onclick="unlock('ghar')">
+Ghar Kholein
+</button>
+</div>
+
+</div>
+</div>
+
+
+<div id="gharContent" class="hidden">
+
+<div class="stats">
+
+<div class="stat">
+<span>Ghar Expense</span>
+<b id="gExpense">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Dukan Munafa</span>
+<b id="gDProfit">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Kabar Munafa</span>
+<b id="gKProfit">Rs 0</b>
+</div>
+
+<div class="stat">
+<span>Final Net</span>
+<b id="gNet">Rs 0</b>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Ghar Expense Add</h2>
+
+<div class="grid">
+
+<div>
+<label>Naam</label>
+<input id="gxName">
+</div>
+
+<div>
+<label>Amount</label>
+<input type="number" id="gxAmount">
+</div>
+
+<div>
+<label>Category</label>
+<input id="gxCat" placeholder="Ghar">
+</div>
+
+<div>
+<label>Date</label>
+<input type="date" id="gxDate">
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button class="btn primary" onclick="addHomeExpense()">
+Save
+</button>
+
+<button class="btn gray" onclick="showHomeExpenses()">
+History
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Final Karobar Hisaab</h2>
+<div id="gSummary"></div>
+
+</div>
+
+<!-- PASSWORD CHANGE -->
+
+<div class="card">
+<h2>🔑 Password Change Karein</h2>
+
+<div class="notice">
+Naya password set karne ke liye pehle purana password dein, phir naya password do baar likhein.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Purana Password</label>
+<input type="password" id="gharOldPass">
+</div>
+
+<div>
+<label>Naya Password</label>
+<input type="password" id="gharNewPass">
+</div>
+
+<div>
+<label>Naya Password (Dobara)</label>
+<input type="password" id="gharNewPass2">
+</div>
+
+</div>
+
+<div class="form-actions">
+<button class="btn primary" onclick="changePassword('ghar')">
+Password Update Karein
+</button>
+</div>
+</div>
+
+
+<div class="card">
+
+<h2>⚠️ Complete System Reset</h2>
+
+<div class="warning">
+Is reset mein <b>products delete nahi honge</b>.
+Dukan/Kabar products apni jagah rahenge.
+Baqi bills, purchases, sales, expenses, personal udhar aur histories clear ho jayengi.
+</div>
+
+<button class="btn red" onclick="completeSystemReset()">
+SYSTEM PURA RESET
+</button>
+
+</div>
+
+</div>
+</section>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<div class="modal-head">
+
+<h2 id="modalTitle">Details</h2>
+
+<button class="close" onclick="closeModal()">
+×
+</button>
+
+</div>
+
+<div id="modalBody"></div>
+
+</div>
+</div>
+
+
+<!-- BOTTOM -->
+
+<div class="bottom">
+
+<button onclick="openSectionByName('dukan')">
+Dukan
+</button>
+
+<button onclick="openSectionByName('kabar')">
+Kabar
+</button>
+
+<button onclick="openSectionByName('udhar')">
+Udhar
+</button>
+
+<button onclick="openSectionByName('ghar')">
+Ghar
+</button>
+
+<button onclick="refreshAll()">
+Refresh
+</button>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATABASE
+========================================================= */
+
+const KEY="karobar_hisaab_v5";
+
+let db=JSON.parse(localStorage.getItem(KEY))||{
+
+settings:{
+dukanPassword:"1234",
+kabarPassword:"1234",
+udharPassword:"1234",
+gharPassword:"1234"
+},
+
+dukan:{
+products:[],
+purchases:[],
+bills:[],
+uses:[],
+dukandars:[],
+jama:[],
+expenses:[],
+adjustments:[],
+orders:[]
+},
+
+kabar:{
+products:[],
+purchases:[],
+bills:[],
+uses:[],
+expenses:[],
+suppliers:[],
+adjustments:[],
+orders:[]
+},
+
+personal:{
+people:[],
+loans:[],
+payments:[]
+},
+
+ghar:{
+expenses:[]
+}
+
+};
+
+
+/* =========================================================
+   DATA SAFETY
+========================================================= */
+
+db.settings=db.settings||{};
+
+db.settings.dukanPassword=
+db.settings.dukanPassword||"1234";
+
+db.settings.kabarPassword=
+db.settings.kabarPassword||"1234";
+
+db.settings.udharPassword=
+db.settings.udharPassword||"1234";
+
+db.settings.gharPassword=
+db.settings.gharPassword||"1234";
+
+
+db.dukan=db.dukan||{};
+
+db.dukan.products=db.dukan.products||[];
+db.dukan.purchases=db.dukan.purchases||[];
+db.dukan.bills=db.dukan.bills||[];
+db.dukan.uses=db.dukan.uses||[];
+db.dukan.dukandars=db.dukan.dukandars||[];
+db.dukan.jama=db.dukan.jama||[];
+db.dukan.expenses=db.dukan.expenses||[];
+db.dukan.adjustments=db.dukan.adjustments||[];
+db.dukan.orders=db.dukan.orders||[];
+
+
+db.kabar=db.kabar||{};
+
+db.kabar.products=db.kabar.products||[];
+db.kabar.purchases=db.kabar.purchases||[];
+db.kabar.bills=db.kabar.bills||[];
+db.kabar.uses=db.kabar.uses||[];
+db.kabar.expenses=db.kabar.expenses||[];
+db.kabar.suppliers=db.kabar.suppliers||[];
+db.kabar.adjustments=db.kabar.adjustments||[];
+db.kabar.orders=db.kabar.orders||[];
+
+
+db.personal=db.personal||{};
+
+db.personal.people=db.personal.people||[];
+db.personal.loans=db.personal.loans||[];
+db.personal.payments=db.personal.payments||[];
+
+
+db.ghar=db.ghar||{};
+db.ghar.expenses=db.ghar.expenses||[];
+
+
+let dCurrent=[];
+let kCurrent=[];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function save(){
+localStorage.setItem(KEY,JSON.stringify(db));
+}
+
+function uid(){
+return Date.now().toString(36)+Math.random().toString(36).slice(2);
+}
+
+function n(x){
+return Number(x)||0;
+}
+
+function money(x){
+return "Rs "+n(x).toLocaleString("en-PK",{
+maximumFractionDigits:2
+});
+}
+
+function today(){
+return new Date().toISOString().slice(0,10);
+}
+
+function esc(x){
+return String(x??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
+
+function dateVal(id){
+return document.getElementById(id)?.value||today();
+}
+
+function openModal(title,html){
+document.getElementById("modalTitle").textContent=title;
+document.getElementById("modalBody").innerHTML=html;
+document.getElementById("modal").classList.add("show");
+}
+
+function closeModal(){
+document.getElementById("modal").classList.remove("show");
+}
+
+/*
+   Search box ke sath kisi bhi select ko filter karta hai.
+   Option text mein query match nahi hoti to wo option
+   dropdown mein hide ho jati hai.
+*/
+
+function filterSelect(selectId,query){
+
+let el=document.getElementById(selectId);
+
+if(!el)return;
+
+query=(query||"").toLowerCase().trim();
+
+[...el.options].forEach(o=>{
+
+if(!o.value&&!query){
+o.style.display="";
+return;
+}
+
+let match=
+!query||
+o.textContent.toLowerCase().includes(query);
+
+o.style.display=match?"":"none";
+
+});
+
+}
+
+
+/* =========================================================
+   PASSWORD CHANGE
+========================================================= */
+
+function changePassword(section){
+
+let oldP=
+document.getElementById(section+"OldPass").value;
+
+let newP=
+document.getElementById(section+"NewPass").value;
+
+let newP2=
+document.getElementById(section+"NewPass2").value;
+
+
+if(oldP!==db.settings[section+"Password"]){
+
+alert("Purana password ghalat hai.");
+
+return;
+}
+
+
+if(!newP||newP.length<4){
+
+alert("Naya password kam az kam 4 characters ka hona chahiye.");
+
+return;
+}
+
+
+if(newP!==newP2){
+
+alert("Naya password aur dobara likha hua password match nahi karta.");
+
+return;
+}
+
+
+db.settings[section+"Password"]=newP;
+
+save();
+
+
+document.getElementById(section+"OldPass").value="";
+document.getElementById(section+"NewPass").value="";
+document.getElementById(section+"NewPass2").value="";
+
+
+alert("Password update ho gaya. Ab is naye password se hi khulega.");
+
+}
+
+
+/* =========================================================
+   NAYA MAAL MANGWANA (ORDER LIST)
+========================================================= */
+
+function addDOrder(){
+
+let name=
+document.getElementById("doName").value.trim();
+
+let note=
+document.getElementById("doNote").value.trim();
+
+
+if(!name){
+
+alert("Cheez ka naam likhein.");
+
+return;
+}
+
+
+db.dukan.orders.push({
+
+id:uid(),
+
+name,
+
+note,
+
+date:today(),
+
+done:false
+
+});
+
+
+save();
+
+refreshAll();
+
+
+document.getElementById("doName").value="";
+document.getElementById("doNote").value="";
+
+}
+
+
+function toggleDOrderDone(id){
+
+let o=db.dukan.orders.find(x=>x.id===id);
+
+if(!o)return;
+
+
+o.done=!o.done;
+
+
+save();
+
+refreshAll();
+
+}
+
+
+function deleteDOrder(id){
+
+if(!confirm("Ye item list se delete karna hai?"))return;
+
+
+db.dukan.orders=
+db.dukan.orders.filter(x=>x.id!==id);
+
+
+save();
+
+refreshAll();
+
+}
+
+
+function renderDOrders(){
+
+let box=document.getElementById("dOrderList");
+
+if(!box)return;
+
+
+let items=
+db.dukan.orders.slice().reverse();
+
+
+if(!items.length){
+
+box.innerHTML=
+'<div class="empty">Abhi koi cheez mangwane ki list mein nahi.</div>';
+
+return;
+}
+
+
+box.innerHTML="";
+
+
+items.forEach(o=>{
+
+let div=document.createElement("div");
+
+div.className="order-item";
+
+div.innerHTML=`
+
+<div>
+
+<b style="${o.done?"text-decoration:line-through;color:#94a3b8":""}">
+${esc(o.name)}
+</b>
+
+${o.note?`<div class="muted">${esc(o.note)}</div>`:""}
+
+<div class="muted">${o.date}</div>
+
+</div>
+
+
+<div class="field-actions">
+
+<button class="btn ${o.done?"gray":"green"} small"
+onclick="toggleDOrderDone('${o.id}')">
+${o.done?"Wapas Active Karein":"Mangwa Liya"}
+</button>
+
+<button class="btn red small"
+onclick="deleteDOrder('${o.id}')">
+Delete
+</button>
+
+</div>
+
+`;
+
+
+box.appendChild(div);
+
+});
+
+}
+
+
+function addKOrder(){
+
+let name=
+document.getElementById("koName").value.trim();
+
+let note=
+document.getElementById("koNote").value.trim();
+
+
+if(!name){
+
+alert("Cheez ka naam likhein.");
+
+return;
+}
+
+
+db.kabar.orders.push({
+
+id:uid(),
+
+name,
+
+note,
+
+date:today(),
+
+done:false
+
+});
+
+
+save();
+
+refreshAll();
+
+
+document.getElementById("koName").value="";
+document.getElementById("koNote").value="";
+
+}
+
+
+function toggleKOrderDone(id){
+
+let o=db.kabar.orders.find(x=>x.id===id);
+
+if(!o)return;
+
+
+o.done=!o.done;
+
+
+save();
+
+refreshAll();
+
+}
+
+
+function deleteKOrder(id){
+
+if(!confirm("Ye item list se delete karna hai?"))return;
+
+
+db.kabar.orders=
+db.kabar.orders.filter(x=>x.id!==id);
+
+
+save();
+
+refreshAll();
+
+}
+
+
+function renderKOrders(){
+
+let box=document.getElementById("kOrderList");
+
+if(!box)return;
+
+
+let items=
+db.kabar.orders.slice().reverse();
+
+
+if(!items.length){
+
+box.innerHTML=
+'<div class="empty">Abhi koi cheez mangwane ki list mein nahi.</div>';
+
+return;
+}
+
+
+box.innerHTML="";
+
+
+items.forEach(o=>{
+
+let div=document.createElement("div");
+
+div.className="order-item";
+
+div.innerHTML=`
+
+<div>
+
+<b style="${o.done?"text-decoration:line-through;color:#94a3b8":""}">
+${esc(o.name)}
+</b>
+
+${o.note?`<div class="muted">${esc(o.note)}</div>`:""}
+
+<div class="muted">${o.date}</div>
+
+</div>
+
+
+<div class="field-actions">
+
+<button class="btn ${o.done?"gray":"green"} small"
+onclick="toggleKOrderDone('${o.id}')">
+${o.done?"Wapas Active Karein":"Mangwa Liya"}
+</button>
+
+<button class="btn red small"
+onclick="deleteKOrder('${o.id}')">
+Delete
+</button>
+
+</div>
+
+`;
+
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* =========================================================
+   DUKAN QUANTITY HELPERS
+========================================================= */
+
+/*
+   Bari + Choti ko total Choti Unit mein convert karta hai.
+*/
+
+function dTotalSmall(p,big,small){
+return n(big)*n(p.conversion)+n(small);
+}
+
+
+/*
+   Total Choti Units ko readable format:
+   2 Carton + 5 Packet
+*/
+
+function dQuantityText(p,totalSmall){
+
+let conversion=n(p.conversion)||1;
+
+let big=Math.floor(totalSmall/conversion);
+let small=totalSmall%conversion;
+
+let result=[];
+
+if(big){
+result.push(
+big+" "+p.bigUnit
+);
+}
+
+if(small){
+result.push(
+small+" "+p.unit
+);
+}
+
+if(!result.length){
+return "0 "+p.unit;
+}
+
+return result.join(" + ");
+}
+
+
+/*
+   Bari Unit ka rate se Choti Unit ka rate
+*/
+
+function dSmallRate(p){
+return n(p.buyRate)/(
+n(p.conversion)||1
+);
+}
+
+function dSmallSaleRate(p){
+return n(p.saleRate)/(
+n(p.conversion)||1
+);
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function openSection(name,btn){
+
+document.querySelectorAll(".section")
+.forEach(x=>x.classList.remove("active"));
+
+document.getElementById(name)
+.classList.add("active");
+
+document.querySelectorAll(".tab")
+.forEach(x=>x.classList.remove("active"));
+
+if(btn)btn.classList.add("active");
+
+refreshAll();
+}
+
+function openSectionByName(name){
+
+let btn=[...document.querySelectorAll(".tab")]
+.find(x=>x.textContent.toLowerCase().includes(name));
+
+openSection(name,btn);
+}
+
+
+/* =========================================================
+   LOCK
+========================================================= */
+
+function unlock(section){
+
+let pass=document.getElementById(
+section+"Password"
+).value;
+
+if(pass===db.settings[section+"Password"]){
+
+document.getElementById(
+section+"Lock"
+).classList.add("hidden");
+
+document.getElementById(
+section+"Content"
+).classList.remove("hidden");
+
+refreshAll();
+
+}else{
+
+alert("Password ghalat hai.");
+
+}
+}
+
+function lockAll(){
+
+["dukan","kabar","udhar","ghar"].forEach(s=>{
+
+document.getElementById(
+s+"Lock"
+).classList.remove("hidden");
+
+document.getElementById(
+s+"Content"
+).classList.add("hidden");
+
+});
+
+alert("Sab sections lock ho gaye.");
+}
+
+
+/* =========================================================
+   DUKAN PRODUCT
+========================================================= */
+
+function dProduct(id){
+return db.dukan.products.find(x=>x.id===id);
+}
+
+
+function addDProduct(){
+
+let name=document.getElementById("dName").value.trim();
+
+let unit=document.getElementById("dUnit").value.trim()||"Unit";
+
+let big=document.getElementById("dBigUnit").value.trim()||"Bari Unit";
+
+let conv=n(document.getElementById("dConv").value)||1;
+
+let buy=n(document.getElementById("dBuy").value);
+
+let sale=n(document.getElementById("dSale").value);
+
+
+if(!name){
+alert("Product naam likhein.");
+return;
+}
+
+if(conv<=0){
+alert("1 Bari Unit mein Choti Units ki quantity likhein.");
+return;
+}
+
+
+db.dukan.products.push({
+
+id:uid(),
+
+name,
+
+unit,
+
+bigUnit:big,
+
+conversion:conv,
+
+buyRate:buy,
+
+saleRate:sale,
+
+stockSmall:0
+
+});
+
+
+save();
+
+
+[
+"dName",
+"dUnit",
+"dBigUnit",
+"dConv",
+"dBuy",
+"dSale"
+].forEach(x=>{
+document.getElementById(x).value="";
+});
+
+
+refreshAll();
+
+alert("Dukan product add ho gaya.");
+}
+
+
+function dStockText(p){
+return dQuantityText(p,n(p.stockSmall));
+}
+
+
+/* =========================================================
+   EDIT DUKAN PRODUCT
+========================================================= */
+
+function editDProducts(){
+
+let html="";
+
+if(!db.dukan.products.length){
+
+html='<div class="empty">Koi product nahi.</div>';
+
+}else{
+
+db.dukan.products.forEach(p=>{
+
+html+=`
+
+<div class="card">
+
+<div class="grid">
+
+<div>
+<label>Name</label>
+<input id="edn_${p.id}" value="${esc(p.name)}">
+</div>
+
+<div>
+<label>Choti Unit</label>
+<input id="edu_${p.id}" value="${esc(p.unit)}">
+</div>
+
+<div>
+<label>Bari Unit</label>
+<input id="edb_${p.id}" value="${esc(p.bigUnit)}">
+</div>
+
+<div>
+<label>Conversion</label>
+<input type="number" id="edc_${p.id}" value="${p.conversion}">
+</div>
+
+<div>
+<label>Purchase Rate / Bari Unit</label>
+<input type="number" id="edbuy_${p.id}" value="${p.buyRate}">
+</div>
+
+<div>
+<label>Sale Rate / Bari Unit</label>
+<input type="number" id="edsale_${p.id}" value="${p.saleRate}">
+</div>
+
+</div>
+
+<p class="muted" style="margin-top:8px">
+Current Stock: ${dStockText(p)}
+</p>
+
+<div class="form-actions">
+
+<button class="btn primary small"
+onclick="saveDProduct('${p.id}')">
+Save
+</button>
+
+<button class="btn red small"
+onclick="permanentDeleteDProduct('${p.id}')">
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+openModal("Dukan Products",html);
+}
+
+
+function saveDProduct(id){
+
+let p=dProduct(id);
+
+if(!p)return;
+
+p.name=document.getElementById("edn_"+id).value.trim();
+
+p.unit=document.getElementById("edu_"+id).value.trim();
+
+p.bigUnit=document.getElementById("edb_"+id).value.trim();
+
+p.conversion=n(
+document.getElementById("edc_"+id).value
+)||1;
+
+p.buyRate=n(
+document.getElementById("edbuy_"+id).value
+);
+
+p.saleRate=n(
+document.getElementById("edsale_"+id).value
+);
+
+save();
+
+refreshAll();
+
+editDProducts();
+}
+
+
+function permanentDeleteDProduct(id){
+
+let p=dProduct(id);
+
+if(!p)return;
+
+if(!confirm(
+`PERMANENT DELETE?\n\nProduct: ${p.name}\n\n`+
+`Is product ki history delete hogi.\n`+
+`Stock WAPAS NAHI hoga.\n`+
+`Product mukammal delete hoga.`
+))return;
+
+
+db.dukan.products=
+db.dukan.products.filter(x=>x.id!==id);
+
+db.dukan.purchases=
+db.dukan.purchases.filter(x=>x.productId!==id);
+
+db.dukan.uses=
+db.dukan.uses.filter(x=>x.productId!==id);
+
+
+db.dukan.bills=
+db.dukan.bills.map(b=>{
+
+b.items=b.items.filter(
+x=>x.productId!==id
+);
+
+return b;
+
+}).filter(b=>b.items.length);
+
+
+save();
+
+refreshAll();
+
+editDProducts();
+
+alert(
+"Product mukammal delete ho gaya. Stock wapas nahi hua."
+);
+}
+
+
+/* =========================================================
+   DUKAN PURCHASE
+========================================================= */
+
+function buyDProduct(){
+
+let id=document.getElementById("dpProduct").value;
+
+let p=dProduct(id);
+
+if(!p){
+alert("Product select karein.");
+return;
+}
+
+
+let big=n(
+document.getElementById("dpBig").value
+);
+
+let small=n(
+document.getElementById("dpSmall").value
+);
+
+
+let qty=dTotalSmall(p,big,small);
+
+
+if(qty<=0){
+
+alert("Bari ya Choti quantity likhein.");
+
+return;
+}
+
+
+let amount=n(
+document.getElementById("dpAmount").value
+);
+
+
+if(!amount){
+
+amount=
+big*p.buyRate+
+small*dSmallRate(p);
+
+}
+
+
+p.stockSmall+=qty;
+
+
+db.dukan.purchases.push({
+
+id:uid(),
+
+productId:id,
+
+bigQty:big,
+
+smallQty:small,
+
+qtySmall:qty,
+
+amount,
+
+date:today()
+
+});
+
+
+save();
+
+refreshAll();
+
+
+document.getElementById("dpBig").value=0;
+
+document.getElementById("dpSmall").value=0;
+
+document.getElementById("dpAmount").value="";
+
+
+alert(
+"Stock mein maal jama ho gaya.\n\n"+
+"Quantity: "+dQuantityText(p,qty)+
+"\nAmount: "+money(amount)
+);
+
+}
+
+
+/* =========================================================
+   DUKANDAR
+========================================================= */
+
+function dukandar(id){
+return db.dukan.dukandars.find(x=>x.id===id);
+}
+
+
+function addDukandar(){
+
+let name=document.getElementById("dkName").value.trim();
+
+let phone=document.getElementById("dkPhone").value.trim();
+
+
+if(!name){
+
+alert("Naam likhein.");
+
+return;
+}
+
+
+db.dukan.dukandars.push({
+id:uid(),
+name,
+phone
+});
+
+
+save();
+
+
+document.getElementById("dkName").value="";
+
+document.getElementById("dkPhone").value="";
+
+
+refreshAll();
+
+alert("Dukandar add ho gaya.");
+}
+
+
+function dPersonStats(id){
+
+let sales=0;
+let cost=0;
+let paid=0;
+let jama=0;
+
+
+db.dukan.bills.forEach(b=>{
+
+if(b.dukandarId!==id)return;
+
+sales+=n(b.total);
+
+cost+=n(b.cost);
+
+paid+=n(b.paid);
+
+});
+
+
+db.dukan.jama.forEach(j=>{
+
+if(j.dukandarId===id){
+jama+=n(j.amount);
+}
+
+});
+
+
+return{
+
+sales,
+
+cost,
+
+profit:sales-cost,
+
+paid,
+
+jama,
+
+due:Math.max(
+0,
+sales-paid-jama
+)
+
+};
+
+}
+
+
+/* =========================================================
+   EDIT DUKANDARS
+========================================================= */
+
+function editDukandars(){
+
+let html="";
+
+
+if(!db.dukan.dukandars.length){
+
+html='<div class="empty">Koi dukandar nahi.</div>';
+
+}else{
+
+db.dukan.dukandars.forEach(d=>{
+
+let s=dPersonStats(d.id);
+
+
+html+=`
+
+<div class="card">
+
+<h3>${esc(d.name)}</h3>
+
+<p class="muted">
+${esc(d.phone||"")}
+</p>
+
+<p style="margin-top:6px">
+Current Udhar:
+<b class="${s.due>0?"due":"paid"}">
+${money(s.due)}
+</b>
+</p>
+
+<div class="form-actions">
+
+<button class="btn primary small"
+onclick="editDukandar('${d.id}')">
+Edit
+</button>
+
+<button class="btn gray small"
+onclick="showDukandarHistory('${d.id}')">
+Hisaab
+</button>
+
+<button class="btn red small"
+onclick="permanentDeleteDukandar('${d.id}')">
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+openModal(
+"Dukandar Edit / Delete",
+html
+);
+}
+
+
+function editDukandar(id){
+
+let d=dukandar(id);
+
+if(!d)return;
+
+
+let name=prompt(
+"Dukandar naam:",
+d.name
+);
+
+if(name===null)return;
+
+
+let phone=prompt(
+"Phone:",
+d.phone||""
+);
+
+if(phone===null)
+phone=d.phone||"";
+
+
+d.name=name.trim();
+
+d.phone=phone.trim();
+
+
+save();
+
+refreshAll();
+
+editDukandars();
+
+}
+
+
+function permanentDeleteDukandar(id){
+
+let d=dukandar(id);
+
+if(!d)return;
+
+
+if(!confirm(
+`MUKAMMAL DELETE?\n\n${d.name}\n\n`+
+`Is dukandar ki complete history, bills aur jama entries delete hongi.\n`+
+`IMPORTANT: Stock WAPAS NAHI HOGA.`
+))return;
+
+
+db.dukan.bills=
+db.dukan.bills.filter(
+x=>x.dukandarId!==id
+);
+
+db.dukan.jama=
+db.dukan.jama.filter(
+x=>x.dukandarId!==id
+);
+
+db.dukan.dukandars=
+db.dukan.dukandars.filter(
+x=>x.id!==id
+);
+
+
+save();
+
+refreshAll();
+
+editDukandars();
+
+alert(
+"Dukandar mukammal delete ho gaya. Stock wapas nahi hua."
+);
+
+}
+
+
+/* =========================================================
+   DUKAN BILL
+   NEW: BARI + CHOTI BOTH
+========================================================= */
+
+function addDBillLine(){
+
+let pid=document.getElementById(
+"dbProduct"
+).value;
+
+let p=dProduct(pid);
+
+
+if(!p){
+
+alert("Product select karein.");
+
+return;
+}
+
+
+let big=n(
+document.getElementById("dbBigQty").value
+);
+
+let small=n(
+document.getElementById("dbSmallQty").value
+);
+
+
+let qtySmall=dTotalSmall(
+p,
+big,
+small
+);
+
+
+if(qtySmall<=0){
+
+alert(
+"Bari ya Choti quantity likhein."
+);
+
+return;
+}
+
+
+if(qtySmall>p.stockSmall){
+
+alert(
+`Stock kam hai.\nAvailable: ${dStockText(p)}`
+);
+
+return;
+}
+
+
+/*
+   Normal Sale:
+   Bari × Bari Rate
+   +
+   Choti × Choti Rate
+*/
+
+let normalSale=
+big*p.saleRate+
+small*dSmallSaleRate(p);
+
+
+let specialRate=document.getElementById(
+"dbSpecialRate"
+).value;
+
+
+let special=document.getElementById(
+"dbSpecial"
+).value;
+
+
+/*
+   Priority:
+   1 Special Sale Amount (final total)
+   2 Special Sale Rate (per Bari Unit)
+   3 Normal Rate
+*/
+
+let sale;
+
+if(special!==""){
+
+sale=n(special);
+
+}else if(specialRate!==""){
+
+sale=
+big*n(specialRate)+
+small*(n(specialRate)/(n(p.conversion)||1));
+
+}else{
+
+sale=normalSale;
+
+}
+
+
+let cost=
+big*p.buyRate+
+small*dSmallRate(p);
+
+
+dCurrent.push({
+
+id:uid(),
+
+productId:pid,
+
+bigQty:big,
+
+smallQty:small,
+
+qtySmall,
+
+cost,
+
+saleAmount:sale,
+
+profit:sale-cost
+
+});
+
+
+document.getElementById(
+"dbBigQty"
+).value=0;
+
+document.getElementById(
+"dbSmallQty"
+).value=0;
+
+document.getElementById(
+"dbSpecialRate"
+).value="";
+
+document.getElementById(
+"dbSpecial"
+).value="";
+
+
+renderDBill();
+}
+
+
+/* =========================================================
+   DUKAN CURRENT BILL
+========================================================= */
+
+function renderDBill(){
+
+let box=document.getElementById(
+"dCurrentBill"
+);
+
+
+if(!dCurrent.length){
+
+box.innerHTML=
+'<div class="empty">Bill empty hai.</div>';
+
+updateDBillTotals();
+
+return;
+}
+
+
+box.innerHTML="";
+
+
+dCurrent.forEach((x,i)=>{
+
+let p=dProduct(x.productId);
+
+
+let div=document.createElement("div");
+
+div.className="bill-line";
+
+
+div.innerHTML=`
+
+<div class="bill-head">
+
+<div>
+
+<b>
+${esc(p?p.name:"Deleted Product")}
+</b>
+
+<div class="muted">
+
+Qty:
+${p?dQuantityText(p,x.qtySmall):x.qtySmall}
+
+</div>
+
+</div>
+
+<button
+class="btn red small"
+onclick="dCurrent.splice(${i},1);renderDBill()">
+
+Delete
+
+</button>
+
+</div>
+
+
+<div class="grid" style="margin-top:8px">
+
+<div>
+
+<label>Bari Quantity</label>
+
+<input
+type="number"
+value="${x.bigQty}"
+onchange="editDLine(${i},'bigQty',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>Choti Quantity</label>
+
+<input
+type="number"
+value="${x.smallQty}"
+onchange="editDLine(${i},'smallQty',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>Cost</label>
+
+<input
+type="number"
+value="${x.cost}"
+onchange="editDLine(${i},'cost',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>Sale Total</label>
+
+<input
+type="number"
+value="${x.saleAmount}"
+onchange="editDLine(${i},'sale',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>Profit</label>
+
+<input
+readonly
+value="${x.profit}"
+>
+
+</div>
+
+</div>
+
+`;
+
+
+box.appendChild(div);
+
+});
+
+
+updateDBillTotals();
+
+}
+
+
+/* =========================================================
+   EDIT DUKAN BILL LINE
+========================================================= */
+
+function editDLine(i,field,value){
+
+let x=dCurrent[i];
+
+if(!x)return;
+
+
+let p=dProduct(x.productId);
+
+if(!p)return;
+
+
+if(field==="bigQty"||field==="smallQty"){
+
+let big=
+field==="bigQty"
+?n(value)
+:x.bigQty;
+
+let small=
+field==="smallQty"
+?n(value)
+:x.smallQty;
+
+
+let totalSmall=
+dTotalSmall(
+p,
+big,
+small
+);
+
+
+if(totalSmall>p.stockSmall){
+
+alert(
+"Stock available se zyada quantity nahi ho sakti."
+);
+
+renderDBill();
+
+return;
+}
+
+
+x.bigQty=big;
+
+x.smallQty=small;
+
+x.qtySmall=totalSmall;
+
+
+x.cost=
+big*p.buyRate+
+small*dSmallRate(p);
+
+
+/*
+   Sale ko normal rate par dobara calculate
+*/
+
+x.saleAmount=
+big*p.saleRate+
+small*dSmallSaleRate(p);
+
+}
+
+
+if(field==="cost")
+x.cost=n(value);
+
+
+if(field==="sale")
+x.saleAmount=n(value);
+
+
+x.profit=
+x.saleAmount-x.cost;
+
+
+renderDBill();
+
+}
+
+
+/* =========================================================
+   DUKAN BILL TOTALS
+========================================================= */
+
+function updateDBillTotals(){
+
+let total=dCurrent.reduce(
+(s,x)=>s+n(x.saleAmount),
+0
+);
+
+let cost=dCurrent.reduce(
+(s,x)=>s+n(x.cost),
+0
+);
+
+let profit=total-cost;
+
+
+document.getElementById(
+"dbTotal"
+).value=total;
+
+document.getElementById(
+"dbCost"
+).value=cost;
+
+document.getElementById(
+"dbProfit"
+).value=profit;
+
+}
+
+
+/* =========================================================
+   CLEAR DUKAN BILL
+========================================================= */
+
+function clearDBill(){
+
+if(
+dCurrent.length&&
+!confirm("Current bill clear karna hai?")
+)return;
+
+
+dCurrent=[];
+
+document.getElementById(
+"dbPaid"
+).value=0;
+
+
+renderDBill();
+
+}
+
+
+/* =========================================================
+   SAVE DUKAN BILL
+========================================================= */
+
+function saveDBill(){
+
+if(!dCurrent.length){
+
+alert(
+"Bill mein product add karein."
+);
+
+return;
+}
+
+
+let dukandarId=
+document.getElementById(
+"dbDukandar"
+).value||null;
+
+
+let date=
+dateVal("dbDate");
+
+
+/*
+   Final stock check
+*/
+
+for(let x of dCurrent){
+
+let p=dProduct(x.productId);
+
+
+if(!p){
+
+alert(
+"Bill mein deleted product hai."
+);
+
+return;
+}
+
+
+if(x.qtySmall>p.stockSmall){
+
+alert(
+"Stock kam hai: "+p.name
+);
+
+return;
+}
+
+}
+
+
+let total=dCurrent.reduce(
+(s,x)=>s+n(x.saleAmount),
+0
+);
+
+
+let cost=dCurrent.reduce(
+(s,x)=>s+n(x.cost),
+0
+);
+
+
+let profit=total-cost;
+
+
+let paid=n(
+document.getElementById(
+"dbPaid"
+).value
+);
+
+
+paid=Math.max(
+0,
+Math.min(paid,total)
+);
+
+
+/*
+   Stock minus
+*/
+
+dCurrent.forEach(x=>{
+
+let p=dProduct(x.productId);
+
+p.stockSmall-=x.qtySmall;
+
+});
+
+
+let bill={
+
+id:uid(),
+
+billNo:
+"D-"+Date.now().toString().slice(-8),
+
+dukandarId,
+
+date,
+
+items:
+dCurrent.map(x=>({...x})),
+
+total,
+
+cost,
+
+profit,
+
+paid,
+
+due:total-paid
+
+};
+
+
+db.dukan.bills.push(bill);
+
+
+dCurrent=[];
+
+save();
+
+refreshAll();
+
+
+alert(
+"Bill save ho gaya.\n\n"+
+"Total: "+money(total)+
+"\nJama: "+money(paid)+
+"\nUdhar: "+money(bill.due)
+);
+
+}
+
+
+/* =========================================================
+   DUKAN BILL HISTORY (GLOBAL) + EDIT/DELETE
+========================================================= */
+
+function showDBills(){
+
+let html="";
+
+
+let bills=
+db.dukan.bills
+.slice()
+.reverse();
+
+
+if(!bills.length){
+
+html=
+'<div class="empty">Abhi koi Dukan bill nahi.</div>';
+
+}else{
+
+bills.forEach(b=>{
+
+let d=b.dukandarId?dukandar(b.dukandarId):null;
+
+
+html+=`
+
+<div class="card">
+
+<div class="bill-head">
+
+<div>
+
+<b>${esc(b.billNo)}</b>
+
+<div>${esc(d?d.name:"Seedha / Counter Sale")}</div>
+
+<div class="muted">
+${b.date}
+</div>
+
+</div>
+
+<div class="${b.due>0?"due":"paid"}">
+
+${b.due>0?
+"Udhar "+money(b.due):
+"Pura Jama"}
+
+</div>
+
+</div>
+
+
+<div style="margin-top:9px">
+
+${b.items.map(x=>{
+
+let p=dProduct(x.productId);
+
+return `
+
+<div style="
+padding:8px 0;
+border-bottom:1px dashed #cbd5e1
+">
+
+<b>
+${esc(p?p.name:"Deleted Product")}
+</b>
+
+<br>
+
+Qty:
+${p?dQuantityText(p,x.qtySmall):x.qtySmall}
+
+<br>
+
+Cost:
+${money(x.cost)}
+
+|
+
+Sale:
+${money(x.saleAmount)}
+
+|
+
+Profit:
+<span class="profit">
+${money(x.profit)}
+</span>
+
+</div>
+
+`;
+
+}).join("")}
+
+</div>
+
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Total Bill</span>
+<b>${money(b.total)}</b>
+</div>
+
+<div class="total-row">
+<span>Jama</span>
+<b class="paid">${money(b.paid)}</b>
+</div>
+
+<div class="total-row">
+<span>Udhar</span>
+<b class="${b.due>0?"due":"paid"}">
+${money(b.due)}
+</b>
+</div>
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+class="btn primary small"
+onclick="editDBill('${b.id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="permanentDeleteDBill('${b.id}')"
+>
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+openModal(
+"Dukan Bill History",
+html
+);
+
+}
+
+
+function permanentDeleteDBill(id){
+
+let b=db.dukan.bills.find(x=>x.id===id);
+
+if(!b)return;
+
+
+if(!confirm(
+`MUKAMMAL BILL DELETE?\n\n${b.billNo}\n\n`+
+`Bill history delete hogi aur stock WAPAS NAHI hoga.`
+))return;
+
+
+db.dukan.bills=
+db.dukan.bills.filter(x=>x.id!==id);
+
+
+save();
+
+refreshAll();
+
+showDBills();
+
+
+alert(
+"Dukan bill permanently delete ho gaya. Stock wapas nahi hua."
+);
+
+}
+
+
+/*
+   Edit Dukan Bill:
+   Purana stock effect wapas kiya jata hai,
+   phir naye items/paid ke mutabiq dobara stock minus hota hai.
+*/
+
+function editDBill(id){
+
+let b=db.dukan.bills.find(x=>x.id===id);
+
+if(!b)return;
+
+
+let dOptions=
+'<option value="">Seedha / Counter Sale</option>'+
+db.dukan.dukandars.map(d=>
+`<option value="${d.id}" ${d.id===b.dukandarId?"selected":""}>${esc(d.name)}</option>`
+).join("");
+
+
+let html=`
+
+<div class="notice">
+Item ki quantity change karne se stock automatically theek ho jayega.
+Purana quantity wapas stock mein aayegi aur nayi quantity minus hogi.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Dukandar</label>
+<select id="ebDukandar">${dOptions}</select>
+</div>
+
+<div>
+<label>Bill Date</label>
+<input type="date" id="ebDate" value="${b.date}">
+</div>
+
+</div>
+
+
+<div id="ebItems" style="margin-top:12px"></div>
+
+
+<div class="grid" style="margin-top:12px">
+
+<div>
+<label>Abhi Jama</label>
+<input type="number" id="ebPaid" value="${b.paid}">
+</div>
+
+</div>
+
+
+<div class="form-actions">
+<button class="btn green" onclick="saveDBillEdit('${b.id}')">
+Changes Save Karein
+</button>
+</div>
+
+`;
+
+
+openModal("Bill Edit: "+b.billNo,html);
+
+
+let box=document.getElementById("ebItems");
+
+
+b.items.forEach((x,i)=>{
+
+let p=dProduct(x.productId);
+
+
+let div=document.createElement("div");
+
+div.className="bill-line";
+
+div.innerHTML=`
+
+<b>${esc(p?p.name:"Deleted Product")}</b>
+
+<div class="grid" style="margin-top:8px">
+
+<div>
+<label>Bari Quantity</label>
+<input type="number" id="ebBig_${i}" value="${x.bigQty}">
+</div>
+
+<div>
+<label>Choti Quantity</label>
+<input type="number" id="ebSmall_${i}" value="${x.smallQty}">
+</div>
+
+<div>
+<label>Cost</label>
+<input type="number" id="ebCost_${i}" value="${x.cost}">
+</div>
+
+<div>
+<label>Sale Total</label>
+<input type="number" id="ebSale_${i}" value="${x.saleAmount}">
+</div>
+
+</div>
+
+`;
+
+
+box.appendChild(div);
+
+});
+
+}
+
+
+function saveDBillEdit(id){
+
+let b=db.dukan.bills.find(x=>x.id===id);
+
+if(!b)return;
+
+
+/*
+   Step 1: purana stock effect wapas karo
+*/
+
+b.items.forEach(x=>{
+
+let p=dProduct(x.productId);
+
+if(p)p.stockSmall+=x.qtySmall;
+
+});
+
+
+/*
+   Step 2: nayi values collect karo
+*/
+
+let newItems=[];
+
+let ok=true;
+
+
+b.items.forEach((x,i)=>{
+
+let p=dProduct(x.productId);
+
+if(!p)return;
+
+
+let big=n(
+document.getElementById("ebBig_"+i).value
+);
+
+let small=n(
+document.getElementById("ebSmall_"+i).value
+);
+
+
+let qtySmall=dTotalSmall(p,big,small);
+
+
+if(qtySmall>p.stockSmall){
+
+alert(
+"Stock kam hai: "+p.name+
+"\nAvailable: "+dStockText(p)
+);
+
+ok=false;
+
+}
+
+
+let cost=n(
+document.getElementById("ebCost_"+i).value
+);
+
+let sale=n(
+document.getElementById("ebSale_"+i).value
+);
+
+
+newItems.push({
+
+...x,
+
+bigQty:big,
+
+smallQty:small,
+
+qtySmall,
+
+cost,
+
+saleAmount:sale,
+
+profit:sale-cost
+
+});
+
+});
+
+
+if(!ok){
+
+/*
+   Rollback: dobara stock minus karo purani values se
+*/
+
+b.items.forEach(x=>{
+
+let p=dProduct(x.productId);
+
+if(p)p.stockSmall-=x.qtySmall;
+
+});
+
+refreshAll();
+
+return;
+
+}
+
+
+/*
+   Step 3: naya stock minus karo
+*/
+
+newItems.forEach(x=>{
+
+let p=dProduct(x.productId);
+
+if(p)p.stockSmall-=x.qtySmall;
+
+});
+
+
+let total=newItems.reduce(
+(s,x)=>s+n(x.saleAmount),0
+);
+
+let cost=newItems.reduce(
+(s,x)=>s+n(x.cost),0
+);
+
+
+let paid=n(
+document.getElementById("ebPaid").value
+);
+
+paid=Math.max(0,Math.min(paid,total));
+
+
+b.dukandarId=
+document.getElementById("ebDukandar").value||null;
+
+b.date=
+document.getElementById("ebDate").value||b.date;
+
+b.items=newItems;
+
+b.total=total;
+
+b.cost=cost;
+
+b.profit=total-cost;
+
+b.paid=paid;
+
+b.due=total-paid;
+
+
+save();
+
+refreshAll();
+
+closeModal();
+
+
+alert("Bill successfully update ho gaya.");
+
+}
+
+
+/* =========================================================
+   DUKANDAR UDHAR
+========================================================= */
+
+function showDukandarUdhar(){
+
+let html=`
+
+<div class="notice">
+
+Har dukandar ka current udhar yahan dikhega.
+Jama karne ke baad amount minus hoga.
+Pura jama hone par status automatically Clear ho jayega.
+
+</div>
+
+<div id="dukarModalPeople"></div>
+
+`;
+
+
+openModal(
+"Dukandaron Ka Udhar / Jama",
+html
+);
+
+
+let box=
+document.getElementById(
+"dukarModalPeople"
+);
+
+
+db.dukan.dukandars.forEach(d=>{
+
+let s=dPersonStats(d.id);
+
+
+let div=document.createElement("div");
+
+div.className=
+"person "+
+(s.due>0?"duebox":"clearbox");
+
+
+div.innerHTML=`
+
+<div class="person-head">
+
+<div>
+
+<div class="person-name">
+${esc(d.name)}
+</div>
+
+<div class="muted">
+${esc(d.phone||"")}
+</div>
+
+</div>
+
+
+<div class="current">
+
+<div class="muted">
+Current Udhar
+</div>
+
+<b class="${s.due>0?"due":"paid"}">
+${money(s.due)}
+</b>
+
+<div class="${s.due>0?"due":"paid"}">
+
+${s.due>0?"Udhar Baqi":"Pura Jama"}
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="grid3" style="margin-top:12px">
+
+<div>
+<span class="muted">Farokht</span>
+<br>
+<b>${money(s.sales)}</b>
+</div>
+
+<div>
+<span class="muted">Munafa</span>
+<br>
+<b class="profit">${money(s.profit)}</b>
+</div>
+
+<div>
+<span class="muted">Total Jama</span>
+<br>
+<b class="paid">
+${money(s.paid+s.jama)}
+</b>
+</div>
+
+</div>
+
+
+<div class="form-actions">
+
+<input
+type="number"
+id="dj_${d.id}"
+placeholder="${s.due>0?"Jama amount":"Udhar clear"}"
+${s.due<=0?"disabled":""}
+style="max-width:180px"
+>
+
+
+<button
+class="btn green small"
+onclick="jamaDukandar('${d.id}')"
+${s.due<=0?"disabled":""}
+>
+Jama
+</button>
+
+
+<button
+class="btn primary small"
+onclick="showDukandarHistory('${d.id}')"
+>
+Poora Hisaab
+</button>
+
+</div>
+
+`;
+
+
+box.appendChild(div);
+
+});
+
+}
+
+
+function jamaDukandar(id){
+
+let s=dPersonStats(id);
+
+let d=dukandar(id);
+
+
+if(!d||s.due<=0){
+
+alert(
+"Is dukandar ka udhar clear hai."
+);
+
+return;
+}
+
+
+let amount=n(
+document.getElementById(
+"dj_"+id
+).value
+);
+
+
+if(amount<=0){
+
+alert(
+"Jama amount likhein."
+);
+
+return;
+}
+
+
+if(amount>s.due){
+
+alert(
+"Jama current udhar se zyada nahi ho sakta."
+);
+
+return;
+}
+
+
+db.dukan.jama.push({
+
+id:uid(),
+
+dukandarId:id,
+
+amount,
+
+date:today()
+
+});
+
+
+save();
+
+refreshAll();
+
+
+alert(
+"Jama save ho gaya.\n"+
+"Jama: "+money(amount)+
+"\nBaqi Udhar: "+
+money(dPersonStats(id).due)
+);
+
+
+showDukandarUdhar();
+
+}
+
+
+/* =========================================================
+   DUKANDAR HISTORY
+========================================================= */
+
+function showDukandarHistory(id){
+
+let d=dukandar(id);
+
+if(!d)return;
+
+
+let s=dPersonStats(id);
+
+
+let html=`
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Total Farokht</span>
+<b>${money(s.sales)}</b>
+</div>
+
+<div class="total-row">
+<span>Total Cost</span>
+<b>${money(s.cost)}</b>
+</div>
+
+<div class="total-row">
+<span>Munafa</span>
+<b class="profit">${money(s.profit)}</b>
+</div>
+
+<div class="total-row">
+<span>Bill Jama</span>
+<b class="paid">${money(s.paid)}</b>
+</div>
+
+<div class="total-row">
+<span>Baad Mein Jama</span>
+<b class="paid">${money(s.jama)}</b>
+</div>
+
+<div class="total-row final-row">
+<span>Current Udhar</span>
+<b class="${s.due>0?"due":"paid"}">
+${money(s.due)}
+</b>
+</div>
+
+</div>
+
+
+<h3 style="margin:15px 0 10px">
+Complete Bills
+</h3>
+
+`;
+
+
+let bills=
+db.dukan.bills
+.filter(x=>x.dukandarId===id)
+.slice()
+.reverse();
+
+
+if(!bills.length){
+
+html+=
+'<div class="empty">Koi bill nahi.</div>';
+
+}
+
+
+bills.forEach(b=>{
+
+html+=`
+
+<div class="card">
+
+<div class="bill-head">
+
+<div>
+
+<b>${esc(b.billNo)}</b>
+
+<div class="muted">
+${b.date}
+</div>
+
+</div>
+
+<div class="${b.due>0?"due":"paid"}">
+
+${b.due>0?
+"Udhar "+money(b.due):
+"Pura Jama"}
+
+</div>
+
+</div>
+
+
+<div style="margin-top:8px">
+
+${b.items.map(x=>{
+
+let p=dProduct(x.productId);
+
+return `
+
+<div style="
+padding:7px 0;
+border-bottom:1px dashed #cbd5e1
+">
+
+<b>
+${esc(p?p.name:"Deleted")}
+</b>
+
+<br>
+
+Qty:
+${p?dQuantityText(p,x.qtySmall):x.qtySmall}
+
+<br>
+
+Cost:
+${money(x.cost)}
+
+|
+
+Sale:
+${money(x.saleAmount)}
+
+|
+
+Profit:
+<span class="profit">
+${money(x.profit)}
+</span>
+
+</div>
+
+`;
+
+}).join("")}
+
+</div>
+
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Total Bill</span>
+<b>${money(b.total)}</b>
+</div>
+
+<div class="total-row">
+<span>Jama</span>
+<b class="paid">${money(b.paid)}</b>
+</div>
+
+<div class="total-row">
+<span>Udhar</span>
+<b class="${b.due>0?"due":"paid"}">
+${money(b.due)}
+</b>
+</div>
+
+</div>
+
+
+<div class="form-actions">
+
+<button class="btn primary small"
+onclick="closeModal();editDBill('${b.id}')">
+Edit
+</button>
+
+<button class="btn red small"
+onclick="permanentDeleteDBill('${b.id}')">
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+let jama=
+db.dukan.jama
+.filter(x=>x.dukandarId===id)
+.slice()
+.reverse();
+
+
+html+=`
+
+<h3 style="margin:15px 0 10px">
+Jama History
+</h3>
+
+`;
+
+
+if(!jama.length){
+
+html+=
+'<div class="empty">Koi baad ki jama nahi.</div>';
+
+}
+
+
+jama.forEach(x=>{
+
+html+=`
+
+<div class="history-item">
+
+${x.date}
+—
+
+<b class="paid">
+${money(x.amount)}
+</b>
+
+<div class="field-actions">
+
+<button
+class="btn primary small"
+onclick="editDJama('${x.id}','${id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="deleteDJama('${x.id}','${id}')"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+openModal(
+"Dukandar: "+d.name,
+html
+);
+
+}
+
+
+function editDJama(jamaId,personId){
+
+let x=db.dukan.jama.find(j=>j.id===jamaId);
+
+if(!x)return;
+
+
+let newAmount=prompt(
+"Jama amount update karein:",
+x.amount
+);
+
+if(newAmount===null)return;
+
+
+newAmount=n(newAmount);
+
+
+if(newAmount<=0){
+
+alert("Sahi amount likhein.");
+
+return;
+}
+
+
+x.amount=newAmount;
+
+
+save();
+
+refreshAll();
+
+showDukandarHistory(personId);
+
+}
+
+
+function deleteDJama(jamaId,personId){
+
+if(!confirm(
+"Jama entry delete karni hai?"
+))return;
+
+
+db.dukan.jama=
+db.dukan.jama.filter(
+x=>x.id!==jamaId
+);
+
+
+save();
+
+refreshAll();
+
+showDukandarHistory(personId);
+
+}
+
+
+/* =========================================================
+   DUKAN USE
+========================================================= */
+
+function useDProduct(){
+
+let id=
+document.getElementById(
+"duProduct"
+).value;
+
+let p=dProduct(id);
+
+if(!p)return;
+
+
+let big=n(
+document.getElementById(
+"duBigQty"
+).value
+);
+
+let small=n(
+document.getElementById(
+"duSmallQty"
+).value
+);
+
+
+let totalSmall=
+dTotalSmall(
+p,
+big,
+small
+);
+
+
+if(
+totalSmall<=0||
+totalSmall>p.stockSmall
+){
+
+alert(
+"Quantity/stock check karein."
+);
+
+return;
+}
+
+
+let value=
+totalSmall*dSmallRate(p);
+
+
+p.stockSmall-=totalSmall;
+
+
+db.dukan.uses.push({
+
+id:uid(),
+
+productId:id,
+
+bigQty:big,
+
+smallQty:small,
+
+qtySmall:totalSmall,
+
+value,
+
+date:today()
+
+});
+
+
+save();
+
+refreshAll();
+
+
+document.getElementById(
+"duBigQty"
+).value=0;
+
+document.getElementById(
+"duSmallQty"
+).value=0;
+
+
+alert(
+"Dukan khud istemal stock se minus ho gaya.\n"+
+"Quantity: "+dQuantityText(p,totalSmall)
+);
+
+}
+
+
+/* =========================================================
+   EXPENSE
+========================================================= */
+
+function addExpense(type){
+
+let pre=
+type==="dukan"?"d":"k";
+
+
+let name=
+document.getElementById(
+pre+"xName"
+).value.trim();
+
+
+let amount=n(
+document.getElementById(
+pre+"xAmount"
+).value
+);
+
+
+let category=
+document.getElementById(
+pre+"xCat"
+).value.trim()
+||"Extra";
+
+
+let date=
+dateVal(pre+"xDate");
+
+
+if(!name||amount<=0){
+
+alert(
+"Naam aur amount likhein."
+);
+
+return;
+}
+
+
+db[type].expenses.push({
+
+id:uid(),
+
+name,
+
+amount,
+
+category,
+
+date
+
+});
+
+
+save();
+
+refreshAll();
+
+
+document.getElementById(
+pre+"xName"
+).value="";
+
+document.getElementById(
+pre+"xAmount"
+).value="";
+
+
+alert("Expense save ho gaya.");
+
+}
+
+
+/* =========================================================
+   KABAR PRODUCT
+========================================================= */
+
+function kProduct(id){
+return db.kabar.products.find(
+x=>x.id===id
+);
+}
+
+
+function addKProduct(){
+
+let name=
+document.getElementById(
+"kName"
+).value.trim();
+
+
+let unit=
+document.getElementById(
+"kUnit"
+).value.trim()
+||"Kg";
+
+
+let buy=n(
+document.getElementById(
+"kBuy"
+).value
+);
+
+
+let sale=n(
+document.getElementById(
+"kSale"
+).value
+);
+
+
+if(!name){
+
+alert(
+"Kabar qism ka naam likhein."
+);
+
+return;
+}
+
+
+db.kabar.products.push({
+
+id:uid(),
+
+name,
+
+unit,
+
+buyRate:buy,
+
+saleRate:sale,
+
+stock:0
+
+});
+
+
+save();
+
+
+[
+"kName",
+"kUnit",
+"kBuy",
+"kSale"
+].forEach(x=>{
+document.getElementById(x).value="";
+});
+
+
+refreshAll();
+
+alert(
+"Kabar qism add ho gayi."
+);
+
+}
+
+
+/* =========================================================
+   KABAR EDIT
+========================================================= */
+
+function editKProducts(){
+
+let html="";
+
+
+db.kabar.products.forEach(p=>{
+
+html+=`
+
+<div class="card">
+
+<div class="grid">
+
+<div>
+<label>Naam</label>
+<input
+id="ekn_${p.id}"
+value="${esc(p.name)}"
+>
+</div>
+
+<div>
+<label>Unit</label>
+<input
+id="eku_${p.id}"
+value="${esc(p.unit)}"
+>
+</div>
+
+<div>
+<label>Purchase Rate / 1 Kg</label>
+<input
+type="number"
+id="ekb_${p.id}"
+value="${p.buyRate}"
+>
+</div>
+
+<div>
+<label>Sale Rate / 1 Kg</label>
+<input
+type="number"
+id="eks_${p.id}"
+value="${p.saleRate}"
+>
+</div>
+
+</div>
+
+<p class="muted" style="margin-top:8px">
+Stock: ${formatKWeight(p.stock)}
+</p>
+
+<div class="form-actions">
+
+<button
+class="btn primary small"
+onclick="saveKProduct('${p.id}')"
+>
+Save
+</button>
+
+<button
+class="btn red small"
+onclick="permanentDeleteKProduct('${p.id}')"
+>
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+if(!html){
+
+html=
+'<div class="empty">Koi Kabar product nahi.</div>';
+
+}
+
+
+openModal(
+"Kabar Products",
+html
+);
+
+}
+
+
+function saveKProduct(id){
+
+let p=kProduct(id);
+
+if(!p)return;
+
+
+p.name=
+document.getElementById(
+"ekn_"+id
+).value.trim();
+
+
+p.unit=
+document.getElementById(
+"eku_"+id
+).value.trim();
+
+
+p.buyRate=n(
+document.getElementById(
+"ekb_"+id
+).value
+);
+
+
+p.saleRate=n(
+document.getElementById(
+"eks_"+id
+).value
+);
+
+
+save();
+
+refreshAll();
+
+editKProducts();
+
+}
+
+
+function permanentDeleteKProduct(id){
+
+let p=kProduct(id);
+
+if(!p)return;
+
+
+if(!confirm(
+`MUKAMMAL DELETE?\n\n${p.name}\n\n`+
+`History delete hogi.\n`+
+`Stock WAPAS NAHI hoga.`
+))return;
+
+
+db.kabar.products=
+db.kabar.products.filter(
+x=>x.id!==id
+);
+
+
+db.kabar.purchases=
+db.kabar.purchases.filter(
+x=>x.productId!==id
+);
+
+
+db.kabar.uses=
+db.kabar.uses.filter(
+x=>x.productId!==id
+);
+
+
+db.kabar.bills=
+db.kabar.bills.map(b=>{
+
+b.items=b.items.filter(
+x=>x.productId!==id
+);
+
+return b;
+
+}).filter(b=>b.items.length);
+
+
+save();
+
+refreshAll();
+
+editKProducts();
+
+alert(
+"Kabar product mukammal delete ho gaya."
+);
+
+}
+
+
+/* =========================================================
+   KABAR SUPPLIER (KIS SE KABAR LIYA)
+========================================================= */
+
+function kSupplier(id){
+return db.kabar.suppliers.find(
+x=>x.id===id
+);
+}
+
+
+function addKSupplier(){
+
+let name=
+document.getElementById(
+"ksName"
+).value.trim();
+
+
+let phone=
+document.getElementById(
+"ksPhone"
+).value.trim();
+
+
+if(!name){
+
+alert(
+"Naam likhein."
+);
+
+return;
+}
+
+
+db.kabar.suppliers.push({
+
+id:uid(),
+
+name,
+
+phone
+
+});
+
+
+save();
+
+
+document.getElementById(
+"ksName"
+).value="";
+
+document.getElementById(
+"ksPhone"
+).value="";
+
+
+refreshAll();
+
+alert(
+"Naam add ho gaya."
+);
+
+}
+
+
+function kSupplierStats(id){
+
+let items=
+db.kabar.purchases.filter(
+x=>x.supplierId===id
+);
+
+
+let amount=items.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+
+let count=items.length;
+
+
+return{
+
+amount,
+
+count
+
+};
+
+}
+
+
+function editKSuppliers(){
+
+let html="";
+
+
+if(!db.kabar.suppliers.length){
+
+html=
+'<div class="empty">Koi naam add nahi kiya gaya.</div>';
+
+}else{
+
+db.kabar.suppliers.forEach(s=>{
+
+let st=kSupplierStats(s.id);
+
+
+html+=`
+
+<div class="card">
+
+<div class="grid">
+
+<div>
+<label>Naam</label>
+<input
+id="ksn_${s.id}"
+value="${esc(s.name)}"
+>
+</div>
+
+<div>
+<label>Phone</label>
+<input
+id="ksp_${s.id}"
+value="${esc(s.phone||"")}"
+>
+</div>
+
+</div>
+
+<p class="muted" style="margin-top:8px">
+Total Purchase: ${money(st.amount)}
+(${st.count} entries)
+</p>
+
+<div class="form-actions">
+
+<button
+class="btn primary small"
+onclick="saveKSupplier('${s.id}')"
+>
+Save
+</button>
+
+<button
+class="btn gray small"
+onclick="showKSupplierHistory('${s.id}')"
+>
+Hisaab
+</button>
+
+<button
+class="btn red small"
+onclick="permanentDeleteKSupplier('${s.id}')"
+>
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+openModal(
+"Kabar Naam Edit / Delete",
+html
+);
+
+}
+
+
+function saveKSupplier(id){
+
+let s=kSupplier(id);
+
+if(!s)return;
+
+
+s.name=
+document.getElementById(
+"ksn_"+id
+).value.trim();
+
+
+s.phone=
+document.getElementById(
+"ksp_"+id
+).value.trim();
+
+
+save();
+
+refreshAll();
+
+editKSuppliers();
+
+}
+
+
+function permanentDeleteKSupplier(id){
+
+let s=kSupplier(id);
+
+if(!s)return;
+
+
+if(!confirm(
+`MUKAMMAL DELETE?\n\n${s.name}\n\n`+
+`Is naam se judi purchase entries mein se sirf naam hat jayega,\n`+
+`purchases aur stock par koi asar nahi hoga.`
+))return;
+
+
+db.kabar.purchases.forEach(x=>{
+
+if(x.supplierId===id){
+x.supplierId=null;
+}
+
+});
+
+
+db.kabar.suppliers=
+db.kabar.suppliers.filter(
+x=>x.id!==id
+);
+
+
+save();
+
+refreshAll();
+
+editKSuppliers();
+
+alert(
+"Naam mukammal delete ho gaya."
+);
+
+}
+
+
+function showKSupplierHistory(id){
+
+let s=kSupplier(id);
+
+if(!s)return;
+
+
+let st=kSupplierStats(id);
+
+
+let html=`
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Total Entries</span>
+<b>${st.count}</b>
+</div>
+
+<div class="total-row final-row">
+<span>Total Purchase Amount</span>
+<b>${money(st.amount)}</b>
+</div>
+
+</div>
+
+
+<h3 style="margin:15px 0 10px">
+Purchase History
+</h3>
+
+`;
+
+
+let items=
+db.kabar.purchases
+.filter(x=>x.supplierId===id)
+.slice()
+.reverse();
+
+
+if(!items.length){
+
+html+=
+'<div class="empty">Koi purchase nahi.</div>';
+
+}
+
+
+items.forEach(x=>{
+
+let p=kProduct(x.productId);
+
+
+html+=`
+
+<div class="history-item">
+
+<b>
+${esc(p?p.name:"Deleted Product")}
+</b>
+
+<div class="muted">
+${x.date}
+</div>
+
+<div>
+Quantity: ${formatKWeight(x.qty)}
+</div>
+
+${x.details?
+`<div>Details: ${esc(x.details)}</div>`
+:""}
+
+<div>
+Amount:
+<b>${money(x.amount)}</b>
+</div>
+
+</div>
+
+`;
+
+});
+
+
+openModal(
+"Hisaab: "+s.name,
+html
+);
+
+}
+
+
+/* =========================================================
+   KABAR WEIGHT HELPERS
+========================================================= */
+
+/*
+   Kg + Gram ko decimal Kg mein convert.
+*/
+
+function kgGramToKg(kg,gram){
+
+return n(kg)+
+(n(gram)/1000);
+
+}
+
+
+/*
+   Decimal Kg ko readable:
+   1.5 => 1 Kg 500 Gram
+   2.25 => 2 Kg 250 Gram
+*/
+
+function formatKWeight(value){
+
+value=n(value);
+
+let kg=Math.floor(value);
+
+let gram=Math.round(
+(value-kg)*1000
+);
+
+
+/*
+   Floating point correction
+*/
+
+if(gram>=1000){
+
+kg+=Math.floor(gram/1000);
+
+gram=gram%1000;
+
+}
+
+
+let parts=[];
+
+
+if(kg){
+
+parts.push(
+kg+" Kg"
+);
+
+}
+
+
+if(gram){
+
+parts.push(
+gram+" Gram"
+);
+
+}
+
+
+if(!parts.length){
+
+return "0 Gram";
+
+}
+
+
+return parts.join(" ");
+
+}
+
+
+/* =========================================================
+   KABAR PURCHASE
+   NEW: KG + GRAM + SUPPLIER NAME + DETAILS
+========================================================= */
+
+function buyKProduct(){
+
+let id=
+document.getElementById(
+"kpProduct"
+).value;
+
+let p=kProduct(id);
+
+if(!p)return;
+
+
+let supplierId=
+document.getElementById(
+"kpSupplier"
+).value||null;
+
+
+let details=
+document.getElementById(
+"kpDetails"
+).value.trim();
+
+
+let kg=n(
+document.getElementById(
+"kpKg"
+).value
+);
+
+
+let gram=n(
+document.getElementById(
+"kpGram"
+).value
+);
+
+
+let qty=kgGramToKg(
+kg,
+gram
+);
+
+
+if(qty<=0){
+
+alert(
+"Kg ya Gram quantity likhein."
+);
+
+return;
+}
+
+
+/*
+   Rate = per Kg
+*/
+
+let rateInput=
+document.getElementById(
+"kpRate"
+).value;
+
+
+let rate=
+rateInput===""
+?p.buyRate
+:n(rateInput);
+
+
+/*
+   Amount = Kg × Rate
+*/
+
+let amountInput=
+document.getElementById(
+"kpAmount"
+).value;
+
+
+let amount=
+amountInput===""
+?qty*rate
+:n(amountInput);
+
+
+p.stock+=qty;
+
+
+db.kabar.purchases.push({
+
+id:uid(),
+
+productId:id,
+
+supplierId,
+
+details,
+
+kg,
+
+gram,
+
+qty,
+
+rate,
+
+amount,
+
+date:today()
+
+});
+
+
+save();
+
+refreshAll();
+
+
+document.getElementById(
+"kpKg"
+).value=0;
+
+document.getElementById(
+"kpGram"
+).value=0;
+
+document.getElementById(
+"kpRate"
+).value="";
+
+document.getElementById(
+"kpAmount"
+).value="";
+
+document.getElementById(
+"kpDetails"
+).value="";
+
+document.getElementById(
+"kpSupplier"
+).value="";
+
+
+let supplier=
+supplierId?kSupplier(supplierId):null;
+
+
+alert(
+"Kabar stock mein jama ho gaya.\n\n"+
+(supplier?"Naam: "+supplier.name+"\n":"")+
+(details?"Details: "+details+"\n":"")+
+"Quantity: "+formatKWeight(qty)+
+"\nRate: "+money(rate)+"/Kg"+
+"\nAmount: "+money(amount)
+);
+
+}
+
+
+/* =========================================================
+   KABAR BILL
+   NEW: KG + GRAM
+========================================================= */
+
+function addKBillLine(){
+
+let id=
+document.getElementById(
+"kbProduct"
+).value;
+
+let p=kProduct(id);
+
+
+if(!p){
+
+alert(
+"Kabar qism select karein."
+);
+
+return;
+}
+
+
+let kg=n(
+document.getElementById(
+"kbKg"
+).value
+);
+
+
+let gram=n(
+document.getElementById(
+"kbGram"
+).value
+);
+
+
+let qty=kgGramToKg(
+kg,
+gram
+);
+
+
+if(qty<=0){
+
+alert(
+"Kg ya Gram quantity likhein."
+);
+
+return;
+}
+
+
+if(qty>p.stock){
+
+alert(
+`Stock kam hai.\nAvailable: ${formatKWeight(p.stock)}`
+);
+
+return;
+}
+
+
+let specialRate=
+document.getElementById(
+"kbSpecialRate"
+).value;
+
+
+let specialTotal=
+document.getElementById(
+"kbSpecialTotal"
+).value;
+
+
+let sale;
+
+
+/*
+   Priority:
+   1 Special Total
+   2 Special Rate
+   3 Base Rate
+*/
+
+if(specialTotal!==""){
+
+sale=n(specialTotal);
+
+}else if(specialRate!==""){
+
+sale=qty*n(specialRate);
+
+}else{
+
+sale=qty*p.saleRate;
+
+}
+
+
+let cost=qty*p.buyRate;
+
+
+kCurrent.push({
+
+id:uid(),
+
+productId:id,
+
+kg,
+
+gram,
+
+qty,
+
+cost,
+
+saleAmount:sale,
+
+profit:sale-cost,
+
+rateUsed:
+specialRate!==""
+?n(specialRate)
+:p.saleRate
+
+});
+
+
+document.getElementById(
+"kbKg"
+).value=0;
+
+document.getElementById(
+"kbGram"
+).value=0;
+
+document.getElementById(
+"kbSpecialRate"
+).value="";
+
+document.getElementById(
+"kbSpecialTotal"
+).value="";
+
+
+renderKBill();
+
+}
+
+
+/* =========================================================
+   KABAR BILL DISPLAY
+========================================================= */
+
+function renderKBill(){
+
+let box=
+document.getElementById(
+"kCurrentBill"
+);
+
+
+if(!kCurrent.length){
+
+box.innerHTML=
+'<div class="empty">Kabar bill empty hai.</div>';
+
+updateKBillTotals();
+
+return;
+}
+
+
+box.innerHTML="";
+
+
+kCurrent.forEach((x,i)=>{
+
+let p=kProduct(x.productId);
+
+
+let div=document.createElement("div");
+
+div.className="bill-line";
+
+
+div.innerHTML=`
+
+<div class="bill-head">
+
+<div>
+
+<b>
+${esc(p?p.name:"Deleted")}
+</b>
+
+<div class="muted">
+Qty:
+${formatKWeight(x.qty)}
+</div>
+
+</div>
+
+
+<button
+class="btn red small"
+onclick="kCurrent.splice(${i},1);renderKBill()"
+>
+Delete
+</button>
+
+</div>
+
+
+<div class="grid" style="margin-top:8px">
+
+<div>
+
+<label>Kg</label>
+
+<input
+type="number"
+step="0.001"
+value="${x.kg}"
+onchange="editKLine(${i},'kg',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>Gram</label>
+
+<input
+type="number"
+value="${x.gram}"
+onchange="editKLine(${i},'gram',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>Cost</label>
+
+<input
+type="number"
+value="${x.cost}"
+onchange="editKLine(${i},'cost',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>Sale Total</label>
+
+<input
+type="number"
+value="${x.saleAmount}"
+onchange="editKLine(${i},'sale',this.value)"
+>
+
+</div>
+
+
+<div>
+
+<label>Profit</label>
+
+<input
+readonly
+value="${x.profit}"
+>
+
+</div>
+
+</div>
+
+`;
+
+
+box.appendChild(div);
+
+});
+
+
+updateKBillTotals();
+
+}
+
+
+/* =========================================================
+   EDIT KABAR BILL LINE
+========================================================= */
+
+function editKLine(i,field,value){
+
+let x=kCurrent[i];
+
+if(!x)return;
+
+
+let p=kProduct(x.productId);
+
+if(!p)return;
+
+
+if(field==="kg"||field==="gram"){
+
+let kg=
+field==="kg"
+?n(value)
+:x.kg;
+
+let gram=
+field==="gram"
+?n(value)
+:x.gram;
+
+
+let qty=
+kgGramToKg(
+kg,
+gram
+);
+
+
+if(qty>p.stock){
+
+alert(
+"Stock available se zyada quantity nahi ho sakti."
+);
+
+renderKBill();
+
+return;
+}
+
+
+x.kg=kg;
+
+x.gram=gram;
+
+x.qty=qty;
+
+
+x.cost=
+qty*p.buyRate;
+
+
+/*
+   Normal sale rate
+*/
+
+x.saleAmount=
+qty*p.saleRate;
+
+}
+
+
+if(field==="cost")
+x.cost=n(value);
+
+
+if(field==="sale")
+x.saleAmount=n(value);
+
+
+x.profit=
+x.saleAmount-x.cost;
+
+
+renderKBill();
+
+}
+
+
+/* =========================================================
+   KABAR BILL TOTALS
+========================================================= */
+
+function updateKBillTotals(){
+
+let cost=kCurrent.reduce(
+(s,x)=>s+n(x.cost),
+0
+);
+
+let total=kCurrent.reduce(
+(s,x)=>s+n(x.saleAmount),
+0
+);
+
+let profit=total-cost;
+
+
+document.getElementById(
+"kbCost"
+).value=cost;
+
+document.getElementById(
+"kbTotal"
+).value=total;
+
+document.getElementById(
+"kbProfit"
+).value=profit;
+
+}
+
+
+/* =========================================================
+   CLEAR KABAR BILL
+========================================================= */
+
+function clearKBill(){
+
+if(
+kCurrent.length&&
+!confirm(
+"Current Kabar bill clear karna hai?"
+)
+)return;
+
+
+kCurrent=[];
+
+
+document.getElementById(
+"kbPaid"
+).value=0;
+
+
+renderKBill();
+
+}
+
+
+/* =========================================================
+   SAVE KABAR BILL
+========================================================= */
+
+function saveKBill(){
+
+if(!kCurrent.length){
+
+alert(
+"Kabar bill mein item add karein."
+);
+
+return;
+}
+
+
+for(let x of kCurrent){
+
+let p=kProduct(x.productId);
+
+
+if(!p){
+
+alert(
+"Deleted product bill mein hai."
+);
+
+return;
+}
+
+
+if(x.qty>p.stock){
+
+alert(
+"Stock kam hai: "+p.name
+);
+
+return;
+}
+
+}
+
+
+let customer=
+document.getElementById(
+"kbCustomer"
+).value.trim()
+||"Counter / General";
+
+
+let date=
+dateVal("kbDate");
+
+
+let cost=kCurrent.reduce(
+(s,x)=>s+n(x.cost),
+0
+);
+
+
+let total=kCurrent.reduce(
+(s,x)=>s+n(x.saleAmount),
+0
+);
+
+
+let profit=total-cost;
+
+
+let paid=n(
+document.getElementById(
+"kbPaid"
+).value
+);
+
+
+paid=Math.max(
+0,
+Math.min(paid,total)
+);
+
+
+/*
+   Stock minus
+*/
+
+kCurrent.forEach(x=>{
+
+let p=kProduct(x.productId);
+
+p.stock-=x.qty;
+
+});
+
+
+let bill={
+
+id:uid(),
+
+billNo:
+"K-"+Date.now().toString().slice(-8),
+
+customer,
+
+date,
+
+items:
+kCurrent.map(x=>({...x})),
+
+cost,
+
+total,
+
+profit,
+
+paid,
+
+due:total-paid
+
+};
+
+
+db.kabar.bills.push(bill);
+
+
+kCurrent=[];
+
+save();
+
+refreshAll();
+
+
+alert(
+"Kabar bill save ho gaya.\n\n"+
+"Customer: "+customer+
+"\nTotal: "+money(total)+
+"\nJama: "+money(paid)+
+"\nBaqi: "+money(bill.due)
+);
+
+}
+
+
+/* =========================================================
+   KABAR BILL HISTORY
+========================================================= */
+
+function showKBills(){
+
+let html="";
+
+
+let bills=
+db.kabar.bills
+.slice()
+.reverse();
+
+
+if(!bills.length){
+
+html=
+'<div class="empty">Abhi koi Kabar bill nahi.</div>';
+
+}else{
+
+bills.forEach(b=>{
+
+html+=`
+
+<div class="card">
+
+<div class="bill-head">
+
+<div>
+
+<b>${esc(b.billNo)}</b>
+
+<div>${esc(b.customer)}</div>
+
+<div class="muted">
+${b.date}
+</div>
+
+</div>
+
+<div class="${b.due>0?"due":"paid"}">
+
+${b.due>0?
+"Due "+money(b.due):
+"Clear"}
+
+</div>
+
+</div>
+
+
+<div style="margin-top:9px">
+
+${b.items.map(x=>{
+
+let p=kProduct(x.productId);
+
+
+return `
+
+<div style="
+padding:8px 0;
+border-bottom:1px dashed #cbd5e1
+">
+
+<b>
+${esc(p?p.name:"Deleted")}
+</b>
+
+<br>
+
+Qty:
+${formatKWeight(x.qty)}
+
+<br>
+
+Cost:
+${money(x.cost)}
+
+|
+
+Sale:
+${money(x.saleAmount)}
+
+|
+
+Profit:
+<span class="profit">
+${money(x.profit)}
+</span>
+
+</div>
+
+`;
+
+}).join("")}
+
+</div>
+
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Total Cost</span>
+<b>${money(b.cost)}</b>
+</div>
+
+<div class="total-row">
+<span>Total Sale</span>
+<b>${money(b.total)}</b>
+</div>
+
+<div class="total-row">
+<span>Total Profit</span>
+<b class="profit">
+${money(b.profit)}
+</b>
+</div>
+
+<div class="total-row">
+<span>Jama</span>
+<b class="paid">
+${money(b.paid)}
+</b>
+</div>
+
+<div class="total-row">
+<span>Due</span>
+<b class="${b.due>0?"due":"paid"}">
+${money(b.due)}
+</b>
+</div>
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+class="btn primary small"
+onclick="editKBill('${b.id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="permanentDeleteKBill('${b.id}')"
+>
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+openModal(
+"Kabar Complete Bill History",
+html
+);
+
+}
+
+
+function permanentDeleteKBill(id){
+
+let b=db.kabar.bills.find(
+x=>x.id===id
+);
+
+if(!b)return;
+
+
+if(!confirm(
+`MUKAMMAL BILL DELETE?\n\n${b.billNo}\n${b.customer}\n\n`+
+`Bill history delete hogi aur stock WAPAS NAHI hoga.`
+))return;
+
+
+db.kabar.bills=
+db.kabar.bills.filter(
+x=>x.id!==id
+);
+
+
+save();
+
+refreshAll();
+
+showKBills();
+
+
+alert(
+"Kabar bill permanently delete ho gaya. Stock wapas nahi hua."
+);
+
+}
+
+
+/*
+   Edit Kabar Bill:
+   Purana stock effect wapas kiya jata hai,
+   phir naye items/paid ke mutabiq dobara stock minus hota hai.
+*/
+
+function editKBill(id){
+
+let b=db.kabar.bills.find(x=>x.id===id);
+
+if(!b)return;
+
+
+let html=`
+
+<div class="notice">
+Item ki quantity change karne se stock automatically theek ho jayega.
+</div>
+
+<div class="grid">
+
+<div>
+<label>Customer</label>
+<input id="ekbCustomer" value="${esc(b.customer)}">
+</div>
+
+<div>
+<label>Bill Date</label>
+<input type="date" id="ekbDate" value="${b.date}">
+</div>
+
+</div>
+
+
+<div id="ekbItems" style="margin-top:12px"></div>
+
+
+<div class="grid" style="margin-top:12px">
+
+<div>
+<label>Abhi Jama</label>
+<input type="number" id="ekbPaid" value="${b.paid}">
+</div>
+
+</div>
+
+
+<div class="form-actions">
+<button class="btn green" onclick="saveKBillEdit('${b.id}')">
+Changes Save Karein
+</button>
+</div>
+
+`;
+
+
+openModal("Kabar Bill Edit: "+b.billNo,html);
+
+
+let box=document.getElementById("ekbItems");
+
+
+b.items.forEach((x,i)=>{
+
+let p=kProduct(x.productId);
+
+
+let div=document.createElement("div");
+
+div.className="bill-line";
+
+div.innerHTML=`
+
+<b>${esc(p?p.name:"Deleted")}</b>
+
+<div class="grid" style="margin-top:8px">
+
+<div>
+<label>Kg</label>
+<input type="number" step="0.001" id="ekbKg_${i}" value="${x.kg}">
+</div>
+
+<div>
+<label>Gram</label>
+<input type="number" id="ekbGram_${i}" value="${x.gram}">
+</div>
+
+<div>
+<label>Cost</label>
+<input type="number" id="ekbCost_${i}" value="${x.cost}">
+</div>
+
+<div>
+<label>Sale Total</label>
+<input type="number" id="ekbSale_${i}" value="${x.saleAmount}">
+</div>
+
+</div>
+
+`;
+
+
+box.appendChild(div);
+
+});
+
+}
+
+
+function saveKBillEdit(id){
+
+let b=db.kabar.bills.find(x=>x.id===id);
+
+if(!b)return;
+
+
+b.items.forEach(x=>{
+
+let p=kProduct(x.productId);
+
+if(p)p.stock+=x.qty;
+
+});
+
+
+let newItems=[];
+
+let ok=true;
+
+
+b.items.forEach((x,i)=>{
+
+let p=kProduct(x.productId);
+
+if(!p)return;
+
+
+let kg=n(
+document.getElementById("ekbKg_"+i).value
+);
+
+let gram=n(
+document.getElementById("ekbGram_"+i).value
+);
+
+
+let qty=kgGramToKg(kg,gram);
+
+
+if(qty>p.stock){
+
+alert(
+"Stock kam hai: "+p.name+
+"\nAvailable: "+formatKWeight(p.stock)
+);
+
+ok=false;
+
+}
+
+
+let cost=n(
+document.getElementById("ekbCost_"+i).value
+);
+
+let sale=n(
+document.getElementById("ekbSale_"+i).value
+);
+
+
+newItems.push({
+
+...x,
+
+kg,
+
+gram,
+
+qty,
+
+cost,
+
+saleAmount:sale,
+
+profit:sale-cost
+
+});
+
+});
+
+
+if(!ok){
+
+b.items.forEach(x=>{
+
+let p=kProduct(x.productId);
+
+if(p)p.stock-=x.qty;
+
+});
+
+refreshAll();
+
+return;
+
+}
+
+
+newItems.forEach(x=>{
+
+let p=kProduct(x.productId);
+
+if(p)p.stock-=x.qty;
+
+});
+
+
+let total=newItems.reduce(
+(s,x)=>s+n(x.saleAmount),0
+);
+
+let cost=newItems.reduce(
+(s,x)=>s+n(x.cost),0
+);
+
+
+let paid=n(
+document.getElementById("ekbPaid").value
+);
+
+paid=Math.max(0,Math.min(paid,total));
+
+
+b.customer=
+document.getElementById("ekbCustomer").value.trim()
+||"Counter / General";
+
+b.date=
+document.getElementById("ekbDate").value||b.date;
+
+b.items=newItems;
+
+b.total=total;
+
+b.cost=cost;
+
+b.profit=total-cost;
+
+b.paid=paid;
+
+b.due=total-paid;
+
+
+save();
+
+refreshAll();
+
+closeModal();
+
+
+alert("Kabar bill successfully update ho gaya.");
+
+}
+
+
+/* =========================================================
+   KABAR USE
+========================================================= */
+
+function useKProduct(){
+
+let id=
+document.getElementById(
+"kuProduct"
+).value;
+
+let p=kProduct(id);
+
+if(!p)return;
+
+
+let kg=n(
+document.getElementById(
+"kuKg"
+).value
+);
+
+let gram=n(
+document.getElementById(
+"kuGram"
+).value
+);
+
+
+let qty=
+kgGramToKg(
+kg,
+gram
+);
+
+
+if(
+qty<=0||
+qty>p.stock
+){
+
+alert(
+"Quantity/stock check karein."
+);
+
+return;
+}
+
+
+let value=
+qty*p.buyRate;
+
+
+p.stock-=qty;
+
+
+db.kabar.uses.push({
+
+id:uid(),
+
+productId:id,
+
+kg,
+
+gram,
+
+qty,
+
+value,
+
+date:today()
+
+});
+
+
+save();
+
+refreshAll();
+
+
+document.getElementById(
+"kuKg"
+).value=0;
+
+document.getElementById(
+"kuGram"
+).value=0;
+
+
+alert(
+"Kabar khud istemal stock se minus ho gaya.\n"+
+"Quantity: "+formatKWeight(qty)
+);
+
+}
+
+
+/* =========================================================
+   PURCHASE HISTORY
+========================================================= */
+
+function showPurchases(type){
+
+let arr=db[type].purchases;
+
+let html="";
+
+
+arr.slice()
+.reverse()
+.forEach(x=>{
+
+let p=
+type==="dukan"
+?dProduct(x.productId)
+:kProduct(x.productId);
+
+
+if(type==="dukan"){
+
+html+=`
+
+<div class="card">
+
+<b>
+${esc(p?p.name:"Deleted Product")}
+</b>
+
+<div class="muted">
+${x.date}
+</div>
+
+<p style="margin-top:6px">
+
+Quantity:
+${p
+?dQuantityText(p,x.qtySmall)
+:`${x.qtySmall} Units`
+}
+
+</p>
+
+<p>
+Amount:
+<b>${money(x.amount)}</b>
+</p>
+
+<div class="field-actions">
+
+<button
+class="btn primary small"
+onclick="editPurchase('${type}','${x.id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="permanentDeletePurchase('${type}','${x.id}')"
+>
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}else{
+
+let supplier=
+x.supplierId?kSupplier(x.supplierId):null;
+
+
+html+=`
+
+<div class="card">
+
+<b>
+${esc(p?p.name:"Deleted Product")}
+</b>
+
+<div class="muted">
+${x.date}
+${supplier?" — "+esc(supplier.name):""}
+</div>
+
+<p style="margin-top:6px">
+
+Quantity:
+${formatKWeight(x.qty)}
+
+</p>
+
+${x.details?
+`<p>Details: ${esc(x.details)}</p>`
+:""}
+
+<p>
+Rate:
+<b>${money(x.rate)}/Kg</b>
+</p>
+
+<p>
+Amount:
+<b>${money(x.amount)}</b>
+</p>
+
+<div class="field-actions">
+
+<button
+class="btn primary small"
+onclick="editPurchase('${type}','${x.id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="permanentDeletePurchase('${type}','${x.id}')"
+>
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+
+if(!html){
+
+html=
+'<div class="empty">Purchase history empty hai.</div>';
+
+}
+
+
+openModal(
+type==="dukan"
+?"Dukan Purchase History"
+:"Kabar Purchase History",
+html
+);
+
+}
+
+
+/*
+   Purchase Edit:
+   Purani quantity pehle stock se minus hoti hai,
+   phir nayi quantity add hoti hai — is tarah stock hamesha sahi rehta hai.
+*/
+
+function editPurchase(type,id){
+
+let arr=db[type].purchases;
+
+let x=arr.find(a=>a.id===id);
+
+if(!x)return;
+
+
+if(type==="dukan"){
+
+let p=dProduct(x.productId);
+
+if(!p)return;
+
+
+let newBig=prompt("Bari Quantity:",x.bigQty);
+
+if(newBig===null)return;
+
+let newSmall=prompt("Choti Quantity:",x.smallQty);
+
+if(newSmall===null)return;
+
+let newAmount=prompt("Total Amount:",x.amount);
+
+if(newAmount===null)return;
+
+
+let oldQty=x.qtySmall;
+
+let newQty=dTotalSmall(p,n(newBig),n(newSmall));
+
+
+if(p.stockSmall-oldQty+newQty<0){
+
+alert("Ye tabdeeli stock negative kar degi.");
+
+return;
+}
+
+
+p.stockSmall=p.stockSmall-oldQty+newQty;
+
+
+x.bigQty=n(newBig);
+
+x.smallQty=n(newSmall);
+
+x.qtySmall=newQty;
+
+x.amount=n(newAmount);
+
+
+}else{
+
+let p=kProduct(x.productId);
+
+if(!p)return;
+
+
+let newKg=prompt("Kg:",x.kg);
+
+if(newKg===null)return;
+
+let newGram=prompt("Gram:",x.gram);
+
+if(newGram===null)return;
+
+let newAmount=prompt("Total Amount:",x.amount);
+
+if(newAmount===null)return;
+
+
+let oldQty=x.qty;
+
+let newQty=kgGramToKg(n(newKg),n(newGram));
+
+
+if(p.stock-oldQty+newQty<0){
+
+alert("Ye tabdeeli stock negative kar degi.");
+
+return;
+}
+
+
+p.stock=p.stock-oldQty+newQty;
+
+
+x.kg=n(newKg);
+
+x.gram=n(newGram);
+
+x.qty=newQty;
+
+x.amount=n(newAmount);
+
+}
+
+
+save();
+
+refreshAll();
+
+showPurchases(type);
+
+
+alert("Purchase update ho gayi.");
+
+}
+
+
+/* =========================================================
+   DELETE PURCHASE
+========================================================= */
+
+function permanentDeletePurchase(type,id){
+
+let arr=db[type].purchases;
+
+let x=arr.find(
+a=>a.id===id
+);
+
+if(!x)return;
+
+
+if(!confirm(
+"Purchase permanently delete karni hai?\n"+
+"IMPORTANT: Stock WAPAS NAHI hoga."
+))return;
+
+
+db[type].purchases=
+arr.filter(
+a=>a.id!==id
+);
+
+
+save();
+
+refreshAll();
+
+showPurchases(type);
+
+
+alert(
+"Purchase permanently delete ho gayi. Stock wapas nahi hua."
+);
+
+}
+
+
+/* =========================================================
+   USE HISTORY
+========================================================= */
+
+function showUses(type){
+
+let arr=db[type].uses;
+
+let html="";
+
+
+arr.slice()
+.reverse()
+.forEach(x=>{
+
+let p=
+type==="dukan"
+?dProduct(x.productId)
+:kProduct(x.productId);
+
+
+let qtyText;
+
+
+if(type==="dukan"){
+
+qtyText=
+p
+?dQuantityText(p,x.qtySmall)
+:x.qtySmall;
+
+}else{
+
+qtyText=
+formatKWeight(x.qty);
+
+}
+
+
+html+=`
+
+<div class="card">
+
+<b>
+${esc(p?p.name:"Deleted")}
+</b>
+
+<div class="muted">
+${x.date}
+</div>
+
+<p>
+Quantity: ${qtyText}
+</p>
+
+<div class="field-actions">
+
+<button
+class="btn primary small"
+onclick="editUse('${type}','${x.id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="permanentDeleteUse('${type}','${x.id}')"
+>
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+if(!html){
+
+html=
+'<div class="empty">History empty hai.</div>';
+
+}
+
+
+openModal(
+type==="dukan"
+?"Dukan Use History"
+:"Kabar Use History",
+html
+);
+
+}
+
+
+/*
+   Use Edit:
+   Purani quantity stock mein wapas ki jati hai,
+   phir nayi quantity minus hoti hai.
+*/
+
+function editUse(type,id){
+
+let x=db[type].uses.find(a=>a.id===id);
+
+if(!x)return;
+
+
+if(type==="dukan"){
+
+let p=dProduct(x.productId);
+
+if(!p)return;
+
+
+let newBig=prompt("Bari Quantity:",x.bigQty);
+
+if(newBig===null)return;
+
+let newSmall=prompt("Choti Quantity:",x.smallQty);
+
+if(newSmall===null)return;
+
+
+let oldQty=x.qtySmall;
+
+let newQty=dTotalSmall(p,n(newBig),n(newSmall));
+
+
+if(p.stockSmall+oldQty-newQty<0){
+
+alert("Stock kam hai.");
+
+return;
+}
+
+
+p.stockSmall=p.stockSmall+oldQty-newQty;
+
+
+x.bigQty=n(newBig);
+
+x.smallQty=n(newSmall);
+
+x.qtySmall=newQty;
+
+x.value=newQty*dSmallRate(p);
+
+
+}else{
+
+let p=kProduct(x.productId);
+
+if(!p)return;
+
+
+let newKg=prompt("Kg:",x.kg);
+
+if(newKg===null)return;
+
+let newGram=prompt("Gram:",x.gram);
+
+if(newGram===null)return;
+
+
+let oldQty=x.qty;
+
+let newQty=kgGramToKg(n(newKg),n(newGram));
+
+
+if(p.stock+oldQty-newQty<0){
+
+alert("Stock kam hai.");
+
+return;
+}
+
+
+p.stock=p.stock+oldQty-newQty;
+
+
+x.kg=n(newKg);
+
+x.gram=n(newGram);
+
+x.qty=newQty;
+
+x.value=newQty*p.buyRate;
+
+}
+
+
+save();
+
+refreshAll();
+
+showUses(type);
+
+
+alert("Entry update ho gayi.");
+
+}
+
+
+function permanentDeleteUse(type,id){
+
+let x=db[type].uses.find(
+a=>a.id===id
+);
+
+if(!x)return;
+
+
+if(!confirm(
+"Entry permanently delete karni hai? Stock WAPAS NAHI hoga."
+))return;
+
+
+db[type].uses=
+db[type].uses.filter(
+x=>x.id!==id
+);
+
+
+save();
+
+refreshAll();
+
+showUses(type);
+
+
+alert(
+"Entry permanently delete ho gayi."
+);
+
+}
+
+
+/* =========================================================
+   EXPENSE HISTORY
+========================================================= */
+
+function showExpenses(type){
+
+let arr=db[type].expenses;
+
+let html="";
+
+
+arr.slice()
+.reverse()
+.forEach(x=>{
+
+html+=`
+
+<div class="card">
+
+<b>${esc(x.name)}</b>
+
+<div class="muted">
+${x.date}
+</div>
+
+<p>
+${esc(x.category)}
+—
+<b>${money(x.amount)}</b>
+</p>
+
+<div class="field-actions">
+
+<button
+class="btn primary small"
+onclick="editExpenseEntry('${type}','${x.id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="deleteExpenseEntry('${type}','${x.id}')"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+if(!html){
+
+html=
+'<div class="empty">Expense history empty hai.</div>';
+
+}
+
+
+openModal(
+type==="dukan"
+?"Dukan Expenses"
+:"Kabar Expenses",
+html
+);
+
+}
+
+
+function editExpenseEntry(type,id){
+
+let x=db[type].expenses.find(a=>a.id===id);
+
+if(!x)return;
+
+
+let newName=prompt("Naam:",x.name);
+
+if(newName===null)return;
+
+let newAmount=prompt("Amount:",x.amount);
+
+if(newAmount===null)return;
+
+let newCat=prompt("Category:",x.category);
+
+if(newCat===null)return;
+
+
+x.name=newName.trim()||x.name;
+
+x.amount=n(newAmount);
+
+x.category=newCat.trim()||x.category;
+
+
+save();
+
+refreshAll();
+
+showExpenses(type);
+
+}
+
+
+function deleteExpenseEntry(type,id){
+
+if(!confirm(
+"Expense delete karni hai?"
+))return;
+
+
+db[type].expenses=
+db[type].expenses.filter(
+x=>x.id!==id
+);
+
+
+save();
+
+refreshAll();
+
+showExpenses(type);
+
+}
+
+
+/* =========================================================
+   DATE REPORT FUNCTIONS
+========================================================= */
+
+function periodStart(type){
+
+let d=new Date();
+
+d.setHours(0,0,0,0);
+
+
+if(type==="daily"){
+return d;
+}
+
+
+if(type==="weekly"){
+
+let day=d.getDay();
+
+let diff=
+day===0?6:day-1;
+
+d.setDate(
+d.getDate()-diff
+);
+
+return d;
+
+}
+
+
+if(type==="monthly"){
+
+d.setDate(1);
+
+return d;
+
+}
+
+
+if(type==="yearly"){
+
+d.setMonth(0,1);
+
+return d;
+
+}
+
+}
+
+
+function inPeriod(date,type){
+
+let x=new Date(
+date+"T00:00:00"
+);
+
+return x>=periodStart(type);
+
+}
+
+
+/* =========================================================
+   KABAR REPORT
+========================================================= */
+
+function showKReport(type,btn){
+
+document.querySelectorAll(
+"#kabarContent .report-btn"
+)
+.forEach(x=>
+x.classList.remove("active")
+);
+
+
+if(btn)
+btn.classList.add("active");
+
+
+let bills=
+db.kabar.bills.filter(
+x=>inPeriod(x.date,type)
+);
+
+
+let sale=bills.reduce(
+(s,x)=>s+n(x.total),
+0
+);
+
+
+let cost=bills.reduce(
+(s,x)=>s+n(x.cost),
+0
+);
+
+
+let profit=bills.reduce(
+(s,x)=>s+n(x.profit),
+0
+);
+
+
+let paid=bills.reduce(
+(s,x)=>s+n(x.paid),
+0
+);
+
+
+let due=bills.reduce(
+(s,x)=>s+n(x.due),
+0
+);
+
+
+let purchases=
+db.kabar.purchases
+.filter(x=>inPeriod(x.date,type))
+.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+
+let expenses=
+db.kabar.expenses
+.filter(x=>inPeriod(x.date,type))
+.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+
+let net=
+profit-expenses;
+
+
+document.getElementById(
+"kReport"
+).innerHTML=`
+
+<div class="grid3">
+
+<div class="card">
+<span class="muted">Bills</span>
+<div class="amount-big">
+${bills.length}
+</div>
+</div>
+
+<div class="card">
+<span class="muted">Sale</span>
+<div class="amount-big">
+${money(sale)}
+</div>
+</div>
+
+<div class="card">
+<span class="muted">Cost</span>
+<div class="amount-big">
+${money(cost)}
+</div>
+</div>
+
+</div>
+
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Sale</span>
+<b>${money(sale)}</b>
+</div>
+
+<div class="total-row">
+<span>Cost</span>
+<b>${money(cost)}</b>
+</div>
+
+<div class="total-row">
+<span>Gross Profit</span>
+<b class="profit">
+${money(profit)}
+</b>
+</div>
+
+<div class="total-row">
+<span>Bill Jama</span>
+<b class="paid">
+${money(paid)}
+</b>
+</div>
+
+<div class="total-row">
+<span>Bill Due</span>
+<b class="${due?"due":"paid"}">
+${money(due)}
+</b>
+</div>
+
+<div class="total-row">
+<span>Purchase</span>
+<b>${money(purchases)}</b>
+</div>
+
+<div class="total-row">
+<span>Expenses</span>
+<b>${money(expenses)}</b>
+</div>
+
+<div class="total-row final-row">
+<span>Net Profit</span>
+<b class="${net>=0?"profit":"loss"}">
+${money(net)}
+</b>
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   PERSONAL UDHAR
+========================================================= */
+
+function uPerson(id){
+
+return db.personal.people.find(
+x=>x.id===id
+);
+
+}
+
+
+function addPersonalLoan(){
+
+let name=
+document.getElementById(
+"uName"
+).value.trim();
+
+
+let phone=
+document.getElementById(
+"uPhone"
+).value.trim();
+
+
+let amount=n(
+document.getElementById(
+"uAmount"
+).value
+);
+
+
+let date=
+dateVal("uDate");
+
+
+let note=
+document.getElementById(
+"uNote"
+).value.trim();
+
+
+if(!name||amount<=0){
+
+alert(
+"Naam aur amount likhein."
+);
+
+return;
+}
+
+
+let person=
+db.personal.people.find(
+x=>
+x.name.toLowerCase()===
+name.toLowerCase()
+);
+
+
+if(!person){
+
+person={
+
+id:uid(),
+
+name,
+
+phone,
+
+created:date
+
+};
+
+db.personal.people.push(person);
+
+}else if(phone){
+
+person.phone=phone;
+
+}
+
+
+db.personal.loans.push({
+
+id:uid(),
+
+personId:person.id,
+
+amount,
+
+date,
+
+note
+
+});
+
+
+save();
+
+refreshAll();
+
+
+[
+"uName",
+"uPhone",
+"uAmount",
+"uNote"
+].forEach(x=>{
+document.getElementById(x).value="";
+});
+
+
+alert(
+name+
+" ko "+
+money(amount)+
+" ka udhar save ho gaya.\n"+
+"Current total: "+
+money(personStats(person.id).due)
+);
+
+}
+
+
+/* =========================================================
+   PERSONAL STATS
+========================================================= */
+
+function personStats(id){
+
+let given=
+db.personal.loans
+.filter(x=>x.personId===id)
+.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+
+let returned=
+db.personal.payments
+.filter(x=>x.personId===id)
+.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+
+return{
+
+given,
+
+returned,
+
+due:Math.max(
+0,
+given-returned
+)
+
+};
+
+}
+
+
+/* =========================================================
+   PERSONAL REFRESH
+========================================================= */
+
+function refreshPersonal(){
+
+let box=
+document.getElementById(
+"personalPeople"
+);
+
+
+let search=
+(
+document.getElementById(
+"uSearch"
+)?.value||""
+).toLowerCase();
+
+
+let people=
+db.personal.people.filter(
+p=>
+p.name.toLowerCase()
+.includes(search)
+);
+
+
+let given=0;
+
+let returned=0;
+
+let due=0;
+
+
+db.personal.people.forEach(p=>{
+
+let s=personStats(p.id);
+
+given+=s.given;
+
+returned+=s.returned;
+
+due+=s.due;
+
+});
+
+
+document.getElementById(
+"uGiven"
+).textContent=money(given);
+
+document.getElementById(
+"uReturned"
+).textContent=money(returned);
+
+document.getElementById(
+"uDue"
+).textContent=money(due);
+
+document.getElementById(
+"uPeople"
+).textContent=
+db.personal.people.length;
+
+
+box.innerHTML="";
+
+
+if(!people.length){
+
+box.innerHTML=
+'<div class="empty">Koi person nahi mila.</div>';
+
+return;
+}
+
+
+people.forEach(p=>{
+
+let s=personStats(p.id);
+
+
+let div=document.createElement(
+"div"
+);
+
+
+div.className=
+"person "+
+(s.due>0?"duebox":"clearbox");
+
+
+div.innerHTML=`
+
+<div class="person-head">
+
+<div>
+
+<div class="person-name">
+${esc(p.name)}
+</div>
+
+<div class="muted">
+${esc(p.phone||"")}
+</div>
+
+</div>
+
+
+<div class="current">
+
+<div class="muted">
+Abhi Udhar
+</div>
+
+<b class="${s.due>0?"due":"paid"}">
+${money(s.due)}
+</b>
+
+<div class="${s.due>0?"due":"paid"}">
+
+${s.due>0?
+"Lena Baqi Hai":
+"CLEAR"}
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="grid3" style="margin-top:12px">
+
+<div>
+<span class="muted">
+Total Diya
+</span>
+<br>
+<b>${money(s.given)}</b>
+</div>
+
+<div>
+<span class="muted">
+Total Wapas
+</span>
+<br>
+<b class="paid">
+${money(s.returned)}
+</b>
+</div>
+
+<div>
+<span class="muted">
+Baqi
+</span>
+<br>
+<b class="${s.due?"due":"paid"}">
+${money(s.due)}
+</b>
+</div>
+
+</div>
+
+
+<div class="purple-box" style="margin-top:12px">
+
+<label>
+Is Person Se Jama / Wapsi
+</label>
+
+
+<div class="grid">
+
+<div>
+
+<input
+type="number"
+id="up_${p.id}"
+placeholder="${s.due>0?"Rs "+s.due:"Clear"}"
+${s.due<=0?"disabled":""}
+>
+
+</div>
+
+
+<div>
+
+<input
+id="un_${p.id}"
+placeholder="Cash / Note"
+${s.due<=0?"disabled":""}
+>
+
+</div>
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+class="btn green small"
+onclick="personalPayment('${p.id}')"
+${s.due<=0?"disabled":""}
+>
+Jama Karwa Li
+</button>
+
+
+<button
+class="btn primary small"
+onclick="showPersonalHistory('${p.id}')"
+>
+Poora Hisaab
+</button>
+
+
+<button
+class="btn red small"
+onclick="permanentDeletePerson('${p.id}')"
+>
+Mukammal Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* =========================================================
+   PERSONAL PAYMENT
+========================================================= */
+
+function personalPayment(id){
+
+let p=uPerson(id);
+
+let s=personStats(id);
+
+
+if(!p||s.due<=0){
+
+alert(
+"Is person ka udhar clear hai."
+);
+
+return;
+}
+
+
+let amount=n(
+document.getElementById(
+"up_"+id
+).value
+);
+
+
+let note=
+document.getElementById(
+"un_"+id
+).value.trim();
+
+
+if(amount<=0){
+
+alert(
+"Jama amount likhein."
+);
+
+return;
+}
+
+
+if(amount>s.due){
+
+alert(
+"Jama amount current udhar se zyada nahi ho sakta."
+);
+
+return;
+}
+
+
+db.personal.payments.push({
+
+id:uid(),
+
+personId:id,
+
+amount,
+
+date:today(),
+
+note
+
+});
+
+
+save();
+
+refreshAll();
+
+
+let remaining=
+personStats(id).due;
+
+
+if(remaining===0){
+
+alert(
+p.name+
+" ka udhar MUKAMMAL CLEAR ho gaya.\n"+
+"Ab is person ka koi udhar baqi nahi."
+);
+
+}else{
+
+alert(
+"Jama save ho gaya.\n"+
+"Jama: "+money(amount)+
+"\nBaqi: "+money(remaining)
+);
+
+}
+
+}
+
+
+/* =========================================================
+   PERSONAL HISTORY
+========================================================= */
+
+function showPersonalHistory(id){
+
+let p=uPerson(id);
+
+if(!p)return;
+
+
+let s=personStats(id);
+
+
+let html=`
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Total Diya</span>
+<b>${money(s.given)}</b>
+</div>
+
+<div class="total-row">
+<span>Total Wapas</span>
+<b class="paid">
+${money(s.returned)}
+</b>
+</div>
+
+<div class="total-row final-row">
+<span>Current Baqi</span>
+<b class="${s.due?"due":"paid"}">
+${money(s.due)}
+</b>
+</div>
+
+</div>
+
+
+<h3 style="margin:15px 0 10px">
+Diye Gaye Udhar
+</h3>
+
+`;
+
+
+let loans=
+db.personal.loans
+.filter(x=>x.personId===id)
+.slice()
+.reverse();
+
+
+if(!loans.length){
+
+html+=
+'<div class="empty">Koi udhar entry nahi.</div>';
+
+}
+
+
+loans.forEach(x=>{
+
+html+=`
+
+<div class="history-item">
+
+<b>${money(x.amount)}</b>
+
+<div class="muted">
+${x.date}
+</div>
+
+<div>
+${esc(x.note||"Personal Udhar")}
+</div>
+
+<div class="field-actions">
+
+<button
+class="btn primary small"
+onclick="editPersonalLoan('${x.id}','${id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="deletePersonalLoan('${x.id}','${id}')"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+html+=`
+
+<h3 style="margin:15px 0 10px">
+Jama / Wapsi History
+</h3>
+
+`;
+
+
+let payments=
+db.personal.payments
+.filter(x=>x.personId===id)
+.slice()
+.reverse();
+
+
+if(!payments.length){
+
+html+=
+'<div class="empty">Koi jama nahi.</div>';
+
+}
+
+
+payments.forEach(x=>{
+
+html+=`
+
+<div class="history-item">
+
+<b class="paid">
+${money(x.amount)}
+</b>
+
+<div class="muted">
+${x.date}
+</div>
+
+<div>
+${esc(x.note||"Jama")}
+</div>
+
+<div class="field-actions">
+
+<button
+class="btn primary small"
+onclick="editPersonalPayment('${x.id}','${id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="deletePersonalPayment('${x.id}','${id}')"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+openModal(
+"Personal Hisaab: "+p.name,
+html
+);
+
+}
+
+
+function editPersonalLoan(loanId,personId){
+
+let x=db.personal.loans.find(l=>l.id===loanId);
+
+if(!x)return;
+
+
+let newAmount=prompt("Udhar amount:",x.amount);
+
+if(newAmount===null)return;
+
+let newNote=prompt("Note:",x.note||"");
+
+if(newNote===null)return;
+
+
+newAmount=n(newAmount);
+
+
+if(newAmount<=0){
+
+alert("Sahi amount likhein.");
+
+return;
+}
+
+
+x.amount=newAmount;
+
+x.note=newNote.trim();
+
+
+save();
+
+refreshAll();
+
+showPersonalHistory(personId);
+
+}
+
+
+function deletePersonalLoan(loanId,personId){
+
+if(!confirm(
+"Udhar entry delete karni hai?\n"+
+"Delete hone se is person ka current udhar kam ho jayega."
+))return;
+
+
+db.personal.loans=
+db.personal.loans.filter(
+x=>x.id!==loanId
+);
+
+
+save();
+
+refreshAll();
+
+showPersonalHistory(personId);
+
+}
+
+
+function editPersonalPayment(paymentId,personId){
+
+let x=db.personal.payments.find(p=>p.id===paymentId);
+
+if(!x)return;
+
+
+let newAmount=prompt("Jama amount:",x.amount);
+
+if(newAmount===null)return;
+
+
+newAmount=n(newAmount);
+
+
+if(newAmount<=0){
+
+alert("Sahi amount likhein.");
+
+return;
+}
+
+
+x.amount=newAmount;
+
+
+save();
+
+refreshAll();
+
+showPersonalHistory(personId);
+
+}
+
+
+function deletePersonalPayment(
+paymentId,
+personId
+){
+
+if(!confirm(
+"Jama entry delete karni hai?\n"+
+"Delete hone se is person ka current udhar dobara barh sakta hai."
+))return;
+
+
+db.personal.payments=
+db.personal.payments.filter(
+x=>x.id!==paymentId
+);
+
+
+save();
+
+refreshAll();
+
+showPersonalHistory(personId);
+
+}
+
+
+/* =========================================================
+   DELETE PERSONAL PERSON
+========================================================= */
+
+function permanentDeletePerson(id){
+
+let p=uPerson(id);
+
+if(!p)return;
+
+
+if(!confirm(
+`MUKAMMAL DELETE?\n\n${p.name}\n\n`+
+`Is person ki:\n`+
+`• Saari udhar entries\n`+
+`• Saari jama entries\n`+
+`• Complete history\n\n`+
+`hamesha ke liye delete hogi.\n\n`+
+`Dukan, Kabar aur Ghar par ZERO effect hoga.`
+))return;
+
+
+db.personal.loans=
+db.personal.loans.filter(
+x=>x.personId!==id
+);
+
+
+db.personal.payments=
+db.personal.payments.filter(
+x=>x.personId!==id
+);
+
+
+db.personal.people=
+db.personal.people.filter(
+x=>x.id!==id
+);
+
+
+save();
+
+refreshAll();
+
+alert(
+"Personal udhar person mukammal delete ho gaya."
+);
+
+}
+
+
+/* =========================================================
+   PERSONAL REPORT
+========================================================= */
+
+function showUReport(type,btn){
+
+document.querySelectorAll(
+"#udharContent .report-btn"
+)
+.forEach(x=>
+x.classList.remove("active")
+);
+
+
+if(btn)
+btn.classList.add("active");
+
+
+let loans=
+db.personal.loans.filter(
+x=>inPeriod(x.date,type)
+);
+
+
+let payments=
+db.personal.payments.filter(
+x=>inPeriod(x.date,type)
+);
+
+
+let given=
+loans.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+
+let returned=
+payments.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+
+document.getElementById(
+"uReport"
+).innerHTML=`
+
+<div class="total-box">
+
+<div class="total-row">
+<span>New Udhar Diya</span>
+<b>${money(given)}</b>
+</div>
+
+<div class="total-row">
+<span>Jama / Wapas Aaya</span>
+<b class="paid">
+${money(returned)}
+</b>
+</div>
+
+<div class="total-row final-row">
+<span>Period Difference</span>
+<b class="${given-returned>0?"due":"paid"}">
+${money(given-returned)}
+</b>
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   KABAR STATS
+========================================================= */
+
+function kStats(){
+
+let sale=
+db.kabar.bills.reduce(
+(s,x)=>s+n(x.total),
+0
+);
+
+
+let cost=
+db.kabar.bills.reduce(
+(s,x)=>s+n(x.cost),
+0
+);
+
+
+let use=
+db.kabar.uses.reduce(
+(s,x)=>s+n(x.value),
+0
+);
+
+
+let expense=
+db.kabar.expenses.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+
+let stock=
+db.kabar.products.reduce(
+(s,p)=>
+s+n(p.stock)*n(p.buyRate),
+0
+);
+
+
+let gross=sale-cost;
+
+
+return{
+
+sale,
+cost,
+gross,
+expense,
+profit:gross-expense,
+use,
+stock
+
+};
+
+}
+
+
+function dStats(){
+
+let sale=
+db.dukan.bills.reduce(
+(s,x)=>s+n(x.total),
+0
+);
+
+
+let cost=
+db.dukan.bills.reduce(
+(s,x)=>s+n(x.cost),
+0
+);
+
+
+let use=
+db.dukan.uses.reduce(
+(s,x)=>s+n(x.value),
+0
+);
+
+
+let expense=
+db.dukan.expenses.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+
+let stock=
+db.dukan.products.reduce(
+
+(s,p)=>
+s+
+n(p.stockSmall)*
+(
+n(p.buyRate)/
+(n(p.conversion)||1)
+),
+
+0
+
+);
+
+
+let gross=sale-cost;
+
+
+return{
+
+sale,
+cost,
+gross,
+expense,
+profit:gross-expense,
+use,
+stock
+
+};
+
+}
+
+
+/* =========================================================
+   STOCK CORRECTION (MANUAL ADJUST)
+   Sirf stock quantity change hoti hai.
+   Dukandar/Customer hisaab par KOI asar nahi hota.
+========================================================= */
+
+function openDStockAdjust(id){
+
+let p=dProduct(id);
+
+if(!p)return;
+
+
+let conv=n(p.conversion)||1;
+
+let big=Math.floor(n(p.stockSmall)/conv);
+
+let small=n(p.stockSmall)%conv;
+
+
+let html=`
+
+<div class="notice">
+Yahan is product ka stock manually theek kar saktay hain.
+Ye sirf stock quantity update karega — kisi Dukandar ke udhar ya hisaab par koi asar nahi hoga.
+</div>
+
+<p class="muted">
+Current Stock: <b>${dStockText(p)}</b>
+</p>
+
+<div class="grid" style="margin-top:10px">
+
+<div>
+<label>Nayi Bari Quantity (${esc(p.bigUnit)})</label>
+<input type="number" id="dsaBig" value="${big}">
+</div>
+
+<div>
+<label>Nayi Choti Quantity (${esc(p.unit)})</label>
+<input type="number" id="dsaSmall" value="${small}">
+</div>
+
+</div>
+
+<div style="margin-top:10px">
+<label>Wajah (optional)</label>
+<input id="dsaNote" placeholder="Misal: Ginti mein farq tha">
+</div>
+
+<div class="form-actions">
+<button class="btn green" onclick="saveDStockAdjust('${id}')">
+Stock Update Karein
+</button>
+</div>
+
+`;
+
+
+openModal(
+"Stock Theek Karein: "+p.name,
+html
+);
+
+}
+
+
+function saveDStockAdjust(id){
+
+let p=dProduct(id);
+
+if(!p)return;
+
+
+let big=n(
+document.getElementById("dsaBig").value
+);
+
+let small=n(
+document.getElementById("dsaSmall").value
+);
+
+
+let newQty=dTotalSmall(p,big,small);
+
+
+if(newQty<0){
+
+alert("Stock negative nahi ho sakta.");
+
+return;
+}
+
+
+let note=
+document.getElementById("dsaNote").value.trim();
+
+
+let oldQty=n(p.stockSmall);
+
+
+db.dukan.adjustments.push({
+
+id:uid(),
+
+productId:id,
+
+oldQty,
+
+newQty,
+
+diff:newQty-oldQty,
+
+note,
+
+date:today()
+
+});
+
+
+p.stockSmall=newQty;
+
+
+save();
+
+refreshAll();
+
+closeModal();
+
+
+alert(
+"Stock update ho gaya.\n\n"+
+"Pehla Stock: "+dQuantityText(p,oldQty)+
+"\nNaya Stock: "+dQuantityText(p,newQty)+
+"\n\nDukandar ke hisaab/udhar par koi asar nahi hua."
+);
+
+}
+
+
+function openKStockAdjust(id){
+
+let p=kProduct(id);
+
+if(!p)return;
+
+
+let kg=Math.floor(n(p.stock));
+
+let gram=Math.round(
+(n(p.stock)-kg)*1000
+);
+
+
+if(gram>=1000){
+
+kg+=Math.floor(gram/1000);
+
+gram=gram%1000;
+
+}
+
+
+let html=`
+
+<div class="notice">
+Yahan is qism ka stock manually theek kar saktay hain.
+Ye sirf stock quantity update karega — kisi customer ke hisaab par koi asar nahi hoga.
+</div>
+
+<p class="muted">
+Current Stock: <b>${formatKWeight(p.stock)}</b>
+</p>
+
+<div class="grid" style="margin-top:10px">
+
+<div>
+<label>Naya Kg</label>
+<input type="number" step="0.001" id="ksaKg" value="${kg}">
+</div>
+
+<div>
+<label>Naya Gram</label>
+<input type="number" id="ksaGram" value="${gram}">
+</div>
+
+</div>
+
+<div style="margin-top:10px">
+<label>Wajah (optional)</label>
+<input id="ksaNote" placeholder="Misal: Tolne mein farq tha">
+</div>
+
+<div class="form-actions">
+<button class="btn green" onclick="saveKStockAdjust('${id}')">
+Stock Update Karein
+</button>
+</div>
+
+`;
+
+
+openModal(
+"Stock Theek Karein: "+p.name,
+html
+);
+
+}
+
+
+function saveKStockAdjust(id){
+
+let p=kProduct(id);
+
+if(!p)return;
+
+
+let kg=n(
+document.getElementById("ksaKg").value
+);
+
+let gram=n(
+document.getElementById("ksaGram").value
+);
+
+
+let newQty=kgGramToKg(kg,gram);
+
+
+if(newQty<0){
+
+alert("Stock negative nahi ho sakta.");
+
+return;
+}
+
+
+let note=
+document.getElementById("ksaNote").value.trim();
+
+
+let oldQty=n(p.stock);
+
+
+db.kabar.adjustments.push({
+
+id:uid(),
+
+productId:id,
+
+oldQty,
+
+newQty,
+
+diff:newQty-oldQty,
+
+note,
+
+date:today()
+
+});
+
+
+p.stock=newQty;
+
+
+save();
+
+refreshAll();
+
+closeModal();
+
+
+alert(
+"Stock update ho gaya.\n\n"+
+"Pehla Stock: "+formatKWeight(oldQty)+
+"\nNaya Stock: "+formatKWeight(newQty)+
+"\n\nKisi customer ke hisaab par koi asar nahi hua."
+);
+
+}
+
+
+function showStockAdjustments(type){
+
+let arr=db[type].adjustments;
+
+let html="";
+
+
+arr.slice()
+.reverse()
+.forEach(x=>{
+
+let p=
+type==="dukan"
+?dProduct(x.productId)
+:kProduct(x.productId);
+
+
+let oldText=
+type==="dukan"
+?(p?dQuantityText(p,x.oldQty):x.oldQty)
+:formatKWeight(x.oldQty);
+
+
+let newText=
+type==="dukan"
+?(p?dQuantityText(p,x.newQty):x.newQty)
+:formatKWeight(x.newQty);
+
+
+html+=`
+
+<div class="card">
+
+<b>
+${esc(p?p.name:"Deleted Product")}
+</b>
+
+<div class="muted">
+${x.date}
+</div>
+
+<p style="margin-top:6px">
+Pehla: ${oldText}
+<br>
+Naya: ${newText}
+</p>
+
+${x.note?
+`<p>Wajah: ${esc(x.note)}</p>`
+:""}
+
+<button
+class="btn red small"
+onclick="deleteStockAdjustment('${type}','${x.id}')"
+>
+Entry Delete
+</button>
+
+</div>
+
+`;
+
+});
+
+
+if(!html){
+
+html=
+'<div class="empty">Koi stock correction nahi hui.</div>';
+
+}
+
+
+openModal(
+type==="dukan"
+?"Dukan Stock Correction History"
+:"Kabar Stock Correction History",
+html
+);
+
+}
+
+
+function deleteStockAdjustment(type,id){
+
+if(!confirm(
+"Ye sirf log entry delete karegi, stock par koi asar nahi hoga.\n"+
+"Delete karni hai?"
+))return;
+
+
+db[type].adjustments=
+db[type].adjustments.filter(
+x=>x.id!==id
+);
+
+
+save();
+
+refreshAll();
+
+showStockAdjustments(type);
+
+}
+
+
+/* =========================================================
+   REFRESH DUKAN
+========================================================= */
+
+function refreshDukan(){
+
+let s=dStats();
+
+
+document.getElementById(
+"dStock"
+).textContent=money(s.stock);
+
+document.getElementById(
+"dSales"
+).textContent=money(s.sale);
+
+document.getElementById(
+"dProfit"
+).textContent=money(s.profit);
+
+document.getElementById(
+"dUse"
+).textContent=money(s.use);
+
+
+/*
+   Product selects
+*/
+
+[
+"dpProduct",
+"dbProduct",
+"duProduct"
+].forEach(id=>{
+
+let el=
+document.getElementById(id);
+
+if(!el)return;
+
+
+let old=el.value;
+
+el.innerHTML="";
+
+
+db.dukan.products.forEach(p=>{
+
+let o=
+document.createElement("option");
+
+o.value=p.id;
+
+o.textContent=
+p.name+
+" | "+
+dStockText(p);
+
+el.appendChild(o);
+
+});
+
+
+if(
+[...el.options]
+.some(x=>x.value===old)
+){
+
+el.value=old;
+
+}
+
+});
+
+
+/*
+   Dukandar select
+*/
+
+let ds=
+document.getElementById(
+"dbDukandar"
+);
+
+
+let old=ds.value;
+
+
+ds.innerHTML=
+'<option value="">Seedha / Counter Sale</option>';
+
+
+db.dukan.dukandars.forEach(d=>{
+
+let o=
+document.createElement("option");
+
+o.value=d.id;
+
+o.textContent=d.name;
+
+ds.appendChild(o);
+
+});
+
+
+if(
+[...ds.options]
+.some(x=>x.value===old)
+){
+
+ds.value=old;
+
+}
+
+
+/*
+   Stock table
+*/
+
+let tbody=
+document.getElementById(
+"dStockTable"
+);
+
+
+tbody.innerHTML="";
+
+
+if(!db.dukan.products.length){
+
+tbody.innerHTML=
+'<tr><td colspan="5" class="empty">Koi product nahi.</td></tr>';
+
+}
+
+
+db.dukan.products.forEach(p=>{
+
+let cost=
+n(p.stockSmall)*
+(
+n(p.buyRate)/
+(n(p.conversion)||1)
+);
+
+
+let sale=
+n(p.stockSmall)*
+(
+n(p.saleRate)/
+(n(p.conversion)||1)
+);
+
+
+let potential=sale-cost;
+
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>
+${esc(p.name)}
+</td>
+
+<td>
+${dStockText(p)}
+</td>
+
+<td>
+${money(cost)}
+</td>
+
+<td>
+${money(sale)}
+</td>
+
+<td class="${potential>=0?"profit":"loss"}">
+${money(potential)}
+</td>
+
+<td>
+<button class="btn orange small"
+onclick="openDStockAdjust('${p.id}')">
+Theek Karein
+</button>
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+/*
+   Summary
+*/
+
+document.getElementById(
+"dSummary"
+).innerHTML=`
+
+<p>
+Farokht:
+<b>${money(s.sale)}</b>
+</p>
+
+<p>
+Sale Cost:
+<b>${money(s.cost)}</b>
+</p>
+
+<p>
+Gross Profit:
+<b class="profit">
+${money(s.gross)}
+</b>
+</p>
+
+<p>
+Khud Istemal:
+<b>${money(s.use)}</b>
+</p>
+
+<p>
+Dukan Expense:
+<b>${money(s.expense)}</b>
+</p>
+
+<hr style="margin:12px 0">
+
+<div class="${s.profit>=0?"profit":"loss"}">
+
+Dukan Net Munafa
+
+<div class="amount-big">
+${money(s.profit)}
+</div>
+
+</div>
+
+`;
+
+
+/*
+   People
+*/
+
+let people=
+document.getElementById(
+"dPeople"
+);
+
+
+people.innerHTML="";
+
+
+if(!db.dukan.dukandars.length){
+
+people.innerHTML=
+'<div class="empty">Koi dukandar nahi.</div>';
+
+renderDOrders();
+
+return;
+}
+
+
+db.dukan.dukandars.forEach(d=>{
+
+let x=dPersonStats(d.id);
+
+
+let div=
+document.createElement("div");
+
+
+div.className=
+"person "+
+(x.due>0?"duebox":"clearbox");
+
+
+div.innerHTML=`
+
+<div class="person-head">
+
+<div>
+
+<div class="person-name">
+${esc(d.name)}
+</div>
+
+<div class="muted">
+${esc(d.phone||"")}
+</div>
+
+</div>
+
+
+<div class="current">
+
+<div class="muted">
+Udhar
+</div>
+
+<b class="${x.due>0?"due":"paid"}">
+${money(x.due)}
+</b>
+
+</div>
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+class="btn primary small"
+onclick="showDukandarHistory('${d.id}')"
+>
+Hisaab
+</button>
+
+<button
+class="btn green small"
+onclick="showDukandarUdhar()"
+>
+Jama
+</button>
+
+</div>
+
+`;
+
+
+people.appendChild(div);
+
+});
+
+
+renderDOrders();
+
+}
+
+
+/* =========================================================
+   REFRESH KABAR
+========================================================= */
+
+function refreshKabar(){
+
+let s=kStats();
+
+
+document.getElementById(
+"kStock"
+).textContent=money(s.stock);
+
+document.getElementById(
+"kSales"
+).textContent=money(s.sale);
+
+document.getElementById(
+"kProfit"
+).textContent=money(s.profit);
+
+document.getElementById(
+"kUse"
+).textContent=money(s.use);
+
+
+/*
+   Product selects
+*/
+
+[
+"kpProduct",
+"kbProduct",
+"kuProduct"
+].forEach(id=>{
+
+let el=
+document.getElementById(id);
+
+if(!el)return;
+
+
+let old=el.value;
+
+el.innerHTML="";
+
+
+db.kabar.products.forEach(p=>{
+
+let o=
+document.createElement("option");
+
+o.value=p.id;
+
+o.textContent=
+p.name+
+" | "+
+formatKWeight(p.stock);
+
+el.appendChild(o);
+
+});
+
+
+if(
+[...el.options]
+.some(x=>x.value===old)
+){
+
+el.value=old;
+
+}
+
+});
+
+
+/*
+   Supplier select
+*/
+
+let ks=
+document.getElementById(
+"kpSupplier"
+);
+
+
+if(ks){
+
+let old=ks.value;
+
+
+ks.innerHTML=
+'<option value="">Naam Likhna Zaroori Nahi</option>';
+
+
+db.kabar.suppliers.forEach(s2=>{
+
+let o=
+document.createElement("option");
+
+o.value=s2.id;
+
+o.textContent=s2.name;
+
+ks.appendChild(o);
+
+});
+
+
+if(
+[...ks.options]
+.some(x=>x.value===old)
+){
+
+ks.value=old;
+
+}
+
+}
+
+
+/*
+   Stock
+*/
+
+let tbody=
+document.getElementById(
+"kStockTable"
+);
+
+
+tbody.innerHTML="";
+
+
+if(!db.kabar.products.length){
+
+tbody.innerHTML=
+'<tr><td colspan="5" class="empty">Koi Kabar product nahi.</td></tr>';
+
+}
+
+
+db.kabar.products.forEach(p=>{
+
+let cost=
+n(p.stock)*
+n(p.buyRate);
+
+
+let sale=
+n(p.stock)*
+n(p.saleRate);
+
+
+let profit=
+sale-cost;
+
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>
+${esc(p.name)}
+</td>
+
+<td>
+${formatKWeight(p.stock)}
+</td>
+
+<td>
+${money(cost)}
+</td>
+
+<td>
+${money(sale)}
+</td>
+
+<td class="${profit>=0?"profit":"loss"}">
+${money(profit)}
+</td>
+
+<td>
+<button class="btn orange small"
+onclick="openKStockAdjust('${p.id}')">
+Theek Karein
+</button>
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+document.getElementById(
+"kSummary"
+).innerHTML=`
+
+<p>
+Farokht:
+<b>${money(s.sale)}</b>
+</p>
+
+<p>
+Sale Cost:
+<b>${money(s.cost)}</b>
+</p>
+
+<p>
+Gross Profit:
+<b class="profit">
+${money(s.gross)}
+</b>
+</p>
+
+<p>
+Khud Istemal:
+<b>${money(s.use)}</b>
+</p>
+
+<p>
+Kabar Expense:
+<b>${money(s.expense)}</b>
+</p>
+
+<hr style="margin:12px 0">
+
+<div class="${s.profit>=0?"profit":"loss"}">
+
+Kabar Net Munafa
+
+<div class="amount-big">
+${money(s.profit)}
+</div>
+
+</div>
+
+`;
+
+
+/*
+   Suppliers list
+*/
+
+let supBox=
+document.getElementById(
+"kSuppliers"
+);
+
+
+if(supBox){
+
+supBox.innerHTML="";
+
+
+if(!db.kabar.suppliers.length){
+
+supBox.innerHTML=
+'<div class="empty">Abhi koi naam add nahi kiya. Purchase mein naam dena optional hai.</div>';
+
+}else{
+
+db.kabar.suppliers.forEach(sp=>{
+
+let st=kSupplierStats(sp.id);
+
+
+let div=
+document.createElement("div");
+
+
+div.className="person clearbox";
+
+
+div.innerHTML=`
+
+<div class="person-head">
+
+<div>
+
+<div class="person-name">
+${esc(sp.name)}
+</div>
+
+<div class="muted">
+${esc(sp.phone||"")}
+</div>
+
+</div>
+
+
+<div class="current">
+
+<div class="muted">
+Total Purchase
+</div>
+
+<b>
+${money(st.amount)}
+</b>
+
+<div class="muted">
+${st.count} entries
+</div>
+
+</div>
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+class="btn primary small"
+onclick="showKSupplierHistory('${sp.id}')"
+>
+Hisaab
+</button>
+
+</div>
+
+`;
+
+
+supBox.appendChild(div);
+
+});
+
+}
+
+}
+
+
+renderKOrders();
+
+}
+
+
+/* =========================================================
+   GHAR
+========================================================= */
+
+function homeExpenseTotal(){
+
+return db.ghar.expenses.reduce(
+(s,x)=>s+n(x.amount),
+0
+);
+
+}
+
+
+function addHomeExpense(){
+
+let name=
+document.getElementById(
+"gxName"
+).value.trim();
+
+
+let amount=n(
+document.getElementById(
+"gxAmount"
+).value
+);
+
+
+let category=
+document.getElementById(
+"gxCat"
+).value.trim()
+||"Ghar";
+
+
+let date=
+dateVal("gxDate");
+
+
+if(!name||amount<=0){
+
+alert(
+"Naam aur amount likhein."
+);
+
+return;
+}
+
+
+db.ghar.expenses.push({
+
+id:uid(),
+
+name,
+
+amount,
+
+category,
+
+date
+
+});
+
+
+save();
+
+refreshAll();
+
+
+document.getElementById(
+"gxName"
+).value="";
+
+document.getElementById(
+"gxAmount"
+).value="";
+
+
+alert(
+"Ghar expense save ho gaya."
+);
+
+}
+
+
+/* =========================================================
+   HOME EXPENSE HISTORY
+========================================================= */
+
+function showHomeExpenses(){
+
+let html="";
+
+
+db.ghar.expenses
+.slice()
+.reverse()
+.forEach(x=>{
+
+html+=`
+
+<div class="card">
+
+<b>
+${esc(x.name)}
+</b>
+
+<div class="muted">
+${x.date}
+</div>
+
+<p>
+${esc(x.category)}
+—
+${money(x.amount)}
+</p>
+
+<div class="field-actions">
+
+<button
+class="btn primary small"
+onclick="editHomeExpense('${x.id}')"
+>
+Edit
+</button>
+
+<button
+class="btn red small"
+onclick="deleteHomeExpense('${x.id}')"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+if(!html){
+
+html=
+'<div class="empty">Koi Ghar expense nahi.</div>';
+
+}
+
+
+openModal(
+"Ghar Expense History",
+html
+);
+
+}
+
+
+function editHomeExpense(id){
+
+let x=db.ghar.expenses.find(a=>a.id===id);
+
+if(!x)return;
+
+
+let newName=prompt("Naam:",x.name);
+
+if(newName===null)return;
+
+let newAmount=prompt("Amount:",x.amount);
+
+if(newAmount===null)return;
+
+let newCat=prompt("Category:",x.category);
+
+if(newCat===null)return;
+
+
+x.name=newName.trim()||x.name;
+
+x.amount=n(newAmount);
+
+x.category=newCat.trim()||x.category;
+
+
+save();
+
+refreshAll();
+
+showHomeExpenses();
+
+}
+
+
+function deleteHomeExpense(id){
+
+if(!confirm(
+"Ghar expense delete karna hai?"
+))return;
+
+
+db.ghar.expenses=
+db.ghar.expenses.filter(
+x=>x.id!==id
+);
+
+
+save();
+
+refreshAll();
+
+showHomeExpenses();
+
+}
+
+
+/* =========================================================
+   GHAR REFRESH
+========================================================= */
+
+function refreshGhar(){
+
+let d=dStats();
+
+let k=kStats();
+
+let home=homeExpenseTotal();
+
+
+let net=
+d.profit+
+k.profit-
+home;
+
+
+document.getElementById(
+"gExpense"
+).textContent=money(home);
+
+
+document.getElementById(
+"gDProfit"
+).textContent=money(d.profit);
+
+
+document.getElementById(
+"gKProfit"
+).textContent=money(k.profit);
+
+
+let gnet=
+document.getElementById("gNet");
+
+
+gnet.textContent=
+money(net);
+
+
+gnet.className=
+net>=0?"profit":"loss";
+
+
+document.getElementById(
+"gSummary"
+).innerHTML=`
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Dukan Net Munafa</span>
+<b>${money(d.profit)}</b>
+</div>
+
+<div class="total-row">
+<span>Kabar Net Munafa</span>
+<b>${money(k.profit)}</b>
+</div>
+
+<div class="total-row">
+<span>Dono Ka Munafa</span>
+<b>${money(d.profit+k.profit)}</b>
+</div>
+
+<div class="total-row">
+<span>Ghar Expense</span>
+<b>${money(home)}</b>
+</div>
+
+<div class="total-row final-row">
+
+<span>FINAL NET</span>
+
+<b class="${net>=0?"profit":"loss"}">
+${money(net)}
+</b>
+
+</div>
+
+</div>
+
+
+<div class="notice" style="margin-top:12px">
+
+Formula:
+Dukan Net Munafa + Kabar Net Munafa − Ghar Expense.
+
+<br>
+
+Personal Udhar is calculation mein include nahi hota.
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   DUKAN RESET
+========================================================= */
+
+function permanentDukanReset(){
+
+if(!confirm(
+"DUKAN PURA RESET?\n\n"+
+"Products delete NAHI honge.\n"+
+"Sab Dukan bills, purchases, uses, dukandar history, jama aur expenses delete honge.\n"+
+"Current stock ZERO ho jayega.\n\n"+
+"Ye action undo nahi hoga."
+))return;
+
+
+db.dukan.purchases=[];
+
+db.dukan.bills=[];
+
+db.dukan.uses=[];
+
+db.dukan.dukandars=[];
+
+db.dukan.jama=[];
+
+db.dukan.expenses=[];
+
+
+db.dukan.products.forEach(
+p=>p.stockSmall=0
+);
+
+
+save();
+
+refreshAll();
+
+
+alert(
+"Dukan ka complete hisaab reset ho gaya. Products bach gaye hain."
+);
+
+}
+
+
+/* =========================================================
+   KABAR RESET
+========================================================= */
+
+function permanentKabarReset(){
+
+if(!confirm(
+"KABAR PURA RESET?\n\n"+
+"Products aur naam delete NAHI honge.\n"+
+"Purchases, bills, uses aur expenses delete honge.\n"+
+"Current stock ZERO ho jayega.\n\n"+
+"Undo nahi hoga."
+))return;
+
+
+db.kabar.purchases=[];
+
+db.kabar.bills=[];
+
+db.kabar.uses=[];
+
+db.kabar.expenses=[];
+
+
+db.kabar.products.forEach(
+p=>p.stock=0
+);
+
+
+save();
+
+refreshAll();
+
+
+alert(
+"Kabar ka complete hisaab reset ho gaya. Products bach gaye hain."
+);
+
+}
+
+
+/* =========================================================
+   PERSONAL RESET
+========================================================= */
+
+function resetPersonalUdhar(){
+
+if(!confirm(
+"PERSONAL UDHAR PURA RESET?\n\n"+
+"Sab persons, udhar aur jama history delete hogi.\n"+
+"Dukan/Kabar/Ghar par koi asar nahi hoga.\n\n"+
+"Undo nahi hoga."
+))return;
+
+
+db.personal.people=[];
+
+db.personal.loans=[];
+
+db.personal.payments=[];
+
+
+save();
+
+refreshAll();
+
+
+alert(
+"Personal Udhar complete reset ho gaya."
+);
+
+}
+
+
+/* =========================================================
+   COMPLETE SYSTEM RESET
+========================================================= */
+
+function completeSystemReset(){
+
+if(!confirm(
+"SYSTEM PURA RESET?\n\n"+
+"Products delete NAHI honge.\n\n"+
+"Delete hoga:\n"+
+"• Dukan transactions\n"+
+"• Dukandar history\n"+
+"• Dukan stock\n"+
+"• Kabar transactions\n"+
+"• Kabar stock\n"+
+"• Personal Udhar\n"+
+"• Personal Jama\n"+
+"• Ghar Expenses\n"+
+"• Complete transaction history\n\n"+
+"Products bachenge.\n\n"+
+"Ye action UNDO NAHI ho sakta."
+))return;
+
+
+if(!confirm(
+"LAST CONFIRMATION:\n\n"+
+"Kya waqai PRODUCTS ke ilawa SAB KUCH RESET karna hai?"
+))return;
+
+
+db.dukan.purchases=[];
+
+db.dukan.bills=[];
+
+db.dukan.uses=[];
+
+db.dukan.dukandars=[];
+
+db.dukan.jama=[];
+
+db.dukan.expenses=[];
+
+db.dukan.products.forEach(
+p=>p.stockSmall=0
+);
+
+
+db.kabar.purchases=[];
+
+db.kabar.bills=[];
+
+db.kabar.uses=[];
+
+db.kabar.expenses=[];
+
+db.kabar.products.forEach(
+p=>p.stock=0
+);
+
+
+db.personal.people=[];
+
+db.personal.loans=[];
+
+db.personal.payments=[];
+
+
+db.ghar.expenses=[];
+
+
+save();
+
+
+dCurrent=[];
+
+kCurrent=[];
+
+
+refreshAll();
+
+
+alert(
+"SYSTEM PURA RESET ho gaya.\nProducts safe hain."
+);
+
+}
+
+
+/* =========================================================
+   FULL REFRESH
+========================================================= */
+
+function refreshPersonalReports(){
+
+showUReport("daily");
+
+}
+
+
+function refreshAll(){
+
+refreshDukan();
+
+refreshKabar();
+
+refreshPersonal();
+
+refreshGhar();
+
+renderDBill();
+
+renderKBill();
+
+updateDBillTotals();
+
+updateKBillTotals();
+
+
+if(document.getElementById("kReport")){
+
+showKReport("daily");
+
+}
+
+
+if(document.getElementById("uReport")){
+
+showUReport("daily");
+
+}
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+document.getElementById(
+"todayText"
+).textContent=
+new Date().toLocaleDateString(
+"en-PK"
+);
+
+
+[
+"dbDate",
+"kbDate",
+"dxDate",
+"kxDate",
+"gxDate",
+"uDate"
+].forEach(id=>{
+
+let el=
+document.getElementById(id);
+
+if(el)
+el.value=today();
+
+});
+
+
+document.addEventListener(
+"keydown",
+e=>{
+
+if(e.key==="Escape")
+closeModal();
+
+});
+
+
+window.addEventListener(
+"click",
+e=>{
+
+if(
+e.target===
+document.getElementById("modal")
+){
+
+closeModal();
+
+}
+
+});
+
+
+refreshAll();
+
+</script>
+
+</body>
+</html>
