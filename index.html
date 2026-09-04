@@ -1024,6 +1024,101 @@ onclick="addRequestToCart()">
 
 </div>
 
+<div class="requestBox" style="margin-top:18px;border:2px solid #8a5a00;background:#fffaf0">
+
+<h3>♻️ Kabaar Ke Liye</h3>
+
+<p class="muted">
+Loha, Plastic, Silver, Peetal, Tamba, Battery/Bentri ya koi bhi kabaar ho — rate/weight dena zaroori nahi. Sirf request bhi bhej sakte hain.
+</p>
+
+<label>Kabaar Ki Qism</label>
+<select id="scrapType" onchange="updateScrapEstimate()">
+<option value="">Select karein (optional)</option>
+<option>Loha</option>
+<option>Plastic</option>
+<option>Silver</option>
+<option>Peetal</option>
+<option>Tamba</option>
+<option>Battery/Bentri</option>
+<option>Other Scrap</option>
+</select>
+
+<label>Naam / Tafseel</label>
+<input id="scrapName" placeholder="Misal: purana loha, plastic drum...">
+
+<div class="row">
+<div style="flex:1;min-width:140px">
+<label>Weight</label>
+<input id="scrapWeight" type="number" min="0" step="any" placeholder="Optional" oninput="updateScrapEstimate()">
+</div>
+<div style="flex:1;min-width:140px">
+<label>Weight Unit</label>
+<select id="scrapWeightUnit" onchange="updateScrapEstimate()">
+<option value="kg">KG</option>
+<option value="gram">Gram</option>
+<option value="mann">Mann</option>
+<option value="ton">Ton</option>
+<option value="piece">Piece</option>
+</select>
+</div>
+</div>
+
+<div class="row">
+<div style="flex:1;min-width:140px">
+<label>Special Rate (optional)</label>
+<input id="scrapSpecialRate" type="number" min="0" step="any" placeholder="Agar maloom ho" oninput="updateScrapEstimate()">
+</div>
+<div style="flex:1;min-width:140px">
+<label>Rate Unit</label>
+<select id="scrapRateUnit" onchange="updateScrapEstimate()">
+<option value="kg">KG</option>
+<option value="mann">Mann</option>
+<option value="gram">Gram</option>
+<option value="ton">Ton</option>
+<option value="piece">Piece</option>
+</select>
+</div>
+</div>
+
+<div id="scrapEstimate" class="notice" style="display:none;margin-top:10px"></div>
+<div id="scrapExtraItems" style="margin-top:10px"></div>
+<button type="button" class="gray" style="width:100%;margin-top:8px" onclick="addScrapRequestItem()">➕ Dusra Kabaar Item Add Karein</button>
+<div class="muted" style="margin-top:6px">Misal: Loha + Gatta + Plastic + Battery — har item ka apna rate, weight aur hisaab rahega.</div>
+
+<label>Phone (optional)</label>
+<input id="scrapPhone" inputmode="tel" placeholder="WhatsApp / Phone">
+
+<label>Address (optional)</label>
+<textarea id="scrapAddress" rows="2" placeholder="Address"></textarea>
+
+<label>Kaise Hoga?</label>
+<select id="scrapPickupMode">
+<option value="">Select karein (optional)</option>
+<option value="pickup">🚚 Yahan se lena hai</option>
+<option value="deliver">📦 Main khud pohanchaunga / pohanchaungi</option>
+</select>
+
+<label>Photo (optional)</label>
+<input id="scrapPhoto" type="file" accept="image/*" onchange="previewScrapPhoto()">
+<img id="scrapPhotoPreview" class="requestPreview" style="display:none">
+
+<label>Video (optional)</label>
+<input id="scrapVideo" type="file" accept="video/*" onchange="previewScrapVideo()">
+<video id="scrapVideoPreview" controls playsinline style="display:none;width:100%;max-height:240px;border-radius:8px;background:#000"></video>
+
+<label>Request / Message</label>
+<textarea id="scrapMessage" rows="3" placeholder="Misal: mere paas purana loha pada hai, dekh kar rate bata dein."></textarea>
+
+<button class="primary" style="width:100%;margin-top:12px;background:#8a5a00"
+onclick="sendScrapRequest()">
+
+♻️ Kabaar Ki Request Bhejein
+
+</button>
+
+</div>
+
 </main>
 
 <footer id="siteFooter" style="margin-top:30px;padding:24px 4% 100px;background:#0d2b1c;color:#e5ede8">
@@ -1262,6 +1357,29 @@ const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
 const db=getDatabase(app);
 
+/* =========================================================
+   V21 PERSONAL COPY BRIDGE
+   Kabaar bill/request ki copy V21 Personal ke Customer Orders
+   inbox mein bhi ja sakti hai. Original Test/Dukaan bill safe
+   rehta hai; ye sirf duplicate copy hai.
+========================================================= */
+const personalCopyConfig={
+apiKey:"AIzaSyB87xImnmeLwGPyC0f8hD-3ZKrufiw3V_c",
+authDomain:"personal-hisab-peer.firebaseapp.com",
+databaseURL:"https://personal-hisab-peer-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId:"personal-hisab-peer",
+storageBucket:"personal-hisab-peer.firebasestorage.app",
+messagingSenderId:"774759908194",
+appId:"1:774759908194:web:9fdf79802b7cb9eddea23b"
+};
+let personalCopyDb=null;
+try{
+const personalCopyApp=initializeApp(personalCopyConfig,"V21PersonalCopyBridge");
+personalCopyDb=getDatabase(personalCopyApp);
+}catch(e){
+console.error("V21 Personal bridge init error:",e);
+}
+
 /* Firebase Storage abhi PAID (Blaze) plan maangta hai,
 is liye har jagah "Cloudinary" (free) istemal ho rahi
 hai Pictures/Voice/Video upload ke liye. Neeche
@@ -1386,35 +1504,46 @@ throw new Error("Naam likhein.");
 register/login hone hi nahi dete — is se pehle
 zaroori check */
 
-const blockCheck=await dbGet("blockedCustomers/"+id);
-
-if(blockCheck){
-
-throw new Error(
-
-"Ye account Admin ne block kar diya hai. Zyada tafseel ke liye Admin se rabta karein."
-
-);
-
+let blockCheck=null;
+try{
+  blockCheck=await dbGet("blockedCustomers/"+id);
+}catch(e){
+  console.warn("Blocked-customer check denied/failed; normal order flow continue hoga:",e);
 }
 
-const existing=await dbGet("customers/"+id);
+if(blockCheck){
+  throw new Error(
+    "Ye account Admin ne block kar diya hai. Zyada tafseel ke liye Admin se rabta karein."
+  );
+}
 
-await dbSet("customers/"+id,{
+/*
+   Customer registration ko main order se alag rakha gaya hai.
+   Kuch Firebase Rules mein public customer profile par write
+   temporarily denied ho sakta hai. Is wajah se dukandar ka
+   ORDER block nahi hona chahiye.
+*/
+let existing=null;
+try{
+  existing=await dbGet("customers/"+id);
+}catch(e){
+  console.warn("Customer profile read denied/failed; order flow continue hoga:",e);
+}
 
-name,
-phone,
-
-createdAt:
-existing?.createdAt||new Date().toLocaleString("en-PK"),
-
-createdTimestamp:
-existing?.createdTimestamp||Date.now(),
-
-updatedAt:new Date().toLocaleString("en-PK"),
-updatedTimestamp:Date.now()
-
-});
+try{
+  await dbSet("customers/"+id,{
+    name,
+    phone,
+    createdAt:existing?.createdAt||new Date().toLocaleString("en-PK"),
+    createdTimestamp:existing?.createdTimestamp||Date.now(),
+    updatedAt:new Date().toLocaleString("en-PK"),
+    updatedTimestamp:Date.now()
+  });
+}catch(e){
+  /* Profile save fail ho to bhi customer ko local session mein
+     identity milti rahe aur woh order place kar sake. */
+  console.warn("Customer profile save denied/failed; order will continue:",e);
+}
 
 customerIdentity={
 id,
@@ -3800,6 +3929,331 @@ openCart();
 
 window.addRequestToCart=addRequestToCart;
 
+/* =========================================================
+   KABAAR / SCRAP REQUEST SYSTEM
+   - Har field optional hai; sirf request/message se bhi bhej sakte hain.
+   - Default rate Admin pehle set karta hai.
+   - KG/Mann/Gram/Ton ki rates automatic convert hoti hain.
+   - Special rate request ke liye default ko override kar sakti hai.
+   - Weight/rate available ho to estimated bill banta hai; warna request
+     save hoti hai aur Admin baad mein rate/weight set karke bill bana sakta hai.
+========================================================= */
+
+const SCRAP_TYPES=["Loha","Plastic","Silver","Peetal","Tamba","Battery/Bentri","Other Scrap"];
+const SCRAP_UNIT_KG={kg:1,gram:0.001,mann:40,ton:1000};
+
+function normalizeScrapRate(rate,unit){
+const r=number(rate);
+const u=String(unit||"kg").toLowerCase();
+if(!r)return 0;
+if(u==="mann")return r/40;
+if(u==="gram")return r*1000;
+if(u==="ton")return r/1000;
+return r;
+}
+
+function scrapKg(weight,unit){
+const w=number(weight);
+const u=String(unit||"kg").toLowerCase();
+if(!w)return 0;
+if(u==="mann")return w*40;
+if(u==="gram")return w/1000;
+if(u==="ton")return w*1000;
+if(u==="piece")return 0;
+return w;
+}
+
+function calculateScrapAmount(weight,weightUnit,rate,rateUnit){
+const w=number(weight), r=number(rate);
+if(!w||!r)return 0;
+if(String(weightUnit)==="piece"||String(rateUnit)==="piece")return String(weightUnit)==="piece"&&String(rateUnit)==="piece"?w*r:0;
+return scrapKg(w,weightUnit)*normalizeScrapRate(r,rateUnit);
+}
+
+async function getScrapRates(){
+const data=await dbGet("scrapRates");
+const out={};
+SCRAP_TYPES.forEach(t=>{
+const x=data?.[t];
+if(x)out[t]={rate:number(x.rate),rateUnit:x.rateUnit||"kg",updatedAt:x.updatedAt||0};
+else out[t]={rate:0,rateUnit:"kg",updatedAt:0};
+});
+return out;
+}
+
+async function updateScrapEstimate(){
+const type=document.getElementById("scrapType")?.value||"";
+const weight=document.getElementById("scrapWeight")?.value||"";
+const weightUnit=document.getElementById("scrapWeightUnit")?.value||"kg";
+const special=document.getElementById("scrapSpecialRate")?.value||"";
+const rateUnit=document.getElementById("scrapRateUnit")?.value||"kg";
+const box=document.getElementById("scrapEstimate");
+if(!box)return;
+let rate=number(special);
+let usedUnit=rateUnit;
+if(!rate&&type){
+const rates=await getScrapRates();
+rate=number(rates[type]?.rate);
+usedUnit=rates[type]?.rateUnit||"kg";
+}
+if(rate&&number(weight)){
+const amount=calculateScrapAmount(weight,weightUnit,rate,usedUnit);
+box.style.display="block";
+box.innerHTML=`💰 Andazah: <b>Rs. ${money(amount)}</b><br>Rate: Rs. ${money(rate)} / ${esc(usedUnit)} • Weight: ${esc(weight)} ${esc(weightUnit)}<br><span class="muted">Final amount actual weight/rate confirm hone ke baad hoga.</span>`;
+}else{
+box.style.display="none";
+}
+}
+window.updateScrapEstimate=updateScrapEstimate;
+
+function previewScrapPhoto(){
+const f=document.getElementById("scrapPhoto")?.files?.[0], img=document.getElementById("scrapPhotoPreview");
+if(!f||!img){if(img)img.style.display="none";return;}
+if(f.size>8*1024*1024){alert("Photo 8MB se choti honi chahiye.");document.getElementById("scrapPhoto").value="";img.style.display="none";return;}
+img.src=URL.createObjectURL(f); img.style.display="block";
+}
+window.previewScrapPhoto=previewScrapPhoto;
+
+function previewScrapVideo(){
+const f=document.getElementById("scrapVideo")?.files?.[0], v=document.getElementById("scrapVideoPreview");
+if(!f||!v){if(v)v.style.display="none";return;}
+if(f.size>8*1024*1024){alert("Video 8MB se choti honi chahiye.");document.getElementById("scrapVideo").value="";v.style.display="none";return;}
+v.src=URL.createObjectURL(f); v.style.display="block";
+}
+window.previewScrapVideo=previewScrapVideo;
+
+let scrapExtraItems=[];
+function readCurrentScrapItem(){
+ const type=document.getElementById("scrapType")?.value.trim()||"";
+ const name=document.getElementById("scrapName")?.value.trim()||"";
+ const weight=document.getElementById("scrapWeight")?.value.trim()||"";
+ const weightUnit=document.getElementById("scrapWeightUnit")?.value||"kg";
+ const special=document.getElementById("scrapSpecialRate")?.value||"";
+ const rateUnit=document.getElementById("scrapRateUnit")?.value||"kg";
+ return {type,name,weight:number(weight),weightUnit,specialRate:number(special),rateUnit};
+}
+function renderScrapExtraItems(){
+ const box=document.getElementById("scrapExtraItems"); if(!box)return;
+ if(!scrapExtraItems.length){box.innerHTML="";return;}
+ box.innerHTML=`<div class="notice"><b>♻️ Added Items</b></div>`+scrapExtraItems.map((x,i)=>`<div class="adminItem" style="margin:6px 0"><b>${i+1}. ${esc(x.type||"Other Scrap")}</b> — ${esc(x.name||"Kabaar")}<br>Weight: ${x.weight?esc(x.weight)+" "+esc(x.weightUnit):"-"} • Rate: ${x.specialRate?"Rs. "+money(x.specialRate)+" / "+esc(x.rateUnit):"Default / baad mein"}<button type="button" class="red small" style="margin-top:6px" onclick="removeScrapRequestItem(${i})">🗑 Remove</button></div>`).join("");
+}
+function addScrapRequestItem(){
+ const x=readCurrentScrapItem();
+ if(!x.type&&!x.name&&!x.weight&&!x.specialRate){alert("Pehle is Kabaar item ki koi detail dein.");return;}
+ scrapExtraItems.push(x); renderScrapExtraItems();
+ ["scrapType","scrapName","scrapWeight","scrapSpecialRate"].forEach(id=>{const e=document.getElementById(id);if(e)e.value="";});
+ const wu=document.getElementById("scrapWeightUnit");if(wu)wu.value="kg";
+ const ru=document.getElementById("scrapRateUnit");if(ru)ru.value="kg";
+ const est=document.getElementById("scrapEstimate");if(est)est.style.display="none";
+}
+function removeScrapRequestItem(i){scrapExtraItems.splice(i,1);renderScrapExtraItems();}
+window.addScrapRequestItem=addScrapRequestItem;window.removeScrapRequestItem=removeScrapRequestItem;
+
+function clearScrapForm(){
+scrapExtraItems=[]; renderScrapExtraItems();
+["scrapType","scrapName","scrapWeight","scrapSpecialRate","scrapPhone","scrapAddress","scrapMessage"].forEach(id=>{const e=document.getElementById(id);if(e)e.value="";});
+const wu=document.getElementById("scrapWeightUnit"); if(wu)wu.value="kg";
+const ru=document.getElementById("scrapRateUnit"); if(ru)ru.value="kg";
+const pm=document.getElementById("scrapPickupMode"); if(pm)pm.value="";
+["scrapPhoto","scrapVideo"].forEach(id=>{const e=document.getElementById(id);if(e)e.value="";});
+const img=document.getElementById("scrapPhotoPreview");if(img)img.style.display="none";
+const v=document.getElementById("scrapVideoPreview");if(v)v.style.display="none";
+const box=document.getElementById("scrapEstimate");if(box)box.style.display="none";
+}
+
+async function sendScrapRequest(){
+ const current=readCurrentScrapItem();
+ const allItems=[...scrapExtraItems,current].filter(x=>x.type||x.name||x.weight||x.specialRate);
+ const phone=document.getElementById("scrapPhone")?.value.trim()||"";
+ const address=document.getElementById("scrapAddress")?.value.trim()||"";
+ const pickupMode=document.getElementById("scrapPickupMode")?.value||"";
+ const message=document.getElementById("scrapMessage")?.value.trim()||"";
+ const photoFile=document.getElementById("scrapPhoto")?.files?.[0];
+ const videoFile=document.getElementById("scrapVideo")?.files?.[0];
+ if(!allItems.length&&!message&&!photoFile&&!videoFile){alert("Kam az kam ek Kabaar item ya message dein.");return;}
+ if(photoFile&&photoFile.size>8*1024*1024){alert("Photo 8MB se choti honi chahiye.");return;}
+ if(videoFile&&videoFile.size>8*1024*1024){alert("Video 8MB se choti honi chahiye.");return;}
+ showStatus("♻️ Kabaar request save ho rahi hai...");
+ let photoUrl="",videoUrl="";
+ try{
+  if(photoFile)photoUrl=await uploadToCloudinary(photoFile);
+  if(videoFile)videoUrl=await uploadToCloudinary(videoFile,"scrap_video_"+Date.now()+".webm");
+  const rates=await getScrapRates().catch(()=>({}));
+  const prepared=allItems.map((it,idx)=>{
+   const info=rates[it.type]||{rate:0,rateUnit:"kg"};
+   const defaultRate=number(info.rate),defaultRateUnit=info.rateUnit||"kg";
+   const finalRate=number(it.specialRate)||defaultRate;
+   const finalRateUnit=number(it.specialRate)?it.rateUnit:defaultRateUnit;
+   const amount=calculateScrapAmount(it.weight,it.weightUnit,finalRate,finalRateUnit);
+   return {...it,defaultRate,defaultRateUnit,finalRate,finalRateUnit,estimatedAmount:amount,itemId:"scrapItem_"+idx};
+  });
+  const estimatedAmount=prepared.reduce((a,x)=>a+number(x.estimatedAmount),0);
+  const billRef=push(ref(db,"bills")); const requestId=billRef.key;
+  const uid=customerIdentity?.id||sanitizePhone(phone)||("guest_"+requestId);
+  const now=new Date().toLocaleString("en-PK"),timestamp=Date.now();
+  const customer={name:customerIdentity?.name||"",phone,address};
+  const request={id:requestId,uid,customer,items:prepared,scrapType:prepared[0]?.type||"",scrapName:prepared[0]?.name||"",weight:prepared[0]?.weight||0,weightUnit:prepared[0]?.weightUnit||"kg",defaultRate:prepared[0]?.defaultRate||0,defaultRateUnit:prepared[0]?.defaultRateUnit||"kg",specialRate:prepared[0]?.specialRate||0,specialRateUnit:prepared[0]?.rateUnit||"kg",finalRate:prepared[0]?.finalRate||0,finalRateUnit:prepared[0]?.finalRateUnit||"kg",estimatedAmount,pickupMode,message,photo:photoUrl,video:videoUrl,status:estimatedAmount>0?"bill-ready":"request-only",createdAt:now,timestamp,requestType:"scrap",scrapRequest:true,storagePath:"bills"};
+  const record={id:requestId,uid,date:now,timestamp,customer,items:prepared.map(x=>({id:x.itemId,name:x.name||x.type||"Kabaar Request",icon:"♻️",scrap:true,scrapRequest:true,scrapType:x.type,weight:x.weight,unit:x.weightUnit,qty:1,price:x.estimatedAmount,costPrice:x.estimatedAmount,rate:x.finalRate,rateUnit:x.finalRateUnit,comment:message,image:photoUrl,video:videoUrl})),total:estimatedAmount,totalCost:estimatedAmount,profit:0,netProfit:0,profitMargin:0,paid:0,balance:estimatedAmount,transactionType:estimatedAmount>0?"scrapPurchase":"scrapRequest",requestType:"scrap",scrapRequest:true,requestData:request,pickupMode,status:request.status,updatedAt:timestamp,history:[{date:now,timestamp,type:estimatedAmount>0?"Kabaar Purchase Bill":"Kabaar Request",jama:0,balance:estimatedAmount}]};
+  await set(billRef,record);
+  await sendBillToV21Personal(record);
+  clearScrapForm();
+  showStatus(estimatedAmount>0?"✅ Kabaar request + multi-item bill save ho gaya":"✅ Multi-item Kabaar request save ho gayi — rate/weight baad mein bhi set ho sakta hai");
+  alert(estimatedAmount>0?"♻️ Kabaar ke tamam items save ho gaye aur V21 ko bhej diye gaye.":"♻️ Kabaar request ke tamam items save ho gaye aur V21 ko bhej diye gaye.");
+ }catch(e){console.error(e);alert("Kabaar request save nahi hui:\n"+(e.message||e));}
+}
+window.sendScrapRequest=sendScrapRequest;
+
+async function createScrapBillFromRequest(request,showBill){
+if(!request)return null;
+const total=number(request.estimatedAmount);
+let bill=null;
+try{bill=await dbGet("bills/"+request.id);}catch(e){bill=null;}
+const now=new Date().toLocaleString("en-PK"),timestamp=Date.now();
+if(!bill){
+const billRef=push(ref(db,"bills"));
+bill={id:billRef.key,uid:request.uid,date:now,timestamp,customer:request.customer||{},items:[],total:0,totalCost:0,profit:0,profitMargin:0,paid:0,balance:0};
+}
+bill.type="scrapPurchase";bill.transactionType="scrapPurchase";bill.requestType="scrap";bill.scrapRequest=true;bill.requestId=request.id;
+bill.customer=request.customer||bill.customer||{};
+bill.items=[{id:"scrap_"+request.id,name:request.scrapName||request.scrapType||"Kabaar",icon:"♻️",scrap:true,scrapType:request.scrapType||"",weight:request.weight||0,unit:request.weightUnit||"",qty:1,price:total,costPrice:total,rate:request.finalRate||0,rateUnit:request.finalRateUnit||"kg",comment:request.message||"",image:request.photo||"",video:request.video||""}];
+bill.total=total;bill.totalCost=total;bill.profit=0;bill.profitMargin=0;bill.paid=number(bill.paid||0);bill.balance=Math.max(0,total-bill.paid);bill.pickupMode=request.pickupMode||"";bill.status="pending-payment";bill.updatedAt=timestamp;bill.requestData=request;
+bill.history=Array.isArray(bill.history)?bill.history:[];bill.history.push({date:now,timestamp,type:"Kabaar Purchase Bill",jama:0,balance:bill.balance});
+await dbSet("bills/"+bill.id,bill);
+await sendBillToV21Personal(bill);
+if(showBill){renderBill(bill);document.getElementById("billModal").classList.add("show");}
+return bill;
+}
+
+async function sendBillToV21Personal(bill){
+if(!personalCopyDb||!bill?.id)return false;
+try{
+const copy=JSON.parse(JSON.stringify(bill));
+const isScrap=copy.scrapRequest===true || copy.requestType==="scrap" || copy.transactionType==="scrapRequest" || copy.transactionType==="scrapPurchase" || copy.type==="scrapRequest" || copy.type==="scrapPurchase";
+copy.sourceApp="Peerbakhsh Wholesale Test/Dukaan";
+copy.sourceBillId=String(bill.id);
+copy.transactionType=isScrap?(copy.transactionType||copy.type||"scrapRequest"):(copy.transactionType||copy.type||"sale");
+copy.type=copy.transactionType;
+if(isScrap){
+  copy.requestType="scrap";
+  copy.scrapRequest=true;
+}else{
+  delete copy.requestType;
+  delete copy.scrapRequest;
+}
+copy.copiedAt=Date.now();
+copy.copiedDate=new Date().toLocaleString("en-PK");
+copy.updatedAt=Date.now();
+copy.copyStatus="pending-personal";
+await set(ref(personalCopyDb,"onlineBillInbox/"+bill.id),copy);
+return true;
+}catch(e){
+ console.error("V21 Personal bill copy error:",e);
+ const msg=String(e?.message||e||"");
+ alert("⚠️ V21 Personal mein copy nahi hui.\n\n"+msg+"\n\nTest/Dukaan ka original record phir bhi safe hai.");
+ return false;
+}
+}
+
+window.sendBillToV21Personal=sendBillToV21Personal;
+window.createScrapBillFromRequest=createScrapBillFromRequest;
+
+async function adminScrapRequests(){
+ let rates={},data=null;
+ try{rates=await getScrapRates();}catch(e){rates={};}
+ try{data=await dbGet("bills");}catch(e){const area=document.getElementById("adminArea");if(area)area.innerHTML=`<h3>♻️ Kabaar Requests + Rates</h3><div class="notice">❌ Requests read nahi ho rahi: ${esc(e.message||e)}</div>`;return;}
+ const requests=data?Object.entries(data).filter(([id,x])=>x&&(x.scrapRequest||x.requestType==="scrap"||x.transactionType==="scrapRequest"||x.transactionType==="scrapPurchase")).map(([id,x])=>({id,bill:x,items:Array.isArray(x.requestData?.items)&&x.requestData.items.length?x.requestData.items:(Array.isArray(x.items)?x.items.map(it=>({type:it.scrapType||"Other Scrap",name:it.name||"Kabaar",weight:it.weight||0,weightUnit:it.unit||"kg",defaultRate:it.defaultRate||0,defaultRateUnit:it.defaultRateUnit||"kg",specialRate:it.specialRate||0,specialRateUnit:it.rateUnit||"kg",finalRate:it.rate||0,finalRateUnit:it.rateUnit||"kg",estimatedAmount:it.price||0})):[]),customer:x.customer||{},status:x.status||"",message:x.requestData?.message||x.items?.[0]?.comment||"",phone:x.customer?.phone||"",address:x.customer?.address||"",pickupMode:x.pickupMode||"",timestamp:x.timestamp||0})):[];
+ requests.sort((a,b)=>number(b.timestamp)-number(a.timestamp));
+ let h=`<h3>♻️ Kabaar Requests + Rates</h3><div class="notice">Har request mein Loha, Gatta, Plastic, Battery waghera ke <b>alag items + alag weight + alag rate</b> save ho sakte hain. Default rate har qism ka alag hai.</div><h3>💰 Default Rates</h3>`;
+ SCRAP_TYPES.forEach(t=>{const x=rates[t]||{rate:0,rateUnit:"kg"};const k=t.replace(/[^a-zA-Z0-9]/g,"_");h+=`<div class="adminItem"><b>${esc(t)}</b><div class="row"><input id="srRate_${k}" type="number" step="any" value="${number(x.rate)}" placeholder="Rate"><select id="srUnit_${k}"><option value="kg" ${x.rateUnit==="kg"?"selected":""}>KG</option><option value="mann" ${x.rateUnit==="mann"?"selected":""}>Mann</option><option value="gram" ${x.rateUnit==="gram"?"selected":""}>Gram</option><option value="ton" ${x.rateUnit==="ton"?"selected":""}>Ton</option><option value="piece" ${x.rateUnit==="piece"?"selected":""}>Piece</option></select></div></div>`;});
+ h+=`<button class="primary" onclick="saveScrapRates()">💾 Default Rates Save</button><hr><h3>📋 Requests</h3>`;
+ if(!requests.length)h+=`<p>Abhi koi Kabaar request nahi.</p>`;
+ requests.forEach(x=>{const id=x.id,safe=id.replace(/[^a-zA-Z0-9_-]/g,"_");const items=x.items||[];const amount=number(x.bill.total);h+=`<div class="adminItem"><b>♻️ Kabaar Multi-Item Request</b><br>Customer: ${esc(x.customer?.name||"-" )} • Phone: ${esc(x.phone||"-")}<br>Address: ${esc(x.address||"-")} • Pickup: ${esc(x.pickupMode||"-")}<br>Status: <b>${esc(x.status||"-")}</b>`;
+ items.forEach((it,i)=>{const key=safe+"_"+i;const def=rates[it.type]||{rate:0,rateUnit:"kg"};const current=number(it.specialRate||it.finalRate||0);const unit=it.specialRateUnit||it.finalRateUnit||def.rateUnit||"kg";const amt=calculateScrapAmount(it.weight,it.weightUnit,current||def.rate, current?unit:def.rateUnit);h+=`<div style="margin-top:8px;padding:8px;border:1px dashed #cbd5e1;border-radius:8px"><b>${i+1}. ${esc(it.type||"Other Scrap")}</b> — ${esc(it.name||"Kabaar")}<br>Weight: ${it.weight?esc(it.weight)+" "+esc(it.weightUnit||"kg"):"-"}<br>Rate: <input id="scrapItemRate_${key}" type="number" step="any" value="${current||""}" placeholder="Default"> <select id="scrapItemRateUnit_${key}"><option value="kg" ${unit==="kg"?"selected":""}>KG</option><option value="mann" ${unit==="mann"?"selected":""}>Mann</option><option value="gram" ${unit==="gram"?"selected":""}>Gram</option><option value="ton" ${unit==="ton"?"selected":""}>Ton</option><option value="piece" ${unit==="piece"?"selected":""}>Piece</option></select><br>Andazah: <b>Rs. ${money(amt)}</b></div>`;});
+ h+=`<br>Message: ${esc(x.message||"-")}<br>Total: <b>Rs. ${money(amount)}</b><div class="row"><button class="primary" onclick="saveScrapRequestRate('${id.replace(/'/g,"\\'")}')">🔄 Change All Item Rates</button><button class="primary" onclick="editScrapRequest('${id.replace(/'/g,"\\'")}')">✏️ Edit</button><button class="primary" onclick="sendScrapRequestToV21('${id.replace(/'/g,"\\'")}')">➡️ V21 Mein Bhejein</button><button class="red" onclick="deleteScrapRequest('${id.replace(/'/g,"\\'")}')">🗑️ Delete</button></div>${x.bill?.id?`<button class="primary" onclick="viewScrapBill('${x.bill.id}')">🧾 Bill</button>`:""}</div>`;});
+ document.getElementById("adminArea").innerHTML=h;
+}
+window.adminScrapRequests=adminScrapRequests;
+
+async function editScrapRequest(id){
+ try{
+  const bill=await dbGet("bills/"+id);
+  if(!bill){alert("Request nahi mili.");return;}
+  const q=bill.requestData||{};
+  const name=prompt("Kabaar ka naam/details:",q.scrapName||bill.items?.[0]?.name||"");
+  if(name===null)return;
+  const weight=prompt("Weight:",String(q.weight??bill.items?.[0]?.weight??0));
+  if(weight===null)return;
+  const message=prompt("Message:",q.message||bill.items?.[0]?.comment||"");
+  if(message===null)return;
+  const updatedReq={...q,scrapName:name.trim(),weight:number(weight),message};
+  const amount=calculateScrapAmount(updatedReq.weight,updatedReq.weightUnit||"kg",updatedReq.finalRate||0,updatedReq.finalRateUnit||"kg");
+  updatedReq.estimatedAmount=amount;
+  await dbUpdate("bills/"+id,{requestData:updatedReq,"items/0/name":name.trim(),"items/0/weight":number(weight),"items/0/comment":message,total:amount,totalCost:amount,balance:Math.max(0,amount-number(bill.paid||0)),updatedAt:Date.now()});
+  const fresh=await dbGet("bills/"+id);
+  if(amount>0) await sendBillToV21Personal(fresh);
+  alert("✅ Request edit ho gayi.");
+  adminScrapRequests();
+ }catch(e){alert("Edit save nahi hui: "+(e.message||e));}
+}
+window.editScrapRequest=editScrapRequest;
+
+async function sendScrapRequestToV21(id){
+ try{
+  const bill=await dbGet("bills/"+id);
+  if(!bill){alert("Request nahi mili.");return;}
+  const ok=await sendBillToV21Personal(bill);
+  if(!ok)throw new Error("V21 Personal mein copy nahi ja saki.");
+  await dbUpdate("bills/"+id,{v21Sent:true,v21SentAt:Date.now(),copyStatus:"sent-to-v21"});
+  showStatus("✅ V21 Personal mein copy bhej di gayi.");
+  alert("✅ V21 Personal mein request/bill bhej diya gaya. V21 ka Customer Orders tab khol kar dekhein.");
+  adminScrapRequests();
+ }catch(e){alert("V21 mein nahi bheja gaya: "+(e.message||e));}
+}
+window.sendScrapRequestToV21=sendScrapRequestToV21;
+
+async function deleteTest2Bill(id){
+  if(!confirm("⚠️ Is Test/Dukaan bill ko DELETE karna hai?\n\nSirf Test/Dukaan ka original bill delete hoga. V21 Personal mein bheji hui copy ko is action se DELETE NAHI kiya jayega.\n\nV21 copy/Stock/Hisaab ko control karna ho to V21 Customer Orders mein us bill ke Delete Options use karein."))return;
+  try{
+    // IMPORTANT: Test/Dukaan delete is source-only. V21 inbox copy ko jaan-boojh kar nahi hatana.
+    await dbRemove("bills/"+id);
+    showStatus("🗑️ Test/Dukaan ka original bill delete ho gaya. V21 copy safe hai.");
+    alert("✅ Test/Dukaan se bill delete ho gaya.\n\n📌 V21 Personal ki copy safe rahegi.\nV21 mein Bill Delete / Stock Reverse / Hisaab Keep-Delete alag se control karein.");
+    adminBills();
+    try{adminScrapRequests();}catch(e){}
+  }catch(e){
+    console.error("Test2 bill delete error:",e);
+    alert("❌ Bill delete nahi hua:\n"+(e.message||e));
+  }
+}
+window.deleteTest2Bill=deleteTest2Bill;
+
+async function deleteScrapRequest(id){
+  return deleteTest2Bill(id);
+}
+window.deleteScrapRequest=deleteScrapRequest;
+
+async function saveScrapRates(){
+const data={};
+SCRAP_TYPES.forEach(t=>{const key=t.replace(/[^a-zA-Z0-9]/g,"_");data[t]={rate:number(document.getElementById("srRate_"+key)?.value),rateUnit:document.getElementById("srUnit_"+key)?.value||"kg",updatedAt:Date.now()};});
+await dbSet("scrapRates",data);
+alert("✅ Kabaar default rates save ho gaye. Gram/Mann/Weight ki conversion automatic hai.");
+adminScrapRequests();
+}
+window.saveScrapRates=saveScrapRates;
+
+async function saveScrapRequestRate(id){
+ const bill=await dbGet("bills/"+id); if(!bill){alert("Request nahi mili.");return;}
+ const items=Array.isArray(bill.requestData?.items)&&bill.requestData.items.length?bill.requestData.items:(bill.items||[]).map(it=>({type:it.scrapType||"Other Scrap",name:it.name||"Kabaar",weight:it.weight||0,weightUnit:it.unit||"kg",specialRate:0,specialRateUnit:"kg",finalRate:it.rate||0,finalRateUnit:it.rateUnit||"kg"}));
+ const safe=id.replace(/[^a-zA-Z0-9_-]/g,"_"); let total=0;
+ const rates=await getScrapRates().catch(()=>({}));
+ items.forEach((it,i)=>{const key=safe+"_"+i;const entered=number(document.getElementById("scrapItemRate_"+key)?.value);const unit=document.getElementById("scrapItemRateUnit_"+key)?.value||"kg";const def=rates[it.type]||{rate:0,rateUnit:"kg"};const finalRate=entered||number(def.rate);const finalUnit=entered?unit:(def.rateUnit||"kg");it.specialRate=entered;it.specialRateUnit=unit;it.finalRate=finalRate;it.finalRateUnit=finalUnit;it.estimatedAmount=calculateScrapAmount(it.weight,it.weightUnit,finalRate,finalUnit);total+=number(it.estimatedAmount);if(bill.items?.[i]){bill.items[i].rate=finalRate;bill.items[i].rateUnit=finalUnit;bill.items[i].price=it.estimatedAmount;bill.items[i].costPrice=it.estimatedAmount;}});
+ bill.requestData={...(bill.requestData||{}),items,estimatedAmount:total};bill.items=bill.items||[];bill.total=total;bill.totalCost=total;bill.profit=0;bill.netProfit=0;bill.balance=Math.max(0,total-number(bill.paid||0));bill.transactionType=total>0?"scrapPurchase":"scrapRequest";bill.type=bill.transactionType;bill.status=total>0?"pending-payment":"request-only";bill.updatedAt=Date.now();
+ await dbSet("bills/"+id,bill); await sendBillToV21Personal(bill); alert("✅ Har Kabaar item ka rate/amount update ho gaya aur V21 copy update ho gayi."); adminScrapRequests();
+}
+window.saveScrapRequestRate=saveScrapRequestRate;
+
+async function viewScrapBill(id){const b=await dbGet("bills/"+id);if(!b)return;renderBill(b);document.getElementById("billModal").classList.add("show");}
+window.viewScrapBill=viewScrapBill;
 
 /* =========================================================
 CHECKOUT
@@ -3822,14 +4276,16 @@ return;
 
 }
 
-const blocked=await dbGet("blockedCustomers/"+customerIdentity.id);
+let blocked=null;
+try{
+  blocked=await dbGet("blockedCustomers/"+customerIdentity.id);
+}catch(e){
+  console.warn("Blocked-customer checkout check denied/failed; order flow continue hoga:",e);
+}
 
 if(blocked){
-
-alert("Ye account Admin ne block kar diya hai. Order nahi ho sakta — Admin se rabta karein.");
-
-return;
-
+  alert("Ye account Admin ne block kar diya hai. Order nahi ho sakta — Admin se rabta karein.");
+  return;
 }
 
 openModal(`
@@ -4190,7 +4646,11 @@ text+=`Unit: ${x.unit}\n`;
 
 text+=`Qty: ${x.qty}\n`;
 
-if(x.request){
+if(x.scrap){
+
+text+=`♻️ Kabaar Purchase\nRate: Rs. ${x.rate||x.price} / ${x.rateUnit||x.unit||"kg"}\nAmount: Rs. ${number(x.price)*number(x.qty)}\n`;
+
+}else if(x.request){
 
 text+="💰 Rate: Admin Confirm\n";
 
@@ -4306,22 +4766,20 @@ ${x.weight?"Weight: "+esc(x.weight)+"<br>":""}
 
 ${x.unit?"Unit: "+esc(x.unit)+"<br>":""}
 
-${x.request?"<b>Request</b>":""}
+${x.scrap?"<b>♻️ Kabaar Purchase</b><br>Rate: Rs. "+money(x.rate||x.price)+" / "+esc(x.rateUnit||x.unit||"kg"):x.request?"<b>Request</b>":""}
+${x.scrap&&x.comment?"<br>Message: "+esc(x.comment):""}
+${x.scrap&&x.video?"<br>🎥 Video attached":""}
 
 </td>
 
 <td>${x.qty}</td>
 
 <td>
-${x.request?"Admin Confirm":"Rs. "+money(x.price)}
+${x.scrap?"Rs. "+money(x.price):x.request?"Admin Confirm":"Rs. "+money(x.price)}
 </td>
 
 <td>
-${x.request
-?
-"-"
-:
-"Rs. "+money(x.qty*x.price)}
+${x.scrap?"Rs. "+money(x.qty*x.price):x.request?"-":"Rs. "+money(x.qty*x.price)}
 </td>
 
 </tr>
@@ -4767,6 +5225,8 @@ openModal(`
 <button onclick="adminDukandar()">🏪 Dukandar</button>
 
 <button onclick="adminBills()">🧾 Bills</button>
+
+<button onclick="adminScrapRequests()">♻️ Kabaar Requests</button>
 
 <button onclick="adminKhata()">📒 Khata</button>
 
@@ -7980,6 +8440,22 @@ onclick="adminViewBill('${b.id}')">
 
 <button
 class="primary"
+onclick="sendNormalBillToV21('${b.id}')">
+
+➡️ V21 Mein Bhejein
+
+</button>
+
+<button
+class="red"
+onclick="deleteTest2Bill('${b.id}')">
+
+🗑️ Pora Delete
+
+</button>
+
+<button
+class="primary"
 onclick="adminEditBill('${b.id}')">
 
 ✏️ Edit
@@ -7998,6 +8474,19 @@ document.getElementById("adminArea").innerHTML=h;
 
 window.adminBills=adminBills;
 
+
+async function sendNormalBillToV21(id){
+ try{
+  const bill=await dbGet("bills/"+id);
+  if(!bill){alert("Bill nahi mila.");return;}
+  const ok=await sendBillToV21Personal(bill);
+  if(!ok)throw new Error("V21 Personal mein bill copy nahi ho saka.");
+  await dbUpdate("bills/"+id,{v21Sent:true,v21SentAt:Date.now(),copyStatus:"sent-to-v21"});
+  showStatus("✅ Dukan bill V21 Personal mein bhej diya gaya.");
+  alert("✅ Dukan ka bill V21 Personal ke Customer Orders mein bhej diya gaya.");
+ }catch(e){alert("V21 mein bill nahi bheja gaya: "+(e.message||e));}
+}
+window.sendNormalBillToV21=sendNormalBillToV21;
 
 async function adminViewBill(id){
 
@@ -8493,6 +8982,14 @@ class="primary"
 onclick="adminViewBill('${b.id}')">
 
 🧾 Bill
+
+</button>
+
+<button
+class="primary"
+onclick="sendNormalBillToV21('${b.id}')">
+
+➡️ V21 Mein Bhejein
 
 </button>
 
@@ -12258,4 +12755,4 @@ e.message
 </script>
 
 </body>
-</html> 
+</html>
