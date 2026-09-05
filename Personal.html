@@ -774,6 +774,7 @@ color:#000
 <button class="tab active" onclick="openSection('dukan',this)">Dukan</button>
 <button class="tab" onclick="openSection('kabar',this)">Kabar</button>
 <button class="tab" onclick="openSection('udhar',this)">Maine Diya (Udhar)</button>
+<button class="tab" onclick="openSection('oldUdhar',this)">📜 Purana Udhar</button>
 <button class="tab" onclick="openSection('liya',this)">Maine Liya (Udhar)</button>
 <button class="tab" onclick="openSection('ghar',this)">Ghar Kharcha</button>
 <button class="tab" onclick="openSection('hisab',this)">Mera Hisab</button>
@@ -2159,6 +2160,11 @@ Yahan jo paisa kisi person ko dein ya wapas lein, us ka separate hisaab rahega.
 </div>
 
 <div>
+<label>Ye Paisa Kis Hisaab Ke Liye Diya?</label>
+<select id="uCategory"><option value="dukan">🏪 Dukan ke liye</option><option value="kabar">♻️ Kabar ke liye</option></select>
+</div>
+
+<div>
 <label>Date</label>
 <input type="date" id="uDate">
 </div>
@@ -2289,6 +2295,45 @@ Personal Udhar Pura Reset
 </div>
 </section>
 
+
+<!-- =====================================================
+     PURANA UDHAR — INDEPENDENT RECEIVABLES
+===================================================== -->
+<section id="oldUdhar" class="section">
+<div id="oldUdharLock" class="card">
+<h2>📜 Purana Udhar Password</h2>
+<div class="notice">Ye tab purane/pehle ke un logon ka hisaab hai jin ke paas aapke paise hain. Ye Dukan, Kabar, Maine Diya, Maine Liya aur current bills se bilkul independent rahega.</div>
+<div class="grid">
+<div><label>Password</label><input type="password" id="oldUdharPassword"></div>
+<div style="display:flex;align-items:end"><button class="btn primary" onclick="unlock('oldUdhar')">Purana Udhar Kholein</button></div>
+</div>
+</div>
+<div id="oldUdharContent" class="hidden">
+<div id="oldUdharAlerts" class="card" style="display:none;border:2px solid #dc2626;background:#fff7f7;margin-bottom:12px"></div>
+<div class="stats">
+<div class="stat"><span>Total Purana Diya</span><b id="oldUdharGiven">Rs 0</b></div>
+<div class="stat"><span>Total Jama</span><b id="oldUdharPaid">Rs 0</b></div>
+<div class="stat"><span>Abhi Lena Baqi</span><b id="oldUdharDue">Rs 0</b></div>
+<div class="stat"><span>Log</span><b id="oldUdharPeople">0</b></div>
+</div>
+<div class="card">
+<h2>➕ Purana Udhar Add Karein</h2>
+<div class="notice">Naam, purani baqi rakam, kab se baqi hai, ye Dukan ya Kabar kis hisaab se diya tha, aur tafseel likhein. Ye alag Purana Udhar ledger hai; Closing se independent rahega aur Dukan/Kabar stock, sale ya profit automatically change nahi karega.</div>
+<div class="grid">
+<div><label>Naam</label><input id="oldName" placeholder="Aslam"></div>
+<div><label>Phone (optional)</label><input id="oldPhone"></div>
+<div><label>Mere Kitne Hain?</label><input type="number" id="oldAmount" min="0" step="0.01" placeholder="50000"></div>
+<div><label>Ye Udhar Kis Hisaab Se Hai?</label><select id="oldCategory"><option value="dukan">🏪 Dukan ke liye</option><option value="kabar">♻️ Kabar ke liye</option></select></div>
+<div><label>Kab Se Baqi Hai?</label><input type="date" id="oldSince"></div>
+<div style="grid-column:1/-1"><label>Tafseel / Wajah</label><input id="oldNote" placeholder="Misal: 2025 ka purana maal/udhar"></div>
+</div>
+<div class="form-actions"><button class="btn purple" onclick="addOldUdhar()">💾 Purana Udhar Save Karein</button></div>
+</div>
+<div class="card"><h2>🔎 Naam Search</h2><input id="oldSearch" placeholder="Naam search karein..." oninput="refreshOldUdhar()"></div>
+<div class="card"><h2>👥 Purana Udhar List</h2><div id="oldUdharList"></div></div>
+<div class="card"><h2>🔑 Password Change</h2><div class="form-actions"><button class="btn primary" onclick="changeOldUdharPassword()">Password Badlein</button></div></div>
+</div>
+</section>
 
 <!-- =====================================================
      MERA UDHAR (LIYA HUA / BORROWED)
@@ -3414,6 +3459,9 @@ loans:[],
 payments:[]
 },
 
+oldUdhar:{people:[],entries:[],payments:[]},
+
+
 liya:{
 people:[],
 loans:[],
@@ -3476,6 +3524,7 @@ db.settings.netRecordPassword=db.settings.netRecordPassword||"1234";
 db.settings.yaadPassword=db.settings.yaadPassword||"1234";
 db.settings.paisaPassword=db.settings.paisaPassword||"1234";
 db.settings.customerOrdersPassword=db.settings.customerOrdersPassword||"1234";
+db.settings.oldUdharPassword=db.settings.oldUdharPassword||"1234";
 
 db.settings.closingPassword=db.settings.closingPassword||"1234";
 
@@ -3531,6 +3580,12 @@ db.personal=(db.personal && typeof db.personal==="object" && !Array.isArray(db.p
 db.personal.people=db.personal.people||[];
 db.personal.loans=db.personal.loans||[];
 db.personal.payments=db.personal.payments||[];
+
+db.oldUdhar=(db.oldUdhar && typeof db.oldUdhar==="object" && !Array.isArray(db.oldUdhar))?db.oldUdhar:{people:[],entries:[],payments:[]};
+db.oldUdhar.people=Array.isArray(db.oldUdhar.people)?db.oldUdhar.people:[];
+db.oldUdhar.entries=Array.isArray(db.oldUdhar.entries)?db.oldUdhar.entries:[];
+db.oldUdhar.entries.forEach(x=>{if(!x.category)x.category="dukan";});
+db.oldUdhar.payments=Array.isArray(db.oldUdhar.payments)?db.oldUdhar.payments:[];
 
 
 db.liya=(db.liya && typeof db.liya==="object" && !Array.isArray(db.liya))?db.liya:{};
@@ -5051,7 +5106,7 @@ function changeRobotLearnedPassword(){
 
 function lockAll(){
 
-["dukan","kabar","udhar","liya","ghar","hisab","netRecord","yaad","paisa","closing","customerOrders"].forEach(s=>{
+["dukan","kabar","udhar","oldUdhar","liya","ghar","hisab","netRecord","yaad","paisa","closing","customerOrders"].forEach(s=>{
 
 document.getElementById(
 s+"Lock"
@@ -11001,6 +11056,140 @@ ${money(net)}
 
 
 /* =========================================================
+   PURANA UDHAR — INDEPENDENT RECEIVABLES
+========================================================= */
+function oldUdharPerson(id){return (db.oldUdhar.people||[]).find(x=>String(x.id)===String(id));}
+function oldUdharDateDiffDays(dateStr){
+  if(!dateStr)return 0;
+  let d=new Date(String(dateStr).length===10?String(dateStr)+'T00:00:00':dateStr);
+  if(isNaN(d.getTime()))return 0;
+  let now=new Date(); now.setHours(0,0,0,0); d.setHours(0,0,0,0);
+  return Math.max(0,Math.floor((now-d)/86400000));
+}
+function oldUdharReminderInfo(id){
+  let p=oldUdharPerson(id), st=oldUdharStats(id);
+  if(!p||st.due<=0)return {due:false,days:0,cycles:0};
+  let entries=(db.oldUdhar.entries||[]).filter(x=>String(x.personId)===String(id));
+  let pays=(db.oldUdhar.payments||[]).filter(x=>String(x.personId)===String(id));
+  let dates=[];
+  entries.forEach(x=>dates.push(x.since||x.date));
+  pays.forEach(x=>dates.push(x.date));
+  dates=dates.filter(Boolean).sort();
+  let base=dates.length?dates[dates.length-1]:(p.created||today());
+  let days=oldUdharDateDiffDays(base);
+  let cycles=Math.floor(days/5);
+  return {due:cycles>=1,days,cycles,base};
+}
+function oldUdharPhoneDigits(phone){
+  let raw=String(phone||'').trim(); if(!raw)return '';
+  let digits=raw.replace(/[^0-9+]/g,'');
+  if(digits.startsWith('+'))digits=digits.slice(1);
+  if(digits.startsWith('0092'))digits=digits.slice(2);
+  if(digits.startsWith('92'))return digits;
+  if(digits.startsWith('0'))return '92'+digits.slice(1);
+  return digits;
+}
+function oldUdharCall(phone){
+  let n=String(phone||'').trim(); if(!n){alert('Is bande ka phone number save nahi hai.');return;}
+  window.location.href='tel:'+n.replace(/[^0-9+]/g,'');
+}
+function oldUdharWhatsApp(phone,name){
+  let n=oldUdharPhoneDigits(phone); if(!n){alert('Is bande ka WhatsApp/phone number save nahi hai.');return;}
+  let msg=encodeURIComponent('Assalam o Alaikum '+String(name||'')+'، aap ke purane udhar ki yaad-dihani hai. Meharbani karke baqi raqam jama kar dein.');
+  window.open('https://wa.me/'+n+'?text='+msg,'_blank');
+}
+function oldUdharWhatsAppCustom(phone,name){
+  let n=oldUdharPhoneDigits(phone); if(!n){alert('Is bande ka WhatsApp/phone number save nahi hai.');return;}
+  let msg=prompt('WhatsApp par kya message bhejna hai?', 'Assalam o Alaikum '+String(name||'')+'، aap ke purane udhar ke hawale se rabta kar raha hoon.');
+  if(msg===null)return;
+  window.open('https://wa.me/'+n+'?text='+encodeURIComponent(msg),'_blank');
+}
+function oldUdharReminderKey(id,cycle){return 'oldUdharReminder:'+String(id)+':'+String(cycle);}
+function triggerOldUdharReminderPopups(arr){
+  try{
+    let shown=[];
+    arr.forEach(x=>{
+      if(!x.r.due||x.st.due<=0)return;
+      let key=oldUdharReminderKey(x.p.id,x.r.cycles);
+      if(localStorage.getItem(key)==='1')return;
+      localStorage.setItem(key,'1');
+      shown.push(x.p.name+' — Baqi '+money(x.st.due)+' ('+x.r.days+' din)');
+    });
+    if(shown.length){
+      setTimeout(()=>alert('🚨 Purana Udhar Reminder\n\n'+shown.join('\n')+'\n\nHar 5 din par reminder aayega jab tak poora udhar Jama nahi hota.'),250);
+    }
+  }catch(e){console.warn('Old Udhar reminder popup error',e);}
+}
+function refreshOldUdharAlerts(){
+  let box=document.getElementById('oldUdharAlerts'); if(!box)return;
+  let arr=(db.oldUdhar.people||[]).map(p=>({p,st:oldUdharStats(p.id),r:oldUdharReminderInfo(p.id)})).filter(x=>x.st.due&&x.r.due);
+  if(!arr.length){box.style.display='none';box.innerHTML='';return;}
+  arr.sort((a,b)=>b.r.days-a.r.days);
+  box.style.display='block';
+  triggerOldUdharReminderPopups(arr);
+  box.innerHTML='<h3 style="margin:0 0 8px">🚨 Purana Udhar Reminder</h3><div class="notice">Jis bande ka udhar 5 din ya us se zyada ho gaya hai, us ka reminder har 5 din ke cycle par dikh raha hai. 5, 10, 15, 20 din... har cycle mein reminder milega. Jama hone ke baad naya 5-din ka cycle shuru hoga.</div>'+arr.map(x=>`<div class="history-item" style="margin-top:8px"><b>⚠️ ${esc(x.p.name)}</b> — Abhi Baqi: <b class="due">${money(x.st.due)}</b><div class="muted">${x.r.days} din se latest entry/payment ke baad • ${x.r.cycles} reminder cycle</div><div class="form-actions"><button class="btn green small" onclick="oldUdharPayment('${x.p.id}')">💵 Jama</button>${x.p.phone?`<button class="btn primary small" onclick="oldUdharCall('${esc(x.p.phone)}')">📞 Call</button><button class="btn purple small" onclick="oldUdharWhatsApp('${esc(x.p.phone)}','${esc(x.p.name)}')">💬 WhatsApp</button>`:''}</div></div>`).join('');
+}
+function oldUdharStats(id){
+  let given=(db.oldUdhar.entries||[]).filter(x=>String(x.personId)===String(id)).reduce((s,x)=>s+n(x.amount),0);
+  let paid=(db.oldUdhar.payments||[]).filter(x=>String(x.personId)===String(id)).reduce((s,x)=>s+n(x.amount),0);
+  return {given,paid,due:Math.max(0,given-paid)};
+}
+function addOldUdhar(){
+  let name=document.getElementById('oldName').value.trim(), phone=document.getElementById('oldPhone').value.trim(), amount=n(document.getElementById('oldAmount').value), category=document.getElementById('oldCategory')?.value||'dukan', since=document.getElementById('oldSince').value||today(), note=document.getElementById('oldNote').value.trim();
+  if(!name||amount<=0){alert('Naam aur purani baqi rakam likhein.');return;}
+  let person=(db.oldUdhar.people||[]).find(x=>(x.name||'').toLowerCase()===name.toLowerCase());
+  if(!person){person={id:uid(),name,phone,created:since};db.oldUdhar.people.push(person);} else if(phone) person.phone=phone;
+  db.oldUdhar.entries.push({id:uid(),personId:person.id,amount,since,note,date:today(),category});
+  save(); refreshAll(); ['oldName','oldPhone','oldAmount','oldNote'].forEach(id=>{let e=document.getElementById(id);if(e)e.value='';});
+  let d=oldUdharStats(person.id).due; alert(name+' ka purana udhar save ho gaya.\nAbhi Lena Baqi: '+money(d));
+}
+function oldUdharPayment(id){
+  let p=oldUdharPerson(id), st=oldUdharStats(id); if(!p||st.due<=0){alert('Is person ka purana udhar clear hai.');return;}
+  let amount=n(prompt(p.name+' se kitna jama hua?',st.due)); if(amount<=0)return; if(amount>st.due){alert('Jama amount current baqi se zyada nahi ho sakta.');return;}
+  let note=prompt('Jama ki tafseel / note:',''); if(note===null)return;
+  db.oldUdhar.payments.push({id:uid(),personId:id,amount,date:today(),note:note.trim()}); save(); refreshAll();
+  alert('Jama save ho gaya.\nJama: '+money(amount)+'\nAbhi Baqi: '+money(oldUdharStats(id).due));
+}
+function showOldUdharHistory(id){
+  let p=oldUdharPerson(id); if(!p)return; let st=oldUdharStats(id);
+  let rows=[];
+  (db.oldUdhar.entries||[]).filter(x=>String(x.personId)===String(id)).forEach(x=>rows.push({date:x.since||x.date,type:'given',amount:x.amount,note:x.note||'Purana Udhar'}));
+  (db.oldUdhar.payments||[]).filter(x=>String(x.personId)===String(id)).forEach(x=>rows.push({date:x.date,type:'paid',amount:x.amount,note:x.note||'Jama'}));
+  rows.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+  let running=0, html=`<div class="total-box"><div class="total-row"><span>Total Purana Diya</span><b>${money(st.given)}</b></div><div class="total-row"><span>Total Jama</span><b class="paid">${money(st.paid)}</b></div><div class="total-row final-row"><span>Abhi Lena Baqi</span><b class="${st.due?'due':'paid'}">${money(st.due)}</b></div></div><h3 style="margin-top:14px">📜 Complete History</h3>`;
+  if(!rows.length) html+='<div class="empty">History khali hai.</div>';
+  rows.forEach(x=>{running+=x.type==='given'?n(x.amount):-n(x.amount);html+=`<div class="history-item"><b>${x.type==='given'?'➕ Diya':'➖ Jama'} ${money(x.amount)}</b><div class="muted">${esc(x.date||'')}</div><div>${esc(x.note||'')}</div><div><b>Baqi: ${money(Math.max(0,running))}</b></div></div>`;});
+  openModal('Purana Udhar: '+p.name,html);
+}
+function editOldUdharPerson(id){
+  let p=oldUdharPerson(id); if(!p)return;
+  let entries=(db.oldUdhar.entries||[]).filter(x=>String(x.personId)===String(id));
+  let first=entries[0]||{};
+  let name=prompt('Naam:',p.name); if(name===null)return; name=name.trim(); if(!name){alert('Naam zaroori hai.');return;}
+  let phone=prompt('Phone:',p.phone||''); if(phone===null)return;
+  let category=prompt('Hisaab category likhein: dukan ya kabar:',(first.category||'dukan')); if(category===null)return; category=category.toLowerCase().trim(); if(category!=='dukan'&&category!=='kabar'){alert('Sirf dukan ya kabar likhein.');return;}
+  let note=prompt('Tafseel:',first.note||''); if(note===null)return;
+  p.name=name; p.phone=phone.trim(); entries.forEach(x=>{x.category=category;x.note=note.trim();});
+  save(); refreshAll();
+}
+
+function deleteOldUdharPerson(id){
+  let p=oldUdharPerson(id); if(!p)return; if(!confirm('Is person ka poora Purana Udhar aur complete history delete karni hai?'))return;
+  db.oldUdhar.people=db.oldUdhar.people.filter(x=>String(x.id)!==String(id)); db.oldUdhar.entries=db.oldUdhar.entries.filter(x=>String(x.personId)!==String(id)); db.oldUdhar.payments=db.oldUdhar.payments.filter(x=>String(x.personId)!==String(id)); save(); refreshAll();
+}
+function refreshOldUdhar(){
+  refreshOldUdharAlerts();
+  let people=db.oldUdhar.people||[], q=(document.getElementById('oldSearch')?.value||'').toLowerCase(); let list=people.filter(p=>(p.name||'').toLowerCase().includes(q));
+  let given=0,paid=0; people.forEach(p=>{let s=oldUdharStats(p.id);given+=s.given;paid+=s.paid;});
+  let due=Math.max(0,given-paid);
+  [['oldUdharGiven',given],['oldUdharPaid',paid],['oldUdharDue',due],['oldUdharPeople',people.length]].forEach(([id,v])=>{let e=document.getElementById(id);if(e)e.textContent=id==='oldUdharPeople'?v:money(v);});
+  let box=document.getElementById('oldUdharList'); if(!box)return;
+  if(!list.length){box.innerHTML='<div class="empty">Koi purana udhar person nahi mila.</div>';return;}
+  box.innerHTML=list.map(p=>{let st=oldUdharStats(p.id);let first=(db.oldUdhar.entries||[]).filter(x=>String(x.personId)===String(p.id)).sort((a,b)=>String(a.since||a.date).localeCompare(String(b.since||b.date)))[0];return `<div class="card"><div class="person-head"><div><div class="person-name">${esc(p.name)}</div><div class="muted">${esc(p.phone||'')}</div></div><div class="current"><div class="muted">Abhi Lena</div><b class="${st.due?'due':'paid'}">${money(st.due)}</b></div></div><div class="grid3" style="margin-top:10px"><div><span class="muted">Hisaab</span><br><b>${(first?.category==='kabar'?'♻️ Kabar':'🏪 Dukan')}</b></div><div><span class="muted">Total Diya</span><br><b>${money(st.given)}</b></div><div><span class="muted">Total Jama</span><br><b class="paid">${money(st.paid)}</b></div><div><span class="muted">Kab Se</span><br><b>${esc(first?.since||p.created||'-')}</b></div></div><div class="purple-box" style="margin-top:10px"><div class="form-actions"><button class="btn green small" onclick="oldUdharPayment('${p.id}')" ${st.due<=0?'disabled':''}>💵 Jama</button><button class="btn primary small" onclick="showOldUdharHistory('${p.id}')">📜 History</button><button class="btn purple small" onclick="editOldUdharPerson('${p.id}')">✏️ Edit / Change</button><button class="btn red small" onclick="deleteOldUdharPerson('${p.id}')">🗑️ Delete</button>${p.phone?`<button class="btn primary small" onclick="oldUdharCall('${esc(p.phone)}')">📞 Call</button><button class="btn purple small" onclick="oldUdharWhatsApp('${esc(p.phone)}','${esc(p.name)}')">💬 WhatsApp Reminder</button><button class="btn purple small" onclick="oldUdharWhatsAppCustom('${esc(p.phone)}','${esc(p.name)}')">✉️ WhatsApp Message</button>`:''}</div></div></div>`;}).join('');
+}
+function changeOldUdharPassword(){let cur=prompt('Current password:');if(cur===null)return;if(cur.trim()!==String(db.settings.oldUdharPassword||'1234')){alert('Password ghalat hai.');return;}let next=prompt('Naya password:');if(next===null)return;if(next.trim().length<4){alert('Password kam az kam 4 characters ka ho.');return;}let again=prompt('Naya password dobara:');if(again===null||next.trim()!==again.trim()){alert('Passwords match nahi karte.');return;}db.settings.oldUdharPassword=next.trim();save();alert('Purana Udhar ka password change ho gaya.');}
+
+/* =========================================================
    PERSONAL UDHAR
 ========================================================= */
 
@@ -11100,6 +11289,8 @@ id:uid(),
 personId:person.id,
 
 amount,
+
+category:document.getElementById("uCategory")?.value||"dukan",
 
 date,
 
@@ -11319,6 +11510,8 @@ ${s.due>0?
 </div>
 
 
+<div style="margin-top:8px"><span class="tag">${(()=>{let cats=(db.personal.loans||[]).filter(x=>x.personId===p.id);let d=cats.filter(x=>(x.category||"dukan")==="dukan").reduce((a,x)=>a+n(x.amount),0);let k=cats.filter(x=>(x.category||"dukan")==="kabar").reduce((a,x)=>a+n(x.amount),0);return `🏪 Dukan: ${money(d)} &nbsp; ♻️ Kabar: ${money(k)}`;})()}</span></div>
+
 <div class="grid3" style="margin-top:12px">
 
 <div>
@@ -11407,6 +11600,13 @@ class="btn primary small"
 onclick="showPersonalHistory('${p.id}')"
 >
 Poora Hisaab
+</button>
+
+<button
+class="btn purple small"
+onclick="editPersonalPerson('${p.id}')"
+>
+Edit / Change
 </button>
 
 
@@ -11613,6 +11813,7 @@ ${x.date}
 </div>
 
 <div>
+<span class="tag">${(x.category||"dukan")==="kabar"?'♻️ Kabar':'🏪 Dukan'}</span>
 ${esc(x.note||"Personal Udhar")}
 </div>
 
@@ -11722,6 +11923,14 @@ html
 }
 
 
+function editPersonalPerson(id){
+  let p=uPerson(id); if(!p)return;
+  let name=prompt('Person ka naam:',p.name); if(name===null)return; name=name.trim(); if(!name){alert('Naam zaroori hai.');return;}
+  let phone=prompt('Phone:',p.phone||''); if(phone===null)return;
+  p.name=name; p.phone=phone.trim();
+  save(); refreshAll();
+}
+
 function editPersonalLoan(loanId,personId){
 
 let x=db.personal.loans.find(l=>l.id===loanId);
@@ -11736,7 +11945,10 @@ if(newAmount===null)return;
 let newNote=prompt("Note:",x.note||"");
 
 if(newNote===null)return;
-
+let newCategory=prompt("Hisaab category: dukan ya kabar",(x.category||"dukan"));
+if(newCategory===null)return;
+newCategory=newCategory.toLowerCase().trim();
+if(newCategory!=="dukan"&&newCategory!=="kabar"){alert("Sirf dukan ya kabar likhein.");return;}
 
 newAmount=n(newAmount);
 
@@ -11750,6 +11962,7 @@ return;
 
 
 x.amount=newAmount;
+x.category=newCategory;
 
 x.note=newNote.trim();
 
@@ -16697,6 +16910,10 @@ db.personal.loans=[];
 db.personal.payments=[];
 
 
+db.oldUdhar={people:[],entries:[],payments:[]};
+
+
+
 db.ghar.expenses=[];
 
 
@@ -16738,6 +16955,8 @@ renderOnlineOrders();
 refreshKabar();
 
 refreshPersonal();
+
+refreshOldUdhar();
 
 refreshBorrowed();
 
@@ -19415,7 +19634,7 @@ function closingData(){
   let udDue=Math.max(0,udGiven-udReturned);
   let liyaTaken=liyaLoans.reduce((s,x)=>s+n(x.amount),0), liyaReturned=liyaPayments.reduce((s,x)=>s+n(x.amount),0);
   let liyaDue=Math.max(0,liyaTaken-liyaReturned);
-  let gharExpense=typeof homeExpenseTotal==='function'?homeExpenseTotal():0;
+    let gharExpense=typeof homeExpenseTotal==='function'?homeExpenseTotal():0;
   let dukanBillDue=(db.dukan&&db.dukan.bills||[]).reduce((s,b)=>s+Math.max(0,n(b.due)),0);
   let kabarBillDue=(db.kabar&&db.kabar.bills||[]).reduce((s,b)=>s+Math.max(0,n(b.due)),0);
   let billDue=dukanBillDue+kabarBillDue;
@@ -19891,6 +20110,8 @@ new Date().toLocaleDateString(
 "gxDate",
 "giDate",
 "uDate",
+"oldSince",
+"capitalDate",
 "lDate",
 "hlDate",
 "hcDate"
