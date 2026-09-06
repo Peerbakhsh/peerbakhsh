@@ -7,17 +7,18 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f1f5f9;color:#172033;padding-bottom:80px}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:linear-gradient(180deg,#eef2f8 0%,#e9edf5 100%);background-attachment:fixed;color:#172033;padding-bottom:80px}
 button,input,select{font:inherit}
 button{cursor:pointer}
 
 .header{
-background:#0f172a;
+background:linear-gradient(180deg,#152238,#0f172a);
 color:#fff;
 padding:17px 14px;
 position:sticky;
 top:0;
-z-index:20
+z-index:20;
+box-shadow:0 2px 10px rgba(0,0,0,.15)
 }
 
 .header-row{
@@ -27,7 +28,7 @@ align-items:center;
 gap:10px
 }
 
-.header h1{font-size:21px}
+.header h1{font-size:21px;letter-spacing:.2px}
 .date{font-size:12px;opacity:.8}
 
 .container{
@@ -44,34 +45,65 @@ margin-bottom:15px
 }
 
 .tab{
-border:0;
-border-radius:12px;
+border:1.5px solid #e1e7f0;
+border-radius:13px;
 padding:13px 5px;
 background:#fff;
 color:#334155;
-font-weight:bold;
-box-shadow:0 2px 8px #0001
+font-weight:700;
+box-shadow:0 1px 2px rgba(15,23,42,.05);
+transition:transform .1s ease,box-shadow .15s ease,background .15s ease
 }
 
+.tab:active{transform:translateY(1px)}
+
 .tab.active{
-background:#0f172a;
-color:#fff
+background:linear-gradient(180deg,#1e293b,#0f172a);
+color:#fff;
+border-color:#0f172a;
+box-shadow:0 4px 12px rgba(15,23,42,.3)
 }
 
 .section{display:none}
 .section.active{display:block}
 
 .card{
-background:#fff;
+position:relative;
+background:linear-gradient(180deg,#ffffff,#fbfcfe);
+border:1px solid #e5eaf3;
 border-radius:16px;
-padding:15px;
+padding:19px 16px 16px;
 margin-bottom:14px;
-box-shadow:0 2px 10px #00000010
+overflow:hidden;
+box-shadow:0 1px 2px rgba(15,23,42,.04),0 10px 24px rgba(15,23,42,.06)
+}
+
+.card::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:4px;
+background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899,#f97316);
+opacity:.9
 }
 
 .card h2{
-font-size:18px;
-margin-bottom:12px
+font-size:17.5px;
+margin-bottom:12px;
+padding-bottom:11px;
+border-bottom:1px solid #eef1f6;
+display:flex;
+align-items:center;
+gap:8px;
+color:#0f172a;
+letter-spacing:.1px
+}
+
+.card h2::after{
+content:"";
+flex:1
 }
 
 .grid{
@@ -97,49 +129,118 @@ gap:10px
 .tabs{grid-template-columns:repeat(2,1fr)}
 }
 
+/* Har labeled field (input/select ke sath) ko color-full
+   panel dete hain, taake plain white na lagay */
+.grid>div:has(>label),
+.grid3>div:has(>label),
+.grid4>div:has(>label){
+background:linear-gradient(180deg,#e9f1fd,#dbe8fa);
+border:1.5px solid #b7cef1;
+border-radius:12px;
+padding:10px 11px 11px;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.55)
+}
+
+.grid>div:has(>label) label,
+.grid3>div:has(>label) label,
+.grid4>div:has(>label) label{
+color:#1e3a8a
+}
+
 label{
 display:block;
 font-size:13px;
-font-weight:bold;
-margin-bottom:5px
+font-weight:700;
+margin-bottom:5px;
+color:#334155
 }
 
 input,select{
 width:100%;
-border:1px solid #cbd5e1;
-border-radius:10px;
-padding:11px;
+border:1.5px solid #d7deea;
+border-radius:11px;
+padding:12px 13px;
 background:#fff;
-outline:none
+outline:none;
+font-size:14.5px;
+color:#172033;
+box-shadow:inset 0 1px 2px rgba(15,23,42,.03);
+transition:border-color .15s ease,box-shadow .15s ease
 }
 
 input:focus,select:focus{
-border-color:#2563eb
+border-color:#2563eb;
+box-shadow:0 0 0 3px rgba(37,99,235,.15)
+}
+
+input::placeholder{color:#9aa7ba;opacity:1}
+
+select{
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+background-repeat:no-repeat;
+background-position:right 12px center;
+background-size:18px;
+padding-right:36px;
+appearance:none;
+-webkit-appearance:none
+}
+
+.search-input{
+margin-bottom:8px;
+background-color:#fff;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+background-repeat:no-repeat;
+background-position:14px center;
+background-size:17px;
+padding-left:41px;
+border-radius:999px;
+border:1.5px solid #d7deea
+}
+
+.search-input:focus{
+border-color:#2563eb;
+box-shadow:0 0 0 3px rgba(37,99,235,.15)
 }
 
 .btn{
 border:0;
-border-radius:10px;
-padding:11px 14px;
-font-weight:bold
+border-radius:12px;
+padding:12px 15px;
+font-weight:700;
+font-size:14px;
+letter-spacing:.1px;
+transition:transform .08s ease,box-shadow .12s ease,filter .15s ease
 }
 
-.primary{background:#2563eb;color:#fff}
-.green{background:#16a34a;color:#fff}
-.red{background:#dc2626;color:#fff}
-.dark{background:#0f172a;color:#fff}
-.gray{background:#e2e8f0;color:#172033}
-.purple{background:#7c3aed;color:#fff}
-.orange{background:#f97316;color:#fff}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(2px)}
+
+.primary{background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff;box-shadow:0 2px 0 #1d4ed8,0 5px 12px rgba(37,99,235,.28)}
+.primary:active{box-shadow:0 0 0 #1d4ed8,0 2px 6px rgba(37,99,235,.28)}
+.green{background:linear-gradient(180deg,#22c55e,#16a34a);color:#fff;box-shadow:0 2px 0 #15803d,0 5px 12px rgba(22,163,74,.28)}
+.green:active{box-shadow:0 0 0 #15803d,0 2px 6px rgba(22,163,74,.28)}
+.red{background:linear-gradient(180deg,#ef4444,#dc2626);color:#fff;box-shadow:0 2px 0 #b91c1c,0 5px 12px rgba(220,38,38,.28)}
+.red:active{box-shadow:0 0 0 #b91c1c,0 2px 6px rgba(220,38,38,.28)}
+.dark{background:linear-gradient(180deg,#1e293b,#0f172a);color:#fff;box-shadow:0 2px 0 #020617,0 5px 12px rgba(15,23,42,.32)}
+.dark:active{box-shadow:0 0 0 #020617,0 2px 6px rgba(15,23,42,.32)}
+.gray{background:linear-gradient(180deg,#f8fafc,#e7edf5);color:#172033;box-shadow:0 2px 0 #cbd5e1,0 4px 10px rgba(15,23,42,.08)}
+.gray:active{box-shadow:0 0 0 #cbd5e1,0 2px 5px rgba(15,23,42,.08)}
+.purple{background:linear-gradient(180deg,#8b5cf6,#7c3aed);color:#fff;box-shadow:0 2px 0 #6d28d9,0 5px 12px rgba(124,58,237,.28)}
+.purple:active{box-shadow:0 0 0 #6d28d9,0 2px 6px rgba(124,58,237,.28)}
+.orange{background:linear-gradient(180deg,#fb923c,#f97316);color:#fff;box-shadow:0 2px 0 #c2410c,0 5px 12px rgba(249,115,22,.28)}
+.orange:active{box-shadow:0 0 0 #c2410c,0 2px 6px rgba(249,115,22,.28)}
 
 .small{
-padding:7px 9px;
-font-size:12px
+padding:8px 10px;
+font-size:12px;
+border-radius:9px
 }
 
 .btn:disabled{
 opacity:.5;
-cursor:not-allowed
+cursor:not-allowed;
+filter:none;
+transform:none
 }
 
 .form-actions{
@@ -161,17 +262,31 @@ margin-bottom:14px
 }
 
 .stat{
-background:#fff;
+position:relative;
+background:linear-gradient(180deg,#ffffff,#fbfcfe);
+border:1px solid #e5eaf3;
 border-radius:14px;
-padding:13px 8px;
+padding:14px 8px 12px;
 text-align:center;
-box-shadow:0 2px 8px #0001
+overflow:hidden;
+box-shadow:0 1px 2px rgba(15,23,42,.04),0 8px 16px rgba(15,23,42,.06)
+}
+
+.stat::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:3px;
+background:linear-gradient(90deg,#3b82f6,#8b5cf6)
 }
 
 .stat b{
 display:block;
-font-size:18px;
-margin-top:5px
+font-size:18.5px;
+margin-top:6px;
+color:#0f172a
 }
 
 .stat span{
@@ -179,7 +294,7 @@ font-size:12px;
 color:#64748b
 }
 
-.table-wrap{overflow-x:auto}
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid #e2e8f2}
 
 table{
 width:100%;
@@ -188,22 +303,23 @@ min-width:700px
 }
 
 th,td{
-padding:9px 7px;
-border-bottom:1px solid #e2e8f0;
+padding:10px 9px;
+border-bottom:1px solid #eef1f6;
 text-align:left;
 font-size:13px
 }
 
-th{background:#f8fafc}
+th{background:#f6f8fc;color:#334155;font-weight:700}
+tbody tr:hover td{background:#f8fafc}
 
 .profit,.paid{
 color:#15803d;
-font-weight:bold
+font-weight:800
 }
 
 .loss,.due{
 color:#dc2626;
-font-weight:bold
+font-weight:800
 }
 
 .muted{
@@ -212,42 +328,46 @@ font-size:12px
 }
 
 .notice{
-background:#eff6ff;
+background:linear-gradient(180deg,#eff6ff,#f6faff);
+border:1px solid #bfdbfe;
 border-left:4px solid #2563eb;
-padding:11px;
-border-radius:8px;
+padding:12px;
+border-radius:10px;
 margin-bottom:12px;
 font-size:13px
 }
 
 .warning{
-background:#fff7ed;
+background:linear-gradient(180deg,#fff7ed,#fffaf4);
+border:1px solid #fed7aa;
 border-left:4px solid #f97316;
-padding:11px;
-border-radius:8px;
+padding:12px;
+border-radius:10px;
 margin-bottom:12px;
 font-size:13px
 }
 
 .empty{
 text-align:center;
-padding:20px;
-color:#64748b
+padding:24px;
+color:#94a3b8
 }
 
 .hidden{display:none!important}
 
 .amount-big{
-font-size:25px;
-font-weight:bold;
-margin:5px 0
+font-size:27px;
+font-weight:800;
+margin:6px 0;
+color:#0f172a;
+letter-spacing:-.3px
 }
 
 .modal{
 display:none;
 position:fixed;
 inset:0;
-background:#0008;
+background:rgba(15,23,42,.55);
 z-index:100;
 align-items:center;
 justify-content:center;
@@ -263,14 +383,18 @@ max-height:92vh;
 overflow:auto;
 background:#fff;
 border-radius:18px;
-padding:18px
+padding:18px;
+border:1px solid #e2e8f2;
+box-shadow:0 24px 60px rgba(15,23,42,.3)
 }
 
 .modal-head{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:15px
+margin-bottom:15px;
+padding-bottom:12px;
+border-bottom:1px solid #eef1f6
 }
 
 .close{
@@ -279,7 +403,8 @@ background:#fee2e2;
 color:#991b1b;
 border-radius:50%;
 width:34px;
-height:34px
+height:34px;
+font-weight:700
 }
 
 .bottom{
@@ -288,7 +413,8 @@ bottom:0;
 left:0;
 right:0;
 background:#fff;
-border-top:1px solid #ddd;
+border-top:1px solid #e2e8f2;
+box-shadow:0 -4px 14px rgba(15,23,42,.06);
 display:flex;
 justify-content:flex-start;
 gap:5px;
@@ -299,29 +425,33 @@ overflow-x:auto;
 }
 
 .bottom button{
-border:0;
-background:#f1f5f9;
+border:1px solid #e2e8f2;
+background:#f7f9fc;
 padding:9px 10px;
 border-radius:9px;
 font-size:12px;
+font-weight:600;
+color:#334155;
 flex-shrink:0;
 white-space:nowrap
 }
 
 .bill-box{
-border:1px solid #cbd5e1;
-border-radius:12px;
-padding:12px;
+border:1px solid #dde5f0;
+border-radius:14px;
+padding:13px;
 margin-top:12px;
-background:#f8fafc
+background:linear-gradient(180deg,#fbfcfe,#f4f7fb);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.7)
 }
 
 .bill-line{
 background:#fff;
-border:1px solid #e2e8f0;
-border-radius:10px;
-padding:10px;
-margin-bottom:8px
+border:1px solid #e6ebf3;
+border-radius:11px;
+padding:11px 12px;
+margin-bottom:8px;
+box-shadow:0 1px 2px rgba(15,23,42,.03)
 }
 
 .bill-head{
@@ -331,42 +461,48 @@ gap:8px
 }
 
 .total-box{
-background:#eff6ff;
-border-radius:12px;
-padding:14px;
+background:linear-gradient(180deg,#eff6ff,#e6f0ff);
+border:1px solid #bfdbfe;
+border-radius:14px;
+padding:15px;
 margin-top:12px
 }
 
 .total-row{
 display:flex;
 justify-content:space-between;
-padding:4px 0
+padding:5px 0;
+font-size:14px
 }
 
 .final-row{
 font-size:20px;
-font-weight:bold;
-border-top:1px solid #cbd5e1;
-margin-top:8px;
-padding-top:8px
+font-weight:800;
+border-top:2px dashed #93b4e8;
+margin-top:10px;
+padding-top:10px;
+color:#0f172a
 }
 
 .person{
-border:1px solid #e2e8f0;
+border:1px solid #e2e8f2;
 border-radius:15px;
 padding:14px;
 margin-bottom:12px;
-background:#fff
+background:#fff;
+box-shadow:0 1px 2px rgba(15,23,42,.04)
 }
 
 .person.duebox{
-border:2px solid #fecaca;
-background:#fffafa
+border:1.5px solid #fca5a5;
+background:linear-gradient(180deg,#fff,#fffafa);
+box-shadow:0 4px 14px rgba(220,38,38,.08)
 }
 
 .person.clearbox{
-border:2px solid #bbf7d0;
-background:#fafffb
+border:1.5px solid #86efac;
+background:linear-gradient(180deg,#fff,#fafffb);
+box-shadow:0 4px 14px rgba(22,163,74,.08)
 }
 
 .person-head{
@@ -378,7 +514,8 @@ flex-wrap:wrap
 
 .person-name{
 font-size:19px;
-font-weight:bold
+font-weight:800;
+color:#0f172a
 }
 
 .current{text-align:right}
@@ -391,13 +528,13 @@ margin-top:3px
 
 .history{
 margin-top:12px;
-border-top:1px solid #e2e8f0;
+border-top:1px solid #eef1f6;
 padding-top:12px
 }
 
 .history-item{
-background:#f8fafc;
-border:1px solid #e2e8f0;
+background:#f7f9fc;
+border:1px solid #e6ebf3;
 border-radius:10px;
 padding:10px;
 margin-bottom:8px
@@ -405,42 +542,47 @@ margin-bottom:8px
 
 .tag{
 display:inline-block;
-padding:4px 7px;
-border-radius:6px;
-background:#e2e8f0;
-font-size:11px
+padding:4px 8px;
+border-radius:7px;
+background:#e7edf5;
+color:#334155;
+font-size:11px;
+font-weight:700
 }
 
 .purple-box{
-background:#faf5ff;
+background:linear-gradient(180deg,#faf5ff,#f6f0ff);
 border:1px solid #ddd6fe;
 border-radius:12px;
 padding:14px
 }
 
 .report-btn{
-border:0;
-border-radius:10px;
+border:1.5px solid #e2e8f2;
+border-radius:11px;
 padding:10px 13px;
-background:#e2e8f0;
-font-weight:bold
+background:#fff;
+color:#334155;
+font-weight:700
 }
 
 .report-btn.active{
-background:#0f172a;
-color:white
+background:linear-gradient(180deg,#1e293b,#0f172a);
+border-color:#0f172a;
+color:white;
+box-shadow:0 4px 12px rgba(15,23,42,.28)
 }
 
 .quantity-box{
-background:#f8fafc;
-border:1px solid #e2e8f0;
+background:#f7f9fc;
+border:1px solid #e6ebf3;
 padding:10px;
 border-radius:12px;
 margin-top:8px
 }
 
 .auto-info{
-background:#ecfdf5;
+background:linear-gradient(180deg,#ecfdf5,#f2fdf8);
 border:1px solid #bbf7d0;
 border-radius:10px;
 padding:9px;
@@ -449,13 +591,8 @@ margin-top:8px;
 color:#166534
 }
 
-.search-input{
-margin-bottom:6px;
-background:#f8fafc
-}
-
 .order-item{
-background:#fff7ed;
+background:linear-gradient(180deg,#fff7ed,#fffaf4);
 border:1px solid #fed7aa;
 border-radius:10px;
 padding:10px;
@@ -478,10 +615,11 @@ background:#fef2f2
 }
 
 .stock-alert{
-background:#fef2f2;
+background:linear-gradient(180deg,#fef2f2,#fff5f5);
+border:1px solid #fecaca;
 border-left:4px solid #dc2626;
-padding:11px;
-border-radius:8px;
+padding:12px;
+border-radius:10px;
 margin-bottom:12px;
 font-size:13px
 }
@@ -495,14 +633,16 @@ max-width:140px;
 max-height:140px;
 border-radius:10px;
 margin-top:8px;
-display:block
+display:block;
+border:1px solid #e2e8f2
 }
 
 .attach-preview-video{
 max-width:220px;
 border-radius:10px;
 margin-top:8px;
-display:block
+display:block;
+border:1px solid #e2e8f2
 }
 
 .robot-fab{
@@ -516,7 +656,7 @@ background:linear-gradient(135deg,#7c3aed,#2563eb);
 color:#fff;
 border:0;
 font-size:26px;
-box-shadow:0 4px 14px #0004;
+box-shadow:0 6px 18px rgba(37,99,235,.35);
 z-index:40;
 display:flex;
 align-items:center;
@@ -555,7 +695,7 @@ overflow:auto;
 background:#fff;
 border-radius:16px;
 padding:14px;
-box-shadow:0 8px 30px #0004;
+box-shadow:0 10px 34px rgba(15,23,42,.28);
 border:1px solid #e5e7eb;
 pointer-events:auto
 }
@@ -569,14 +709,14 @@ margin-bottom:10px
 
 .robot-name{
 font-size:19px;
-font-weight:bold;
+font-weight:800;
 display:flex;
 align-items:center;
 gap:8px
 }
 
 .robot-log{
-background:#f8fafc;
+background:#f7f9fc;
 border-radius:12px;
 padding:10px;
 margin-bottom:10px;
@@ -610,14 +750,16 @@ width:100%;
 padding:14px;
 border-radius:14px;
 border:0;
-background:#16a34a;
+background:linear-gradient(180deg,#22c55e,#16a34a);
 color:#fff;
-font-weight:bold;
-font-size:16px
+font-weight:800;
+font-size:16px;
+box-shadow:0 3px 0 #15803d
 }
 
 .robot-mic.listening{
-background:#dc2626
+background:linear-gradient(180deg,#ef4444,#dc2626);
+box-shadow:0 3px 0 #b91c1c
 }
 
 .teach-grid{
@@ -633,7 +775,7 @@ border-radius:22px;
 padding:16px;
 margin-top:10px;
 margin-bottom:15px;
-box-shadow:0 4px 14px #0003;
+box-shadow:0 8px 24px rgba(0,0,0,.28);
 display:none
 }
 
@@ -642,7 +784,9 @@ display:none
 .calc-card h2{
 color:#f1f1f1;
 margin-bottom:10px;
-font-size:16px
+font-size:16px;
+border-bottom:0;
+padding-bottom:0
 }
 
 .calc-expression{
@@ -687,12 +831,12 @@ letter-spacing:1px
 width:100%;
 margin-top:10px;
 margin-bottom:10px;
-background:#0f172a;
+background:linear-gradient(180deg,#1e293b,#0f172a);
 color:#fff;
 border:0;
 border-radius:12px;
 padding:10px 14px;
-font-weight:bold;
+font-weight:700;
 font-size:15px;
 text-align:center;
 cursor:pointer
@@ -746,6 +890,231 @@ color:#000
 .calc-card .calc-preview{display:block!important;position:static!important;order:2!important;text-align:right!important;margin:4px 0 0!important;min-height:24px!important;}
 .calc-card .calc-expression{display:block!important;position:static!important;order:3!important;text-align:right!important;margin:2px 0 8px!important;min-height:20px!important;}
 </style>
+
+<style id="compare-premium-ui">
+#compare{background:linear-gradient(180deg,#f6f8ff 0%,#f8fafc 48%,#ffffff 100%);min-height:calc(100vh - 90px);padding-bottom:40px}
+#compare .card{border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 8px 28px rgba(15,23,42,.07);background:rgba(255,255,255,.96);overflow:hidden}
+#compare .card h2{letter-spacing:-.2px}
+#compare .notice{border:1px solid #dbeafe;background:linear-gradient(135deg,#eff6ff,#f5f3ff);border-radius:14px;padding:13px 15px;line-height:1.55}
+#compare .compare-hero{background:linear-gradient(135deg,#111827 0%,#312e81 52%,#6d28d9 100%);color:#fff;border:0;box-shadow:0 14px 38px rgba(49,46,129,.24)}
+#compare .compare-hero .muted{color:#e0e7ff}
+#compare .compare-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+#compare .compare-kpi{padding:14px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.09);border-radius:14px}
+#compare .compare-kpi span{display:block;font-size:12px;opacity:.82}
+#compare .compare-kpi b{display:block;font-size:21px;margin-top:4px}
+#compare .compare-city-chip{display:inline-flex;align-items:center;gap:8px;margin:5px;padding:9px 11px;border:1px solid #ddd6fe;border-radius:999px;background:#faf5ff;box-shadow:0 3px 10px rgba(91,33,182,.06)}
+#compare .compare-city-chip b{color:#4c1d95}
+#compare .compare-product-card{border:1px solid #e5e7eb!important;border-radius:16px!important;background:#fff!important;margin-bottom:14px;box-shadow:0 7px 22px rgba(15,23,42,.06)!important}
+#compare .compare-product-head{background:linear-gradient(90deg,#f8fafc,#faf5ff);padding:14px 16px;border-bottom:1px solid #e5e7eb}
+#compare .compare-table-wrap{overflow:auto;border:1px solid #e5e7eb;border-radius:14px;margin:14px 0}
+#compare .compare-table{width:100%;min-width:850px;border-collapse:separate;border-spacing:0}
+#compare .compare-table th{position:sticky;top:0;z-index:1;background:#f3f4f6;color:#374151;font-size:12px;text-transform:uppercase;letter-spacing:.35px;padding:11px 10px;border-bottom:1px solid #d1d5db;white-space:nowrap}
+#compare .compare-table td{padding:10px;border-bottom:1px solid #eef2f7;background:#fff;vertical-align:middle}
+#compare .compare-table tr:last-child td{border-bottom:0}
+#compare .compare-table input{min-width:105px;border-radius:10px;padding:9px 10px;border:1px solid #d1d5db}
+#compare .compare-table .city-name{font-weight:800;color:#312e81;white-space:nowrap}
+#compare .compare-table .landed{font-weight:900;color:#047857;background:#ecfdf5;border-radius:9px;padding:7px 9px;display:inline-block}
+#compare .compare-table .missing{font-weight:800;color:#b45309;background:#fffbeb;border-radius:9px;padding:7px 9px;display:inline-block}
+#compare .compare-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#compare .compare-summary-card{padding:15px;border-radius:15px;border:1px solid #e5e7eb;background:linear-gradient(145deg,#fff,#f8fafc)}
+#compare .compare-summary-card.best{border-color:#a7f3d0;background:linear-gradient(145deg,#ecfdf5,#fff)}
+#compare .compare-summary-card.warn{border-color:#fde68a;background:linear-gradient(145deg,#fffbeb,#fff)}
+#compare .compare-result-table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid #e5e7eb;border-radius:14px}
+#compare .compare-result-table th,#compare .compare-result-table td{padding:11px;border-bottom:1px solid #eef2f7;text-align:left}
+#compare .compare-result-table th{background:#f8fafc;font-size:12px;text-transform:uppercase;color:#6b7280}
+#compare .compare-result-table tr:last-child td{border-bottom:0}
+#compare .compare-best-pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#dcfce7;color:#166534;font-weight:800}
+#compare .compare-incomplete-pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#fef3c7;color:#92400e;font-weight:800}
+@media(max-width:800px){#compare .compare-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#compare .compare-summary{grid-template-columns:1fr}.compare-hero h2{font-size:21px}}
+</style>
+<style>
+
+/* =========================================================
+   PREMIUM E-COMMERCE UI — GLOBAL DESIGN
+   Visual-only layer: existing functionality/data logic preserved.
+   ========================================================= */
+:root{
+  --ui-bg:#f4f7fb;
+  --ui-surface:#ffffff;
+  --ui-text:#172033;
+  --ui-muted:#64748b;
+  --ui-border:#e2e8f0;
+  --ui-primary:#2563eb;
+  --ui-primary-dark:#1d4ed8;
+  --ui-shadow:0 8px 28px rgba(15,23,42,.08);
+  --ui-shadow-hover:0 14px 34px rgba(15,23,42,.13);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 8% 0%,rgba(37,99,235,.09),transparent 26%),
+    radial-gradient(circle at 92% 8%,rgba(124,58,237,.08),transparent 24%),
+    var(--ui-bg);
+  color:var(--ui-text);
+  padding-bottom:90px;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 260px);
+}
+.header{
+  background:linear-gradient(135deg,#0b1220 0%,#172554 48%,#1e3a8a 100%);
+  box-shadow:0 6px 24px rgba(15,23,42,.22);
+  border-bottom:1px solid rgba(255,255,255,.10);
+  padding:18px 16px;
+}
+.header h1{font-size:22px;letter-spacing:.2px;text-shadow:0 2px 8px rgba(0,0,0,.22)}
+.header .date{font-size:12px;color:#dbeafe;margin-top:3px}
+.header .muted{color:#bfdbfe!important}
+.header .btn.gray{
+  background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.20);
+  backdrop-filter:blur(8px);
+}
+.container{max-width:1250px;padding:18px 14px}
+.tabs{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px;
+  margin-bottom:14px;position:relative;top:auto;z-index:15;padding:8px;
+  border:1px solid rgba(226,232,240,.9);border-radius:18px;
+  background:rgba(248,250,252,.88);backdrop-filter:blur(14px);
+  box-shadow:0 8px 22px rgba(15,23,42,.07);
+}
+.tab{
+  position:relative;overflow:hidden;border:1px solid #e2e8f0;border-radius:13px;
+  padding:12px 8px;background:rgba(255,255,255,.94);color:#334155;font-weight:800;
+  box-shadow:0 2px 8px rgba(15,23,42,.05);transition:.18s ease;min-height:44px;
+}
+.tab:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:transparent;transition:.18s}
+.tab:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,23,42,.10);border-color:#bfdbfe}
+.tab.active{
+  background:linear-gradient(135deg,#1d4ed8,#2563eb 55%,#3b82f6);color:#fff;
+  border-color:#1d4ed8;box-shadow:0 8px 20px rgba(37,99,235,.28);
+}
+.tab.active:before{background:#93c5fd}
+.section{animation:sectionIn .22s ease}
+@keyframes sectionIn{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:none}}
+.card,.stat,.calc-card{
+  border:1px solid rgba(226,232,240,.95);box-shadow:var(--ui-shadow);transition:.18s ease;
+}
+.card{border-radius:18px;padding:17px;margin-bottom:15px;background:rgba(255,255,255,.97)}
+.card:hover{box-shadow:var(--ui-shadow-hover)}
+.card h2{font-size:18px;font-weight:850;letter-spacing:-.15px}
+.card h3{font-weight:800}
+.grid,.grid3,.grid4{gap:12px}
+label{color:#334155;font-weight:800}
+input,select,textarea{
+  border:1px solid #cbd5e1;border-radius:12px;padding:11px 12px;background:#fff;
+  color:#172033;transition:.16s ease;box-shadow:0 1px 2px rgba(15,23,42,.03);
+}
+input:hover,select:hover,textarea:hover{border-color:#94a3b8}
+input:focus,select:focus,textarea:focus{
+  border-color:#3b82f6;box-shadow:0 0 0 4px rgba(59,130,246,.12);outline:none;
+}
+.btn{
+  border:1px solid transparent;border-radius:11px;padding:10px 14px;font-weight:800;
+  transition:.16s ease;box-shadow:0 2px 5px rgba(15,23,42,.06);
+}
+.btn:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.03);box-shadow:0 6px 14px rgba(15,23,42,.12)}
+.btn:active:not(:disabled){transform:translateY(0);box-shadow:0 2px 5px rgba(15,23,42,.08)}
+.primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff}
+.green{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff}
+.red{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+.dark{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff}
+.gray{background:#eef2f7;color:#172033;border-color:#e2e8f0}
+.purple{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff}
+.orange{background:linear-gradient(135deg,#fb923c,#ea580c);color:#fff}
+.small{padding:7px 10px;border-radius:9px}
+.form-actions{gap:9px}
+.stats{gap:11px}
+.stat{border-radius:17px;padding:14px 10px;background:linear-gradient(180deg,#fff,#f8fafc)}
+.stat b{font-size:20px;font-weight:900}
+.stat span{font-weight:650}
+.stat:hover{transform:translateY(-2px);box-shadow:var(--ui-shadow-hover)}
+.table-wrap{border:1px solid var(--ui-border);border-radius:14px;background:#fff;box-shadow:0 3px 12px rgba(15,23,42,.04)}
+table{min-width:760px}
+th,td{padding:10px 8px;border-bottom:1px solid #edf2f7}
+th{background:linear-gradient(180deg,#f8fafc,#f1f5f9);color:#334155;font-weight:850;position:sticky;top:0;z-index:1}
+tr:hover td{background:#f8fbff}
+.notice{border:1px solid #bfdbfe;border-radius:14px;box-shadow:0 4px 14px rgba(37,99,235,.06)}
+.muted{color:#64748b}
+.badge,.pill{border-radius:999px!important;font-weight:800!important}
+button{user-select:none}
+/* calculator */
+.calc-toggle{
+  border:1px solid #bfdbfe!important;border-radius:15px!important;
+  background:linear-gradient(135deg,#eff6ff,#dbeafe)!important;color:#1e40af!important;
+  box-shadow:0 5px 16px rgba(37,99,235,.09)!important;font-weight:850!important;
+  transition:.18s ease!important;
+}
+.calc-toggle:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,99,235,.14)!important}
+.calc-card{border-radius:18px!important;background:rgba(255,255,255,.98)!important}
+/* common modal/overlay surfaces */
+.modal,.overlay,.popup,.dialog{
+  backdrop-filter:blur(5px);
+}
+/* cards generated by records/lists */
+.card>div[style*="border"], .card>div[style*="background"]{border-radius:13px!important}
+/* mobile */
+@media(max-width:700px){
+  .container{padding:12px 9px}
+  .header{padding:15px 11px}
+  .header h1{font-size:19px}
+  .tabs{position:relative;top:auto;grid-template-columns:repeat(2,minmax(0,1fr));padding:6px;border-radius:15px;gap:7px}
+  .tab{font-size:12px;padding:10px 5px;min-height:42px}
+  .card{padding:13px;border-radius:15px}
+  .btn{padding:10px 11px}
+}
+@media(min-width:701px){
+  .tabs{grid-template-columns:repeat(auto-fit,minmax(155px,1fr))}
+}
+
+/* =========================================================
+   EXTRA POLISH — colorful accent strip on every card/stat,
+   thodi si depth aur khoobsurat heading look.
+========================================================= */
+.card{position:relative;overflow:hidden}
+.card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899,#f97316);
+  opacity:.9;
+}
+.card h2{
+  color:#0f172a;text-shadow:0 1px 0 rgba(255,255,255,.6);
+}
+.stat{position:relative;overflow:hidden}
+.stat::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+}
+.person{position:relative;overflow:hidden}
+.person::before{
+  content:"";position:absolute;top:0;left:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,#3b82f6,#8b5cf6);
+}
+.person.duebox::before{background:linear-gradient(180deg,#ef4444,#dc2626)}
+.person.clearbox::before{background:linear-gradient(180deg,#22c55e,#16a34a)}
+
+</style>
+
+<style id="simple-calculator-safe">
+.simple-calculator{width:min(330px,100%);margin:14px auto 20px;padding:12px;background:#17181b;border:1px solid #303238;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.simple-calc-screen{background:#090a0c;border:1px solid #303238;border-radius:11px;padding:9px 12px;min-height:76px;text-align:right;overflow:hidden}
+.simple-calc-expression{height:17px;font-size:12px;color:#aeb4bd;white-space:nowrap;overflow:hidden}
+.simple-calc-display{font-size:29px;line-height:34px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden}
+.simple-calc-preview{height:17px;font-size:13px;color:#8ee0b7;white-space:nowrap;overflow:hidden}
+.simple-calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}
+.simple-calc-grid button{height:43px;border:0;border-radius:10px;background:#303238;color:#fff;font-size:17px;font-weight:600;cursor:pointer}
+.simple-calc-grid button:active{transform:scale(.96)}
+.simple-calc-grid button.op{background:#3b3f46}
+.simple-calc-grid button.eq{background:#10b981}
+.simple-calc-grid button.zero{grid-column:span 2}
+@media(max-width:420px){.simple-calculator{width:calc(100% - 20px);padding:10px}.simple-calc-grid button{height:40px}.simple-calc-display{font-size:27px}}
+.simple-calc-toggle{display:block;margin:12px auto 8px;padding:10px 18px;border:0;border-radius:10px;background:#10b981;color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 5px 14px rgba(0,0,0,.12)}
+.simple-calc-toggle:active{transform:scale(.98)}
+.simple-calculator.hidden{display:none!important}
+</style>
+
+
 </head>
 
 <body>
@@ -772,6 +1141,7 @@ color:#000
 
 <div class="tabs">
 <button class="tab active" onclick="openSection('dukan',this)">Dukan</button>
+<button class="tab" onclick="openSection('compare',this)">📊 Compare</button>
 <button class="tab" onclick="openSection('kabar',this)">Kabar</button>
 <button class="tab" onclick="openSection('udhar',this)">Maine Diya (Udhar)</button>
 <button class="tab" onclick="openSection('oldUdhar',this)">📜 Purana Udhar</button>
@@ -783,52 +1153,70 @@ color:#000
 <button class="tab" onclick="openSection('yaad',this)">🧠 Yaad Rakho</button>
 <button class="tab" onclick="openSection('paisa',this)">💰 Paisa Hisaab</button>
 <button class="tab" onclick="openSection('customerOrders',this)">📥 Customer Orders</button>
+<button class="tab" onclick="openSection('productReport',this)">📈 Product Report</button>
 </div>
 
-<div class="calc-toggle" onclick="toggleCalculator()">🧮 Calculator <span id="calcToggleText">Kholein</span></div>
-
-<div class="calc-card" id="calculatorCard">
-
-<h2>🧮 Calculator</h2>
-
-<div class="calc-display" id="calcDisplay">0</div>
-<div class="calc-preview" id="calcPreview"></div>
-<div class="calc-expression" id="calcExpression"></div>
-
-<div class="calc-grid">
-
-<button class="calc-btn func" onclick="calcClear()">C</button>
-<button class="calc-btn func" onclick="calcBackspace()">⌫</button>
-<button class="calc-btn func" onclick="calcPercent()">%</button>
-<button class="calc-btn op" onclick="calcChooseOperator('÷')">÷</button>
-
-<button class="calc-btn" onclick="calcInputDigit('7')">7</button>
-<button class="calc-btn" onclick="calcInputDigit('8')">8</button>
-<button class="calc-btn" onclick="calcInputDigit('9')">9</button>
-<button class="calc-btn op" onclick="calcChooseOperator('×')">×</button>
-
-<button class="calc-btn" onclick="calcInputDigit('4')">4</button>
-<button class="calc-btn" onclick="calcInputDigit('5')">5</button>
-<button class="calc-btn" onclick="calcInputDigit('6')">6</button>
-<button class="calc-btn op" onclick="calcChooseOperator('−')">−</button>
-
-<button class="calc-btn" onclick="calcInputDigit('1')">1</button>
-<button class="calc-btn" onclick="calcInputDigit('2')">2</button>
-<button class="calc-btn" onclick="calcInputDigit('3')">3</button>
-<button class="calc-btn op" onclick="calcChooseOperator('+')">+</button>
-
-<button class="calc-btn func" onclick="calcToggleSign()">±</button>
-<button class="calc-btn" onclick="calcInputDigit('0')">0</button>
-<button class="calc-btn" onclick="calcInputDecimal()">.</button>
-<button class="calc-btn op" onclick="calcEquals()">=</button>
-
-</div>
-
+<button id="simpleCalcToggle" class="simple-calc-toggle" onclick="toggleCalculator()">🧮 Calculator</button>
+<div id="calculatorCard" class="simple-calculator hidden">
+  <div class="simple-calc-screen">
+    <div id="calcExpression" class="simple-calc-expression"></div>
+    <div id="calcDisplay" class="simple-calc-display">0</div>
+    <div id="calcPreview" class="simple-calc-preview"></div>
+  </div>
+  <div class="simple-calc-grid">
+    <button onclick="calcClear()">C</button><button onclick="calcBackspace()">⌫</button><button onclick="calcPercent()">%</button><button class="op" onclick="calcChooseOperator('÷')">÷</button>
+    <button onclick="calcInputDigit('7')">7</button><button onclick="calcInputDigit('8')">8</button><button onclick="calcInputDigit('9')">9</button><button class="op" onclick="calcChooseOperator('×')">×</button>
+    <button onclick="calcInputDigit('4')">4</button><button onclick="calcInputDigit('5')">5</button><button onclick="calcInputDigit('6')">6</button><button class="op" onclick="calcChooseOperator('−')">−</button>
+    <button onclick="calcInputDigit('1')">1</button><button onclick="calcInputDigit('2')">2</button><button onclick="calcInputDigit('3')">3</button><button class="op" onclick="calcChooseOperator('+')">+</button>
+    <button class="zero" onclick="calcInputDigit('0')">0</button><button onclick="calcInputDecimal()">.</button><button class="eq" onclick="calcEquals()">=</button>
+  </div>
 </div>
 
 <!-- =====================================================
      DUKAN
 ===================================================== -->
+
+<!-- COMPARE -->
+<section id="compare" class="section">
+  <div id="compareLock" class="card">
+    <h2>📊 Compare Password</h2>
+    <p class="muted">Compare ka data kholne ke liye password dein.</p>
+    <div class="grid">
+      <div><label>Password</label><input type="password" id="comparePassword" placeholder="Password"></div>
+      <div style="display:flex;align-items:end"><button class="btn primary" onclick="unlock('compare')">Compare Kholein</button></div>
+    </div>
+  </div>
+  <div id="compareContent" class="hidden">
+  <div class="card compare-hero">
+    <h2>📊 Smart Shehar Compare</h2>
+    <div class="muted">Ek hi product row mein Pano Aqil, Sukkur aur jitne shehar chahen compare karein. Rate, Choti Unit rate, kharcha, landed cost aur rupiyon ka farq automatic.</div>
+    <div class="compare-kpi-grid"><div class="compare-kpi"><span>🏙️ Shehar</span><b id="compareCityKpi">0</b></div><div class="compare-kpi"><span>📦 Products</span><b id="compareProductKpi">0</b></div><div class="compare-kpi"><span>💵 Best Total</span><b id="compareBestKpi">—</b></div><div class="compare-kpi"><span>💰 Possible Saving</span><b id="compareSavingKpi">—</b></div></div>
+  </div>
+  <div class="card">
+    <h2>🏙️ Shehar Add / Manage</h2>
+    <div class="notice">Har shehar ka maal rate aur us ka total kharcha save rahega. Bari Unit rate se Choti Unit rate automatic niklega. Quantity dene par system landed cost aur estimated bachat bhi batayega. Is tab ka data <b>Closing mein koi effect nahi rakhta</b>.</div>
+    <div class="grid3">
+      <div><label>Shehar / Jagah</label><input id="compareCityName" placeholder="Misal: Sukkur"></div>
+      <div><label>Shehar ka default Kharcha (optional)</label><input type="number" id="compareCityExpense" step="0.01" placeholder="Transport / Safar"></div>
+      <div class="form-actions" style="align-items:end"><button class="btn purple" onclick="addCompareCity()">➕ Shehar Add Karein</button></div>
+    </div>
+    <div id="compareCitiesBox" style="margin-top:12px"></div>
+  </div>
+  <div class="card">
+    <div class="person-head"><div><h2 style="margin:0">📦 Products Compare</h2><div class="muted">Har product mein alag quantity, har shehar ka rate aur kharcha likhein.</div></div><div class="form-actions"><button class="btn green" onclick="addCompareProduct()">➕ Product Add Karein</button><button class="btn red" onclick="clearCompareProducts()">🗑️ Sab Products Delete</button></div></div>
+    <div id="compareRowsBox" style="margin-top:14px"></div>
+  </div>
+  <div class="card"><h2>🏆 Final Faisla / Estimated Bachat</h2><div id="compareResultsBox"></div></div>
+  <div class="card">
+    <h2>🔑 Compare Password Change</h2>
+    <div class="notice">Compare tab ka password kisi bhi waqt change kar sakte hain.</div>
+    <div class="form-actions" style="gap:8px;flex-wrap:wrap">
+      <button class="btn gray" onclick="changeExtraPassword('compare')">🔑 Password Badlein</button>
+      <button class="btn red" onclick="deleteExtraTab('compare')">🗑️ Is Compare Tab Ko Delete Karein</button>
+    </div>
+  </div>
+  </div>
+</section>
 
 <section id="dukan" class="section active">
 
@@ -839,7 +1227,7 @@ color:#000
 <div class="grid" style="margin-top:10px">
 <div>
 <label>Password</label>
-<input type="password" id="dukanPassword">
+<input type="password" id="dukanPassword" placeholder="Password">
 </div>
 
 <div style="display:flex;align-items:end">
@@ -968,12 +1356,12 @@ Mangwane Ki List Mein Add Karein
 
 <div>
 <label>Purchase Rate / Bari Unit</label>
-<input type="number" id="dBuy">
+<input type="number" id="dBuy" placeholder="Misal: 100">
 </div>
 
 <div>
 <label>Sale Rate / Bari Unit</label>
-<input type="number" id="dSale">
+<input type="number" id="dSale" placeholder="Misal: 120">
 </div>
 
 <div>
@@ -1014,44 +1402,31 @@ Product Edit
 </div>
 
 <div>
-<label>Bari Quantity (decimal bhi chalega, misal 2.8)</label>
-<input type="number" step="0.01" id="dpBig" value="0">
+<label>Bari Quantity</label>
+<input type="number" step="1" id="dpBig" placeholder="0">
 </div>
 
 <div>
 <label>Choti Quantity</label>
-<input type="number" id="dpSmall" value="0">
+<input type="number" id="dpSmall" placeholder="0">
 </div>
 
 <div>
 <label>Total Purchase Amount</label>
-<input type="number" id="dpAmount">
+<input type="number" id="dpAmount" placeholder="Total Purchase Amount">
 </div>
 
 <div>
 <label>Naya Sale Rate / Bari Unit (optional)</label>
-<input type="number" id="dpSaleRate">
+<input type="number" id="dpSaleRate" placeholder="Naya Sale Rate (optional)">
 </div>
 
-<div>
-<label>Kis Se Liya (optional — Mera Udhar ke liye)</label>
-<input id="dpSupplier" placeholder="Misal: Aslam Wholesaler">
-</div>
 
-<div>
-<label>Maal Kis Ne Diya? (optional)</label>
-<input id="dpMaalDiyaBy" placeholder="Misal: Ahmed / Mazdoor / Ghar wala">
-</div>
-
-<div>
-<label>Purchase Ki Tafseel (optional)</label>
-<input id="dpPurchaseNote" placeholder="Kis ke kehne par / koi aur baat">
-</div>
 
 </div>
 
 <div class="auto-info">
-Bari aur Choti dono quantity ek saath bhi de sakte hain. Bari Quantity mein decimal (misal 2.8 Carton) bhi likh saktay hain.
+Bari aur Choti dono quantity ek saath bhi de sakte hain — misal: 2 Carton + 8 Packet.
 <br>
 Amount khali ho to Bari + Choti ke hisaab se automatic calculate hoga.
 <br>
@@ -1072,6 +1447,8 @@ Purchase History
 <button class="btn orange" onclick="showRateAlerts('dukan')">
 Rate Farq History
 </button>
+
+
 </div>
 </div>
 
@@ -1084,12 +1461,12 @@ Rate Farq History
 
 <div>
 <label>Naam</label>
-<input id="dkName">
+<input id="dkName" placeholder="Dukandar Ka Naam">
 </div>
 
 <div>
 <label>Phone</label>
-<input id="dkPhone">
+<input id="dkPhone" placeholder="Mobile Number">
 </div>
 
 </div>
@@ -1120,7 +1497,7 @@ Edit / Delete
 
 <div>
 <label>Bill Date</label>
-<input type="date" id="dbDate">
+<input type="date" id="dbDate" placeholder="Tareekh Chunein">
 </div>
 
 <div>
@@ -1129,8 +1506,8 @@ Edit / Delete
 </div>
 
 <div>
-<label>Dukandar Ne Maal Kis Se Liya? (optional)</label>
-<input id="dbMaalLiYaFrom" placeholder="Misal: Usman / Dusri Dukan">
+<label>Kon Maal Lene Aya? (optional)</label>
+<input id="dbMaalLiYaFrom" placeholder="Misal: Ahmed / Driver / Customer">
 </div>
 
 <div>
@@ -1180,22 +1557,22 @@ Tamam Products Dikhayen (naya product ke liye)
 
 <div>
 <label>Bari Quantity</label>
-<input type="number" id="dbBigQty" value="0">
+<input type="number" id="dbBigQty" placeholder="0">
 </div>
 
 <div>
 <label>Choti Quantity</label>
-<input type="number" id="dbSmallQty" value="0">
+<input type="number" id="dbSmallQty" placeholder="0">
 </div>
 
 <div>
 <label>Special Sale Rate / Bari Unit (optional)</label>
-<input type="number" id="dbSpecialRate">
+<input type="number" id="dbSpecialRate" placeholder="Special Rate / Bari Unit">
 </div>
 
 <div>
 <label>Special Sale Amount (optional)</label>
-<input type="number" id="dbSpecial">
+<input type="number" id="dbSpecial" placeholder="Special Total Amount">
 </div>
 
 </div>
@@ -1247,7 +1624,7 @@ Bill Clear
 
 <div>
 <label>Riayat (Discount) — Hisab/Profit Mein Nahi Jayegi</label>
-<input type="number" id="dbRiayat" value="0" oninput="updateDBillTotals()">
+<input type="number" id="dbRiayat" placeholder="0" oninput="updateDBillTotals()">
 </div>
 
 <div>
@@ -1257,7 +1634,7 @@ Bill Clear
 
 <div>
 <label>Abhi Jama</label>
-<input type="number" id="dbPaid" value="0">
+<input type="number" id="dbPaid" placeholder="0">
 </div>
 
 </div>
@@ -1292,12 +1669,12 @@ Riayat History
 
 <div>
 <label>Bari Quantity</label>
-<input type="number" id="duBigQty" value="0">
+<input type="number" id="duBigQty" placeholder="0">
 </div>
 
 <div>
 <label>Choti Quantity</label>
-<input type="number" id="duSmallQty" value="0">
+<input type="number" id="duSmallQty" placeholder="0">
 </div>
 
 </div>
@@ -1324,12 +1701,12 @@ History
 
 <div>
 <label>Naam</label>
-<input id="dxName">
+<input id="dxName" placeholder="Kharch Ka Naam">
 </div>
 
 <div>
 <label>Amount</label>
-<input type="number" id="dxAmount">
+<input type="number" id="dxAmount" placeholder="Rakam">
 </div>
 
 <div>
@@ -1339,7 +1716,7 @@ History
 
 <div>
 <label>Date</label>
-<input type="date" id="dxDate">
+<input type="date" id="dxDate" placeholder="Tareekh Chunein">
 </div>
 
 </div>
@@ -1425,17 +1802,17 @@ Naya password set karne ke liye pehle purana password dein, phir naya password d
 
 <div>
 <label>Purana Password</label>
-<input type="password" id="dukanOldPass">
+<input type="password" id="dukanOldPass" placeholder="Current Password">
 </div>
 
 <div>
 <label>Naya Password</label>
-<input type="password" id="dukanNewPass">
+<input type="password" id="dukanNewPass" placeholder="Naya Password">
 </div>
 
 <div>
 <label>Naya Password (Dobara)</label>
-<input type="password" id="dukanNewPass2">
+<input type="password" id="dukanNewPass2" placeholder="Naya Password Dobara">
 </div>
 
 </div>
@@ -1479,7 +1856,7 @@ Dukan Ka Pura Hisaab Reset
 
 <div>
 <label>Password</label>
-<input type="password" id="kabarPassword">
+<input type="password" id="kabarPassword" placeholder="Password">
 </div>
 
 <div style="display:flex;align-items:end">
@@ -1570,12 +1947,12 @@ Mangwane Ki List Mein Add Karein
 
 <div>
 <label>Base Purchase Rate / 1 Kg</label>
-<input type="number" id="kBuy">
+<input type="number" id="kBuy" placeholder="Misal: 100">
 </div>
 
 <div>
 <label>Base Sale Rate / 1 Kg</label>
-<input type="number" id="kSale">
+<input type="number" id="kSale" placeholder="Misal: 120">
 </div>
 
 <div>
@@ -1622,7 +1999,7 @@ Phir har purchase us naam se save hogi. Naam add karna zaroori nahi — chahain 
 
 <div>
 <label>Phone (optional)</label>
-<input id="ksPhone">
+<input id="ksPhone" placeholder="Mobile Number">
 </div>
 
 </div>
@@ -1661,27 +2038,27 @@ Edit / Delete
 
 <div>
 <label>Kg</label>
-<input type="number" step="0.001" id="kpKg" value="0">
+<input type="number" step="0.001" id="kpKg" placeholder="0">
 </div>
 
 <div>
 <label>Gram</label>
-<input type="number" step="1" id="kpGram" value="0">
+<input type="number" step="1" id="kpGram" placeholder="0">
 </div>
 
 <div>
 <label>Purchase Rate / 1 Kg (optional)</label>
-<input type="number" id="kpRate">
+<input type="number" id="kpRate" placeholder="Rate Per Kg">
 </div>
 
 <div>
 <label>Total Purchase Amount (optional)</label>
-<input type="number" id="kpAmount">
+<input type="number" id="kpAmount" placeholder="Total Purchase Amount">
 </div>
 
 <div>
 <label>Naya Sale Rate / 1 Kg (optional)</label>
-<input type="number" id="kpSaleRate">
+<input type="number" id="kpSaleRate" placeholder="Naya Sale Rate (optional)">
 </div>
 
 <div style="grid-column:1/-1">
@@ -1738,7 +2115,7 @@ System Gram ko automatically Kg mein convert karega.
 
 <div>
 <label>Bill Date</label>
-<input type="date" id="kbDate">
+<input type="date" id="kbDate" placeholder="Tareekh Chunein">
 </div>
 
 </div>
@@ -1755,22 +2132,22 @@ System Gram ko automatically Kg mein convert karega.
 
 <div>
 <label>Kg</label>
-<input type="number" step="0.001" id="kbKg" value="0">
+<input type="number" step="0.001" id="kbKg" placeholder="0">
 </div>
 
 <div>
 <label>Gram</label>
-<input type="number" step="1" id="kbGram" value="0">
+<input type="number" step="1" id="kbGram" placeholder="0">
 </div>
 
 <div>
 <label>Special Sale Rate / 1 Kg (optional)</label>
-<input type="number" id="kbSpecialRate">
+<input type="number" id="kbSpecialRate" placeholder="Special Rate Per Kg">
 </div>
 
 <div>
 <label>Special Total Amount (optional)</label>
-<input type="number" id="kbSpecialTotal">
+<input type="number" id="kbSpecialTotal" placeholder="Special Total Amount">
 </div>
 
 </div>
@@ -1814,7 +2191,7 @@ Bill Clear
 
 <div>
 <label>Riayat (Discount) — Hisab/Profit Mein Nahi Jayegi</label>
-<input type="number" id="kbRiayat" value="0" oninput="updateKBillTotals()">
+<input type="number" id="kbRiayat" placeholder="0" oninput="updateKBillTotals()">
 </div>
 
 <div>
@@ -1824,7 +2201,7 @@ Bill Clear
 
 <div>
 <label>Abhi Jama</label>
-<input type="number" id="kbPaid" value="0">
+<input type="number" id="kbPaid" placeholder="0">
 </div>
 
 </div>
@@ -1863,12 +2240,12 @@ Riayat History
 
 <div>
 <label>Kg</label>
-<input type="number" step="0.001" id="kuKg" value="0">
+<input type="number" step="0.001" id="kuKg" placeholder="0">
 </div>
 
 <div>
 <label>Gram</label>
-<input type="number" step="1" id="kuGram" value="0">
+<input type="number" step="1" id="kuGram" placeholder="0">
 </div>
 
 </div>
@@ -1896,12 +2273,12 @@ History
 
 <div>
 <label>Naam</label>
-<input id="kxName">
+<input id="kxName" placeholder="Kharch Ka Naam">
 </div>
 
 <div>
 <label>Amount</label>
-<input type="number" id="kxAmount">
+<input type="number" id="kxAmount" placeholder="Rakam">
 </div>
 
 <div>
@@ -1911,7 +2288,7 @@ History
 
 <div>
 <label>Date</label>
-<input type="date" id="kxDate">
+<input type="date" id="kxDate" placeholder="Tareekh Chunein">
 </div>
 
 </div>
@@ -2037,17 +2414,17 @@ Naya password set karne ke liye pehle purana password dein, phir naya password d
 
 <div>
 <label>Purana Password</label>
-<input type="password" id="kabarOldPass">
+<input type="password" id="kabarOldPass" placeholder="Current Password">
 </div>
 
 <div>
 <label>Naya Password</label>
-<input type="password" id="kabarNewPass">
+<input type="password" id="kabarNewPass" placeholder="Naya Password">
 </div>
 
 <div>
 <label>Naya Password (Dobara)</label>
-<input type="password" id="kabarNewPass2">
+<input type="password" id="kabarNewPass2" placeholder="Naya Password Dobara">
 </div>
 
 </div>
@@ -2093,7 +2470,7 @@ Kabar Ka Pura Hisaab Reset
 
 <div>
 <label>Password</label>
-<input type="password" id="udharPassword">
+<input type="password" id="udharPassword" placeholder="Password">
 </div>
 
 <div style="display:flex;align-items:end">
@@ -2151,12 +2528,12 @@ Yahan jo paisa kisi person ko dein ya wapas lein, us ka separate hisaab rahega.
 
 <div>
 <label>Phone (optional)</label>
-<input id="uPhone">
+<input id="uPhone" placeholder="Mobile Number">
 </div>
 
 <div>
 <label>Kitna Diya?</label>
-<input type="number" id="uAmount">
+<input type="number" id="uAmount" placeholder="Rakam">
 </div>
 
 <div>
@@ -2166,7 +2543,7 @@ Yahan jo paisa kisi person ko dein ya wapas lein, us ka separate hisaab rahega.
 
 <div>
 <label>Date</label>
-<input type="date" id="uDate">
+<input type="date" id="uDate" placeholder="Tareekh Chunein">
 </div>
 
 <div style="grid-column:1/-1">
@@ -2254,17 +2631,17 @@ Naya password set karne ke liye pehle purana password dein, phir naya password d
 
 <div>
 <label>Purana Password</label>
-<input type="password" id="udharOldPass">
+<input type="password" id="udharOldPass" placeholder="Current Password">
 </div>
 
 <div>
 <label>Naya Password</label>
-<input type="password" id="udharNewPass">
+<input type="password" id="udharNewPass" placeholder="Naya Password">
 </div>
 
 <div>
 <label>Naya Password (Dobara)</label>
-<input type="password" id="udharNewPass2">
+<input type="password" id="udharNewPass2" placeholder="Naya Password Dobara">
 </div>
 
 </div>
@@ -2304,7 +2681,7 @@ Personal Udhar Pura Reset
 <h2>📜 Purana Udhar Password</h2>
 <div class="notice">Ye tab purane/pehle ke un logon ka hisaab hai jin ke paas aapke paise hain. Ye Dukan, Kabar, Maine Diya, Maine Liya aur current bills se bilkul independent rahega.</div>
 <div class="grid">
-<div><label>Password</label><input type="password" id="oldUdharPassword"></div>
+<div><label>Password</label><input type="password" id="oldUdharPassword" placeholder="Password"></div>
 <div style="display:flex;align-items:end"><button class="btn primary" onclick="unlock('oldUdhar')">Purana Udhar Kholein</button></div>
 </div>
 </div>
@@ -2321,15 +2698,15 @@ Personal Udhar Pura Reset
 <div class="notice">Naam, purani baqi rakam, kab se baqi hai, ye Dukan ya Kabar kis hisaab se diya tha, aur tafseel likhein. Ye alag Purana Udhar ledger hai; Closing se independent rahega aur Dukan/Kabar stock, sale ya profit automatically change nahi karega.</div>
 <div class="grid">
 <div><label>Naam</label><input id="oldName" placeholder="Aslam"></div>
-<div><label>Phone (optional)</label><input id="oldPhone"></div>
+<div><label>Phone (optional)</label><input id="oldPhone" placeholder="Mobile Number"></div>
 <div><label>Mere Kitne Hain?</label><input type="number" id="oldAmount" min="0" step="0.01" placeholder="50000"></div>
 <div><label>Ye Udhar Kis Hisaab Se Hai?</label><select id="oldCategory"><option value="dukan">🏪 Dukan ke liye</option><option value="kabar">♻️ Kabar ke liye</option></select></div>
-<div><label>Kab Se Baqi Hai?</label><input type="date" id="oldSince"></div>
+<div><label>Kab Se Baqi Hai?</label><input type="date" id="oldSince" placeholder="Tareekh Chunein"></div>
 <div style="grid-column:1/-1"><label>Tafseel / Wajah</label><input id="oldNote" placeholder="Misal: 2025 ka purana maal/udhar"></div>
 </div>
 <div class="form-actions"><button class="btn purple" onclick="addOldUdhar()">💾 Purana Udhar Save Karein</button></div>
 </div>
-<div class="card"><h2>🔎 Naam Search</h2><input id="oldSearch" placeholder="Naam search karein..." oninput="refreshOldUdhar()"></div>
+<div class="card"><h2>🔎 Naam Search</h2><input id="oldSearch" class="search-input" placeholder="Naam search karein..." oninput="refreshOldUdhar()"></div>
 <div class="card"><h2>👥 Purana Udhar List</h2><div id="oldUdharList"></div></div>
 <div class="card"><h2>🔑 Password Change</h2><div class="form-actions"><button class="btn primary" onclick="changeOldUdharPassword()">Password Badlein</button></div></div>
 </div>
@@ -2349,7 +2726,7 @@ Personal Udhar Pura Reset
 
 <div>
 <label>Password</label>
-<input type="password" id="liyaPassword">
+<input type="password" id="liyaPassword" placeholder="Password">
 </div>
 
 <div style="display:flex;align-items:end">
@@ -2407,17 +2784,17 @@ Dukan/Kabar/Personal se bilkul alag hai.
 
 <div>
 <label>Phone (optional)</label>
-<input id="lPhone">
+<input id="lPhone" placeholder="Mobile Number">
 </div>
 
 <div>
 <label>Kitna Liya?</label>
-<input type="number" id="lAmount">
+<input type="number" id="lAmount" placeholder="Rakam">
 </div>
 
 <div>
 <label>Date</label>
-<input type="date" id="lDate">
+<input type="date" id="lDate" placeholder="Tareekh Chunein">
 </div>
 
 <div style="grid-column:1/-1">
@@ -2500,17 +2877,17 @@ Naya password set karne ke liye pehle purana password dein, phir naya password d
 
 <div>
 <label>Purana Password</label>
-<input type="password" id="liyaOldPass">
+<input type="password" id="liyaOldPass" placeholder="Current Password">
 </div>
 
 <div>
 <label>Naya Password</label>
-<input type="password" id="liyaNewPass">
+<input type="password" id="liyaNewPass" placeholder="Naya Password">
 </div>
 
 <div>
 <label>Naya Password (Dobara)</label>
-<input type="password" id="liyaNewPass2">
+<input type="password" id="liyaNewPass2" placeholder="Naya Password Dobara">
 </div>
 
 </div>
@@ -2556,7 +2933,7 @@ Mera Udhar Pura Reset
 
 <div>
 <label>Password</label>
-<input type="password" id="gharPassword">
+<input type="password" id="gharPassword" placeholder="Password">
 </div>
 
 <div style="display:flex;align-items:end">
@@ -2619,7 +2996,7 @@ Ye Final Hisaab mein Dukan/Kabar munafa ke sath add hokar, phir Ghar Expense min
 
 <div>
 <label>Kitna Aya?</label>
-<input type="number" id="giAmount">
+<input type="number" id="giAmount" placeholder="Aamdani Ki Rakam">
 </div>
 
 <div>
@@ -2629,7 +3006,7 @@ Ye Final Hisaab mein Dukan/Kabar munafa ke sath add hokar, phir Ghar Expense min
 
 <div>
 <label>Date</label>
-<input type="date" id="giDate">
+<input type="date" id="giDate" placeholder="Tareekh Chunein">
 </div>
 
 </div>
@@ -2657,12 +3034,12 @@ History
 
 <div>
 <label>Naam</label>
-<input id="gxName">
+<input id="gxName" placeholder="Kharch Ka Naam">
 </div>
 
 <div>
 <label>Amount</label>
-<input type="number" id="gxAmount">
+<input type="number" id="gxAmount" placeholder="Rakam">
 </div>
 
 <div>
@@ -2672,7 +3049,7 @@ History
 
 <div>
 <label>Date</label>
-<input type="date" id="gxDate">
+<input type="date" id="gxDate" placeholder="Tareekh Chunein">
 </div>
 
 </div>
@@ -2716,17 +3093,17 @@ Naya password set karne ke liye pehle purana password dein, phir naya password d
 
 <div>
 <label>Purana Password</label>
-<input type="password" id="gharOldPass">
+<input type="password" id="gharOldPass" placeholder="Current Password">
 </div>
 
 <div>
 <label>Naya Password</label>
-<input type="password" id="gharNewPass">
+<input type="password" id="gharNewPass" placeholder="Naya Password">
 </div>
 
 <div>
 <label>Naya Password (Dobara)</label>
-<input type="password" id="gharNewPass2">
+<input type="password" id="gharNewPass2" placeholder="Naya Password Dobara">
 </div>
 
 </div>
@@ -2773,7 +3150,7 @@ SYSTEM PURA RESET
 
 <div>
 <label>Password</label>
-<input type="password" id="hisabPassword">
+<input type="password" id="hisabPassword" placeholder="Password">
 </div>
 
 <div style="display:flex;align-items:end">
@@ -2811,7 +3188,7 @@ phir jab yaad na aaye, yahin se check kar lein.
 
 <div>
 <label>Date</label>
-<input type="date" id="hlDate">
+<input type="date" id="hlDate" placeholder="Tareekh Chunein">
 </div>
 
 <div>
@@ -2855,12 +3232,12 @@ sabse aakhri (latest) entry ko hi "current cash" mana jayega.
 
 <div>
 <label>Kitni Cash Hai?</label>
-<input type="number" id="hcAmount">
+<input type="number" id="hcAmount" placeholder="Rakam">
 </div>
 
 <div>
 <label>Date</label>
-<input type="date" id="hcDate">
+<input type="date" id="hcDate" placeholder="Tareekh Chunein">
 </div>
 
 <div style="grid-column:1/-1">
@@ -2918,17 +3295,17 @@ Naya password set karne ke liye pehle purana password dein, phir naya password d
 
 <div>
 <label>Purana Password</label>
-<input type="password" id="hisabOldPass">
+<input type="password" id="hisabOldPass" placeholder="Current Password">
 </div>
 
 <div>
 <label>Naya Password</label>
-<input type="password" id="hisabNewPass">
+<input type="password" id="hisabNewPass" placeholder="Naya Password">
 </div>
 
 <div>
 <label>Naya Password (Dobara)</label>
-<input type="password" id="hisabNewPass2">
+<input type="password" id="hisabNewPass2" placeholder="Naya Password Dobara">
 </div>
 
 </div>
@@ -3121,7 +3498,7 @@ Refresh
 <div class="grid" style="margin-top:10px">
 <div>
 <label>Password</label>
-<input type="password" id="closingPassword">
+<input type="password" id="closingPassword" placeholder="Password">
 </div>
 
 <div style="display:flex;align-items:end">
@@ -3223,17 +3600,17 @@ Naya password set karne ke liye pehle purana password dein, phir naya password d
 
 <div>
 <label>Purana Password</label>
-<input type="password" id="closingOldPass">
+<input type="password" id="closingOldPass" placeholder="Current Password">
 </div>
 
 <div>
 <label>Naya Password</label>
-<input type="password" id="closingNewPass">
+<input type="password" id="closingNewPass" placeholder="Naya Password">
 </div>
 
 <div>
 <label>Naya Password (Dobara)</label>
-<input type="password" id="closingNewPass2">
+<input type="password" id="closingNewPass2" placeholder="Naya Password Dobara">
 </div>
 
 </div>
@@ -3276,12 +3653,64 @@ Password Update Karein
 </div>
 </section>
 
+<section id="productReport" class="section">
+
+<div id="productReportLock" class="card">
+<h2>📈 Product Report Password</h2>
+<p class="muted">Product Report kholne ke liye password dein.</p>
+<div class="grid" style="margin-top:10px">
+<div><label>Password</label><input type="password" id="productReportPassword" placeholder="Password"></div>
+<div style="display:flex;align-items:end;gap:6px;flex-wrap:wrap">
+<button class="btn primary" onclick="unlock('productReport')">Tab Kholein</button>
+<button class="btn gray" onclick="changeExtraPassword('productReport')">🔑 Password Badlein</button>
+<button class="btn red" onclick="deleteProductReportTab()">🗑️ Tab Permanent Delete</button>
+</div>
+</div>
+</div>
+
+<div id="productReportContent" class="hidden">
+
+<div class="card">
+<h2>📈 Product Report — Kaunsa Product Kitna Chala</h2>
+<div class="notice">Ye report Dukan aur Kabar ke bills se khud-ba-khud banti hai — har product ki total bikri, profit, aur poori history yahan milegi.</div>
+
+<div class="grid">
+<div>
+<label>Dukan Ya Kabar</label>
+<select id="prShop" onchange="renderProductReport()">
+<option value="dukan">Dukan</option>
+<option value="kabar">Kabar</option>
+</select>
+</div>
+<div>
+<label>Tarteeb (Sort)</label>
+<select id="prSort" onchange="renderProductReport()">
+<option value="profit">🏆 Sab Se Zyada Profit</option>
+<option value="qty">🔥 Sab Se Zyada Bika (Quantity)</option>
+<option value="low">📉 Kam Chalne Wale (Low Performers)</option>
+<option value="never">🚫 Kabhi Nahi Bika</option>
+</select>
+</div>
+</div>
+
+</div>
+
+<div class="stats" id="prStats"></div>
+
+<div class="card">
+<div id="prList"></div>
+</div>
+
+</div>
+
+</section>
+
 <section id="netRecord" class="section">
 <div id="netRecordLock" class="card">
 <h2>Password</h2>
 <p class="muted">Is tab ko kholne ke liye password dein.</p>
 <div class="grid" style="margin-top:10px">
-<div><label>Password</label><input type="password" id="netRecordPassword"></div>
+<div><label>Password</label><input type="password" id="netRecordPassword" placeholder="Password"></div>
 <div style="display:flex;align-items:end;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="unlock('netRecord')">Tab Kholein</button><button class="btn gray" onclick="changeExtraPassword('netRecord')">🔑 Password Badlein</button></div><div style="display:flex;align-items:end"><button class="btn red" onclick="deleteExtraTab('netRecord')">🗑️ Tab Delete</button></div>
 </div>
 <div class="card" style="border:1px solid #b91c1c;margin-top:10px"><button class="btn" style="background:#b91c1c;color:#fff;width:100%" onclick="deleteExtraTab('netRecord')">🗑️ Is Tab Ko Delete Karein</button></div>
@@ -3293,12 +3722,12 @@ Password Update Karein
 <div class="card"><h2>🔗 Karobar Se Juda Hua Hisaab</h2><div class="notice">Ye summary Dukan, Kabar, Udhar, Liya aur Ghar Kharcha ke asli records se banti hai. Yahan se koi dukandar delete karne par purane transaction records delete nahi honge.</div><div class="stats"><div class="stat"><span>Dukan Sale</span><b id="linkDukanSale">Rs 0</b></div><div class="stat"><span>Kabar Sale</span><b id="linkKabarSale">Rs 0</b></div><div class="stat"><span>Maine Diya Baqi</span><b id="linkUdharDue">Rs 0</b></div><div class="stat"><span>Maine Liya Baqi</span><b id="linkLiyaDue">Rs 0</b></div></div><div class="stats"><div class="stat"><span>Ghar Kharcha</span><b id="linkGharExpense">Rs 0</b></div><div class="stat"><span>Ghar Aamdani</span><b id="linkGharIncome">Rs 0</b></div><div class="stat"><span>Dukan Stock Value</span><b id="linkDukanStock">Rs 0</b></div><div class="stat"><span>Kabar Stock Value</span><b id="linkKabarStock">Rs 0</b></div></div></div>
 <div class="card"><h2>💰 Paisa / Account</h2><div class="grid">
 <div><label>Jagah / Account</label><input id="nrAccount" placeholder="Jeb, Bank, Locker, Dukan Cash"></div>
-<div><label>Expected Paisa</label><input id="nrExpectedInput" type="number" step="0.01"></div>
-<div><label>Actual Paisa</label><input id="nrActualInput" type="number" step="0.01"></div>
+<div><label>Expected Paisa</label><input id="nrExpectedInput" type="number" step="0.01" placeholder="Hona Chahiye Tha"></div>
+<div><label>Actual Paisa</label><input id="nrActualInput" type="number" step="0.01" placeholder="Asal Mein Hai"></div>
 <div><label>Note</label><input id="nrAccountNote" placeholder="Aaj ka cash"></div></div>
 <div class="form-actions"><button class="btn green" onclick="nrSaveAccount()">Save Account</button><button class="btn gray" onclick="nrAccounts()">Accounts</button></div></div>
 <div class="card"><h2>🔎 Paisa Ka Farq / Ghayab Record</h2><div class="grid">
-<div><label>Amount</label><input id="nrGapAmount" type="number" step="0.01"></div><div><label>Account</label><input id="nrGapAccount" placeholder="Jeb"></div>
+<div><label>Amount</label><input id="nrGapAmount" type="number" step="0.01" placeholder="Farq (Automatic)"></div><div><label>Account</label><input id="nrGapAccount" placeholder="Jeb"></div>
 <div><label>Status</label><select id="nrGapStatus"><option>Pending — Pata Nahi</option><option>Found — Mil Gaya</option><option>Kisi Ko Diya</option><option>Kharcha Tha</option><option>Other</option></select></div>
 <div><label>Wajah / Detail</label><input id="nrGapReason" placeholder="Paisa kahan gaya ho sakta hai?"></div></div>
 <div class="form-actions"><button class="btn orange" onclick="nrSaveGap()">Farq Save</button><button class="btn gray" onclick="nrGaps()">Farq History</button></div></div>
@@ -3312,7 +3741,7 @@ Password Update Karein
 <h2>Password</h2>
 <p class="muted">Is tab ko kholne ke liye password dein.</p>
 <div class="grid" style="margin-top:10px">
-<div><label>Password</label><input type="password" id="yaadPassword"></div>
+<div><label>Password</label><input type="password" id="yaadPassword" placeholder="Password"></div>
 <div style="display:flex;align-items:end;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="unlock('yaad')">Tab Kholein</button><button class="btn gray" onclick="changeExtraPassword('yaad')">🔑 Password Badlein</button></div><div style="display:flex;align-items:end"><button class="btn red" onclick="deleteExtraTab('yaad')">🗑️ Tab Delete</button></div>
 </div>
 <div class="card" style="border:1px solid #b91c1c;margin-top:10px"><button class="btn" style="background:#b91c1c;color:#fff;width:100%" onclick="deleteExtraTab('yaad')">🗑️ Is Tab Ko Delete Karein</button></div>
@@ -3331,7 +3760,7 @@ Password Update Karein
       <button class="btn gray" onclick="showMemories()">Sab Yaadein Dekhein</button>
     </div>
   </div>
-  <div class="card"><h2>🔎 Yaad Search</h2><input id="mSearch" placeholder="Cheez ya jagah search karein..." oninput="renderMemories()"><div id="memoryList" style="margin-top:12px"></div></div>
+  <div class="card"><h2>🔎 Yaad Search</h2><input id="mSearch" class="search-input" placeholder="Cheez ya jagah search karein..." oninput="renderMemories()"><div id="memoryList" style="margin-top:12px"></div></div>
 </div>
 </section>
 <section id="paisa" class="section">
@@ -3339,7 +3768,7 @@ Password Update Karein
 <h2>Password</h2>
 <p class="muted">Is tab ko kholne ke liye password dein.</p>
 <div class="grid" style="margin-top:10px">
-<div><label>Password</label><input type="password" id="paisaPassword"></div>
+<div><label>Password</label><input type="password" id="paisaPassword" placeholder="Password"></div>
 <div style="display:flex;align-items:end;gap:6px;flex-wrap:wrap"><button class="btn primary" onclick="unlock('paisa')">Tab Kholein</button><button class="btn gray" onclick="changeExtraPassword('paisa')">🔑 Password Badlein</button></div><div style="display:flex;align-items:end"><button class="btn red" onclick="deleteExtraTab('paisa')">🗑️ Tab Delete</button></div>
 </div>
 <div class="card" style="border:1px solid #b91c1c;margin-top:10px"><button class="btn" style="background:#b91c1c;color:#fff;width:100%" onclick="deleteExtraTab('paisa')">🗑️ Is Tab Ko Delete Karein</button></div>
@@ -3362,7 +3791,7 @@ Password Update Karein
     <h2>🏦 Jagah / Account Add Karein</h2>
     <div class="grid">
       <div><label>Naam</label><input id="moneyAccountName" placeholder="Misal: Jeb, Bank, Ghar Locker"></div>
-      <div><label>Opening Balance</label><input type="number" id="moneyOpening" value="0"></div>
+      <div><label>Opening Balance</label><input type="number" id="moneyOpening" placeholder="0"></div>
     </div>
     <div class="form-actions"><button class="btn primary" onclick="addMoneyAccount()">Account Add</button><button class="btn gray" onclick="showMoneyAccounts()">Accounts Manage</button></div>
   </div>
@@ -3372,8 +3801,8 @@ Password Update Karein
     <div class="grid">
       <div><label>Account</label><select id="moneyEntryAccount"></select></div>
       <div><label>Type</label><select id="moneyEntryType"><option value="in">Paisa Aya / Jama</option><option value="out">Paisa Gaya / Nikala</option></select></div>
-      <div><label>Amount</label><input type="number" id="moneyEntryAmount"></div>
-      <div><label>Date</label><input type="date" id="moneyEntryDate"></div>
+      <div><label>Amount</label><input type="number" id="moneyEntryAmount" placeholder="Rakam"></div>
+      <div><label>Date</label><input type="date" id="moneyEntryDate" placeholder="Tareekh Chunein"></div>
       <div><label>Kahan Se / Kahan Gaya</label><input id="moneyEntryParty" placeholder="Misal: Aslam, Ghar, Supplier"></div>
       <div><label>Category</label><input id="moneyEntryCategory" placeholder="Sale, Expense, Ghar, Personal"></div>
       <div style="grid-column:1/-1"><label>Detail / Wajah</label><input id="moneyEntryNote" placeholder="Paisa kyun aya/gaya? Misal: Mobile khareeda"></div>
@@ -3386,8 +3815,8 @@ Password Update Karein
     <div class="grid">
       <div><label>From</label><select id="moneyFrom"></select></div>
       <div><label>To</label><select id="moneyTo"></select></div>
-      <div><label>Amount</label><input type="number" id="moneyTransferAmount"></div>
-      <div><label>Date</label><input type="date" id="moneyTransferDate"></div>
+      <div><label>Amount</label><input type="number" id="moneyTransferAmount" placeholder="Rakam"></div>
+      <div><label>Date</label><input type="date" id="moneyTransferDate" placeholder="Tareekh Chunein"></div>
       <div style="grid-column:1/-1"><label>Detail</label><input id="moneyTransferNote" placeholder="Misal: Jeb se Bank mein jama"></div>
     </div>
     <div class="form-actions"><button class="btn purple" onclick="addMoneyTransfer()">Transfer Save Karein</button></div>
@@ -3483,7 +3912,9 @@ requests:[]
 hisab:{
 locations:[],
 cash:[]
-}
+},
+
+compare:{cities:[],products:[]}
 
 };
 
@@ -3524,6 +3955,8 @@ db.settings.netRecordPassword=db.settings.netRecordPassword||"1234";
 db.settings.yaadPassword=db.settings.yaadPassword||"1234";
 db.settings.paisaPassword=db.settings.paisaPassword||"1234";
 db.settings.customerOrdersPassword=db.settings.customerOrdersPassword||"1234";
+db.settings.productReportPassword=db.settings.productReportPassword||"1234";
+db.settings.comparePassword=db.settings.comparePassword||"1234";
 db.settings.oldUdharPassword=db.settings.oldUdharPassword||"1234";
 
 db.settings.closingPassword=db.settings.closingPassword||"1234";
@@ -3618,6 +4051,12 @@ db.hisab=(db.hisab && typeof db.hisab==="object" && !Array.isArray(db.hisab))?db
 db.hisab.locations=db.hisab.locations||[];
 
 db.hisab.cash=Array.isArray(db.hisab.cash)?db.hisab.cash:[];
+
+db.compare=(db.compare && typeof db.compare==="object" && !Array.isArray(db.compare))?db.compare:{cities:[],products:[]};
+db.compare.cities=Array.isArray(db.compare.cities)?db.compare.cities:[];
+db.compare.products=Array.isArray(db.compare.products)?db.compare.products:[];
+db.compare.cities.forEach(c=>{if(typeof c==="string")return; c.name=c.name||"Shehar"; c.expense=n(c.expense);});
+
 
 // Extra tabs: always keep their data in a safe shape, even when Firebase
 // returns an old/partial database object.
@@ -3958,320 +4397,6 @@ return `
 <img class="attach-preview" src="${item.attachment}">
 `;
 
-}
-
-
-/* =========================================================
-   CALCULATOR (LOCK SCREEN KE NEECHE, HAMESHA KHULA)
-   Normal 4-function calculator hai — koi eval() istemal
-   nahi hota, bilkul asal calculator jaisa button-by-button
-   kaam karta hai. Kisi bhi hisab/kitab se juda nahi —
-   sirf ek quick-check tool hai.
-========================================================= */
-
-let calcState={
-
-display:"0",
-
-first:null,
-
-operator:null,
-
-waitingSecond:false,
-
-justEqual:false
-
-};
-
-
-function calcRender(){
-
-let el=document.getElementById("calcDisplay");
-let ex=document.getElementById("calcExpression");
-let pv=document.getElementById("calcPreview");
-
-if(el)el.textContent=calcState.display;
-
-if(ex){
-  if(calcState.first!==null && calcState.operator){
-    ex.textContent=calcFormatResult(calcState.first)+" "+calcState.operator+" "+(calcState.waitingSecond?"":calcState.display);
-  }else{
-    ex.textContent="";
-  }
-}
-
-if(pv){
-  if(calcState.first!==null && calcState.operator && !calcState.waitingSecond && calcState.display!=="Error"){
-    let result=calcCompute(calcState.first,parseFloat(calcState.display),calcState.operator);
-    pv.textContent=calcFormatResult(result);
-  }else{
-    pv.textContent="";
-  }
-}
-
-}
-
-
-function calcInputDigit(d){
-
-if(calcState.justEqual){calcClear();}
-
-if(calcState.display==="Error"){
-
-calcClear();
-
-}
-
-
-if(calcState.waitingSecond){
-
-calcState.display=d;
-
-calcState.waitingSecond=false;
-
-}else{
-
-calcState.display=
-calcState.display==="0"?d:calcState.display+d;
-
-}
-
-
-calcRender();
-
-}
-
-
-function calcInputDecimal(){
-
-if(calcState.justEqual){calcClear();}
-
-if(calcState.display==="Error"){
-
-calcClear();
-
-}
-
-
-if(calcState.waitingSecond){
-
-calcState.display="0.";
-
-calcState.waitingSecond=false;
-
-calcRender();
-
-return;
-}
-
-
-if(!calcState.display.includes(".")){
-
-calcState.display+=".";
-
-}
-
-
-calcRender();
-
-}
-
-
-function calcClear(){
-
-calcState={
-
-display:"0",
-
-first:null,
-
-operator:null,
-
-waitingSecond:false
-
-};
-
-
-calcRender();
-
-}
-
-
-function calcBackspace(){
-
-if(calcState.display==="Error"){
-
-calcClear();
-
-return;
-}
-
-
-if(calcState.waitingSecond)return;
-
-
-let d=calcState.display;
-
-d=d.length>1?d.slice(0,-1):"0";
-
-
-calcState.display=d;
-
-calcRender();
-
-}
-
-
-function calcToggleSign(){
-
-let v=parseFloat(calcState.display)||0;
-
-calcState.display=calcFormatResult(v*-1);
-
-calcRender();
-
-}
-
-
-function calcPercent(){
-
-let v=parseFloat(calcState.display)||0;
-
-calcState.display=calcFormatResult(v/100);
-
-calcRender();
-
-}
-
-
-function calcCompute(a,b,op){
-
-a=parseFloat(a);
-
-b=parseFloat(b);
-
-
-if(op==="+")return a+b;
-
-if(op==="−")return a-b;
-
-if(op==="×")return a*b;
-
-if(op==="÷")return b===0?NaN:a/b;
-
-
-return b;
-
-}
-
-
-function calcFormatResult(v){
-
-if(isNaN(v)||!isFinite(v))return "Error";
-
-
-let r=Math.round(v*1e8)/1e8;
-
-return String(r);
-
-}
-
-
-function calcChooseOperator(op){
-
-if(calcState.justEqual){calcState.justEqual=false;}
-
-if(calcState.display==="Error"){
-
-calcClear();
-
-}
-
-
-let inputVal=parseFloat(calcState.display);
-
-
-if(calcState.operator&&calcState.waitingSecond){
-
-calcState.operator=op;
-
-return;
-}
-
-
-if(calcState.first===null){
-
-calcState.first=inputVal;
-
-}else if(calcState.operator){
-
-let result=calcCompute(
-calcState.first,
-inputVal,
-calcState.operator
-);
-
-calcState.display=calcFormatResult(result);
-
-calcState.first=parseFloat(calcState.display);
-
-}
-
-
-calcState.waitingSecond=true;
-
-calcState.operator=op;
-
-
-calcRender();
-
-}
-
-
-function calcEquals(){
-
-if(calcState.display==="Error"){
-
-calcClear();
-
-return;
-}
-
-
-if(calcState.operator===null||calcState.first===null)return;
-
-
-let inputVal=parseFloat(calcState.display);
-
-
-let result=calcCompute(
-calcState.first,
-inputVal,
-calcState.operator
-);
-
-
-calcState.display=calcFormatResult(result);
-
-calcState.first=null;
-
-calcState.operator=null;
-
-calcState.waitingSecond=false;
-calcState.justEqual=true;
-
-
-calcRender();
-
-}
-
-
-function toggleCalculator(){
-let card=document.getElementById("calculatorCard");
-let text=document.getElementById("calcToggleText");
-if(!card)return;
-card.classList.toggle("show");
-if(text)text.textContent=card.classList.contains("show")?"Band Karein":"Kholein";
 }
 
 
@@ -4970,13 +5095,16 @@ openSection(name,btn);
 
 /* DELETE ONLY THE 3 NEW TABS */
 function deleteExtraTab(section){
-  const allowed=["netRecord","yaad","paisa"];
+  const allowed=["netRecord","yaad","paisa","compare"];
   if(!allowed.includes(section))return;
   if(!confirm("Kya aap is tab ko delete karna chahte hain?"))return;
 
   db.settings=db.settings||{};
   db.settings.extraTabsDeleted=db.settings.extraTabsDeleted||{};
   db.settings.extraTabsDeleted[section]=true;
+  if(section==='compare'){
+    db.compare={cities:[],products:[]};
+  }
   save();
 
   const sec=document.getElementById(section);
@@ -5022,13 +5150,40 @@ async function deleteCustomerOrdersTab(){
 
 function applyExtraTabVisibility(){
   const deleted=(db.settings&&db.settings.extraTabsDeleted)||{};
-  ["netRecord","yaad","paisa","customerOrders"].forEach(section=>{
+  ["netRecord","yaad","paisa","customerOrders","compare","productReport"].forEach(section=>{
     if(!deleted[section])return;
     const sec=document.getElementById(section);
     const tab=[...document.querySelectorAll('.tab')].find(t=>(t.getAttribute('onclick')||'').includes("openSection('"+section+"',this)"));
     if(sec)sec.remove();
     if(tab)tab.remove();
   });
+}
+
+async function deleteProductReportTab(){
+  if(!db.settings)db.settings={};
+  const current=prompt("Product Report tab ka current password likhein:");
+  if(current===null)return;
+  if(current.trim()!==String(db.settings.productReportPassword||"1234")){
+    alert("Current password ghalat hai.");
+    return;
+  }
+  const first=confirm("⚠️ Product Report ka TAB is Personal file se hata dena hai?\n\nYe sirf ek 'report/nazar' hai — Dukan/Kabar ke asal bills, products, ya kisi bhi sale ka data delete NAHI hoga, sirf ye tab chhup jayega.");
+  if(!first)return;
+  const second=confirm("FINAL CONFIRMATION: Ye tab dobara automatic wapas nahi aayega (jab tak developer se dobara na banwaya jaye). Aage badhein?");
+  if(!second)return;
+
+  db.settings.extraTabsDeleted=db.settings.extraTabsDeleted||{};
+  db.settings.extraTabsDeleted.productReport=true;
+  audit("Delete","Product Report Tab","productReport",null,null,{stock:false,accountingRequired:false,reason:"Whole tab hidden (report-only, no underlying data)"});
+  save();
+
+  const sec=document.getElementById("productReport");
+  const tab=[...document.querySelectorAll(".tab")].find(t=>(t.getAttribute("onclick")||"").includes("openSection('productReport',this)"));
+  if(sec)sec.remove();
+  if(tab)tab.remove();
+  const firstTab=document.querySelector(".tab");
+  if(firstTab)firstTab.click();
+  alert("✅ Product Report tab hata diya gaya hai. Dukan/Kabar ka sales data mukammal safe hai.");
 }
 
 /* =========================================================
@@ -5052,9 +5207,9 @@ function unlock(section){
 }
 
 function changeExtraPassword(section){
-  const allowed=["netRecord","yaad","paisa","customerOrders"];
+  const allowed=["netRecord","yaad","paisa","customerOrders","compare","productReport"];
   if(!allowed.includes(section))return;
-  const labels={netRecord:"Net Record",yaad:"Yaad Rakho",paisa:"Paisa Hisaab",customerOrders:"Customer Orders"};
+  const labels={netRecord:"Net Record",yaad:"Yaad Rakho",paisa:"Paisa Hisaab",customerOrders:"Customer Orders",compare:"Compare",productReport:"Product Report"};
   const current=prompt(labels[section]+" ka current password likhein:");
   if(current===null)return;
   if(current.trim()!==String(db.settings[section+"Password"]||"1234")){
@@ -5106,7 +5261,7 @@ function changeRobotLearnedPassword(){
 
 function lockAll(){
 
-["dukan","kabar","udhar","oldUdhar","liya","ghar","hisab","netRecord","yaad","paisa","closing","customerOrders"].forEach(s=>{
+["dukan","kabar","udhar","oldUdhar","liya","ghar","hisab","netRecord","yaad","paisa","closing","customerOrders","compare"].forEach(s=>{
 
 document.getElementById(
 s+"Lock"
@@ -5458,9 +5613,9 @@ return;
 }
 
 
-let big=n(
+let big=Math.floor(n(
 document.getElementById("dpBig").value
-);
+));
 
 let small=n(
 document.getElementById("dpSmall").value
@@ -5529,9 +5684,14 @@ p.saleRate=n(saleRateInput);
 }
 
 
-let supplierName=
-document.getElementById("dpSupplier").value.trim();
-
+// Stock entry mein party/source ya extra kharcha nahi liya jayega.
+// Kis se liya / kis ko diya sale-purchase transaction mein rahega;
+// Dukan ka extra kharcha alag Dukan Kharcha section mein rahega.
+let supplierName="";
+let sourceLocation="";
+let extraCost=0;
+let landedAmount=amount;
+let landedRate=bariEquivalent>0?landedAmount/bariEquivalent:0;
 
 p.stockSmall+=qty;
 
@@ -5550,12 +5710,18 @@ qtySmall:qty,
 
 amount,
 
+baseRate:bariEquivalent>0?amount/bariEquivalent:0,
+extraCost,
+landedAmount,
+landedRate,
 supplierName,
+sourceLocation,
 
-maalDiyaBy:document.getElementById("dpMaalDiyaBy")?.value.trim()||"",
-purchaseNote:document.getElementById("dpPurchaseNote")?.value.trim()||"",
+maalDiyaBy:"",
+purchaseNote:"",
 
-date:today()
+date:today(),
+createdAt:Date.now()
 
 };
 
@@ -5592,15 +5758,17 @@ oldSaleRate,p.saleRate,"sale"
 refreshAll();
 
 
-document.getElementById("dpBig").value=0;
+document.getElementById("dpBig").value="";
 
-document.getElementById("dpSmall").value=0;
+document.getElementById("dpSmall").value="";
 
 document.getElementById("dpAmount").value="";
 
 document.getElementById("dpSaleRate").value="";
 
 document.getElementById("dpSupplier").value="";
+if(document.getElementById("dpSourceLocation"))document.getElementById("dpSourceLocation").value="";
+if(document.getElementById("dpExtraCost"))document.getElementById("dpExtraCost").value="";
 
 
 alert(
@@ -6116,11 +6284,11 @@ profit:sale-cost
 
 document.getElementById(
 "dbBigQty"
-).value=0;
+).value="";
 
 document.getElementById(
 "dbSmallQty"
-).value=0;
+).value="";
 
 document.getElementById(
 "dbSpecialRate"
@@ -6432,11 +6600,11 @@ dCurrent=[];
 
 document.getElementById(
 "dbPaid"
-).value=0;
+).value="";
 
 document.getElementById(
 "dbRiayat"
-).value=0;
+).value="";
 
 
 renderDBill();
@@ -6581,7 +6749,8 @@ paid,
 
 maalDiyaBy:document.getElementById("dbMaalDiyaBy")?.value.trim()||"",
 maalLiYaFrom:document.getElementById("dbMaalLiYaFrom")?.value.trim()||"",
-maalTafseel:document.getElementById("dbMaalTafseel")?.value.trim()||""
+maalTafseel:document.getElementById("dbMaalTafseel")?.value.trim()||"",
+createdAt:Date.now()
 
 };
 
@@ -6622,7 +6791,7 @@ save();
 refreshAll();
 
 
-document.getElementById("dbRiayat").value=0;
+document.getElementById("dbRiayat").value="";
 
 
 alert(
@@ -6946,8 +7115,8 @@ Purana quantity wapas stock mein aayegi aur nayi quantity minus hogi.
 </div>
 
 <div>
-<label>Dukandar Ne Maal Kis Se Liya? (optional)</label>
-<input id="ebMaalLiYaFrom" value="${esc(b.maalLiYaFrom||"")}" placeholder="Naam / Dukan">
+<label>Kon Maal Lene Aya? (optional)</label>
+<input id="ebMaalLiYaFrom" value="${esc(b.maalLiYaFrom||"")}" placeholder="Naam / Driver / Customer">
 </div>
 
 <div>
@@ -7469,7 +7638,8 @@ date:today(),
 
 jamaTo:document.getElementById("djto_"+id)?.value||"mujhe",
 receivedBy:document.getElementById("djwho_"+id)?.value.trim()||"",
-jamaNote:document.getElementById("djnote_"+id)?.value.trim()||""
+jamaNote:document.getElementById("djnote_"+id)?.value.trim()||"",
+createdAt:Date.now()
 
 });
 
@@ -7544,6 +7714,8 @@ ${money(s.due)}
 
 </div>
 
+<div class="form-actions" style="margin-top:10px"><button class="btn purple small" onclick="showDukandarRunningLedger('${id}')">📜 Running Udhar Ledger</button></div>
+
 
 <h3 style="margin:15px 0 10px">
 Complete Bills
@@ -7583,7 +7755,7 @@ html+=`
 ${b.date}
 </div>
 ${b.maalDiyaBy?`<div class="muted">Maal diya: <b>${esc(b.maalDiyaBy)}</b></div>`:""}
-${b.maalLiYaFrom?`<div class="muted">Maal kis se liya: <b>${esc(b.maalLiYaFrom)}</b></div>`:""}
+${b.maalLiYaFrom?`<div class="muted">Kon Maal Lene Aya: <b>${esc(b.maalLiYaFrom)}</b></div>`:""}
 ${b.maalTafseel?`<div class="muted">Tafseel: ${esc(b.maalTafseel)}</div>`:""}
 
 </div>
@@ -7948,11 +8120,11 @@ refreshAll();
 
 document.getElementById(
 "duBigQty"
-).value=0;
+).value="";
 
 document.getElementById(
 "duSmallQty"
-).value=0;
+).value="";
 
 
 alert(
@@ -8971,11 +9143,11 @@ refreshAll();
 
 document.getElementById(
 "kpKg"
-).value=0;
+).value="";
 
 document.getElementById(
 "kpGram"
-).value=0;
+).value="";
 
 document.getElementById(
 "kpRate"
@@ -9147,11 +9319,11 @@ specialRate!==""
 
 document.getElementById(
 "kbKg"
-).value=0;
+).value="";
 
 document.getElementById(
 "kbGram"
-).value=0;
+).value="";
 
 document.getElementById(
 "kbSpecialRate"
@@ -9464,11 +9636,11 @@ kCurrent=[];
 
 document.getElementById(
 "kbPaid"
-).value=0;
+).value="";
 
 document.getElementById(
 "kbRiayat"
-).value=0;
+).value="";
 
 
 renderKBill();
@@ -9644,7 +9816,7 @@ save();
 refreshAll();
 
 
-document.getElementById("kbRiayat").value=0;
+document.getElementById("kbRiayat").value="";
 
 
 alert(
@@ -10345,11 +10517,11 @@ refreshAll();
 
 document.getElementById(
 "kuKg"
-).value=0;
+).value="";
 
 document.getElementById(
 "kuGram"
-).value=0;
+).value="";
 
 
 alert(
@@ -10412,6 +10584,9 @@ Amount:
 </p>
 
 ${x.supplierName?`<p>Kis Se Liya: ${esc(x.supplierName)}</p>`:""}
+${x.sourceLocation?`<p>Source Shehar/Jagah: <b>${esc(x.sourceLocation)}</b></p>`:""}
+${n(x.extraCost)>0?`<p>Extra Kharcha: <b>${money(x.extraCost)}</b></p>`:""}
+${x.landedAmount!=null?`<p>Landed Total: <b>${money(x.landedAmount)}</b> — Landed Rate: <b>${money(x.landedRate||0)}/Bari Unit</b></p>`:""}
 ${x.maalDiyaBy?`<p>Maal Diya: ${esc(x.maalDiyaBy)}</p>`:""}
 ${x.purchaseNote?`<p>Tafseel: ${esc(x.purchaseNote)}</p>`:""}
 
@@ -10558,6 +10733,10 @@ if(type==="dukan"){
  x.bigQty=n(newBig); x.smallQty=n(newSmall); x.qtySmall=newQty; x.amount=n(newAmount);
  let newSupplier=prompt("Kis Se Liya (optional):",x.supplierName||"");
  if(newSupplier!==null)x.supplierName=newSupplier.trim();
+ let newSource=prompt("Maal Kis Shehar / Jagah Se Aya?",x.sourceLocation||"");
+ if(newSource!==null)x.sourceLocation=newSource.trim();
+ let newExtra=prompt("Transport / Safar / Extra Kharcha:",x.extraCost||0);
+ if(newExtra!==null){x.extraCost=Math.max(0,n(newExtra));x.landedAmount=x.amount+x.extraCost;let be=(newQty/(n(p.conversion)||1));x.baseRate=be>0?x.amount/be:0;x.landedRate=be>0?x.landedAmount/be:0;}
  let newGivenBy=prompt("Maal Kis Ne Diya (optional):",x.maalDiyaBy||"");
  if(newGivenBy!==null)x.maalDiyaBy=newGivenBy.trim();
  let newNote=prompt("Purchase ki tafseel / kis ke kehne par (optional):",x.purchaseNote||"");
@@ -11188,6 +11367,128 @@ function refreshOldUdhar(){
   box.innerHTML=list.map(p=>{let st=oldUdharStats(p.id);let first=(db.oldUdhar.entries||[]).filter(x=>String(x.personId)===String(p.id)).sort((a,b)=>String(a.since||a.date).localeCompare(String(b.since||b.date)))[0];return `<div class="card"><div class="person-head"><div><div class="person-name">${esc(p.name)}</div><div class="muted">${esc(p.phone||'')}</div></div><div class="current"><div class="muted">Abhi Lena</div><b class="${st.due?'due':'paid'}">${money(st.due)}</b></div></div><div class="grid3" style="margin-top:10px"><div><span class="muted">Hisaab</span><br><b>${(first?.category==='kabar'?'♻️ Kabar':'🏪 Dukan')}</b></div><div><span class="muted">Total Diya</span><br><b>${money(st.given)}</b></div><div><span class="muted">Total Jama</span><br><b class="paid">${money(st.paid)}</b></div><div><span class="muted">Kab Se</span><br><b>${esc(first?.since||p.created||'-')}</b></div></div><div class="purple-box" style="margin-top:10px"><div class="form-actions"><button class="btn green small" onclick="oldUdharPayment('${p.id}')" ${st.due<=0?'disabled':''}>💵 Jama</button><button class="btn primary small" onclick="showOldUdharHistory('${p.id}')">📜 History</button><button class="btn purple small" onclick="editOldUdharPerson('${p.id}')">✏️ Edit / Change</button><button class="btn red small" onclick="deleteOldUdharPerson('${p.id}')">🗑️ Delete</button>${p.phone?`<button class="btn primary small" onclick="oldUdharCall('${esc(p.phone)}')">📞 Call</button><button class="btn purple small" onclick="oldUdharWhatsApp('${esc(p.phone)}','${esc(p.name)}')">💬 WhatsApp Reminder</button><button class="btn purple small" onclick="oldUdharWhatsAppCustom('${esc(p.phone)}','${esc(p.name)}')">✉️ WhatsApp Message</button>`:''}</div></div></div>`;}).join('');
 }
 function changeOldUdharPassword(){let cur=prompt('Current password:');if(cur===null)return;if(cur.trim()!==String(db.settings.oldUdharPassword||'1234')){alert('Password ghalat hai.');return;}let next=prompt('Naya password:');if(next===null)return;if(next.trim().length<4){alert('Password kam az kam 4 characters ka ho.');return;}let again=prompt('Naya password dobara:');if(again===null||next.trim()!==again.trim()){alert('Passwords match nahi karte.');return;}db.settings.oldUdharPassword=next.trim();save();alert('Purana Udhar ka password change ho gaya.');}
+
+/* =========================================================
+   DUKAN CUSTOMER RUNNING LEDGER
+========================================================= */
+function getDukandarLedger(id){
+  const events=[];
+  (db.dukan.bills||[]).forEach(b=>{if(b.dukandarId!==id)return;const payable=Math.max(0,n(b.total)-n(b.riayat||0));events.push({kind:"bill",id:b.id,date:b.date||"",at:n(b.createdAt)||new Date((b.date||today())+"T00:00:00").getTime(),amount:payable,billNo:b.billNo||""});});
+  (db.dukan.jama||[]).forEach(j=>{if(j.dukandarId!==id)return;events.push({kind:"jama",id:j.id,date:j.date||"",at:n(j.createdAt)||new Date((j.date||today())+"T23:59:59").getTime(),amount:n(j.amount),note:j.jamaNote||""});});
+  events.sort((a,b)=>a.at-b.at || (a.kind==="bill"?-1:1));
+  let running=0; return events.map(e=>{const prev=Math.max(0,running);if(e.kind==="bill")running+=e.amount;else running-=e.amount;running=Math.max(0,running);return {...e,previousBalance:prev,balance:running};});
+}
+function showDukandarRunningLedger(id){
+  const d=dukandar(id);if(!d)return;const rows=getDukandarLedger(id);let current=rows.length?rows[rows.length-1].balance:0;
+  let html=`<div class="total-box"><div class="total-row"><span>Current Total Bakaya</span><b class="${current?'due':'paid'}">${money(current)}</b></div></div><h3 style="margin:15px 0 10px">📜 Running Udhar History — ${esc(d.name)}</h3>`;
+  if(!rows.length)html+='<div class="empty">History khali hai.</div>';
+  rows.slice().reverse().forEach(r=>{html+=r.kind==="bill"?`<div class="history-item"><b>🧾 ${esc(r.billNo)}</b> — Naya Bill <b>${money(r.amount)}</b><div class="muted">${esc(r.date)}</div><div>Pichla Bakaya: <b>${money(r.previousBalance)}</b></div><div>Naya Total Bakaya: <b class="due">${money(r.balance)}</b></div></div>`:`<div class="history-item"><b class="paid">💵 Jama ${money(r.amount)}</b><div class="muted">${esc(r.date)}</div><div>Jama ke baad Bakaya: <b class="${r.balance?'due':'paid'}">${money(r.balance)}</b></div>${r.note?`<div>Tafseel: ${esc(r.note)}</div>`:""}</div>`;});
+  openModal("Running Udhar: "+d.name,html);
+}
+
+/* =========================================================
+   SHEHAR COMPARE — independent planning tool
+   Iska data stock, bills aur Closing ko touch nahi karta.
+========================================================= */
+function compareProduct(id){return (db.compare.products||[]).find(x=>String(x.id)===String(id));}
+function compareCity(name){return (db.compare.cities||[]).find(x=>String(x.name).toLowerCase()===String(name).toLowerCase());}
+function compareSmallRate(big,p){const conv=n(p?.conversion);return conv>0?n(big)/conv:0;}
+function compareProductLabel(p){return p?dProductLabel(p):'Product select karein';}
+function compareCityTotalExpense(city,row){const x=(row.cities||{})[city.name]||{};return n(x.expense!==undefined?x.expense:city.expense);}
+function compareMoneyNumber(v){return n(v);}
+function addCompareCity(){
+  const e=document.getElementById('compareCityName'),ex=document.getElementById('compareCityExpense');
+  const name=(e?.value||'').trim();if(!name){alert('Shehar ka naam likhein.');return;}
+  if(compareCity(name)){alert('Ye shehar pehle se mojood hai.');return;}
+  db.compare.cities.push({name,expense:n(ex?.value)});
+  if(e)e.value='';if(ex)ex.value='0';save();renderCompare();
+}
+function editCompareCity(name){
+  const c=compareCity(name);if(!c)return;
+  const nn=prompt('Shehar ka naya naam:',c.name);if(nn===null)return;const newName=nn.trim();if(!newName)return;
+  if((db.compare.cities||[]).some(x=>x!==c&&String(x.name).toLowerCase()===newName.toLowerCase())){alert('Ye shehar pehle se mojood hai.');return;}
+  const ee=prompt('Default Kharcha:',String(n(c.expense)));if(ee===null)return;
+  const old=c.name;c.name=newName;c.expense=n(ee);
+  (db.compare.products||[]).forEach(r=>{if(r.cities&&r.cities[old]){r.cities[newName]=r.cities[old];delete r.cities[old];}});
+  save();renderCompare();
+}
+function deleteCompareCity(name){
+  if(!confirm('Shehar '+name+' delete karna hai? Is shehar ki Compare rates aur kharchay bhi hat jayenge. Closing par koi asar nahi hoga.'))return;
+  db.compare.cities=db.compare.cities.filter(c=>c.name!==name);
+  (db.compare.products||[]).forEach(r=>{if(r.cities)delete r.cities[name];});save();renderCompare();
+}
+function addCompareProduct(){
+  const active=db.dukan.products.filter(x=>x.active!==false);if(!active.length){alert('Pehle Dukan mein product add karein.');return;}
+  const choice=prompt('Kaunsa product Compare mein add karna hai?\n\nProduct ka naam likhein.\nMisal: Chips');if(choice===null)return;
+  const term=choice.trim().toLowerCase();if(!term)return;
+  const matches=active.filter(p=>compareProductLabel(p).toLowerCase().includes(term)||(p.name||'').toLowerCase().includes(term));
+  if(!matches.length){alert('Ye product Dukan mein nahi mila. Pehle product add karein.');return;}
+  if(matches.length>1){alert('Ek se zyada product mile. Zyada specific naam/flavor/weight likhein:\n\n'+matches.slice(0,12).map(compareProductLabel).join('\n'));return;}
+  const p=matches[0];
+  db.compare.products.push({id:'cmp_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),productId:p.id,qty:1,cities:{}});
+  save();renderCompare();
+}
+function deleteCompareProduct(id){if(!confirm('Is Compare product ko delete karna hai?'))return;db.compare.products=db.compare.products.filter(x=>String(x.id)!==String(id));save();renderCompare();}
+function clearCompareProducts(){if(!db.compare.products.length)return;if(!confirm('Compare ke tamam products, unke shehar rates aur kharchay delete karne hain?'))return;db.compare.products=[];save();renderCompare();}
+function compareProductChanged(rowId,productId){const r=compareProduct(rowId);if(!r)return;if(String(r.productId)!==String(productId)){r.productId=productId;r.cities={};}save();renderCompare();}
+function compareQtyChanged(rowId,value){const r=compareProduct(rowId);if(!r)return;r.qty=Math.max(0,n(value));save();renderCompare();}
+function compareRateChanged(rowId,city,value){const r=compareProduct(rowId);if(!r)return;r.cities=r.cities||{};r.cities[city]=r.cities[city]||{};r.cities[city].rate=Math.max(0,n(value));save();renderCompare();}
+function compareExpenseChanged(rowId,city,value){const r=compareProduct(rowId);if(!r)return;r.cities=r.cities||{};r.cities[city]=r.cities[city]||{};r.cities[city].expense=Math.max(0,n(value));save();renderCompare();}
+function compareRowCityValue(r,c){r.cities=r.cities||{};return r.cities[c.name]||(r.cities[c.name]={rate:0,expense:n(c.expense)});}
+function renderCompare(){
+  const cb=document.getElementById('compareCitiesBox'),rb=document.getElementById('compareRowsBox'),res=document.getElementById('compareResultsBox');
+  if(!cb||!rb||!res)return;
+  db.compare=db.compare&&typeof db.compare==='object'&&!Array.isArray(db.compare)?db.compare:{cities:[],products:[]};
+  db.compare.cities=Array.isArray(db.compare.cities)?db.compare.cities:[];db.compare.products=Array.isArray(db.compare.products)?db.compare.products:[];
+  const cities=db.compare.cities,products=db.dukan.products||[];
+  const cityKpi=document.getElementById('compareCityKpi'),productKpi=document.getElementById('compareProductKpi'),bestKpi=document.getElementById('compareBestKpi'),savingKpi=document.getElementById('compareSavingKpi');if(cityKpi)cityKpi.textContent=cities.length;if(productKpi)productKpi.textContent=db.compare.products.length;
+  cb.innerHTML=cities.length?cities.map(c=>`<span class="compare-city-chip">🏙️ <b>${esc(c.name)}</b><small>Default: ${money(n(c.expense))}</small><button class="btn purple small" onclick="editCompareCity('${esc(c.name)}')">✏️</button><button class="btn red small" onclick="deleteCompareCity('${esc(c.name)}')">🗑️</button></span>`).join(''):'<div class="empty">Abhi koi shehar nahi. Pehle Pano Aqil, Sukkur waghera add karein.</div>';
+  if(!db.compare.products.length){rb.innerHTML='<div class="empty">➕ Product Add Karein. Phir <b>usi product ki same row</b> mein Pano Aqil, Sukkur, Rohri ya jitne shehar chahen un ke rates likhein.</div>';res.innerHTML='<div class="empty">Results yahan automatic aayenge.</div>';return;}
+  const activeProducts=products.filter(p=>p.active!==false);
+  const opts=activeProducts.map(p=>`<option value="${esc(p.id)}">${esc(compareProductLabel(p))}</option>`).join('');
+  let rowsHtml='';
+  db.compare.products.forEach((r,i)=>{
+    const p=products.find(x=>String(x.id)===String(r.productId));
+    if(!p){rowsHtml+=`<div class="compare-product-card"><div class="compare-product-head"><b>⚠️ Product #${i+1} Missing</b><button class="btn red small" style="float:right" onclick="deleteCompareProduct('${r.id}')">🗑️ Delete</button><div class="muted">Original Dukan product ab available nahi hai.</div></div></div>`;return;}
+    const conv=n(p.conversion)||1,q=Math.max(0,n(r.qty));
+    let h=`<div class="compare-product-card"><div class="compare-product-head"><div class="person-head"><div><div style="font-size:17px;font-weight:900">📦 ${i+1}. ${esc(compareProductLabel(p))}</div><div class="muted">1 ${esc(p.bigUnit||'Bari Unit')} = ${conv} ${esc(p.smallUnit||'Choti Unit')} • Compare sirf planning ke liye hai</div></div><button class="btn red small" onclick="deleteCompareProduct('${r.id}')">🗑️ Delete</button></div></div>`;
+    h+=`<div style="padding:14px 16px"><div class="grid3"><div><label>Product</label><select onchange="compareProductChanged('${r.id}',this.value)">${opts}</select></div><div><label>Kitni Bari Units leni hain?</label><input type="number" min="0" step="0.01" value="${q||''}" onchange="compareQtyChanged('${r.id}',this.value)"></div><div class="auto-info"><b>Auto Choti Rate</b><br>Bari Rate ÷ ${conv}</div></div>`;
+    h+=`<div class="compare-table-wrap"><table class="compare-table"><thead><tr><th>Shehar</th><th>Bari Rate</th><th>Choti Rate Auto</th><th>Total Kharcha</th><th>Landed Bari Rate</th><th>Total Maal + Kharcha</th><th>Change</th></tr></thead><tbody>`;
+    if(!cities.length)h+=`<tr><td colspan="7"><div class="empty">Pehle kam az kam 1 shehar add karein.</div></td></tr>`;
+    cities.forEach(c=>{const x=compareRowCityValue(r,c),rate=n(x.rate),expense=n(x.expense),landed=q>0?rate+expense/q:rate,total=q*rate+expense;h+=`<tr><td class="city-name">🏙️ ${esc(c.name)}</td><td><input type="number" min="0" step="0.01" value="${rate||''}" onchange="compareRateChanged('${r.id}','${esc(c.name)}',this.value)" placeholder="Rate"></td><td>${rate?`<b>${money(compareSmallRate(rate,p))}</b>`:'<span class="missing">Rate baqi</span>'}</td><td><input type="number" min="0" step="0.01" value="${expense||0}" onchange="compareExpenseChanged('${r.id}','${esc(c.name)}',this.value)" placeholder="Kharcha"></td><td>${rate?`<span class="landed">${money(landed)}</span>`:'<span class="missing">Incomplete</span>'}</td><td><b>${rate&&q>0?money(total):'-'}</b></td><td><button class="btn gray small" onclick="compareRowQuickEdit('${r.id}','${esc(c.name)}')">✏️ Change</button></td></tr>`;});
+    h+=`</tbody></table></div></div></div>`;rowsHtml+=h;
+  });
+  rb.innerHTML=rowsHtml;
+  // Final comparison: a city only competes when it has a rate for EVERY product.
+  const validRows=db.compare.products.map(r=>({r,p:products.find(x=>String(x.id)===String(r.productId))})).filter(x=>x.p);
+  const cityStats=cities.map(c=>{
+    let total=0,all=true,missing=[];
+    validRows.forEach(({r,p})=>{const x=(r.cities||{})[c.name]||{},rate=n(x.rate),expense=n(x.expense!==undefined?x.expense:c.expense),q=Math.max(0,n(r.qty));if(rate<=0){all=false;missing.push(compareProductLabel(p));}else total+=q*rate+expense;});
+    return {name:c.name,total,all,missing};
+  });
+  let out='';
+  const complete=cityStats.filter(x=>x.all&&validRows.length);
+  if(validRows.length&&cities.length){
+    const sorted=complete.slice().sort((a,b)=>a.total-b.total);
+    if(sorted.length){
+      const best=sorted[0],worst=sorted[sorted.length-1],saving=Math.max(0,worst.total-best.total);if(bestKpi)bestKpi.textContent=money(best.total);if(savingKpi)savingKpi.textContent=money(saving);
+      out+=`<div class="compare-summary"><div class="compare-summary-card best"><div class="muted">🏆 Sab se sasta complete option</div><h2 style="margin:5px 0">${esc(best.name)}</h2><b style="font-size:24px">${money(best.total)}</b><div class="muted">Sab products + quantity + har product ka kharcha</div></div><div class="compare-summary-card"><div class="muted">💰 Sab se mehnga complete option</div><h2 style="margin:5px 0">${esc(worst.name)}</h2><b style="font-size:24px">${money(worst.total)}</b><div class="muted">Worst se best ka farq</div></div><div class="compare-summary-card best"><div class="muted">💵 Andazay ki maximum bachat</div><h2 style="margin:5px 0">${money(saving)}</h2><div class="muted">${esc(worst.name)} ke muqable mein ${esc(best.name)}</div></div></div>`;
+    }
+    out+=`<h3 style="margin:20px 0 10px">📊 Har Shehar Ka Final Total</h3><div style="overflow:auto"><table class="compare-result-table"><thead><tr><th>Shehar</th><th>Status</th><th>Total Maal + Kharcha</th><th>Farq vs Best</th><th>Missing Products</th></tr></thead><tbody>`;
+    const base=complete.length?Math.min(...complete.map(x=>x.total)):null;
+    cityStats.forEach(x=>{const diff=x.all&&base!==null?x.total-base:null;out+=`<tr><td><b>🏙️ ${esc(x.name)}</b></td><td>${x.all?'<span class="compare-best-pill">Complete</span>':'<span class="compare-incomplete-pill">Incomplete</span>'}</td><td><b>${x.all?money(x.total):'-'}</b></td><td>${diff===null?'-':diff===0?'<b>🏆 Best</b>':money(diff)}</td><td>${x.missing.length?esc(x.missing.slice(0,5).join(', '))+(x.missing.length>5?' …':''):'—'}</td></tr>`;});
+    out+=`</tbody></table></div>`;
+  }else if(!cities.length){out='<div class="empty">Pehle shehar add karein, phir products ki rates enter karein.</div>';}else{out='<div class="empty">Final result ke liye har product ka rate kam az kam ek shehar mein nahi, balki jis shehar ko compare karna hai us mein <b>har product</b> ka rate hona zaroori hai. Is se galat/adhura shehar kabhi galti se sasta nahi dikhaya jayega.</div>';}
+  // Per-product winner details
+  if(validRows.length&&cities.length){
+    let productOut='';
+    validRows.forEach(({r,p})=>{const q=Math.max(0,n(r.qty));const vals=cities.map(c=>{const x=(r.cities||{})[c.name]||{},rate=n(x.rate),expense=n(x.expense!==undefined?x.expense:c.expense),landed=q>0?rate+expense/q:rate,total=q*rate+expense;return {name:c.name,rate,expense,landed,total,small:compareSmallRate(landed,p)};}).filter(v=>v.rate>0);if(!vals.length)return;vals.sort((a,b)=>a.landed-b.landed);const best=vals[0];const next=vals[1];const saving=next?Math.max(0,next.total-best.total):0;productOut+=`<div class="history-item"><h3 style="margin-top:0">${esc(compareProductLabel(p))}</h3><div><b>🏆 Best: ${esc(best.name)}</b> — ${money(best.landed)} / ${esc(p.bigUnit||'Bari Unit')} • ${money(best.small)} / ${esc(p.smallUnit||'Choti Unit')}</div><div>Is product mein next available option se farq: <b class="profit">${money(saving)}</b></div><div class="muted" style="margin-top:6px">${vals.map(v=>`${esc(v.name)}: ${money(v.landed)} / Bari, ${money(v.small)} / Choti, Kharcha ${money(v.expense)}`).join(' • ')}</div></div>`;});
+    if(productOut)out+=`<h3 style="margin:20px 0 10px">🔎 Product-by-Product Farq</h3>${productOut}`;
+  }
+  if(bestKpi&&!complete.length)bestKpi.textContent='—';if(savingKpi&&!complete.length)savingKpi.textContent='—';
+  res.innerHTML=out||'<div class="empty">Rates enter karte hi result automatic ayega.</div>';
+}
+function compareRowQuickEdit(rowId,city){const r=compareProduct(rowId),x=r&&r.cities&&r.cities[city]||{};if(!r)return;const rate=prompt(city+' — Bari Unit Rate:',String(n(x.rate)));if(rate===null)return;const exp=prompt(city+' — Total Kharcha:',String(n(x.expense)));if(exp===null)return;r.cities=r.cities||{};r.cities[city]={rate:Math.max(0,n(rate)),expense:Math.max(0,n(exp))};save();renderCompare();}
 
 /* =========================================================
    PERSONAL UDHAR
@@ -13329,8 +13630,8 @@ function openOnlineMissingProductForm(b,id,missingIndex=0){
       <div><label>1 Bari Unit = Choti Units</label><input type="number" step="any" id="onpConv" value="${suggestedConv}"></div>
       <div><label>Purchase / Cost Rate</label><input type="number" step="any" id="onpBuy" value="${suggestedBuy}"></div>
       <div><label>Sale Rate</label><input type="number" step="any" id="onpSale" value="${suggestedSale}"></div>
-      <div><label>Minimum / Reorder Stock</label><input type="number" step="any" id="onpReorder" value="0"></div>
-      <div><label>Abhi Ka Stock (Choti Units)</label><input type="number" step="any" id="onpStock" value="0" placeholder="Misal: 50"></div>
+      <div><label>Minimum / Reorder Stock</label><input type="number" step="any" id="onpReorder" placeholder="0"></div>
+      <div><label>Abhi Ka Stock (Choti Units)</label><input type="number" step="any" id="onpStock" placeholder="Misal: 50"></div>
     </div>
     <div class="notice" style="margin-top:10px">
       <b>Stock zaroor bharein:</b> Customer bill Accept hote hi isi stock mein se bill ki quantity <b>AUTO MINUS</b> hogi.
@@ -14372,17 +14673,27 @@ s+n(p.stock)*n(p.buyRate),
 );
 
 
-let gross=sale-cost;
+let riayat=
+db.kabar.bills.reduce(
+(s,x)=>s+n(x.riayat),
+0
+);
+
+
+let gross=sale-riayat-cost;
 
 
 /* "use" (khud istemal) ki sale-value ab Ghar Expense mein
    alag se count hoti hai, is liye yahan dobara profit se
-   minus nahi ki jati — warna paisa do dafa kat jata. */
+   minus nahi ki jati — warna paisa do dafa kat jata.
+   Riayat (discount) bhi gross se minus ki jati hai, kyunki
+   wo asal mein mila hua paisa nahi hai. */
 
 return{
 
 sale,
 cost,
+riayat,
 gross,
 expense,
 profit:gross-expense,
@@ -14440,17 +14751,27 @@ n(p.buyRate)/
 );
 
 
-let gross=sale-cost;
+let riayat=
+db.dukan.bills.reduce(
+(s,x)=>s+n(x.riayat),
+0
+);
+
+
+let gross=sale-riayat-cost;
 
 
 /* "use" (khud istemal) ki sale-value ab Ghar Expense mein
    alag se count hoti hai, is liye yahan dobara profit se
-   minus nahi ki jati — warna paisa do dafa kat jata. */
+   minus nahi ki jati — warna paisa do dafa kat jata.
+   Riayat (discount) bhi gross se minus ki jati hai, kyunki
+   wo asal mein mila hua paisa nahi hai. */
 
 return{
 
 sale,
 cost,
+riayat,
 gross,
 expense,
 profit:gross-expense,
@@ -16946,6 +17267,229 @@ showUReport("daily");
 }
 
 
+/* =========================================================
+   PRODUCT REPORT — kaunsa product zyada chala, kis ka
+   profit zyada/kam, aur poori history.
+   Dukan aur Kabar dono ke bills se data uthata hai.
+========================================================= */
+
+function productReportBuild(shop){
+
+let products = shop==="kabar" ? db.kabar.products : db.dukan.products;
+let bills = shop==="kabar" ? db.kabar.bills : db.dukan.bills;
+
+let map={};
+
+products.forEach(p=>{
+
+map[p.id]={
+id:p.id,
+name:p.name,
+flavor:p.flavor||"",
+weight:p.weight?(p.weight+(p.weightUnit?" "+p.weightUnit:"")):"",
+qty:0,
+sale:0,
+cost:0,
+profit:0,
+tx:0,
+lastDate:"",
+history:[],
+deleted:false
+};
+
+});
+
+bills.forEach(b=>{
+
+(b.items||[]).forEach(it=>{
+
+let rec=map[it.productId];
+
+if(!rec){
+
+let dkey="DELETED_"+it.productId;
+
+if(!map[dkey]){
+
+map[dkey]={
+id:it.productId,
+name:"(Delete Ki Hui Product)",
+flavor:"",
+weight:"",
+qty:0,
+sale:0,
+cost:0,
+profit:0,
+tx:0,
+lastDate:"",
+history:[],
+deleted:true
+};
+
+}
+
+rec=map[dkey];
+
+}
+
+let q = shop==="kabar" ? n(it.qty) : n(it.qtySmall);
+
+rec.qty+=q;
+rec.sale+=n(it.saleAmount);
+rec.cost+=n(it.cost);
+rec.profit+=(n(it.saleAmount)-n(it.cost));
+rec.tx+=1;
+
+if(!rec.lastDate || (b.date||"")>rec.lastDate){
+rec.lastDate=b.date||"";
+}
+
+rec.history.push({
+date:b.date||"",
+billNo:b.billNo||"",
+qty:q,
+sale:n(it.saleAmount),
+cost:n(it.cost),
+profit:n(it.saleAmount)-n(it.cost)
+});
+
+});
+
+});
+
+return Object.values(map);
+
+}
+
+
+function prLabel(x){
+
+return [x.name,x.flavor,x.weight].filter(Boolean).join(" - ");
+
+}
+
+
+function prQtyText(shop,q){
+
+return shop==="kabar" ? (Math.round(q*100)/100)+" Kg" : q+" Unit";
+
+}
+
+
+function renderProductReport(){
+
+if(!document.getElementById("prList"))return;
+
+let shop=document.getElementById("prShop").value;
+let sort=document.getElementById("prSort").value;
+
+let list=productReportBuild(shop);
+
+let sold=list.filter(x=>x.tx>0);
+let neverSold=list.filter(x=>x.tx===0 && !x.deleted);
+
+let totalProfit=sold.reduce((s,x)=>s+x.profit,0);
+
+let bestProfit=sold.slice().sort((a,b)=>b.profit-a.profit)[0];
+let mostQty=sold.slice().sort((a,b)=>b.qty-a.qty)[0];
+
+document.getElementById("prStats").innerHTML=`
+<div class="stat"><span>Kitne Product Bikay</span><b>${sold.length}</b></div>
+<div class="stat"><span>Total Profit</span><b>${money(totalProfit)}</b></div>
+<div class="stat"><span>Sab Se Zyada Bika</span><b style="font-size:13px">${mostQty?esc(prLabel(mostQty)):"-"}</b></div>
+<div class="stat"><span>Sab Se Zyada Profit</span><b style="font-size:13px">${bestProfit?esc(prLabel(bestProfit)):"-"}</b></div>
+`;
+
+let displayList,heading;
+
+if(sort==="profit"){
+displayList=sold.slice().sort((a,b)=>b.profit-a.profit);
+heading="🏆 Profit Ke Hisaab Se (Zyada → Kam)";
+}else if(sort==="qty"){
+displayList=sold.slice().sort((a,b)=>b.qty-a.qty);
+heading="🔥 Quantity Ke Hisaab Se (Zyada → Kam)";
+}else if(sort==="low"){
+displayList=sold.slice().sort((a,b)=>a.profit-b.profit);
+heading="📉 Kam Chalne Wale Products";
+}else{
+displayList=neverSold;
+heading="🚫 Ye Products Kabhi Nahi Bikay";
+}
+
+if(!displayList.length){
+
+document.getElementById("prList").innerHTML=
+`<h2>${heading}</h2><div class="empty">Koi data nahi mila.</div>`;
+
+return;
+}
+
+let rows=displayList.map((x,i)=>{
+
+let rankStyle=
+i===0?"border-color:#86efac;background:linear-gradient(180deg,#ecfdf5,#f5fdf8)":
+i===1?"border-color:#bbf7d0;background:linear-gradient(180deg,#f0fdf4,#f8fefa)":
+i===2?"border-color:#fde68a;background:linear-gradient(180deg,#fefce8,#fffdf6)":
+"";
+
+let medal=i===0?"🥇 ":i===1?"🥈 ":i===2?"🥉 ":"";
+
+return `
+<div class="order-item" style="cursor:pointer;flex-direction:column;align-items:stretch;${rankStyle}" onclick="showProductHistory('${shop}','${x.id}')">
+<div style="display:flex;justify-content:space-between;width:100%;gap:8px">
+<b>${medal}${esc(prLabel(x))}</b>
+<span class="${x.profit>=0?'profit':'loss'}">${money(x.profit)}</span>
+</div>
+<div class="muted" style="margin-top:4px">
+Bika: ${prQtyText(shop,x.qty)} • ${x.tx} Bill(s) • Aakhri: ${x.lastDate||"-"}
+</div>
+</div>`;
+
+}).join("");
+
+document.getElementById("prList").innerHTML=
+`<h2>${heading}</h2>${rows}
+<div class="muted" style="margin-top:8px;text-align:center">👆 Kisi bhi product par click karein poori history dekhne ke liye</div>`;
+
+}
+
+
+function showProductHistory(shop,productId){
+
+let list=productReportBuild(shop);
+
+let x=list.find(p=>p.id===productId);
+
+if(!x)return;
+
+let rows=x.history
+.slice()
+.sort((a,b)=>(b.date||"").localeCompare(a.date||""))
+.map(h=>`
+<div class="history-item">
+<div style="display:flex;justify-content:space-between">
+<b>${h.date||"-"}</b>
+<span class="muted">Bill: ${esc(h.billNo||"-")}</span>
+</div>
+<div class="muted" style="margin-top:4px">
+Qty: ${prQtyText(shop,h.qty)} • Sale: ${money(h.sale)} • Profit:
+<span class="${h.profit>=0?'profit':'loss'}">${money(h.profit)}</span>
+</div>
+</div>`).join("");
+
+openModal(prLabel(x)+" — Poori History",`
+<div class="stats" style="margin-bottom:12px">
+<div class="stat"><span>Total Qty</span><b>${prQtyText(shop,x.qty)}</b></div>
+<div class="stat"><span>Total Sale</span><b>${money(x.sale)}</b></div>
+<div class="stat"><span>Total Profit</span><b>${money(x.profit)}</b></div>
+<div class="stat"><span>Bills</span><b>${x.tx}</b></div>
+</div>
+${rows||'<div class="empty">Koi history nahi.</div>'}
+`);
+
+}
+
+
 function refreshAll(){
   try{refreshConnectedHisaab();}catch(e){}
 
@@ -16996,6 +17540,8 @@ showLReport("daily");
 
 nrInit();nrRefresh();if(typeof refreshMoneyUI==='function')refreshMoneyUI();if(typeof renderMemories==='function')renderMemories();
 if(typeof initClosingUI==='function')initClosingUI();
+if(typeof renderCompare==='function')renderCompare();
+if(typeof renderProductReport==='function')renderProductReport();
 }
 
 
@@ -20219,7 +20765,7 @@ function refreshMoneyUI(){
   if(detail){let rows=(db.money.entries||[]).slice().reverse().slice(0,30);detail.innerHTML=(diff===0?'<div class="notice">✅ Expected aur Actual total barabar hain.</div>':'<div class="warning">⚠️ Total farq '+money(diff)+' hai. Neeche recent movements check karein.</div>')+rows.map(x=>`<div class="money-item"><b>${x.type==="in"?"➕ Paisa Aya":"➖ Paisa Gaya"}: ${money(x.amount)}</b><div>${esc(x.party||"")} ${x.category?"• "+esc(x.category):""}</div><div class="muted">${esc(x.date||"")} — ${esc(x.note||"")}</div></div>`).join("");}
 }
 
-function addMoneyAccount(){let name=document.getElementById("moneyAccountName").value.trim();let opening=n(document.getElementById("moneyOpening").value);if(!name){alert("Account ka naam likhein.");return;}db.money.accounts.push({id:uid(),name,opening,active:true});save();refreshMoneyUI();document.getElementById("moneyAccountName").value="";document.getElementById("moneyOpening").value=0;robotSay(name+" account add ho gaya.");}
+function addMoneyAccount(){let name=document.getElementById("moneyAccountName").value.trim();let opening=n(document.getElementById("moneyOpening").value);if(!name){alert("Account ka naam likhein.");return;}db.money.accounts.push({id:uid(),name,opening,active:true});save();refreshMoneyUI();document.getElementById("moneyAccountName").value="";document.getElementById("moneyOpening").value="";robotSay(name+" account add ho gaya.");}
 
 function setMoneyActual(id){let a=moneyAccount(id);if(!a)return;let v=prompt(""+a.name+" mein abhi asal mein kitna paisa hai?",moneyActualAccount(id));if(v===null)return;v=Number(String(v).replace(/[^0-9.-]/g,""));if(!Number.isFinite(v))return; a.actual=v;save();refreshMoneyUI();}
 
@@ -20541,5 +21087,29 @@ function srKabarReportHtml(rows){
 </script>
 
 <button id="auditHistoryFloating" class="btn gray" style="position:fixed;left:12px;bottom:78px;z-index:50;box-shadow:0 4px 12px #0002" onclick="showAuditHistory()">📜 Change History</button>
+<script>
+(function(){
+  const state={display:'0',first:null,op:null,waiting:false,justEqual:false};
+  function render(){
+    const d=document.getElementById('calcDisplay'), e=document.getElementById('calcExpression'), p=document.getElementById('calcPreview');
+    if(d)d.textContent=state.display;
+    if(e)e.textContent=(state.first!==null&&state.op)?state.first+' '+state.op+(state.waiting?'':' '+state.display):'';
+    if(p&&state.first!==null&&state.op&&!state.waiting){const r=compute(state.first,Number(state.display),state.op);p.textContent=Number.isFinite(r)?format(r):'Error';}else if(p)p.textContent='';
+  }
+  function format(v){return Number.isInteger(v)?String(v):String(Number(v.toFixed(10)));}
+  function compute(a,b,op){if(op==='+')return a+b;if(op==='−')return a-b;if(op==='×')return a*b;if(op==='÷')return b===0?NaN:a/b;return b;}
+  window.calcInputDigit=function(d){if(state.justEqual){clear();}if(state.display==='Error')clear();if(state.waiting){state.display=d;state.waiting=false;}else state.display=state.display==='0'?d:state.display+d;render();};
+  window.calcInputDecimal=function(){if(state.justEqual)clear();if(state.display==='Error')clear();if(state.waiting){state.display='0.';state.waiting=false;}else if(!state.display.includes('.'))state.display+='.';render();};
+  window.calcClear=function(){state.display='0';state.first=null;state.op=null;state.waiting=false;state.justEqual=false;render();};
+  window.calcBackspace=function(){if(state.justEqual||state.display==='Error'){clear();return;}if(!state.waiting)state.display=state.display.length>1?state.display.slice(0,-1):'0';render();};
+  window.calcPercent=function(){if(state.display!=='Error')state.display=format(Number(state.display)/100);render();};
+  window.calcChooseOperator=function(op){if(state.display==='Error')clear();if(state.first!==null&&state.op&&!state.waiting){state.first=compute(state.first,Number(state.display),state.op);}else state.first=Number(state.display);state.op=op;state.waiting=true;state.justEqual=false;render();};
+  window.calcEquals=function(){if(state.first===null||!state.op)return;const r=compute(state.first,Number(state.display),state.op);state.display=Number.isFinite(r)?format(r):'Error';state.first=null;state.op=null;state.waiting=false;state.justEqual=true;render();};
+  function clear(){state.display='0';state.first=null;state.op=null;state.waiting=false;state.justEqual=false;}
+  window.toggleCalculator=function(){const card=document.getElementById('calculatorCard'),btn=document.getElementById('simpleCalcToggle');if(!card)return;const hidden=card.classList.toggle('hidden');if(btn)btn.textContent=hidden?'🧮 Calculator':'✖ Calculator Band Karein';if(!hidden)render();};
+  render();
+})();
+</script>
+
 </body>
 </html>
