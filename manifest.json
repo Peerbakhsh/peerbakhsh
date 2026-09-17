@@ -1,0 +1,10 @@
+{
+  "name": "Karobar Hisaab System",
+  "short_name": "Karobar Hisaab",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef2f8",
+  "theme_color": "#173b8f",
+  "description": "Dukan, Kabar, Udhar, Ghar Kharcha aur poora karobar hisaab — online/offline dono chalta hai."
+}
